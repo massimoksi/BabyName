@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  NameViewController.h
 //  BabyName
 //
 //  Created by Massimo Peri on 26/08/14.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface NameViewController : UIViewController
 
 @end
-

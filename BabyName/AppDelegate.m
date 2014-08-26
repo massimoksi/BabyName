@@ -8,10 +8,15 @@
 
 #import "AppDelegate.h"
 
-@interface AppDelegate ()
-            
+#import "MSDynamicsDrawerViewController.h"
+
+#import "NameViewController.h"
+
+
+@interface AppDelegate () <MSDynamicsDrawerViewControllerDelegate>
 
 @end
+
 
 @implementation AppDelegate
             
@@ -21,6 +26,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+
+    MSDynamicsDrawerViewController *drawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
+    drawerViewController.delegate = self;
+    drawerViewController.shouldAlignStatusBarToPaneView = YES;
+    
+    NameViewController *nameViewController = [[UIStoryboard storyboardWithName:@"Main"
+                                                                        bundle:nil] instantiateViewControllerWithIdentifier:@"Name"];
+    drawerViewController.paneViewController = nameViewController;
+    
     return YES;
 }
 
