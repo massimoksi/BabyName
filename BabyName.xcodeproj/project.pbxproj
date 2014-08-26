@@ -81,13 +81,13 @@
 		56C647A119AC62FF005B1D46 /* BabyName */ = {
 			isa = PBXGroup;
 			children = (
+				56C647AF19AC62FF005B1D46 /* Main.storyboard */,
+				56C647B219AC62FF005B1D46 /* Images.xcassets */,
+				56C647A919AC62FF005B1D46 /* BabyName.xcdatamodeld */,
 				56C647A619AC62FF005B1D46 /* AppDelegate.h */,
 				56C647A719AC62FF005B1D46 /* AppDelegate.m */,
 				56C647AC19AC62FF005B1D46 /* ViewController.h */,
 				56C647AD19AC62FF005B1D46 /* ViewController.m */,
-				56C647AF19AC62FF005B1D46 /* Main.storyboard */,
-				56C647B219AC62FF005B1D46 /* Images.xcassets */,
-				56C647A919AC62FF005B1D46 /* BabyName.xcdatamodeld */,
 				56C647A219AC62FF005B1D46 /* Supporting Files */,
 			);
 			path = BabyName;
