@@ -44,16 +44,29 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aIj-PG-8Q2">
+                                <rect key="frame" x="218" y="436" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="56G-tb-UcA"/>
+                                    <constraint firstAttribute="width" constant="44" id="mR2-cx-EAO"/>
+                                </constraints>
+                                <state key="normal" image="Settings">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="cyd-pZ-wFQ" firstAttribute="top" secondItem="aIj-PG-8Q2" secondAttribute="bottom" id="D8A-lc-cNq"/>
                             <constraint firstAttribute="centerX" secondItem="tns-Qv-eSf" secondAttribute="centerX" id="Jav-Kk-Kej"/>
+                            <constraint firstAttribute="centerX" secondItem="aIj-PG-8Q2" secondAttribute="centerX" id="WXF-lU-Trf"/>
                             <constraint firstAttribute="centerY" secondItem="tns-Qv-eSf" secondAttribute="centerY" id="vUr-Qb-YiM"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <connections>
                         <outlet property="nameLabel" destination="tns-Qv-eSf" id="YnG-aF-ESO"/>
+                        <outlet property="settingsButton" destination="aIj-PG-8Q2" id="Z9f-o9-fXz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xzU-PU-lHV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -61,4 +74,7 @@
             <point key="canvasLocation" x="745" y="141"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Settings" width="25" height="25"/>
+    </resources>
 </document>
