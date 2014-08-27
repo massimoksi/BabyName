@@ -11,6 +11,7 @@
 #import "MSDynamicsDrawerViewController.h"
 
 #import "NameViewController.h"
+#import "SettingsViewController.h"
 
 
 @interface AppDelegate () <MSDynamicsDrawerViewControllerDelegate>
@@ -24,16 +25,26 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
     // Override point for customization after application launch.
 
     MSDynamicsDrawerViewController *drawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
     drawerViewController.delegate = self;
-    drawerViewController.shouldAlignStatusBarToPaneView = YES;
+    drawerViewController.shouldAlignStatusBarToPaneView = NO;
+    [drawerViewController registerTouchForwardingClass:[UILabel class]];
     
     NameViewController *nameViewController = [[UIStoryboard storyboardWithName:@"Main"
                                                                         bundle:nil] instantiateViewControllerWithIdentifier:@"Name"];
+    nameViewController.drawerViewController = drawerViewController;
     drawerViewController.paneViewController = nameViewController;
+    
+    SettingsViewController *settingsViewController = [[UIStoryboard storyboardWithName:@"Main"
+                                                                                bundle:nil] instantiateViewControllerWithIdentifier:@"SettingsVC"];
+    [drawerViewController setDrawerViewController:settingsViewController
+                                     forDirection:MSDynamicsDrawerDirectionBottom];
+    [drawerViewController setRevealWidth:CGRectGetHeight([[UIScreen mainScreen] bounds]) - 64.0f    // TODO: get rid of magic numbers.
+                            forDirection:MSDynamicsDrawerDirectionBottom];
     
     return YES;
 }

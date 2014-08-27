@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "MSDynamicsDrawerViewController.h"
+
+
 @interface NameViewController : UIViewController
+
+@property (weak, nonatomic) MSDynamicsDrawerViewController *drawerViewController;
 
 @end

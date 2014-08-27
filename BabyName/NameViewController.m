@@ -89,6 +89,17 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
 }
 */
 
+#pragma mark - Actions
+
+- (IBAction)showSettings:(id)sender
+{
+    [self.drawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen
+                                inDirection:MSDynamicsDrawerDirectionBottom
+                                   animated:YES
+                      allowUserInterruption:YES
+                                 completion:nil];
+}
+
 #pragma mark - Gesture handlers
 
 - (IBAction)panName:(UIPanGestureRecognizer *)recognizer
