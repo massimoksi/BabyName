@@ -21,11 +21,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="167" y="141"/>
         </scene>
         <!--Name View Controller-->
         <scene sceneID="rHP-es-Gv6">
             <objects>
-                <viewController storyboardIdentifier="Name" id="eoo-wh-Ngh" customClass="NameViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NameVC" id="eoo-wh-Ngh" customClass="NameViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="CB1-as-pS6"/>
                         <viewControllerLayoutGuide type="bottom" id="cyd-pZ-wFQ"/>
@@ -101,7 +102,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ukP-S9-eMi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="745" y="780"/>
+            <point key="canvasLocation" x="745" y="714"/>
         </scene>
     </scenes>
     <resources>

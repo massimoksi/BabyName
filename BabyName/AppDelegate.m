@@ -34,13 +34,14 @@
     drawerViewController.shouldAlignStatusBarToPaneView = NO;
     [drawerViewController registerTouchForwardingClass:[UILabel class]];
     
-    NameViewController *nameViewController = [[UIStoryboard storyboardWithName:@"Main"
-                                                                        bundle:nil] instantiateViewControllerWithIdentifier:@"Name"];
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+                                                             bundle:nil];
+    
+    NameViewController *nameViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"NameVC"];
     nameViewController.drawerViewController = drawerViewController;
     drawerViewController.paneViewController = nameViewController;
     
-    SettingsViewController *settingsViewController = [[UIStoryboard storyboardWithName:@"Main"
-                                                                                bundle:nil] instantiateViewControllerWithIdentifier:@"SettingsVC"];
+    SettingsViewController *settingsViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"SettingsVC"];
     [drawerViewController setDrawerViewController:settingsViewController
                                      forDirection:MSDynamicsDrawerDirectionBottom];
     [drawerViewController setRevealWidth:CGRectGetHeight([[UIScreen mainScreen] bounds]) - 64.0f    // TODO: get rid of magic numbers.
