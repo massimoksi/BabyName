@@ -34,8 +34,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Massimo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tns-Qv-eSf">
+                            <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Massimo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tns-Qv-eSf">
                                 <rect key="frame" x="90" y="218" width="300" height="44"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="F4h-wU-F5R"/>
                                     <constraint firstAttribute="width" constant="300" id="l4p-Ol-J6B"/>
@@ -43,6 +44,9 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="48"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="oQh-Sa-oWz" appends="YES" id="HIh-JU-Vlx"/>
+                                </connections>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aIj-PG-8Q2">
                                 <rect key="frame" x="218" y="436" width="44" height="44"/>
@@ -66,10 +70,14 @@
                     </view>
                     <connections>
                         <outlet property="nameLabel" destination="tns-Qv-eSf" id="YnG-aF-ESO"/>
-                        <outlet property="settingsButton" destination="aIj-PG-8Q2" id="Z9f-o9-fXz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xzU-PU-lHV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="oQh-Sa-oWz">
+                    <connections>
+                        <action selector="panName:" destination="eoo-wh-Ngh" id="mU3-QP-1ZZ"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="745" y="141"/>
         </scene>
