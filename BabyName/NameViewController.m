@@ -34,6 +34,7 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
 @interface NameViewController () <UIDynamicAnimatorDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UIButton *settingsButton;
 
 @property (nonatomic) BOOL panningEnabled;
 @property (nonatomic) BBNPanState panState;
@@ -356,7 +357,7 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
     }
 }
 
-#pragma mark - Dynamica animator delegate
+#pragma mark - Dynamics animator delegate
 
 - (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator
 {
