@@ -10,6 +10,23 @@
 #import <CoreData/CoreData.h>
 
 
+typedef NS_OPTIONS(int16_t, SuggestionGender) {
+    kSuggestionGenderMale = 1 << 0,
+    kSuggestionGenderFemale = 1 << 1
+};
+
+typedef NS_OPTIONS(int32_t, SuggestionLanguage) {
+    kSuggestionLanguageIT = 1 << 0,
+    kSuggestionLanguageEN = 1 << 1
+};
+
+typedef NS_ENUM(int16_t, SuggestionState) {
+    kSuggestionStateMaybe = 0,
+    kSuggestionStateYes,
+    kSuggestionStateNo
+};
+
+
 @interface Suggestion : NSManagedObject
 
 @property (nonatomic, retain) NSString * name;
