@@ -174,6 +174,11 @@ static const CGFloat kPanTranslationThreshold = 80.0;
 
 #pragma mark - Private methods
 
+- (Suggestion *)randomSuggestion
+{
+    return [self.suggestions objectAtIndex:(arc4random() % [self.suggestions count])];
+}
+
 - (PanDirection)directionForGesture:(UIPanGestureRecognizer *)recognizer
 {
     CGPoint velocity = [recognizer velocityInView:recognizer.view.superview];
@@ -384,11 +389,6 @@ static const CGFloat kPanTranslationThreshold = 80.0;
             return UIEdgeInsetsZero;
             break;
     }
-}
-
-- (Suggestion *)randomSuggestion
-{
-    return [self.suggestions objectAtIndex:(arc4random() % [self.suggestions count])];
 }
 
 - (void)acceptSuggestion:(Suggestion *)suggestion
