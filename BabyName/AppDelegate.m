@@ -54,6 +54,7 @@
                                                              bundle:nil];
     
     NameViewController *nameViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"NameVC"];
+    nameViewController.managedObjectContext = self.managedObjectContext;
     nameViewController.drawerViewController = drawerViewController;
     drawerViewController.paneViewController = nameViewController;
     

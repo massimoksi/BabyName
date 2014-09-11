@@ -10,9 +10,13 @@
 
 #import "MSDynamicsDrawerViewController.h"
 
+#import "Suggestion.h"
+
 
 @interface NameViewController : UIViewController
 
-@property (weak, nonatomic) MSDynamicsDrawerViewController *drawerViewController;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
+@property (nonatomic, weak) MSDynamicsDrawerViewController *drawerViewController;
 
 @end

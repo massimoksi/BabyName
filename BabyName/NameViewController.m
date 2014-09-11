@@ -43,6 +43,8 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
 @property (strong, nonatomic) UIGravityBehavior *gravityBehavior;
 @property (strong, nonatomic) UICollisionBehavior *collisionBehavior;
 
+@property (nonatomic, copy) NSMutableArray *suggestions;
+
 @end
 
 
@@ -71,6 +73,33 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
     self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.nameLabel]];
     
     self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.nameLabel]];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
+                                              inManagedObjectContext:self.managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = entity;
+    
+    // Fetch all suggestions with state "maybe".
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.state == %d", kSuggestionStateMaybe];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error;
+    self.suggestions = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:fetchRequest
+                                                                                               error:&error]];
+    if (!self.suggestions) {
+        // TODO: handle the error.
+    }
+    else {
+#if DEBUG
+        NSLog(@"Fetched %tu suggestions to be evaluated.", [self.suggestions count]);
+#endif
+        
+        // Get a random suggestion.
+        Suggestion *randomSuggestion = [self.suggestions objectAtIndex:(arc4random() % [self.suggestions count])];
+        
+        // Set the name on the label.
+        self.nameLabel.text = randomSuggestion.name;
+    }
 }
 
 - (void)didReceiveMemoryWarning
