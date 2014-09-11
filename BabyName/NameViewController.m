@@ -25,7 +25,7 @@ typedef NS_ENUM(NSUInteger, BBNPanState) {
 };
 
 
-// TODO: adapt constants to iPad.
+// TODO: get rid of namespacing.
 static const CGFloat BBNNameLabelPadding = 10.0;
 static const CGFloat BBNPanVelocityThreshold = 100.0;
 static const CGFloat BBNPanTranslationThreshold = 80.0;
@@ -44,6 +44,7 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
 @property (strong, nonatomic) UICollisionBehavior *collisionBehavior;
 
 @property (nonatomic, copy) NSMutableArray *suggestions;
+@property (nonatomic, strong) Suggestion *currentSuggestion;
 
 @end
 
@@ -95,10 +96,10 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
 #endif
         
         // Get a random suggestion.
-        Suggestion *randomSuggestion = [self.suggestions objectAtIndex:(arc4random() % [self.suggestions count])];
+        self.currentSuggestion = [self randomSuggestion];
         
         // Set the name on the label.
-        self.nameLabel.text = randomSuggestion.name;
+        self.nameLabel.text = self.currentSuggestion.name;
     }
 }
 
@@ -386,6 +387,29 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
     }
 }
 
+- (Suggestion *)randomSuggestion
+{
+    return [self.suggestions objectAtIndex:(arc4random() % [self.suggestions count])];
+}
+
+- (void)acceptSuggestion:(Suggestion *)suggestion
+{
+    // TODO: implement.
+    NSLog(@"YES!!!!!!!!!!!!!!!!");
+}
+
+- (void)rejectSuggestion:(Suggestion *)suggestion
+{
+    // TODO: implement.
+    NSLog(@"NOOOOOOOOOOOOOOOOOOO");
+}
+
+- (void)rethinkSuggestion:(Suggestion *)suggestion
+{
+    // TODO: implement.
+    NSLog(@"Boooooooooooooh");
+}
+
 #pragma mark - Dynamics animator delegate
 
 - (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator
@@ -396,6 +420,22 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
     // Adjust misalignment to center.
     if (self.panState == BBNPanStateIdle) {
         self.nameLabel.center = self.view.center;
+    }
+    
+    switch (self.panState) {
+        case BBNPanStateAccept:
+            [self acceptSuggestion:self.currentSuggestion];
+            break;
+
+        case BBNPanStateReject:
+            [self rejectSuggestion:self.currentSuggestion];
+            break;
+            
+        default:
+        case BBNPanStateIdle:
+        case BBNPanStateMaybe:
+            [self rethinkSuggestion:self.currentSuggestion];
+            break;
     }
     
     // TODO: move where a label with a new name is displayed.
