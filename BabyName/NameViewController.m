@@ -42,7 +42,8 @@ static const CGFloat kPanTranslationThreshold = 80.0;
 @property (strong, nonatomic) UIGravityBehavior *gravityBehavior;
 @property (strong, nonatomic) UICollisionBehavior *collisionBehavior;
 
-@property (nonatomic, copy) NSMutableArray *suggestions;
+@property (nonatomic, strong) NSMutableArray *suggestions;
+@property (nonatomic) NSUInteger currentIndex;
 @property (nonatomic, strong) Suggestion *currentSuggestion;
 
 @end
@@ -176,7 +177,9 @@ static const CGFloat kPanTranslationThreshold = 80.0;
 
 - (Suggestion *)randomSuggestion
 {
-    return [self.suggestions objectAtIndex:(arc4random() % [self.suggestions count])];
+    self.currentIndex = arc4random() % [self.suggestions count];
+    
+    return [self.suggestions objectAtIndex:self.currentIndex];
 }
 
 - (PanDirection)directionForGesture:(UIPanGestureRecognizer *)recognizer
@@ -393,8 +396,20 @@ static const CGFloat kPanTranslationThreshold = 80.0;
 
 - (void)acceptSuggestion:(Suggestion *)suggestion
 {
-    // TODO: implement.
-    NSLog(@"YES!!!!!!!!!!!!!!!!");
+    suggestion.state = kSuggestionStateYes;
+    
+    NSError *error;
+    if (![self.managedObjectContext save:&error]) {
+        // TODO: handle error.
+    }
+    else {
+        // Remove the current suggestion from the array.
+        [self.suggestions removeObjectAtIndex:self.currentIndex];
+        
+#if DEBUG
+        NSLog(@"Fetched %tu suggestions to be evaluated.", [self.suggestions count]);
+#endif
+    }
 }
 
 - (void)rejectSuggestion:(Suggestion *)suggestion
