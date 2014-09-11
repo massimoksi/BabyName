@@ -9,26 +9,25 @@
 #import "NameViewController.h"
 
 
-typedef NS_ENUM(NSUInteger, BBNPanDirection) {
-    BBNPanDirectionNone = 0,
-    BBNPanDirectionUp,
-    BBNPanDirectionRight,
-    BBNPanDirectionDown,
-    BBNPanDirectionLeft
+typedef NS_ENUM(NSUInteger, PanDirection) {
+    kPanDirectionNone = 0,
+    kPanDirectionUp,
+    kPanDirectionRight,
+    kPanDirectionDown,
+    kPanDirectionLeft
 };
 
-typedef NS_ENUM(NSUInteger, BBNPanState) {
-    BBNPanStateIdle = 0,
-    BBNPanStateAccept,
-    BBNPanStateReject,
-    BBNPanStateMaybe
+typedef NS_ENUM(NSUInteger, PanState) {
+    kPanStateIdle = 0,
+    kPanStateAccept,
+    kPanStateReject,
+    kPanStateMaybe
 };
 
 
-// TODO: get rid of namespacing.
-static const CGFloat BBNNameLabelPadding = 10.0;
-static const CGFloat BBNPanVelocityThreshold = 100.0;
-static const CGFloat BBNPanTranslationThreshold = 80.0;
+static const CGFloat kNameLabelPadding = 10.0;
+static const CGFloat kPanVelocityThreshold = 100.0;
+static const CGFloat kPanTranslationThreshold = 80.0;
 
 
 @interface NameViewController () <UIDynamicAnimatorDelegate>
@@ -37,7 +36,7 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
 @property (weak, nonatomic) IBOutlet UIButton *settingsButton;
 
 @property (nonatomic) BOOL panningEnabled;
-@property (nonatomic) BBNPanState panState;
+@property (nonatomic) PanState panState;
 
 @property (strong, nonatomic) UIDynamicAnimator *animator;
 @property (strong, nonatomic) UIGravityBehavior *gravityBehavior;
@@ -66,7 +65,7 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
     // Do any additional setup after loading the view.
     
     self.panningEnabled = YES;
-    self.panState = BBNPanStateIdle;
+    self.panState = kPanStateIdle;
     
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
     self.animator.delegate = self;
@@ -135,7 +134,7 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
 
 - (IBAction)panName:(UIPanGestureRecognizer *)recognizer
 {
-    static BBNPanDirection panDirection = BBNPanDirectionNone;
+    static PanDirection panDirection = kPanDirectionNone;
     
     // Discard gesture recognizer if panning is disabled.
     if (!self.panningEnabled) {
@@ -175,113 +174,113 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
 
 #pragma mark - Private methods
 
-- (BBNPanDirection)directionForGesture:(UIPanGestureRecognizer *)recognizer
+- (PanDirection)directionForGesture:(UIPanGestureRecognizer *)recognizer
 {
     CGPoint velocity = [recognizer velocityInView:recognizer.view.superview];
     
     if (fabs(velocity.x) > fabs(velocity.y)) {
         if (velocity.x > 0.0) {
-            return BBNPanDirectionRight;
+            return kPanDirectionRight;
         }
         else {
-            return BBNPanDirectionLeft;
+            return kPanDirectionLeft;
         }
     }
     else if (fabs(velocity.x) < fabs(velocity.y)) {
         if (velocity.y < 0.0) {
-            return BBNPanDirectionUp;
+            return kPanDirectionUp;
         }
         else {
-            return BBNPanDirectionDown;
+            return kPanDirectionDown;
         }
     }
     else {
-        return BBNPanDirectionNone;
+        return kPanDirectionNone;
     }
 }
 
-- (BBNPanState)endStateForGesture:(UIPanGestureRecognizer *)recognizer withDirection:(BBNPanDirection)direction
+- (PanState)endStateForGesture:(UIPanGestureRecognizer *)recognizer withDirection:(PanDirection)direction
 {
     CGPoint velocity = [recognizer velocityInView:self.view];
     CGPoint newCenter = [self calculatedCenterForGesture:recognizer
                                            withDirection:direction];
     
     switch (direction) {
-        case BBNPanDirectionRight:
-            if (velocity.x >= BBNPanVelocityThreshold) {
-                return BBNPanStateAccept;
+        case kPanDirectionRight:
+            if (velocity.x >= kPanVelocityThreshold) {
+                return kPanStateAccept;
             }
-            else if (velocity.x <= -BBNPanVelocityThreshold) {
-                return BBNPanStateReject;
+            else if (velocity.x <= -kPanVelocityThreshold) {
+                return kPanStateReject;
             }
             else {
-                if (newCenter.x >= self.view.center.x + BBNPanTranslationThreshold) {
-                    return BBNPanStateAccept;
+                if (newCenter.x >= self.view.center.x + kPanTranslationThreshold) {
+                    return kPanStateAccept;
                 }
-                else if (newCenter.x <= self.view.center.x - BBNPanTranslationThreshold) {
-                    return BBNPanStateReject;
+                else if (newCenter.x <= self.view.center.x - kPanTranslationThreshold) {
+                    return kPanStateReject;
                 }
                 else {
-                    return BBNPanStateIdle;
+                    return kPanStateIdle;
                 }
             }
             break;
 
-        case BBNPanDirectionLeft:
-            if (velocity.x >= BBNPanVelocityThreshold) {
-                return BBNPanStateAccept;
+        case kPanDirectionLeft:
+            if (velocity.x >= kPanVelocityThreshold) {
+                return kPanStateAccept;
             }
-            else if (velocity.x <= -BBNPanVelocityThreshold) {
-                return BBNPanStateReject;
+            else if (velocity.x <= -kPanVelocityThreshold) {
+                return kPanStateReject;
             }
             else {
-                if (newCenter.x >= self.view.center.x + BBNPanTranslationThreshold) {
-                    return BBNPanStateAccept;
+                if (newCenter.x >= self.view.center.x + kPanTranslationThreshold) {
+                    return kPanStateAccept;
                 }
-                else if (newCenter.x <= self.view.center.x - BBNPanTranslationThreshold) {
-                    return BBNPanStateReject;
+                else if (newCenter.x <= self.view.center.x - kPanTranslationThreshold) {
+                    return kPanStateReject;
                 }
                 else {
-                    return BBNPanStateIdle;
+                    return kPanStateIdle;
                 }
             }
             break;
 
-        case BBNPanDirectionUp:
-            if (velocity.y <= -BBNPanVelocityThreshold) {
-                return BBNPanStateMaybe;
+        case kPanDirectionUp:
+            if (velocity.y <= -kPanVelocityThreshold) {
+                return kPanStateMaybe;
             }
             else {
-                if (newCenter.y <= self.view.center.y - BBNPanTranslationThreshold) {
-                    return BBNPanStateMaybe;
+                if (newCenter.y <= self.view.center.y - kPanTranslationThreshold) {
+                    return kPanStateMaybe;
                 }
                 else {
-                    return BBNPanStateIdle;
+                    return kPanStateIdle;
                 }
             }
             break;
             
         default:
-        case BBNPanDirectionNone:
-        case BBNPanDirectionDown:
-            return BBNPanStateIdle;
+        case kPanDirectionNone:
+        case kPanDirectionDown:
+            return kPanStateIdle;
             break;
     }
 }
 
-- (CGPoint)calculatedCenterForGesture:(UIPanGestureRecognizer *)recognizer withDirection:(BBNPanDirection)direction
+- (CGPoint)calculatedCenterForGesture:(UIPanGestureRecognizer *)recognizer withDirection:(PanDirection)direction
 {
     CGPoint center = self.nameLabel.center;
     CGPoint translation = [recognizer translationInView:self.view];
     
     switch (direction) {
-        case BBNPanDirectionLeft:
-        case BBNPanDirectionRight:
+        case kPanDirectionLeft:
+        case kPanDirectionRight:
             return CGPointMake(center.x + translation.x,
                                center.y);
             break;
             
-        case BBNPanDirectionUp:
+        case kPanDirectionUp:
             if (center.y + translation.y < self.view.center.y) {
                 return CGPointMake(center.x,
                                    center.y + translation.y);
@@ -291,24 +290,24 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
             }
             
         default:
-        case BBNPanDirectionNone:
-        case BBNPanDirectionDown:
+        case kPanDirectionNone:
+        case kPanDirectionDown:
             return center;
             break;
     }
 }
 
-- (CGVector)gravityDirectionForPanDirection:(BBNPanDirection)panDirection
+- (CGVector)gravityDirectionForPanDirection:(PanDirection)panDirection
 {
     switch (self.panState) {
-        case BBNPanStateIdle:
-            if (panDirection == BBNPanDirectionLeft) {
+        case kPanStateIdle:
+            if (panDirection == kPanDirectionLeft) {
                 return CGVectorMake(1.0, 0.0);
             }
-            else if (panDirection == BBNPanDirectionUp) {
+            else if (panDirection == kPanDirectionUp) {
                 return CGVectorMake(0.0, 1.0);
             }
-            else if (panDirection == BBNPanDirectionRight) {
+            else if (panDirection == kPanDirectionRight) {
                 return CGVectorMake(-1.0, 0.0);
             }
             else {
@@ -316,15 +315,15 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
             }
             break;
             
-        case BBNPanStateAccept:
+        case kPanStateAccept:
             return CGVectorMake(1.0, 0.0);
             break;
 
-        case BBNPanStateReject:
+        case kPanStateReject:
             return CGVectorMake(-1.0, 0.0);
             break;
 
-        case BBNPanStateMaybe:
+        case kPanStateMaybe:
             return CGVectorMake(0.0, -1.0);
             
         default:
@@ -333,25 +332,25 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
     }
 }
 
-- (UIEdgeInsets)edgeInsetsForPanDirection:(BBNPanDirection)panDirection
+- (UIEdgeInsets)edgeInsetsForPanDirection:(PanDirection)panDirection
 {
     switch (self.panState) {
-        case BBNPanStateIdle:
-            if (panDirection == BBNPanDirectionLeft) {
+        case kPanStateIdle:
+            if (panDirection == kPanDirectionLeft) {
                 return UIEdgeInsetsMake(0.0,
                                         -self.nameLabel.frame.size.width,
                                         0.0,
-                                        BBNNameLabelPadding);
+                                        kNameLabelPadding);
             }
-            else if (panDirection == BBNPanDirectionUp) {
+            else if (panDirection == kPanDirectionUp) {
                 return UIEdgeInsetsMake(-self.nameLabel.frame.size.height,
                                         0.0,
                                         (self.view.frame.size.height - self.nameLabel.frame.size.height) / 2,
                                         0.0);
             }
-            else if (panDirection == BBNPanDirectionRight) {
+            else if (panDirection == kPanDirectionRight) {
                 return UIEdgeInsetsMake(0.0,
-                                        BBNNameLabelPadding,
+                                        kNameLabelPadding,
                                         0.0,
                                         -self.nameLabel.frame.size.width);
             }
@@ -360,21 +359,21 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
             }
             break;
         
-        case BBNPanStateAccept:
+        case kPanStateAccept:
             return UIEdgeInsetsMake(0.0,
                                     0.0,
                                     0.0,
                                     -self.nameLabel.frame.size.width);
             break;
 
-        case BBNPanStateReject:
+        case kPanStateReject:
             return UIEdgeInsetsMake(0.0,
                                     -self.nameLabel.frame.size.width,
                                     0.0,
                                     0.0);
             break;
 
-        case BBNPanStateMaybe:
+        case kPanStateMaybe:
             return UIEdgeInsetsMake(-self.nameLabel.frame.size.height,
                                     0.0,
                                     0.0,
@@ -418,28 +417,28 @@ static const CGFloat BBNPanTranslationThreshold = 80.0;
     self.panningEnabled = YES;
     
     // Adjust misalignment to center.
-    if (self.panState == BBNPanStateIdle) {
+    if (self.panState == kPanStateIdle) {
         self.nameLabel.center = self.view.center;
     }
     
     switch (self.panState) {
-        case BBNPanStateAccept:
+        case kPanStateAccept:
             [self acceptSuggestion:self.currentSuggestion];
             break;
 
-        case BBNPanStateReject:
+        case kPanStateReject:
             [self rejectSuggestion:self.currentSuggestion];
             break;
             
         default:
-        case BBNPanStateIdle:
-        case BBNPanStateMaybe:
+        case kPanStateIdle:
+        case kPanStateMaybe:
             [self rethinkSuggestion:self.currentSuggestion];
             break;
     }
     
     // TODO: move where a label with a new name is displayed.
-    self.panState = BBNPanStateIdle;
+    self.panState = kPanStateIdle;
 }
 
 @end
