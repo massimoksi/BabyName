@@ -75,14 +75,15 @@ static const CGFloat kPanTranslationThreshold = 80.0;
     
     self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.nameLabel]];
     
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
                                               inManagedObjectContext:self.managedObjectContext];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = entity;
     
     // Fetch all suggestions with state "maybe".
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.state == %d", kSuggestionStateMaybe];
-    [fetchRequest setPredicate:predicate];
+    fetchRequest.predicate = predicate;
     
     NSError *error;
     self.suggestions = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:fetchRequest
