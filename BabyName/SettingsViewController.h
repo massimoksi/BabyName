@@ -1,5 +1,5 @@
 //
-//  SettingsTableViewController.h
+//  SettingsViewController.h
 //  BabyName
 //
 //  Created by Massimo Peri on 13/09/14.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface SettingsTableViewController : UITableViewController
+@interface SettingsViewController : UITableViewController
 
 @end

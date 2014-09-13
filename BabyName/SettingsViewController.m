@@ -1,20 +1,20 @@
 //
-//  SettingsTableViewController.m
+//  SettingsViewController.m
 //  BabyName
 //
 //  Created by Massimo Peri on 13/09/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "SettingsTableViewController.h"
+#import "SettingsViewController.h"
 
 
-@interface SettingsTableViewController ()
+@interface SettingsViewController ()
 
 @end
 
 
-@implementation SettingsTableViewController
+@implementation SettingsViewController
 
 - (instancetype)initWithStyle:(UITableViewStyle)style
 {

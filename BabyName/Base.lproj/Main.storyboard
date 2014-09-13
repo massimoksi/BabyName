@@ -84,10 +84,10 @@
             </objects>
             <point key="canvasLocation" x="496.66666666666663" y="166.84999999999999"/>
         </scene>
-        <!--Settings Table View Controller - Root View Controller-->
+        <!--Settings View Controller - Root View Controller-->
         <scene sceneID="5OB-Xr-IIM">
             <objects>
-                <tableViewController id="6aS-Cb-Scn" customClass="SettingsTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SettingsVC" id="6aS-Cb-Scn" customClass="SettingsViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="kGu-xh-clN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
