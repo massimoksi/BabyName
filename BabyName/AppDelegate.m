@@ -13,6 +13,8 @@
 #import "NameViewController.h"
 #import "SettingsViewController.h"
 
+#import "Suggestion.h"
+
 
 @interface AppDelegate () <MSDynamicsDrawerViewControllerDelegate>
 
@@ -29,6 +31,20 @@
 {
     // Override point for customization after application launch.
 
+#if DEBUG
+    NSManagedObjectContext *context = self.managedObjectContext;
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *reqEntity = [NSEntityDescription entityForName:@"Suggestion"
+                                              inManagedObjectContext:context];
+    [fetchRequest setEntity:reqEntity];
+
+    NSError *error;
+    NSUInteger count = [context countForFetchRequest:fetchRequest
+                                               error:&error];
+    NSLog(@"Database contains %tu suggestions.", count);
+#endif
+    
     MSDynamicsDrawerViewController *drawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
     drawerViewController.delegate = self;
     drawerViewController.shouldAlignStatusBarToPaneView = NO;
@@ -38,6 +54,7 @@
                                                              bundle:nil];
     
     NameViewController *nameViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"NameVC"];
+    nameViewController.managedObjectContext = self.managedObjectContext;
     nameViewController.drawerViewController = drawerViewController;
     drawerViewController.paneViewController = nameViewController;
     
@@ -123,6 +140,18 @@
     }
     
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"BabyName.sqlite"];
+    // Load pre-populated database.
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[storeURL path]]) {
+        NSURL *preloadURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"BabyName"
+                                                                                   ofType:@"sqlite"]];
+        NSError* err = nil;
+        
+        if (![[NSFileManager defaultManager] copyItemAtURL:preloadURL
+                                                     toURL:storeURL
+                                                     error:&err]) {
+            NSLog(@"Oops, could copy preloaded data");
+        }
+    }
     
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
