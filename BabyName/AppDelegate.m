@@ -11,7 +11,6 @@
 #import "MSDynamicsDrawerViewController.h"
 
 #import "NameViewController.h"
-#import "SettingsViewController.h"
 
 #import "Suggestion.h"
 
@@ -58,8 +57,8 @@
     nameViewController.drawerViewController = drawerViewController;
     drawerViewController.paneViewController = nameViewController;
     
-    SettingsViewController *settingsViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"SettingsVC"];
-    [drawerViewController setDrawerViewController:settingsViewController
+    UINavigationController *navController = [mainStoryboard instantiateViewControllerWithIdentifier:@"SettingsNC"];
+    [drawerViewController setDrawerViewController:navController
                                      forDirection:MSDynamicsDrawerDirectionBottom];
     [drawerViewController setRevealWidth:CGRectGetHeight([[UIScreen mainScreen] bounds]) - 64.0f    // TODO: get rid of magic numbers.
                             forDirection:MSDynamicsDrawerDirectionBottom];
