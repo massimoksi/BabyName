@@ -9,6 +9,7 @@
 #import "NameViewController.h"
 
 
+// TODO: rename.
 typedef NS_ENUM(NSUInteger, PanDirection) {
     kPanDirectionNone = 0,
     kPanDirectionUp,
@@ -17,6 +18,7 @@ typedef NS_ENUM(NSUInteger, PanDirection) {
     kPanDirectionLeft
 };
 
+// TODO: rename.
 typedef NS_ENUM(NSUInteger, PanState) {
     kPanStateIdle = 0,
     kPanStateAccept,
@@ -25,22 +27,25 @@ typedef NS_ENUM(NSUInteger, PanState) {
 };
 
 
+// TODO: rename.
 static const CGFloat kNameLabelPadding = 10.0;
 static const CGFloat kPanVelocityThreshold = 100.0;
 static const CGFloat kPanTranslationThreshold = 80.0;
 
 
-@interface NameViewController () <UIDynamicAnimatorDelegate>
+@interface NameViewController () <UIDynamicAnimatorDelegate, UICollisionBehaviorDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIButton *settingsButton;
 
 @property (nonatomic) BOOL panningEnabled;
-@property (nonatomic) PanState panState;
+@property (nonatomic) PanState panState; // TODO: rename.
 
 @property (strong, nonatomic) UIDynamicAnimator *animator;
 @property (strong, nonatomic) UIGravityBehavior *gravityBehavior;
 @property (strong, nonatomic) UICollisionBehavior *collisionBehavior;
+
+@property (nonatomic) BOOL nameLabelVisible;
 
 @property (nonatomic, strong) NSMutableArray *suggestions;
 @property (nonatomic) NSUInteger currentIndex;
@@ -55,7 +60,7 @@ static const CGFloat kPanTranslationThreshold = 80.0;
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+
     self.panningEnabled = YES;
     self.panState = kPanStateIdle;
     
@@ -65,6 +70,7 @@ static const CGFloat kPanTranslationThreshold = 80.0;
     self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.nameLabel]];
     
     self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.nameLabel]];
+    self.collisionBehavior.collisionDelegate = self;
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 
@@ -73,7 +79,7 @@ static const CGFloat kPanTranslationThreshold = 80.0;
     fetchRequest.entity = entity;
     
     // Fetch all suggestions with state "maybe".
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.state == %d", kSuggestionStateMaybe];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"state == %d", kSuggestionStateMaybe];
     fetchRequest.predicate = predicate;
     
     NSError *error;
@@ -83,18 +89,22 @@ static const CGFloat kPanTranslationThreshold = 80.0;
         // TODO: handle the error.
     }
     else {
-#if DEBUG
-        NSLog(@"Fetched %tu suggestions to be evaluated.", [self.suggestions count]);
-#endif
+        self.nameLabelVisible = NO;
+        self.nameLabel.alpha = 0.0;
         
-        // Get a random suggestion.
-        self.currentSuggestion = [self randomSuggestion];
-        
-        // Set the name on the label.
-        self.nameLabel.text = self.currentSuggestion.name;
+        [self updateNameLabel];
     }
 }
 
+//- (void)viewDidAppear:(BOOL)animated
+//{
+//    [super viewDidAppear:animated];
+//    
+//    if (!self.nameLabelVisible) {
+//        [self updateNameLabel];
+//    }
+//}
+//
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -167,11 +177,29 @@ static const CGFloat kPanTranslationThreshold = 80.0;
 
 #pragma mark - Private methods
 
-- (Suggestion *)randomSuggestion
+- (void)fetchRandomSuggestion
 {
-    self.currentIndex = arc4random() % [self.suggestions count];
+#if DEBUG
+    NSLog(@"%tu suggestions to be evaluated.", [self.suggestions count]);
+#endif
     
-    return [self.suggestions objectAtIndex:self.currentIndex];
+    self.currentIndex = arc4random() % [self.suggestions count];
+    self.currentSuggestion = [self.suggestions objectAtIndex:self.currentIndex];
+}
+
+- (void)updateNameLabel
+{
+    // Fetch a new random suggestion.
+    [self fetchRandomSuggestion];
+    
+    self.nameLabel.text = self.currentSuggestion.name;
+    self.nameLabel.center = self.view.center;
+    
+    self.nameLabelVisible = YES;
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         self.nameLabel.alpha = 1.0;
+                     }];
 }
 
 - (PanDirection)directionForGesture:(UIPanGestureRecognizer *)recognizer
@@ -397,23 +425,30 @@ static const CGFloat kPanTranslationThreshold = 80.0;
     else {
         // Remove the current suggestion from the array.
         [self.suggestions removeObjectAtIndex:self.currentIndex];
-        
-#if DEBUG
-        NSLog(@"Fetched %tu suggestions to be evaluated.", [self.suggestions count]);
-#endif
+
+        [self updateNameLabel];
     }
 }
 
 - (void)rejectSuggestion:(Suggestion *)suggestion
 {
-    // TODO: implement.
-    NSLog(@"NOOOOOOOOOOOOOOOOOOO");
+    suggestion.state = kSuggestionStateNo;
+    
+    NSError *error;
+    if (![self.managedObjectContext save:&error]) {
+        // TODO: handle error.
+    }
+    else {
+        // Remove the current suggestion from the array.
+        [self.suggestions removeObjectAtIndex:self.currentIndex];
+        
+        [self updateNameLabel];
+    }
 }
 
 - (void)rethinkSuggestion:(Suggestion *)suggestion
 {
-    // TODO: implement.
-    NSLog(@"Boooooooooooooh");
+    [self updateNameLabel];
 }
 
 #pragma mark - Dynamics animator delegate
@@ -427,25 +462,38 @@ static const CGFloat kPanTranslationThreshold = 80.0;
     if (self.panState == kPanStateIdle) {
         self.nameLabel.center = self.view.center;
     }
-    
-    switch (self.panState) {
-        case kPanStateAccept:
-            [self acceptSuggestion:self.currentSuggestion];
-            break;
+}
 
-        case kPanStateReject:
-            [self rejectSuggestion:self.currentSuggestion];
-            break;
-            
-        default:
-        case kPanStateIdle:
-        case kPanStateMaybe:
-            [self rethinkSuggestion:self.currentSuggestion];
-            break;
+#pragma mark - Collision behavior delegate
+
+- (void)collisionBehavior:(UICollisionBehavior *)behavior endedContactForItem:(id<UIDynamicItem>)item withBoundaryIdentifier:(id<NSCopying>)identifier
+{
+    if (self.nameLabelVisible && (self.panState != kPanStateIdle)) {
+        // Hide the name label.
+        self.nameLabelVisible = NO;
+        self.nameLabel.alpha = 0.0;
+        
+        switch (self.panState) {
+            case kPanStateAccept:
+                [self acceptSuggestion:self.currentSuggestion];
+                break;
+                
+            case kPanStateReject:
+                [self rejectSuggestion:self.currentSuggestion];
+                break;
+                
+            case kPanStateMaybe:
+                [self rethinkSuggestion:self.currentSuggestion];
+                break;
+                
+            default:
+            case kPanStateIdle:
+                break;
+        }
+        
+        // TODO: move where a label with a new name is displayed.
+        self.panState = kPanStateIdle;
     }
-    
-    // TODO: move where a label with a new name is displayed.
-    self.panState = kPanStateIdle;
 }
 
 @end
