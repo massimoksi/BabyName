@@ -62,19 +62,20 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
                 switch (selectedGender) {
                     default:
                     case 0:
-                        cell.detailTextLabel.text = @"None";
-                        break;
-                        
-                    case 1:
                         cell.detailTextLabel.text = @"Male";
                         break;
                         
-                    case 2:
+                    case 1:
                         cell.detailTextLabel.text = @"Female";
+                        break;
+                        
+                    case 2:
+                        cell.detailTextLabel.text = @"Both";
                         break;
                 }
             }
             else if (row == kSectionGeneralRowLanguage) {
+                // TODO: implement.
             }
             break;
             

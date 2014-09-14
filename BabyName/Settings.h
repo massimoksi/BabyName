@@ -9,6 +9,13 @@
 #import <Foundation/Foundation.h>
 
 
+typedef NS_ENUM(NSInteger, SettingsSelectedGender) {
+    kSettingsSelectedGenderMale = 0,
+    kSettingsSelectedGenderFemale,
+    kSettingsSelectedGenderBoth
+};
+
+
 extern NSString * const kSettingsSelectedGenderKey;
 
 
