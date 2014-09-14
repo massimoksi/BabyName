@@ -8,6 +8,8 @@
 
 #import "GenderViewController.h"
 
+#import "Settings.h"
+
 
 @interface GenderViewController ()
 
@@ -22,7 +24,7 @@
 {
     [super viewDidLoad];
 
-    self.gender = [[NSUserDefaults standardUserDefaults] integerForKey:@"SettingSelectedGender"];
+    self.gender = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedGenderKey];
 }
 
 - (void)didReceiveMemoryWarning
@@ -37,13 +39,7 @@
 {
     UITableViewCell *cell = [super tableView:tableView
                        cellForRowAtIndexPath:indexPath];
-    
-    if (indexPath.row == self.gender) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
-    else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
+    cell.accessoryType = (indexPath.row == self.gender) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     
     return cell;
 }
@@ -55,7 +51,7 @@
     // Update user settings.
     self.gender = indexPath.row;
     [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row
-                                               forKey:@"SettingSelectedGender"];
+                                               forKey:kSettingsSelectedGenderKey];
     
     [self.tableView reloadData];
 }

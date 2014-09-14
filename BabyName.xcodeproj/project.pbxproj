@@ -11,6 +11,7 @@
 		563B6B8919ACB83800F9EF37 /* NameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 563B6B8819ACB83800F9EF37 /* NameViewController.m */; };
 		5691AE9F19C4564A00C1550F /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5691AE9E19C4564A00C1550F /* SettingsViewController.m */; };
 		5691AEA219C4800900C1550F /* GenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5691AEA119C4800900C1550F /* GenderViewController.m */; };
+		5691AEA819C56EF100C1550F /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 5691AEA719C56EF100C1550F /* Settings.m */; };
 		56C647A519AC62FF005B1D46 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C647A419AC62FF005B1D46 /* main.m */; };
 		56C647A819AC62FF005B1D46 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C647A719AC62FF005B1D46 /* AppDelegate.m */; };
 		56C647AB19AC62FF005B1D46 /* BabyName.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 56C647A919AC62FF005B1D46 /* BabyName.xcdatamodeld */; };
@@ -39,6 +40,8 @@
 		5691AE9E19C4564A00C1550F /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		5691AEA019C4800900C1550F /* GenderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenderViewController.h; sourceTree = "<group>"; };
 		5691AEA119C4800900C1550F /* GenderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenderViewController.m; sourceTree = "<group>"; };
+		5691AEA619C56EF100C1550F /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
+		5691AEA719C56EF100C1550F /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		56C6479F19AC62FF005B1D46 /* BabyName.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyName.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56C647A319AC62FF005B1D46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		56C647A419AC62FF005B1D46 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -111,6 +114,8 @@
 				56C647A919AC62FF005B1D46 /* BabyName.xcdatamodeld */,
 				56F1C5CA19BF9297008D8A3D /* Suggestion.h */,
 				56F1C5CB19BF9297008D8A3D /* Suggestion.m */,
+				5691AEA619C56EF100C1550F /* Settings.h */,
+				5691AEA719C56EF100C1550F /* Settings.m */,
 				56C647A619AC62FF005B1D46 /* AppDelegate.h */,
 				56C647A719AC62FF005B1D46 /* AppDelegate.m */,
 				563B6B8719ACB83700F9EF37 /* NameViewController.h */,
@@ -300,6 +305,7 @@
 				56C647A819AC62FF005B1D46 /* AppDelegate.m in Sources */,
 				5691AEA219C4800900C1550F /* GenderViewController.m in Sources */,
 				563B6B8919ACB83800F9EF37 /* NameViewController.m in Sources */,
+				5691AEA819C56EF100C1550F /* Settings.m in Sources */,
 				56C647A519AC62FF005B1D46 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

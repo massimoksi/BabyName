@@ -8,6 +8,8 @@
 
 #import "SettingsViewController.h"
 
+#import "Settings.h"
+
 
 typedef NS_ENUM(NSInteger, SettingsSection) {
     kSettingsSectionGeneral = 0
@@ -56,7 +58,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     switch (section) {
         case kSettingsSectionGeneral:
             if (row == kSectionGeneralRowGender) {
-                NSInteger selectedGender = [[NSUserDefaults standardUserDefaults] integerForKey:@"SettingSelectedGender"];
+                NSInteger selectedGender = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedGenderKey];
                 switch (selectedGender) {
                     default:
                     case 0:
