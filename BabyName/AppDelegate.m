@@ -12,6 +12,7 @@
 
 #import "NameViewController.h"
 
+#import "Settings.h"
 #import "Suggestion.h"
 
 
@@ -25,6 +26,15 @@
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+
++ (void)initialize
+{
+    NSDictionary *defaultSettingsDict = @{
+                                          kSettingsSelectedGenderKey : @(kSettingsSelectedGenderBoth)
+                                          };
+
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettingsDict];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
