@@ -9,21 +9,22 @@
 #import "SettingsViewController.h"
 
 
+typedef NS_ENUM(NSInteger, SettingsSection) {
+    kSettingsSectionGeneral = 0
+};
+
+typedef NS_ENUM(NSInteger, SectionGeneralRow) {
+    kSectionGeneralRowGender = 0,
+    kSectionGeneralRowLanguage
+};
+
+
 @interface SettingsViewController ()
 
 @end
 
 
 @implementation SettingsViewController
-
-- (instancetype)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -44,68 +45,43 @@
 
 #pragma mark - Table view data source
 
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//#warning Potentially incomplete method implementation.
-//    // Return the number of sections.
-//    return 0;
-//}
-//
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//#warning Incomplete method implementation.
-//    // Return the number of rows in the section.
-//    return 0;
-//}
-
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [super tableView:tableView
+                       cellForRowAtIndexPath:indexPath];
+
+    NSInteger section = indexPath.section;
+    NSInteger row = indexPath.row;
     
-    // Configure the cell...
+    switch (section) {
+        case kSettingsSectionGeneral:
+            if (row == kSectionGeneralRowGender) {
+                NSInteger selectedGender = [[NSUserDefaults standardUserDefaults] integerForKey:@"SettingSelectedGender"];
+                switch (selectedGender) {
+                    default:
+                    case 0:
+                        cell.detailTextLabel.text = @"None";
+                        break;
+                        
+                    case 1:
+                        cell.detailTextLabel.text = @"Male";
+                        break;
+                        
+                    case 2:
+                        cell.detailTextLabel.text = @"Female";
+                        break;
+                }
+            }
+            else if (row == kSectionGeneralRowLanguage) {
+            }
+            break;
+            
+        default:
+            break;
+    }
     
     return cell;
 }
-*/
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 /*
 #pragma mark - Navigation
