@@ -23,6 +23,8 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 
 @interface SettingsViewController ()
 
+@property (nonatomic, strong) NSArray *genders;
+
 @end
 
 
@@ -37,6 +39,8 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    self.genders = @[ @"Male", @"Female", @"Both" ];
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,21 +62,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     switch (section) {
         case kSettingsSectionGeneral:
             if (row == kSectionGeneralRowGender) {
-                NSInteger selectedGender = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedGenderKey];
-                switch (selectedGender) {
-                    default:
-                    case 0:
-                        cell.detailTextLabel.text = @"Male";
-                        break;
-                        
-                    case 1:
-                        cell.detailTextLabel.text = @"Female";
-                        break;
-                        
-                    case 2:
-                        cell.detailTextLabel.text = @"Both";
-                        break;
-                }
+                cell.detailTextLabel.text = [self.genders objectAtIndex:[[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedGenderKey]];
             }
             else if (row == kSectionGeneralRowLanguage) {
                 // TODO: implement.
