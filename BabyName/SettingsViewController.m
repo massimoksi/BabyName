@@ -43,6 +43,13 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     self.genders = @[ @"Male", @"Female", @"Both" ];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.tableView reloadData];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
