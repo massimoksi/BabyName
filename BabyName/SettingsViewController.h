@@ -8,7 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol SettingsViewControllerDelegate;
+
 
 @interface SettingsViewController : UITableViewController
+
+@property (nonatomic, weak) id<SettingsViewControllerDelegate> delegate;
+
+@end
+
+
+@protocol SettingsViewControllerDelegate <NSObject>
+
+@required
+- (void)settingsViewControllerWillClose:(SettingsViewController *)viewController;
 
 @end

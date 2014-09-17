@@ -25,6 +25,8 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 
 @property (nonatomic, strong) NSArray *genders;
 
+- (IBAction)closeSettings:(id)sender;
+
 @end
 
 
@@ -93,5 +95,14 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - Actions
+
+- (IBAction)closeSettings:(id)sender
+{
+    
+    
+    [self.delegate settingsViewControllerWillClose:self];
+}
 
 @end

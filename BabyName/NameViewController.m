@@ -8,6 +8,8 @@
 
 #import "NameViewController.h"
 
+#import "SettingsViewController.h"
+
 
 typedef NS_ENUM(NSUInteger, PanningDirection) {
     kPanningDirectionNone = 0,
@@ -30,7 +32,7 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 static const CGFloat kPanningTranslationThreshold = 80.0;
 
 
-@interface NameViewController () <UIDynamicAnimatorDelegate, UICollisionBehaviorDelegate>
+@interface NameViewController () <UIDynamicAnimatorDelegate, UICollisionBehaviorDelegate, SettingsViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
@@ -97,7 +99,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     // Dispose of any resources that can be recreated.
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -105,8 +107,14 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    if ([[segue identifier] isEqualToString:@"SettingsSegue"]) {
+        UINavigationController *settingsNavController = [segue destinationViewController];
+        SettingsViewController *settingsViewController = (SettingsViewController *)settingsNavController.topViewController;
+        settingsViewController.delegate = self;
+    }
 }
-*/
+
 
 #pragma mark - Gesture handlers
 
@@ -469,6 +477,14 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
                 break;
         }
     }
+}
+
+#pragma mark - Settings view controller delegate
+
+- (void)settingsViewControllerWillClose:(SettingsViewController *)viewController
+{
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
 }
 
 @end

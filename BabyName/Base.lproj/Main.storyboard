@@ -127,7 +127,13 @@
                             <outlet property="delegate" destination="6aS-Cb-Scn" id="Hx6-p8-JTO"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Settings" id="oSB-OI-TEu"/>
+                    <navigationItem key="navigationItem" title="Settings" id="oSB-OI-TEu">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="EL7-GU-BPY">
+                            <connections>
+                                <action selector="closeSettings:" destination="6aS-Cb-Scn" id="cLt-fb-jTg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NGE-Jx-yQH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
