@@ -8,15 +8,12 @@
 
 #import "AppDelegate.h"
 
-#import "MSDynamicsDrawerViewController.h"
-
-#import "NameViewController.h"
-
 #import "Settings.h"
 #import "Suggestion.h"
+#import "NameViewController.h"
 
 
-@interface AppDelegate () <MSDynamicsDrawerViewControllerDelegate>
+@interface AppDelegate ()
 
 @end
 
@@ -53,25 +50,9 @@
                                                error:&error];
     NSLog(@"Database contains %tu suggestions.", count);
 #endif
-    
-    MSDynamicsDrawerViewController *drawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
-    drawerViewController.delegate = self;
-    drawerViewController.shouldAlignStatusBarToPaneView = NO;
-    [drawerViewController registerTouchForwardingClass:[UILabel class]];
-    
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
-                                                             bundle:nil];
-    
-    NameViewController *nameViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"NameVC"];
+
+    NameViewController *nameViewController = (NameViewController *)self.window.rootViewController;
     nameViewController.managedObjectContext = self.managedObjectContext;
-    nameViewController.drawerViewController = drawerViewController;
-    drawerViewController.paneViewController = nameViewController;
-    
-    UINavigationController *navController = [mainStoryboard instantiateViewControllerWithIdentifier:@"SettingsNC"];
-    [drawerViewController setDrawerViewController:navController
-                                     forDirection:MSDynamicsDrawerDirectionBottom];
-    [drawerViewController setRevealWidth:CGRectGetHeight([[UIScreen mainScreen] bounds]) - 64.0f    // TODO: get rid of magic numbers.
-                            forDirection:MSDynamicsDrawerDirectionBottom];
     
     return YES;
 }

@@ -33,7 +33,6 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 @interface NameViewController () <UIDynamicAnimatorDelegate, UICollisionBehaviorDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UIButton *settingsButton;
 
 @property (nonatomic) BOOL panningEnabled;
 @property (nonatomic) PanningState panningState;
@@ -108,17 +107,6 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     // Pass the selected object to the new view controller.
 }
 */
-
-#pragma mark - Actions
-
-- (IBAction)showSettings:(id)sender
-{
-    [self.drawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen
-                                inDirection:MSDynamicsDrawerDirectionBottom
-                                   animated:YES
-                      allowUserInterruption:YES
-                                 completion:nil];
-}
 
 #pragma mark - Gesture handlers
 
