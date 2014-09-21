@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1C0171A9FDA2424AAAB35945 /* libPods-BabyName.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1A9D73A3408455B984CE430 /* libPods-BabyName.a */; };
+		561ECCDB19CA375E00814D62 /* LanguagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 561ECCDA19CA375E00814D62 /* LanguagesViewController.m */; };
 		563B6B8919ACB83800F9EF37 /* NameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 563B6B8819ACB83800F9EF37 /* NameViewController.m */; };
 		5691AE9F19C4564A00C1550F /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5691AE9E19C4564A00C1550F /* SettingsViewController.m */; };
 		5691AEA219C4800900C1550F /* GenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5691AEA119C4800900C1550F /* GenderViewController.m */; };
@@ -34,6 +35,8 @@
 
 /* Begin PBXFileReference section */
 		284921B3302446B094DF8C7F /* Pods-BabyName.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabyName.xcconfig"; path = "Pods/Pods-BabyName.xcconfig"; sourceTree = "<group>"; };
+		561ECCD919CA375E00814D62 /* LanguagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguagesViewController.h; sourceTree = "<group>"; };
+		561ECCDA19CA375E00814D62 /* LanguagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguagesViewController.m; sourceTree = "<group>"; };
 		563B6B8719ACB83700F9EF37 /* NameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NameViewController.h; sourceTree = "<group>"; };
 		563B6B8819ACB83800F9EF37 /* NameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NameViewController.m; sourceTree = "<group>"; };
 		5691AE9D19C4564A00C1550F /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
@@ -124,6 +127,8 @@
 				5691AE9E19C4564A00C1550F /* SettingsViewController.m */,
 				5691AEA019C4800900C1550F /* GenderViewController.h */,
 				5691AEA119C4800900C1550F /* GenderViewController.m */,
+				561ECCD919CA375E00814D62 /* LanguagesViewController.h */,
+				561ECCDA19CA375E00814D62 /* LanguagesViewController.m */,
 				56C647A219AC62FF005B1D46 /* Supporting Files */,
 			);
 			path = BabyName;
@@ -304,6 +309,7 @@
 				56F1C5CC19BF9297008D8A3D /* Suggestion.m in Sources */,
 				56C647A819AC62FF005B1D46 /* AppDelegate.m in Sources */,
 				5691AEA219C4800900C1550F /* GenderViewController.m in Sources */,
+				561ECCDB19CA375E00814D62 /* LanguagesViewController.m in Sources */,
 				563B6B8919ACB83800F9EF37 /* NameViewController.m in Sources */,
 				5691AEA819C56EF100C1550F /* Settings.m in Sources */,
 				56C647A519AC62FF005B1D46 /* main.m in Sources */,

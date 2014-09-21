@@ -10,6 +10,7 @@
 
 
 NSString * const kSettingsSelectedGenderKey = @"SettingsSelectedGender";
+NSString * const kSettingsSelectedLanguagesKey = @"SettingsSelectedLanguages";
 
 
 @implementation Settings

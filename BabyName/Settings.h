@@ -17,6 +17,7 @@ typedef NS_ENUM(NSInteger, SettingsSelectedGender) {
 
 
 extern NSString * const kSettingsSelectedGenderKey;
+extern NSString * const kSettingsSelectedLanguagesKey;
 
 
 @interface Settings : NSObject
