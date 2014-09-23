@@ -1,5 +1,5 @@
 //
-//  GenderViewController.h
+//  GendersTableViewController.h
 //  BabyName
 //
 //  Created by Massimo Peri on 13/09/14.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface GenderViewController : UITableViewController
+@interface GendersTableViewController : UITableViewController
 
 @end

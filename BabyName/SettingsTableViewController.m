@@ -1,12 +1,12 @@
 //
-//  SettingsViewController.m
+//  SettingsTableViewController.m
 //  BabyName
 //
 //  Created by Massimo Peri on 13/09/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "SettingsViewController.h"
+#import "SettingsTableViewController.h"
 
 #import "SettingsManager.h"
 
@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 };
 
 
-@interface SettingsViewController ()
+@interface SettingsTableViewController ()
 
 @property (nonatomic, strong) NSArray *genders;
 
@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 @end
 
 
-@implementation SettingsViewController
+@implementation SettingsTableViewController
 
 - (void)viewDidLoad
 {

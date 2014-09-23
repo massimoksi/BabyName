@@ -8,7 +8,7 @@
 
 #import "NameViewController.h"
 
-#import "SettingsViewController.h"
+#import "SettingsTableViewController.h"
 
 
 typedef NS_ENUM(NSUInteger, PanningDirection) {
@@ -32,7 +32,7 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 static const CGFloat kPanningTranslationThreshold = 80.0;
 
 
-@interface NameViewController () <UIDynamicAnimatorDelegate, UICollisionBehaviorDelegate, SettingsViewControllerDelegate>
+@interface NameViewController () <UIDynamicAnimatorDelegate, UICollisionBehaviorDelegate, SettingsTableViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
@@ -110,7 +110,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     
     if ([[segue identifier] isEqualToString:@"SettingsSegue"]) {
         UINavigationController *settingsNavController = [segue destinationViewController];
-        SettingsViewController *settingsViewController = (SettingsViewController *)settingsNavController.topViewController;
+        SettingsTableViewController *settingsViewController = (SettingsTableViewController *)settingsNavController.topViewController;
         settingsViewController.delegate = self;
     }
 }
@@ -481,7 +481,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 
 #pragma mark - Settings view controller delegate
 
-- (void)settingsViewControllerWillClose:(SettingsViewController *)viewController
+- (void)settingsViewControllerWillClose:(SettingsTableViewController *)viewController
 {
     [self dismissViewControllerAnimated:YES
                              completion:nil];

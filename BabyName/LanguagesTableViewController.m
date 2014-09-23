@@ -1,25 +1,25 @@
 //
-//  LanguagesViewController.m
+//  LanguagesTableViewController.m
 //  BabyName
 //
 //  Created by Massimo Peri on 17/09/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "LanguagesViewController.h"
+#import "LanguagesTableViewController.h"
 
 #import "SettingsManager.h"
 #import "Language.h"
 
 
-@interface LanguagesViewController ()
+@interface LanguagesTableViewController ()
 
 @property (nonatomic, strong) NSArray *sortedLanguages;
 
 @end
 
 
-@implementation LanguagesViewController
+@implementation LanguagesTableViewController
 
 - (void)viewDidLoad
 {

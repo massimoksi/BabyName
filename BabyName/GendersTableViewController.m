@@ -1,24 +1,24 @@
 //
-//  GenderViewController.m
+//  GendersTableViewController.m
 //  BabyName
 //
 //  Created by Massimo Peri on 13/09/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "GenderViewController.h"
+#import "GendersTableViewController.h"
 
 #import "SettingsManager.h"
 
 
-@interface GenderViewController ()
+@interface GendersTableViewController ()
 
 @property (nonatomic) NSInteger gender;
 
 @end
 
 
-@implementation GenderViewController
+@implementation GendersTableViewController
 
 - (void)viewDidLoad
 {

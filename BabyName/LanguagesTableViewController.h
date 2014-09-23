@@ -1,5 +1,5 @@
 //
-//  LanguagesViewController.h
+//  LanguagesTableViewController.h
 //  BabyName
 //
 //  Created by Massimo Peri on 17/09/14.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface LanguagesViewController : UITableViewController
+@interface LanguagesTableViewController : UITableViewController
 
 @end

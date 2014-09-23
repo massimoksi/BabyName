@@ -68,7 +68,7 @@
         <!--Settings-->
         <scene sceneID="5OB-Xr-IIM">
             <objects>
-                <tableViewController storyboardIdentifier="SettingsVC" title="Settings" id="6aS-Cb-Scn" customClass="SettingsViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SettingsTVC" title="Settings" id="6aS-Cb-Scn" customClass="SettingsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="kGu-xh-clN">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -145,7 +145,7 @@
         <!--Gender-->
         <scene sceneID="n0R-E3-rW7">
             <objects>
-                <tableViewController storyboardIdentifier="GenderVC" id="J9N-Lm-YAG" customClass="GenderViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="GendersTVC" id="J9N-Lm-YAG" customClass="GendersTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="hZA-yF-eCJ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -212,7 +212,7 @@
         <!--Languages-->
         <scene sceneID="KPe-Gf-CeE">
             <objects>
-                <tableViewController storyboardIdentifier="LanguagesVC" title="Languages" id="4I6-gh-93J" customClass="LanguagesViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="LanguagesTVC" title="Languages" id="4I6-gh-93J" customClass="LanguagesTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Bg6-m7-tNu">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
