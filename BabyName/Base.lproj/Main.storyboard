@@ -140,7 +140,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NGE-Jx-yQH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2112" y="734.36619718309862"/>
+            <point key="canvasLocation" x="2272" y="734"/>
         </scene>
         <!--Gender-->
         <scene sceneID="n0R-E3-rW7">
@@ -207,7 +207,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TxQ-ZG-JkE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2818.5" y="396.33802816901408"/>
+            <point key="canvasLocation" x="3050" y="396"/>
         </scene>
         <!--Languages-->
         <scene sceneID="KPe-Gf-CeE">
@@ -243,7 +243,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vaj-Sp-vVm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2818" y="1027"/>
+            <point key="canvasLocation" x="3050" y="1185"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Mhc-yQ-r59">

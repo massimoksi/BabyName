@@ -8,7 +8,7 @@
 
 #import "SettingsViewController.h"
 
-#import "Settings.h"
+#import "SettingsManager.h"
 
 
 typedef NS_ENUM(NSInteger, SettingsSection) {
@@ -71,7 +71,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     switch (section) {
         case kSettingsSectionGeneral:
             if (row == kSectionGeneralRowGender) {
-                cell.detailTextLabel.text = [self.genders objectAtIndex:[[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedGenderKey]];
+                cell.detailTextLabel.text = [self.genders objectAtIndex:[[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedGendersKey]];
             }
             else if (row == kSectionGeneralRowLanguage) {
                 // TODO: implement.

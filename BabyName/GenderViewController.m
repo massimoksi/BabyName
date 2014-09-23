@@ -8,7 +8,7 @@
 
 #import "GenderViewController.h"
 
-#import "Settings.h"
+#import "SettingsManager.h"
 
 
 @interface GenderViewController ()
@@ -24,7 +24,7 @@
 {
     [super viewDidLoad];
 
-    self.gender = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedGenderKey];
+    self.gender = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedGendersKey];
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,7 +51,7 @@
     // Update user settings.
     self.gender = indexPath.row;
     [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row
-                                               forKey:kSettingsSelectedGenderKey];
+                                               forKey:kSettingsSelectedGendersKey];
     
     [self.tableView reloadData];
 }

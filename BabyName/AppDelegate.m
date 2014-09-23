@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 
-#import "Settings.h"
+#import "SettingsManager.h"
 #import "Suggestion.h"
 #import "NameViewController.h"
 
@@ -27,7 +27,8 @@
 + (void)initialize
 {
     NSDictionary *defaultSettingsDict = @{
-                                          kSettingsSelectedGenderKey : @(kSettingsSelectedGenderBoth)
+                                          kSettingsSelectedGendersKey : @(kSettingsSelectedGenderBoth),
+                                          kSettingsSelectedLanguagesKey : @1                                // temp
                                           };
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettingsDict];
