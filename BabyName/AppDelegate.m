@@ -12,11 +12,6 @@
 #import "NameViewController.h"
 
 
-@interface AppDelegate ()
-
-@end
-
-
 @implementation AppDelegate
             
 @synthesize managedObjectContext = _managedObjectContext;
@@ -25,10 +20,29 @@
 
 + (void)initialize
 {
+    // Get current language from the system.
+    NSInteger selectedLanguage;
+    NSString *currentLanguageCode = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
+    if ([currentLanguageCode isEqualToString:@"it"]) {
+        selectedLanguage = kLanguageBitmaskIT;
+    }
+    else if ([currentLanguageCode isEqualToString:@"en"]) {
+        selectedLanguage = kLanguageBitmaskEN;
+    }
+    else if ([currentLanguageCode isEqualToString:@"de"]) {
+        selectedLanguage = kLanguageBitmaskDE;
+    }
+    else if ([currentLanguageCode isEqualToString:@"fr"]) {
+        selectedLanguage = kLanguageBitmaskFR;
+    }
+    else {
+        selectedLanguage = kLanguageBitmaskEN;
+    }
+    
     NSDictionary *defaultSettingsDict = @{
-                                          kSettingsSelectedGendersKey : @(kSettingsSelectedGenderBoth),
-                                          kSettingsSelectedLanguagesKey : @1                                // temp
-                                          };
+        kSettingsSelectedGendersKey   : @(kGenderBitmaskMale | kGenderBitmaskFemale),
+        kSettingsSelectedLanguagesKey : @(selectedLanguage)
+    };
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettingsDict];
 }
