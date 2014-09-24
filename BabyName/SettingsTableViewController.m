@@ -8,7 +8,7 @@
 
 #import "SettingsTableViewController.h"
 
-#import "SettingsManager.h"
+#import "Constants.h"
 #import "Language.h"
 
 

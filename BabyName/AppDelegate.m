@@ -8,8 +8,7 @@
 
 #import "AppDelegate.h"
 
-#import "SettingsManager.h"
-#import "Suggestion.h"
+#import "Constants.h"
 #import "NameViewController.h"
 
 

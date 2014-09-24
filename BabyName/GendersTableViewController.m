@@ -8,7 +8,7 @@
 
 #import "GendersTableViewController.h"
 
-#import "SettingsManager.h"
+#import "Constants.h"
 
 
 @interface GendersTableViewController ()
