@@ -24,7 +24,7 @@
 {
     [super viewDidLoad];
 
-    self.gender = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedGendersKey];
+    self.gender = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedGendersKey] - 1;
 }
 
 - (void)didReceiveMemoryWarning
@@ -39,6 +39,7 @@
 {
     UITableViewCell *cell = [super tableView:tableView
                        cellForRowAtIndexPath:indexPath];
+    
     cell.accessoryType = (indexPath.row == self.gender) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     
     return cell;
@@ -50,10 +51,13 @@
 {
     // Update user settings.
     self.gender = indexPath.row;
-    [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row
+    [[NSUserDefaults standardUserDefaults] setInteger:(self.gender + 1)
                                                forKey:kSettingsSelectedGendersKey];
     
-    [self.tableView reloadData];
+    // Update table view.
+    [tableView deselectRowAtIndexPath:indexPath
+                             animated:YES];
+    [tableView reloadData];
 }
 
 /*

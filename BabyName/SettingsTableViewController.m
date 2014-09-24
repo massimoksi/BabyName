@@ -9,6 +9,7 @@
 #import "SettingsTableViewController.h"
 
 #import "SettingsManager.h"
+#import "Language.h"
 
 
 typedef NS_ENUM(NSInteger, SettingsSection) {
@@ -16,16 +17,14 @@ typedef NS_ENUM(NSInteger, SettingsSection) {
 };
 
 typedef NS_ENUM(NSInteger, SectionGeneralRow) {
-    kSectionGeneralRowGender = 0,
-    kSectionGeneralRowLanguage
+    kSectionGeneralRowGenders = 0,
+    kSectionGeneralRowLanguages
 };
 
 
 @interface SettingsTableViewController ()
 
 @property (nonatomic, strong) NSArray *genders;
-
-- (IBAction)closeSettings:(id)sender;
 
 @end
 
@@ -41,8 +40,6 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    self.genders = @[ @"Male", @"Female", @"Both" ];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -64,17 +61,53 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 {
     UITableViewCell *cell = [super tableView:tableView
                        cellForRowAtIndexPath:indexPath];
-
+    
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    NSInteger selectedGenders;
+    NSInteger selectedLanguages;
+    NSUInteger numberOfSelectedLanguages;
     
     switch (section) {
         case kSettingsSectionGeneral:
-            if (row == kSectionGeneralRowGender) {
-                cell.detailTextLabel.text = [self.genders objectAtIndex:[[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedGendersKey]];
+            if (row == kSectionGeneralRowGenders) {
+                selectedGenders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
+                switch (selectedGenders) {
+                    case 1:
+                        cell.detailTextLabel.text = NSLocalizedString(@"Male", nil);
+                        break;
+                        
+                    case 2:
+                        cell.detailTextLabel.text = NSLocalizedString(@"Female", nil);
+                        break;
+                        
+                    case 3:
+                        cell.detailTextLabel.text = NSLocalizedString(@"Both", nil);
+                        break;
+                }
             }
-            else if (row == kSectionGeneralRowLanguage) {
-                // TODO: implement.
+            else if (row == kSectionGeneralRowLanguages) {
+                numberOfSelectedLanguages = [self numberOfSelectedLanguages];
+                if (numberOfSelectedLanguages == 1) {
+                    selectedLanguages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
+                    if (selectedLanguages == kLanguageBitmaskIT) {
+                        cell.detailTextLabel.text = NSLocalizedString(@"Italian", nil);
+                    }
+                    else if (selectedLanguages == kLanguageBitmaskEN) {
+                        cell.detailTextLabel.text = NSLocalizedString(@"English", nil);
+                    }
+                    else if (selectedLanguages == kLanguageBitmaskDE) {
+                        cell.detailTextLabel.text = NSLocalizedString(@"German", nil);
+                    }
+                    else if (selectedLanguages == kLanguageBitmaskFR) {
+                        cell.detailTextLabel.text = NSLocalizedString(@"French", nil);
+                    }
+                }
+                else {
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%tu", numberOfSelectedLanguages];
+                }
             }
             break;
             
@@ -103,6 +136,16 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     
     
     [self.delegate settingsViewControllerWillClose:self];
+}
+
+#pragma mark - Private methods
+
+- (NSUInteger)numberOfSelectedLanguages
+{
+    NSInteger selectedLanguages = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedLanguagesKey];
+    NSUInteger count = ((selectedLanguages >> 3) & 1) + ((selectedLanguages >> 2) & 1) + ((selectedLanguages >> 1) & 1) + (selectedLanguages & 1);
+    
+    return count;
 }
 
 @end
