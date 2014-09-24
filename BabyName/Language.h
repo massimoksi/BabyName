@@ -30,8 +30,6 @@ typedef NS_OPTIONS(NSInteger, LanguageBitmask) {
 @property (nonatomic) NSInteger index;
 @property (nonatomic) BOOL selected;
 
-@property (nonatomic, copy, readonly) NSString *localizedName;
-
 - (instancetype)initWithName:(NSString *)name index:(NSInteger)index andSelected:(BOOL)selected;
 
 @end

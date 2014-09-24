@@ -25,14 +25,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%d - %@: %d", self.index, self.name, self.selected];
-}
-
-#pragma mark - Accessors
-
-- (NSString *)localizedName
-{
-    return NSLocalizedString(self.name, nil);
+    return [NSString stringWithFormat:@"%zd - %@: %zd", self.index, self.name, self.selected];
 }
 
 @end

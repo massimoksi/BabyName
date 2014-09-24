@@ -49,7 +49,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.sortedLanguages.count;
+    return (NSInteger)self.sortedLanguages.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -57,7 +57,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LanguageCell"];
     
     Language *language = (Language *)[self.sortedLanguages objectAtIndex:indexPath.row];
-    cell.textLabel.text = language.localizedName;
+    cell.textLabel.text = language.name;
     cell.accessoryType = language.selected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     
     return cell;
@@ -69,12 +69,13 @@
 {
     Language *language = (Language *)[self.sortedLanguages objectAtIndex:indexPath.row];
     
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger selectedBitmask = 1 << language.index;
-    NSInteger selectedLanguages = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedLanguagesKey] ^ selectedBitmask;
+    NSInteger selectedLanguages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey] ^ selectedBitmask;
     if (selectedLanguages) {
         // Update user defaults.
-        [[NSUserDefaults standardUserDefaults] setInteger:selectedLanguages
-                                                   forKey:kSettingsSelectedLanguagesKey];
+        [userDefaults setInteger:selectedLanguages
+                          forKey:kSettingsSelectedLanguagesKey];
         
         // Update table view.
         [tableView deselectRowAtIndexPath:indexPath
@@ -93,10 +94,21 @@
 
 - (void)updateCachedLanguages
 {
-    // Refresh the array of available languages.
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"localizedName"
-                                                                     ascending:YES];
-    self.sortedLanguages = [[SettingsManager availableLanguages] sortedArrayUsingDescriptors:@[sortDescriptor]];
+    // Get settings from user defaults.
+    NSInteger selectedLanguages = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedLanguagesKey];
+    
+    // Create the array containing the list of available languages.
+    Language *langIT = [[Language alloc] initWithName:@"Italian" index:kLanguageIndexIT andSelected:(selectedLanguages & kLanguageBitmaskIT)];
+    Language *langEN = [[Language alloc] initWithName:@"English" index:kLanguageIndexEN andSelected:(selectedLanguages & kLanguageBitmaskEN)];
+    Language *langDE = [[Language alloc] initWithName:@"German"  index:kLanguageIndexDE andSelected:(selectedLanguages & kLanguageBitmaskDE)];
+    Language *langFR = [[Language alloc] initWithName:@"French"  index:kLanguageIndexFR andSelected:(selectedLanguages & kLanguageBitmaskFR)];
+    NSArray *availableLanguages = @[langIT, langEN, langDE, langFR];
+    
+    // Alphabetically sort the array of available languages.
+    NSSortDescriptor *nameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name"
+                                                                         ascending:YES
+                                                                          selector:@selector(localizedStandardCompare:)];
+    self.sortedLanguages = [availableLanguages sortedArrayUsingDescriptors:@[nameSortDescriptor]];
 }
 
 @end
