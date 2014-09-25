@@ -8,10 +8,9 @@
 
 #import "AppDelegate.h"
 
-@interface AppDelegate ()
-            
+#import "Constants.h"
+#import "NameViewController.h"
 
-@end
 
 @implementation AppDelegate
             
@@ -19,8 +18,56 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
++ (void)initialize
+{
+    // Get current language from the system.
+    NSInteger selectedLanguage;
+    NSString *currentLanguageCode = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
+    if ([currentLanguageCode isEqualToString:@"it"]) {
+        selectedLanguage = kLanguageBitmaskIT;
+    }
+    else if ([currentLanguageCode isEqualToString:@"en"]) {
+        selectedLanguage = kLanguageBitmaskEN;
+    }
+    else if ([currentLanguageCode isEqualToString:@"de"]) {
+        selectedLanguage = kLanguageBitmaskDE;
+    }
+    else if ([currentLanguageCode isEqualToString:@"fr"]) {
+        selectedLanguage = kLanguageBitmaskFR;
+    }
+    else {
+        selectedLanguage = kLanguageBitmaskEN;
+    }
+    
+    NSDictionary *defaultSettingsDict = @{
+        kSettingsSelectedGendersKey   : @(kGenderBitmaskMale | kGenderBitmaskFemale),
+        kSettingsSelectedLanguagesKey : @(selectedLanguage)
+    };
+
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettingsDict];
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
     // Override point for customization after application launch.
+
+#if DEBUG
+    NSManagedObjectContext *context = self.managedObjectContext;
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *reqEntity = [NSEntityDescription entityForName:@"Suggestion"
+                                                 inManagedObjectContext:context];
+    [fetchRequest setEntity:reqEntity];
+
+    NSError *error;
+    NSUInteger count = [context countForFetchRequest:fetchRequest
+                                               error:&error];
+    NSLog(@"Database contains %tu suggestions.", count);
+#endif
+
+    NameViewController *nameViewController = (NameViewController *)self.window.rootViewController;
+    nameViewController.managedObjectContext = self.managedObjectContext;
+    
     return YES;
 }
 
@@ -48,7 +95,8 @@
     [self saveContext];
 }
 
-- (void)saveContext {
+- (void)saveContext
+{
     NSError *error = nil;
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
@@ -65,7 +113,8 @@
 
 // Returns the managed object context for the application.
 // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
-- (NSManagedObjectContext *)managedObjectContext {
+- (NSManagedObjectContext *)managedObjectContext
+{
     if (_managedObjectContext != nil) {
         return _managedObjectContext;
     }
@@ -80,27 +129,46 @@
 
 // Returns the managed object model for the application.
 // If the model doesn't already exist, it is created from the application's model.
-- (NSManagedObjectModel *)managedObjectModel {
+- (NSManagedObjectModel *)managedObjectModel
+{
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
     }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"BabyName" withExtension:@"momd"];
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"BabyName"
+                                              withExtension:@"momd"];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return _managedObjectModel;
 }
 
 // Returns the persistent store coordinator for the application.
 // If the coordinator doesn't already exist, it is created and the application's store added to it.
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
+{
     if (_persistentStoreCoordinator != nil) {
         return _persistentStoreCoordinator;
     }
+
+    NSError *error;
     
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"BabyName.sqlite"];
+    // Load pre-populated database.
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[storeURL path]]) {
+        NSURL *preloadURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"BabyName"
+                                                                                   ofType:@"sqlite"]];
+        
+        if (![[NSFileManager defaultManager] copyItemAtURL:preloadURL
+                                                     toURL:storeURL
+                                                     error:&error]) {
+            // TODO: handle error.
+        }
+    }
     
-    NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                                   configuration:nil
+                                                             URL:storeURL
+                                                         options:nil
+                                                           error:&error]) {
         /*
          Replace this implementation with code to handle the error appropriately.
          
@@ -134,8 +202,10 @@
 #pragma mark - Application's Documents directory
 
 // Returns the URL to the application's Documents directory.
-- (NSURL *)applicationDocumentsDirectory {
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+- (NSURL *)applicationDocumentsDirectory
+{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
+                                                   inDomains:NSUserDomainMask] lastObject];
 }
 
 @end
