@@ -22,13 +22,6 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 };
 
 
-@interface SettingsTableViewController ()
-
-@property (nonatomic, strong) NSArray *genders;
-
-@end
-
-
 @implementation SettingsTableViewController
 
 - (void)viewDidLoad
