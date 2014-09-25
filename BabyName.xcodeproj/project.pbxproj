@@ -21,6 +21,7 @@
 		56C647BF19AC62FF005B1D46 /* BabyNameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C647BE19AC62FF005B1D46 /* BabyNameTests.m */; };
 		56E4D0D019D0D8E70005DFDC /* Language.m in Sources */ = {isa = PBXBuildFile; fileRef = 56E4D0CF19D0D8E70005DFDC /* Language.m */; };
 		56E4D0D419D20C830005DFDC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 56E4D0D219D20C830005DFDC /* Localizable.strings */; };
+		56EB752519D4BD3D00D18DF6 /* SuggestionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EB752419D4BD3D00D18DF6 /* SuggestionModel.m */; };
 		56F1C5CC19BF9297008D8A3D /* Suggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 56F1C5CB19BF9297008D8A3D /* Suggestion.m */; };
 		56F1C5CE19BFA152008D8A3D /* BabyName.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 56F1C5CD19BFA152008D8A3D /* BabyName.sqlite */; };
 /* End PBXBuildFile section */
@@ -64,6 +65,8 @@
 		56E4D0D319D20C830005DFDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		56E4D0D519D20C890005DFDC /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		56E4D0D719D4998E0005DFDC /* FetchingPreferencesDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FetchingPreferencesDelegate.h; sourceTree = "<group>"; };
+		56EB752319D4BD3D00D18DF6 /* SuggestionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionModel.h; sourceTree = "<group>"; };
+		56EB752419D4BD3D00D18DF6 /* SuggestionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionModel.m; sourceTree = "<group>"; };
 		56F1C5CA19BF9297008D8A3D /* Suggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Suggestion.h; sourceTree = "<group>"; };
 		56F1C5CB19BF9297008D8A3D /* Suggestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Suggestion.m; sourceTree = "<group>"; };
 		56F1C5CD19BFA152008D8A3D /* BabyName.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = BabyName.sqlite; sourceTree = "<group>"; };
@@ -125,6 +128,8 @@
 				56C647A919AC62FF005B1D46 /* BabyName.xcdatamodeld */,
 				56C647A619AC62FF005B1D46 /* AppDelegate.h */,
 				56C647A719AC62FF005B1D46 /* AppDelegate.m */,
+				56EB752319D4BD3D00D18DF6 /* SuggestionModel.h */,
+				56EB752419D4BD3D00D18DF6 /* SuggestionModel.m */,
 				56F1C5CA19BF9297008D8A3D /* Suggestion.h */,
 				56F1C5CB19BF9297008D8A3D /* Suggestion.m */,
 				56E4D0CE19D0D8E70005DFDC /* Language.h */,
@@ -327,6 +332,7 @@
 				561ECCDB19CA375E00814D62 /* LanguagesTableViewController.m in Sources */,
 				563B6B8919ACB83800F9EF37 /* NameViewController.m in Sources */,
 				5691AEA819C56EF100C1550F /* Constants.m in Sources */,
+				56EB752519D4BD3D00D18DF6 /* SuggestionModel.m in Sources */,
 				56C647A519AC62FF005B1D46 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
