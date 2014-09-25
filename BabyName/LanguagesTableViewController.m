@@ -77,6 +77,9 @@
         [userDefaults setInteger:selectedLanguages
                           forKey:kSettingsSelectedLanguagesKey];
         
+        // Inform delegate that fetching preferences changed.
+        [self.fetchingPreferencesDelegate viewControllerDidChangeFetchingPreferences];
+
         // Update table view.
         [tableView deselectRowAtIndexPath:indexPath
                                  animated:YES];

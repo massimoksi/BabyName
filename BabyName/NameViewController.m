@@ -70,28 +70,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.nameLabel]];
     self.collisionBehavior.collisionDelegate = self;
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
-                                              inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.entity = entity;
-    
-    // Fetch all suggestions with state "maybe".
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"state == %d", kSuggestionStateMaybe];
-    fetchRequest.predicate = predicate;
-    
-    NSError *error;
-    self.suggestions = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:fetchRequest
-                                                                                               error:&error]];
-    if (!self.suggestions) {
-        // TODO: handle the error.
-    }
-    else {
-        self.nameLabelVisible = NO;
-        self.nameLabel.alpha = 0.0;
-        
-        [self updateNameLabel];
-    }
+    [self updateSuggestions];
 }
 
 - (void)didReceiveMemoryWarning
@@ -99,7 +78,6 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 #pragma mark - Navigation
 
@@ -115,7 +93,6 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
         settingsViewController.delegate = self;
     }
 }
-
 
 #pragma mark - Gesture handlers
 
@@ -160,6 +137,44 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 }
 
 #pragma mark - Private methods
+
+- (void)updateSuggestions
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
+                                              inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.entity = entity;
+    
+    // Get new preferences from user defaults.
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSInteger genders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
+    NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
+    
+    // Fetch all suggestions with state "maybe" and  matching the criteria from preferences.
+    // TODO: check if this predicate is working.
+    // TODO: check if the comparison to 0 is necessary.
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(state == %d) AND ((gender & %d) != 0) AND ((language & %d) != 0)", kSuggestionStateMaybe, genders, languages];
+    fetchRequest.predicate = predicate;
+    
+    NSError *error;
+    self.suggestions = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:fetchRequest
+                                                                                               error:&error]];
+    // TODO: check if it's better to check for the existance of the array or the length.
+    if (!self.suggestions) {
+        // TODO: handle the error.
+    }
+    else {
+#if DEBUG
+        NSLog(@"Fetched %tu suggestions.", self.suggestions.count);
+#endif
+        
+        self.nameLabelVisible = NO;
+        self.nameLabel.alpha = 0.0;
+        
+        [self updateNameLabel];
+    }
+}
 
 - (void)fetchRandomSuggestion
 {
@@ -482,8 +497,12 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 
 #pragma mark - Settings view controller delegate
 
-- (void)settingsViewControllerWillClose:(SettingsTableViewController *)viewController
+- (void)settingsViewControllerWillClose:(SettingsTableViewController *)viewController withUpdatedFetchingPreferences:(BOOL)updatedFetchingPreferences;
 {
+    if (updatedFetchingPreferences) {
+        [self updateSuggestions];
+    }
+    
     [self dismissViewControllerAnimated:YES
                              completion:nil];
 }

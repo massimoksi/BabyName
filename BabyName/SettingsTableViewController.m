@@ -10,6 +10,8 @@
 
 #import "Constants.h"
 #import "Language.h"
+#import "GendersTableViewController.h"
+#import "LanguagesTableViewController.h"
 
 
 typedef NS_ENUM(NSInteger, SettingsSection) {
@@ -20,6 +22,13 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     kSectionGeneralRowGenders = 0,
     kSectionGeneralRowLanguages
 };
+
+
+@interface SettingsTableViewController ()
+
+@property (nonatomic) BOOL fetchingPreferencesChanged;
+
+@end
 
 
 @implementation SettingsTableViewController
@@ -33,6 +42,8 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    self.fetchingPreferencesChanged = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -111,7 +122,6 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     return cell;
 }
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -119,16 +129,23 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqualToString:@"GendersSegue"]) {
+        GendersTableViewController *viewController = [segue destinationViewController];
+        viewController.fetchingPreferencesDelegate = self;
+    }
+    else if ([segue.identifier isEqualToString:@"LanguagesSegue"]) {
+        LanguagesTableViewController *viewController = [segue destinationViewController];
+        viewController.fetchingPreferencesDelegate = self;
+    }
 }
-*/
 
 #pragma mark - Actions
 
 - (IBAction)closeSettings:(id)sender
 {
-    
-    
-    [self.delegate settingsViewControllerWillClose:self];
+    [self.delegate settingsViewControllerWillClose:self
+                    withUpdatedFetchingPreferences:self.fetchingPreferencesChanged];
 }
 
 #pragma mark - Private methods
@@ -139,6 +156,13 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     NSUInteger count = ((selectedLanguages >> 3) & 1) + ((selectedLanguages >> 2) & 1) + ((selectedLanguages >> 1) & 1) + (selectedLanguages & 1);
     
     return count;
+}
+
+#pragma mark - Fetching preferences delegate
+
+- (void)viewControllerDidChangeFetchingPreferences
+{
+    self.fetchingPreferencesChanged = YES;
 }
 
 @end

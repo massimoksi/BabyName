@@ -96,7 +96,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="J9N-Lm-YAG" kind="show" id="t2c-Y0-3aO"/>
+                                            <segue destination="J9N-Lm-YAG" kind="show" identifier="GendersSegue" id="t2c-Y0-3aO"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="LanguageCell" textLabel="S42-va-2H3" detailTextLabel="t88-X1-hnf" style="IBUITableViewCellStyleValue1" id="keS-5u-EyB">
@@ -119,7 +119,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="4I6-gh-93J" kind="show" id="GJy-9S-INc"/>
+                                            <segue destination="4I6-gh-93J" kind="show" identifier="LanguagesSegue" id="GJy-9S-INc"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>

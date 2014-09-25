@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+#import "FetchingPreferencesDelegate.h"
+
 @protocol SettingsTableViewControllerDelegate;
 
 
-@interface SettingsTableViewController : UITableViewController
+@interface SettingsTableViewController : UITableViewController <FetchingPreferencesDelegate>
 
 @property (nonatomic, weak) id<SettingsTableViewControllerDelegate> delegate;
 
@@ -20,6 +22,6 @@
 
 @protocol SettingsTableViewControllerDelegate <NSObject>
 
-- (void)settingsViewControllerWillClose:(SettingsTableViewController *)viewController;
+- (void)settingsViewControllerWillClose:(SettingsTableViewController *)viewController withUpdatedFetchingPreferences:(BOOL)updatedFetchingPreferences;
 
 @end

@@ -54,6 +54,9 @@
     [[NSUserDefaults standardUserDefaults] setInteger:(self.gender + 1)
                                                forKey:kSettingsSelectedGendersKey];
     
+    // Inform delegate that fetching preferences changed.
+    [self.fetchingPreferencesDelegate viewControllerDidChangeFetchingPreferences];
+    
     // Update table view.
     [tableView deselectRowAtIndexPath:indexPath
                              animated:YES];

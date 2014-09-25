@@ -63,6 +63,7 @@
 		56E4D0D119D20A090005DFDC /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Main.strings; sourceTree = "<group>"; };
 		56E4D0D319D20C830005DFDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		56E4D0D519D20C890005DFDC /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		56E4D0D719D4998E0005DFDC /* FetchingPreferencesDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FetchingPreferencesDelegate.h; sourceTree = "<group>"; };
 		56F1C5CA19BF9297008D8A3D /* Suggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Suggestion.h; sourceTree = "<group>"; };
 		56F1C5CB19BF9297008D8A3D /* Suggestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Suggestion.m; sourceTree = "<group>"; };
 		56F1C5CD19BFA152008D8A3D /* BabyName.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = BabyName.sqlite; sourceTree = "<group>"; };
@@ -134,6 +135,7 @@
 				563B6B8819ACB83800F9EF37 /* NameViewController.m */,
 				5691AE9D19C4564A00C1550F /* SettingsTableViewController.h */,
 				5691AE9E19C4564A00C1550F /* SettingsTableViewController.m */,
+				56E4D0D719D4998E0005DFDC /* FetchingPreferencesDelegate.h */,
 				5691AEA019C4800900C1550F /* GendersTableViewController.h */,
 				5691AEA119C4800900C1550F /* GendersTableViewController.m */,
 				561ECCD919CA375E00814D62 /* LanguagesTableViewController.h */,
