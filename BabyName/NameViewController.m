@@ -152,8 +152,6 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
     
     // Fetch all suggestions with state "maybe" and  matching the criteria from preferences.
-    // TODO: check if this predicate is working.
-    // TODO: check if the comparison to 0 is necessary.
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(state == %d) AND ((gender & %d) != 0) AND ((language & %d) != 0)", kSuggestionStateMaybe, genders, languages];
     fetchRequest.predicate = predicate;
     
