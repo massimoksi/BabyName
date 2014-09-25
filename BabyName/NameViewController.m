@@ -69,7 +69,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     
     self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.nameLabel]];
     self.collisionBehavior.collisionDelegate = self;
-    
+
     [self updateSuggestions];
 }
 
@@ -141,7 +141,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 - (void)updateSuggestions
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
+
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
                                               inManagedObjectContext:self.managedObjectContext];
     fetchRequest.entity = entity;
@@ -150,7 +150,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger genders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
     NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
-    
+
     // Fetch all suggestions with state "maybe" and  matching the criteria from preferences.
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(state == %d) AND ((gender & %d) != 0) AND ((language & %d) != 0)", kSuggestionStateMaybe, genders, languages];
     fetchRequest.predicate = predicate;
@@ -423,6 +423,10 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
         // TODO: handle error.
     }
     else {
+#if DEBUG
+        NSLog(@"Accepted %@", suggestion.name);
+#endif
+
         // Remove the current suggestion from the array.
         [self.suggestions removeObjectAtIndex:self.currentIndex];
 
@@ -439,6 +443,10 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
         // TODO: handle error.
     }
     else {
+#if DEBUG
+        NSLog(@"Rejected %@", suggestion.name);
+#endif
+
         // Remove the current suggestion from the array.
         [self.suggestions removeObjectAtIndex:self.currentIndex];
         
@@ -448,6 +456,10 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 
 - (void)rethinkSuggestion:(Suggestion *)suggestion
 {
+#if DEBUG
+    NSLog(@"Rethink %@", suggestion.name);
+#endif
+
     [self updateNameLabel];
 }
 
