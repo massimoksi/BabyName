@@ -166,7 +166,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 #if DEBUG
         NSLog(@"Fetched %tu suggestions.", self.suggestions.count);
 #endif
-        
+
         self.nameLabelVisible = NO;
         self.nameLabel.alpha = 0.0;
         
@@ -177,10 +177,10 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 - (void)fetchRandomSuggestion
 {
 #if DEBUG
-    NSLog(@"%tu suggestions to be evaluated.", [self.suggestions count]);
+    NSLog(@"%tu suggestions to be evaluated.", self.suggestions.count);
 #endif
     
-    self.currentIndex = arc4random() % [self.suggestions count];
+    self.currentIndex = arc4random() % self.suggestions.count;
     self.currentSuggestion = [self.suggestions objectAtIndex:self.currentIndex];
 }
 

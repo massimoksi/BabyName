@@ -49,14 +49,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return (NSInteger)self.sortedLanguages.count;
+    return self.sortedLanguages.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LanguageCell"];
     
-    Language *language = (Language *)[self.sortedLanguages objectAtIndex:indexPath.row];
+    Language *language = [self.sortedLanguages objectAtIndex:indexPath.row];
     cell.textLabel.text = language.name;
     cell.accessoryType = language.selected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     
@@ -67,7 +67,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Language *language = (Language *)[self.sortedLanguages objectAtIndex:indexPath.row];
+    Language *language = [self.sortedLanguages objectAtIndex:indexPath.row];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger selectedBitmask = 1 << language.index;
@@ -79,7 +79,7 @@
         
         // Inform delegate that fetching preferences changed.
         [self.fetchingPreferencesDelegate viewControllerDidChangeFetchingPreferences];
-
+        
         // Update table view.
         [tableView deselectRowAtIndexPath:indexPath
                                  animated:YES];
