@@ -153,6 +153,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 - (NSUInteger)numberOfSelectedLanguages
 {
     NSInteger selectedLanguages = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedLanguagesKey];
+    // NOTE: in case a new language is introduced, the count calculation needs to be updated.
     NSUInteger count = ((selectedLanguages >> 3) & 1) + ((selectedLanguages >> 2) & 1) + ((selectedLanguages >> 1) & 1) + (selectedLanguages & 1);
     
     return count;
