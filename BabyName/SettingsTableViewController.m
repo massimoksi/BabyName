@@ -15,7 +15,8 @@
 
 
 typedef NS_ENUM(NSInteger, SettingsSection) {
-    kSettingsSectionGeneral = 0
+    kSettingsSectionGeneral = 0,
+    kSettingsSectionRestart
 };
 
 typedef NS_ENUM(NSInteger, SectionGeneralRow) {
@@ -120,6 +121,40 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     }
     
     return cell;
+}
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath
+                             animated:YES];
+    
+    if (indexPath.section == kSettingsSectionRestart) {
+        // NOTE: UIAlertController is iOS8 only, in case of backporting the app use UIActionSheet.
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Restart selection", nil)
+                                                                                 message:NSLocalizedString(@"Do you really want to restart the selection of names?", nil)
+                                                                          preferredStyle:UIAlertControllerStyleActionSheet];
+
+        UIAlertAction *restartAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Restart", @"Restart button in the action sheet")
+                                                                style:UIAlertActionStyleDestructive
+                                                              handler:^(UIAlertAction *action){
+                                                                // Inform the delegate to reset all selections.
+                                                                [self.delegate resetAllSelections];
+                                                            }];
+        [alertController addAction:restartAction];
+
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel button in the action sheet")
+                                                               style:UIAlertActionStyleCancel
+                                                             handler:^(UIAlertAction *action){
+                                                                // TODO: discard the action sheet.
+                                                             }];
+        [alertController addAction:cancelAction];
+
+        [self presentViewController:alertController
+                           animated:YES
+                         completion:nil];
+    }
 }
 
 #pragma mark - Navigation

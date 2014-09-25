@@ -24,4 +24,6 @@
 
 - (void)settingsViewControllerWillClose:(SettingsTableViewController *)viewController withUpdatedFetchingPreferences:(BOOL)updatedFetchingPreferences;
 
+- (void)resetAllSelections;
+
 @end

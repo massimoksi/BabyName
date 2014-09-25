@@ -517,4 +517,9 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
                              completion:nil];
 }
 
+- (void)resetAllSelections
+{
+	NSLog(@"Reset all selections!!!");
+}
+
 @end

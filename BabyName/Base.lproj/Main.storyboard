@@ -76,7 +76,7 @@
                         <sections>
                             <tableViewSection id="VYJ-RD-ZY9">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="GenderCell" textLabel="WyT-GF-IEg" detailTextLabel="2WS-AB-Baa" style="IBUITableViewCellStyleValue1" id="9nk-pd-uRB">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="WyT-GF-IEg" detailTextLabel="2WS-AB-Baa" style="IBUITableViewCellStyleValue1" id="9nk-pd-uRB">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9nk-pd-uRB" id="vnS-f8-fzL">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -99,7 +99,7 @@
                                             <segue destination="J9N-Lm-YAG" kind="show" identifier="GendersSegue" id="t2c-Y0-3aO"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="LanguageCell" textLabel="S42-va-2H3" detailTextLabel="t88-X1-hnf" style="IBUITableViewCellStyleValue1" id="keS-5u-EyB">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="S42-va-2H3" detailTextLabel="t88-X1-hnf" style="IBUITableViewCellStyleValue1" id="keS-5u-EyB">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="keS-5u-EyB" id="qki-oG-hXp">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -121,6 +121,24 @@
                                         <connections>
                                             <segue destination="4I6-gh-93J" kind="show" identifier="LanguagesSegue" id="GJy-9S-INc"/>
                                         </connections>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="SHv-2i-JdJ">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="L9f-uS-IDZ" style="IBUITableViewCellStyleDefault" id="3AG-VA-asz">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3AG-VA-asz" id="lkk-nL-f14">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Restart selection" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="L9f-uS-IDZ">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>

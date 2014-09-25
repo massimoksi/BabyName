@@ -56,7 +56,7 @@
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *reqEntity = [NSEntityDescription entityForName:@"Suggestion"
-                                              inManagedObjectContext:context];
+                                                 inManagedObjectContext:context];
     [fetchRequest setEntity:reqEntity];
 
     NSError *error;
