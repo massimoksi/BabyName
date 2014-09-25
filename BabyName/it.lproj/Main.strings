@@ -1,0 +1,39 @@
+
+/* Class = "IBUINavigationItem"; title = "Gender"; ObjectID = "0gs-nZ-GfX"; */
+"0gs-nZ-GfX.title" = "Gender";
+
+/* Class = "IBUILabel"; text = "Detail"; ObjectID = "2WS-AB-Baa"; */
+"2WS-AB-Baa.text" = "Detail";
+
+/* Class = "IBUITableViewController"; title = "Languages"; ObjectID = "4I6-gh-93J"; */
+"4I6-gh-93J.title" = "Languages";
+
+/* Class = "IBUITableViewController"; title = "Settings"; ObjectID = "6aS-Cb-Scn"; */
+"6aS-Cb-Scn.title" = "Settings";
+
+/* Class = "IBUILabel"; text = "Both"; ObjectID = "D7U-PU-hji"; */
+"D7U-PU-hji.text" = "Both";
+
+/* Class = "IBUINavigationItem"; title = "Languages"; ObjectID = "Gri-Sp-Ki3"; */
+"Gri-Sp-Ki3.title" = "Languages";
+
+/* Class = "IBUILabel"; text = "Female"; ObjectID = "Onx-Mx-WFX"; */
+"Onx-Mx-WFX.text" = "Female";
+
+/* Class = "IBUILabel"; text = "Language"; ObjectID = "S42-va-2H3"; */
+"S42-va-2H3.text" = "Language";
+
+/* Class = "IBUILabel"; text = "Gender"; ObjectID = "WyT-GF-IEg"; */
+"WyT-GF-IEg.text" = "Gender";
+
+/* Class = "IBUINavigationItem"; title = "Settings"; ObjectID = "oSB-OI-TEu"; */
+"oSB-OI-TEu.title" = "Settings";
+
+/* Class = "IBUILabel"; text = "Male"; ObjectID = "qw8-kJ-oej"; */
+"qw8-kJ-oej.text" = "Male";
+
+/* Class = "IBUILabel"; text = "Detail"; ObjectID = "t88-X1-hnf"; */
+"t88-X1-hnf.text" = "Detail";
+
+/* Class = "IBUILabel"; text = "Name"; ObjectID = "tns-Qv-eSf"; */
+"tns-Qv-eSf.text" = "Name";

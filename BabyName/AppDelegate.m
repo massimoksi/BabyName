@@ -8,17 +8,8 @@
 
 #import "AppDelegate.h"
 
-#import "MSDynamicsDrawerViewController.h"
-
+#import "Constants.h"
 #import "NameViewController.h"
-#import "SettingsViewController.h"
-
-#import "Suggestion.h"
-
-
-@interface AppDelegate () <MSDynamicsDrawerViewControllerDelegate>
-
-@end
 
 
 @implementation AppDelegate
@@ -26,6 +17,35 @@
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+
++ (void)initialize
+{
+    // Get current language from the system.
+    NSInteger selectedLanguage;
+    NSString *currentLanguageCode = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
+    if ([currentLanguageCode isEqualToString:@"it"]) {
+        selectedLanguage = kLanguageBitmaskIT;
+    }
+    else if ([currentLanguageCode isEqualToString:@"en"]) {
+        selectedLanguage = kLanguageBitmaskEN;
+    }
+    else if ([currentLanguageCode isEqualToString:@"de"]) {
+        selectedLanguage = kLanguageBitmaskDE;
+    }
+    else if ([currentLanguageCode isEqualToString:@"fr"]) {
+        selectedLanguage = kLanguageBitmaskFR;
+    }
+    else {
+        selectedLanguage = kLanguageBitmaskEN;
+    }
+    
+    NSDictionary *defaultSettingsDict = @{
+        kSettingsSelectedGendersKey   : @(kGenderBitmaskMale | kGenderBitmaskFemale),
+        kSettingsSelectedLanguagesKey : @(selectedLanguage)
+    };
+
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettingsDict];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -36,7 +56,7 @@
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *reqEntity = [NSEntityDescription entityForName:@"Suggestion"
-                                              inManagedObjectContext:context];
+                                                 inManagedObjectContext:context];
     [fetchRequest setEntity:reqEntity];
 
     NSError *error;
@@ -44,25 +64,9 @@
                                                error:&error];
     NSLog(@"Database contains %tu suggestions.", count);
 #endif
-    
-    MSDynamicsDrawerViewController *drawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
-    drawerViewController.delegate = self;
-    drawerViewController.shouldAlignStatusBarToPaneView = NO;
-    [drawerViewController registerTouchForwardingClass:[UILabel class]];
-    
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
-                                                             bundle:nil];
-    
-    NameViewController *nameViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"NameVC"];
+
+    NameViewController *nameViewController = (NameViewController *)self.window.rootViewController;
     nameViewController.managedObjectContext = self.managedObjectContext;
-    nameViewController.drawerViewController = drawerViewController;
-    drawerViewController.paneViewController = nameViewController;
-    
-    SettingsViewController *settingsViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"SettingsVC"];
-    [drawerViewController setDrawerViewController:settingsViewController
-                                     forDirection:MSDynamicsDrawerDirectionBottom];
-    [drawerViewController setRevealWidth:CGRectGetHeight([[UIScreen mainScreen] bounds]) - 64.0f    // TODO: get rid of magic numbers.
-                            forDirection:MSDynamicsDrawerDirectionBottom];
     
     return YES;
 }
@@ -91,7 +95,8 @@
     [self saveContext];
 }
 
-- (void)saveContext {
+- (void)saveContext
+{
     NSError *error = nil;
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
@@ -108,7 +113,8 @@
 
 // Returns the managed object context for the application.
 // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
-- (NSManagedObjectContext *)managedObjectContext {
+- (NSManagedObjectContext *)managedObjectContext
+{
     if (_managedObjectContext != nil) {
         return _managedObjectContext;
     }
@@ -123,39 +129,46 @@
 
 // Returns the managed object model for the application.
 // If the model doesn't already exist, it is created from the application's model.
-- (NSManagedObjectModel *)managedObjectModel {
+- (NSManagedObjectModel *)managedObjectModel
+{
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
     }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"BabyName" withExtension:@"momd"];
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"BabyName"
+                                              withExtension:@"momd"];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return _managedObjectModel;
 }
 
 // Returns the persistent store coordinator for the application.
 // If the coordinator doesn't already exist, it is created and the application's store added to it.
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
+{
     if (_persistentStoreCoordinator != nil) {
         return _persistentStoreCoordinator;
     }
+
+    NSError *error;
     
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"BabyName.sqlite"];
     // Load pre-populated database.
     if (![[NSFileManager defaultManager] fileExistsAtPath:[storeURL path]]) {
         NSURL *preloadURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"BabyName"
                                                                                    ofType:@"sqlite"]];
-        NSError* err = nil;
         
         if (![[NSFileManager defaultManager] copyItemAtURL:preloadURL
                                                      toURL:storeURL
-                                                     error:&err]) {
-            NSLog(@"Oops, could copy preloaded data");
+                                                     error:&error]) {
+            // TODO: handle error.
         }
     }
     
-    NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                                   configuration:nil
+                                                             URL:storeURL
+                                                         options:nil
+                                                           error:&error]) {
         /*
          Replace this implementation with code to handle the error appropriately.
          
@@ -189,8 +202,10 @@
 #pragma mark - Application's Documents directory
 
 // Returns the URL to the application's Documents directory.
-- (NSURL *)applicationDocumentsDirectory {
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+- (NSURL *)applicationDocumentsDirectory
+{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
+                                                   inDomains:NSUserDomainMask] lastObject];
 }
 
 @end

@@ -8,6 +8,9 @@
 
 #import "NameViewController.h"
 
+#import "Constants.h"
+#import "SettingsTableViewController.h"
+
 
 typedef NS_ENUM(NSUInteger, PanningDirection) {
     kPanningDirectionNone = 0,
@@ -30,10 +33,9 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 static const CGFloat kPanningTranslationThreshold = 80.0;
 
 
-@interface NameViewController () <UIDynamicAnimatorDelegate, UICollisionBehaviorDelegate>
+@interface NameViewController () <UIDynamicAnimatorDelegate, UICollisionBehaviorDelegate, SettingsTableViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UIButton *settingsButton;
 
 @property (nonatomic) BOOL panningEnabled;
 @property (nonatomic) PanningState panningState;
@@ -67,29 +69,8 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     
     self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.nameLabel]];
     self.collisionBehavior.collisionDelegate = self;
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
-                                              inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.entity = entity;
-    
-    // Fetch all suggestions with state "maybe".
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"state == %d", kSuggestionStateMaybe];
-    fetchRequest.predicate = predicate;
-    
-    NSError *error;
-    self.suggestions = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:fetchRequest
-                                                                                               error:&error]];
-    if (!self.suggestions) {
-        // TODO: handle the error.
-    }
-    else {
-        self.nameLabelVisible = NO;
-        self.nameLabel.alpha = 0.0;
-        
-        [self updateNameLabel];
-    }
+    [self updateSuggestions];
 }
 
 - (void)didReceiveMemoryWarning
@@ -98,7 +79,6 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     // Dispose of any resources that can be recreated.
 }
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -106,18 +86,12 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-}
-*/
-
-#pragma mark - Actions
-
-- (IBAction)showSettings:(id)sender
-{
-    [self.drawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen
-                                inDirection:MSDynamicsDrawerDirectionBottom
-                                   animated:YES
-                      allowUserInterruption:YES
-                                 completion:nil];
+    
+    if ([[segue identifier] isEqualToString:@"SettingsSegue"]) {
+        UINavigationController *settingsNavController = [segue destinationViewController];
+        SettingsTableViewController *settingsViewController = (SettingsTableViewController *)settingsNavController.topViewController;
+        settingsViewController.delegate = self;
+    }
 }
 
 #pragma mark - Gesture handlers
@@ -164,13 +138,49 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 
 #pragma mark - Private methods
 
+- (void)updateSuggestions
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
+                                              inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.entity = entity;
+    
+    // Get new preferences from user defaults.
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSInteger genders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
+    NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
+
+    // Fetch all suggestions with state "maybe" and  matching the criteria from preferences.
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(state == %d) AND ((gender & %d) != 0) AND ((language & %d) != 0)", kSuggestionStateMaybe, genders, languages];
+    fetchRequest.predicate = predicate;
+    
+    NSError *error;
+    self.suggestions = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:fetchRequest
+                                                                                               error:&error]];
+    // TODO: check if it's better to check for the existance of the array or the length.
+    if (!self.suggestions) {
+        // TODO: handle the error.
+    }
+    else {
+#if DEBUG
+        NSLog(@"Fetched %tu suggestions.", self.suggestions.count);
+#endif
+
+        self.nameLabelVisible = NO;
+        self.nameLabel.alpha = 0.0;
+        
+        [self updateNameLabel];
+    }
+}
+
 - (void)fetchRandomSuggestion
 {
 #if DEBUG
-    NSLog(@"%tu suggestions to be evaluated.", [self.suggestions count]);
+    NSLog(@"%tu suggestions to be evaluated.", self.suggestions.count);
 #endif
     
-    self.currentIndex = arc4random() % [self.suggestions count];
+    self.currentIndex = arc4random() % self.suggestions.count;
     self.currentSuggestion = [self.suggestions objectAtIndex:self.currentIndex];
 }
 
@@ -413,6 +423,10 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
         // TODO: handle error.
     }
     else {
+#if DEBUG
+        NSLog(@"Accepted %@", suggestion.name);
+#endif
+
         // Remove the current suggestion from the array.
         [self.suggestions removeObjectAtIndex:self.currentIndex];
 
@@ -429,6 +443,10 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
         // TODO: handle error.
     }
     else {
+#if DEBUG
+        NSLog(@"Rejected %@", suggestion.name);
+#endif
+
         // Remove the current suggestion from the array.
         [self.suggestions removeObjectAtIndex:self.currentIndex];
         
@@ -438,6 +456,10 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 
 - (void)rethinkSuggestion:(Suggestion *)suggestion
 {
+#if DEBUG
+    NSLog(@"Rethink %@", suggestion.name);
+#endif
+
     [self updateNameLabel];
 }
 
@@ -479,6 +501,53 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
             default:
             case kPanningStateIdle:
                 break;
+        }
+    }
+}
+
+#pragma mark - Settings view controller delegate
+
+- (void)settingsViewControllerWillClose:(SettingsTableViewController *)viewController withUpdatedFetchingPreferences:(BOOL)updatedFetchingPreferences;
+{
+    if (updatedFetchingPreferences) {
+        [self updateSuggestions];
+    }
+    
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
+}
+
+- (void)resetAllSelections
+{
+    // Retrieve the address of the persistent store.
+    NSURL *storeURL = [[self.managedObjectContext persistentStoreCoordinator] URLForPersistentStore:[[[self.managedObjectContext persistentStoreCoordinator] persistentStores] lastObject]];
+    
+    // Drop pending changes.
+    [self.managedObjectContext reset];
+    
+    NSError *error;
+    if ([[self.managedObjectContext persistentStoreCoordinator] removePersistentStore:[[[self.managedObjectContext persistentStoreCoordinator] persistentStores] lastObject]
+                                                                                error:&error]) {
+        // Remove the persistent store.
+        [[NSFileManager defaultManager] removeItemAtURL:storeURL
+                                                  error:&error];
+
+        // Copy the pre-populated database.
+        NSURL *preloadURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"BabyName"
+                                                                                   ofType:@"sqlite"]];
+        if (![[NSFileManager defaultManager] copyItemAtURL:preloadURL
+                                                     toURL:storeURL
+                                                     error:&error]) {
+            // TODO: handle error.
+        }
+        
+        // Re-load the persistent store.
+        if (![[self.managedObjectContext persistentStoreCoordinator] addPersistentStoreWithType:NSSQLiteStoreType
+                                                                                  configuration:nil
+                                                                                            URL:storeURL
+                                                                                        options:nil
+                                                                                          error:&error]) {
+            // TODO: handle error.
         }
     }
 }
