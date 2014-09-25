@@ -153,7 +153,9 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 
         [self presentViewController:alertController
                            animated:YES
-                         completion:nil];
+                         completion:^{
+                             self.fetchingPreferencesChanged = YES;
+                         }];
     }
 }
 

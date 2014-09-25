@@ -519,7 +519,37 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 
 - (void)resetAllSelections
 {
-	NSLog(@"Reset all selections!!!");
+    // Retrieve the address of the persistent store.
+    NSURL *storeURL = [[self.managedObjectContext persistentStoreCoordinator] URLForPersistentStore:[[[self.managedObjectContext persistentStoreCoordinator] persistentStores] lastObject]];
+    
+    // Drop pending changes.
+    [self.managedObjectContext reset];
+    
+    NSError *error;
+    if ([[self.managedObjectContext persistentStoreCoordinator] removePersistentStore:[[[self.managedObjectContext persistentStoreCoordinator] persistentStores] lastObject]
+                                                                                error:&error]) {
+        // Remove the persistent store.
+        [[NSFileManager defaultManager] removeItemAtURL:storeURL
+                                                  error:&error];
+
+        // Copy the pre-populated database.
+        NSURL *preloadURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"BabyName"
+                                                                                   ofType:@"sqlite"]];
+        if (![[NSFileManager defaultManager] copyItemAtURL:preloadURL
+                                                     toURL:storeURL
+                                                     error:&error]) {
+            // TODO: handle error.
+        }
+        
+        // Re-load the persistent store.
+        if (![[self.managedObjectContext persistentStoreCoordinator] addPersistentStoreWithType:NSSQLiteStoreType
+                                                                                  configuration:nil
+                                                                                            URL:storeURL
+                                                                                        options:nil
+                                                                                          error:&error]) {
+            // TODO: handle error.
+        }
+    }
 }
 
 @end
