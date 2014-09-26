@@ -141,7 +141,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 - (void)updateSuggestions
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
+
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
                                               inManagedObjectContext:self.managedObjectContext];
     fetchRequest.entity = entity;
@@ -150,9 +150,9 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger genders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
     NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
-    
+
     // Fetch all suggestions with state "maybe" and  matching the criteria from preferences.
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(state == %d) AND ((gender & %d) != 0) AND ((language & %d) != 0)", kSuggestionStateMaybe, genders, languages];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(state == %d) AND ((gender & %d) != 0) AND ((language & %d) != 0)", kSelectionStateMaybe, genders, languages];
     fetchRequest.predicate = predicate;
     
     NSError *error;
@@ -169,20 +169,20 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 #if DEBUG
             NSLog(@"Preferred initials: %@", [initials componentsJoinedByString:@", "]);
 #endif
-            
+
             NSString *initialsRegex = [NSString stringWithFormat:@"^[%@].*", [initials componentsJoinedByString:@""]];
             NSPredicate *initialsPredicate = [NSPredicate predicateWithFormat:@"name MATCHES[cd] %@", initialsRegex];
-            
+
             self.suggestions = [NSMutableArray arrayWithArray:[fetchedSuggestions filteredArrayUsingPredicate:initialsPredicate]];
         }
         else {
             self.suggestions = [NSMutableArray arrayWithArray:fetchedSuggestions];
         }
-        
+
 #if DEBUG
         NSLog(@"Fetched %tu suggestions.", self.suggestions.count);
 #endif
-        
+
         self.nameLabelVisible = NO;
         self.nameLabel.alpha = 0.0;
         
@@ -432,7 +432,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 
 - (void)acceptSuggestion:(Suggestion *)suggestion
 {
-    suggestion.state = kSuggestionStateYes;
+    suggestion.state = kSelectionStateAccepted;
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
@@ -452,7 +452,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 
 - (void)rejectSuggestion:(Suggestion *)suggestion
 {
-    suggestion.state = kSuggestionStateNo;
+    suggestion.state = kSelectionStateRejected;
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {

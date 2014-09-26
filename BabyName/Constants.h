@@ -35,8 +35,8 @@ typedef NS_OPTIONS(NSInteger, GenderBitmask) {
 };
 
 
-typedef NS_ENUM(NSInteger, SuggestionState) {
-    kSuggestionStateMaybe = 0,
-    kSuggestionStateYes,
-    kSuggestionStateNo
+typedef NS_ENUM(NSInteger, SelectionState) {
+    kSelectionStateMaybe = 0,
+    kSelectionStateAccepted,
+    kSelectionStateRejected
 };
