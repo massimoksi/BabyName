@@ -150,7 +150,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     if (indexPath.section == kSettingsSectionRestart) {
         // NOTE: UIAlertController is iOS8 only, in case of backporting the app use UIActionSheet.
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Restart selection", nil)
-                                                                                 message:NSLocalizedString(@"Do you really want to restart the selection of names?", nil)
+                                                                                 message:NSLocalizedString(@"All your current selections and rejections will be cancelled.", nil)
                                                                           preferredStyle:UIAlertControllerStyleActionSheet];
 
         UIAlertAction *restartAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Restart", @"Restart button in the action sheet")
