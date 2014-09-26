@@ -12,6 +12,7 @@
 #import "Language.h"
 #import "GendersTableViewController.h"
 #import "LanguagesTableViewController.h"
+#import "InitialsTableViewController.h"
 
 
 typedef NS_ENUM(NSInteger, SettingsSection) {
@@ -21,7 +22,8 @@ typedef NS_ENUM(NSInteger, SettingsSection) {
 
 typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     kSectionGeneralRowGenders = 0,
-    kSectionGeneralRowLanguages
+    kSectionGeneralRowLanguages,
+    kSectionGeneralRowInitials
 };
 
 
@@ -74,6 +76,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     NSInteger selectedGenders;
     NSInteger selectedLanguages;
     NSUInteger numberOfSelectedLanguages;
+    NSArray *preferredInitials;
     
     switch (section) {
         case kSettingsSectionGeneral:
@@ -112,6 +115,20 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
                 }
                 else {
                     cell.detailTextLabel.text = [NSString stringWithFormat:@"%tu", numberOfSelectedLanguages];
+                }
+            }
+            else if (row == kSectionGeneralRowInitials) {
+                preferredInitials = [[userDefaults stringArrayForKey:kSettingsPreferredInitialsKey] sortedArrayUsingSelector:@selector(compare:)];
+                // TODO: check what happens if the string is too long.
+                // FIXME: preferred initial is not always displayed.
+                if (preferredInitials.count == 0) {
+                    cell.detailTextLabel.text = @"";
+                }
+                else if (preferredInitials.count == 1) {
+                    cell.detailTextLabel.text = [preferredInitials objectAtIndex:0];
+                }
+                else {
+                    cell.detailTextLabel.text = [preferredInitials componentsJoinedByString:@" "];
                 }
             }
             break;
@@ -167,12 +184,17 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-    if ([segue.identifier isEqualToString:@"GendersSegue"]) {
+    NSString *segueIdentifier = segue.identifier;
+    if ([segueIdentifier isEqualToString:@"ShowGendersSegue"]) {
         GendersTableViewController *viewController = [segue destinationViewController];
         viewController.fetchingPreferencesDelegate = self;
     }
-    else if ([segue.identifier isEqualToString:@"LanguagesSegue"]) {
+    else if ([segueIdentifier isEqualToString:@"ShowLanguagesSegue"]) {
         LanguagesTableViewController *viewController = [segue destinationViewController];
+        viewController.fetchingPreferencesDelegate = self;
+    }
+    else if ([segueIdentifier isEqualToString:@"ShowInitialsSegue"])  {
+        InitialsTableViewController *viewController = [segue destinationViewController];
         viewController.fetchingPreferencesDelegate = self;
     }
 }
