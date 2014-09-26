@@ -141,7 +141,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 - (void)updateSuggestions
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-
+    
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
                                               inManagedObjectContext:self.managedObjectContext];
     fetchRequest.entity = entity;
@@ -150,23 +150,39 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger genders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
     NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
-
+    
     // Fetch all suggestions with state "maybe" and  matching the criteria from preferences.
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(state == %d) AND ((gender & %d) != 0) AND ((language & %d) != 0)", kSuggestionStateMaybe, genders, languages];
     fetchRequest.predicate = predicate;
     
     NSError *error;
-    self.suggestions = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:fetchRequest
-                                                                                               error:&error]];
+    NSArray *fetchedSuggestions = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:fetchRequest
+                                                                                                          error:&error]];
     // TODO: check if it's better to check for the existance of the array or the length.
-    if (!self.suggestions) {
+    if (!fetchedSuggestions) {
         // TODO: handle the error.
     }
     else {
+        // Filter suggestions by preferred initials.
+        NSArray *initials = [userDefaults stringArrayForKey:kSettingsPreferredInitialsKey];
+        if (initials.count) {
+#if DEBUG
+            NSLog(@"Preferred initials: %@", [initials componentsJoinedByString:@", "]);
+#endif
+            
+            NSString *initialsRegex = [NSString stringWithFormat:@"^[%@].*", [initials componentsJoinedByString:@""]];
+            NSPredicate *initialsPredicate = [NSPredicate predicateWithFormat:@"name MATCHES[cd] %@", initialsRegex];
+            
+            self.suggestions = [NSMutableArray arrayWithArray:[fetchedSuggestions filteredArrayUsingPredicate:initialsPredicate]];
+        }
+        else {
+            self.suggestions = [NSMutableArray arrayWithArray:fetchedSuggestions];
+        }
+        
 #if DEBUG
         NSLog(@"Fetched %tu suggestions.", self.suggestions.count);
 #endif
-
+        
         self.nameLabelVisible = NO;
         self.nameLabel.alpha = 0.0;
         
