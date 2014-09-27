@@ -77,6 +77,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     NSInteger selectedLanguages;
     NSUInteger numberOfSelectedLanguages;
     NSArray *preferredInitials;
+    NSUInteger preferredInitialsCount;
     
     switch (section) {
         case kSettingsSectionGeneral:
@@ -119,14 +120,15 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
             }
             else if (row == kSectionGeneralRowInitials) {
                 preferredInitials = [[userDefaults stringArrayForKey:kSettingsPreferredInitialsKey] sortedArrayUsingSelector:@selector(compare:)];
-                if (preferredInitials.count == 0) {
+                preferredInitialsCount = preferredInitials.count;
+                if (preferredInitialsCount == 0) {
                     cell.detailTextLabel.text = @" ";
                 }
-                else if (preferredInitials.count == 1) {
+                else if (preferredInitialsCount == 1) {
                     cell.detailTextLabel.text = [preferredInitials objectAtIndex:0];
                 }
-                else if (preferredInitials.count > 8) {
-                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%tu", preferredInitials.count];
+                else if (preferredInitialsCount > 8) {
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%tu", preferredInitialsCount];
                 }
                 else {
                     cell.detailTextLabel.text = [preferredInitials componentsJoinedByString:@" "];
