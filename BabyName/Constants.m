@@ -11,3 +11,4 @@
 
 NSString * const kSettingsSelectedGendersKey = @"SettingsSelectedGenders";
 NSString * const kSettingsSelectedLanguagesKey = @"SettingsSelectedLanguages";
+NSString * const kSettingsPreferredInitialsKey = @"SettingsPreferredInitials";

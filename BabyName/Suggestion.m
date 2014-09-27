@@ -13,7 +13,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@", self.name];
+    return [NSString stringWithFormat:@"%@ - %d, %d, %d", self.name, self.gender, self.language, self.state];
 }
 
 @end

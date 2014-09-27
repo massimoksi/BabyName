@@ -12,6 +12,7 @@
 #import "Language.h"
 #import "GendersTableViewController.h"
 #import "LanguagesTableViewController.h"
+#import "InitialsTableViewController.h"
 
 
 typedef NS_ENUM(NSInteger, SettingsSection) {
@@ -21,7 +22,8 @@ typedef NS_ENUM(NSInteger, SettingsSection) {
 
 typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     kSectionGeneralRowGenders = 0,
-    kSectionGeneralRowLanguages
+    kSectionGeneralRowLanguages,
+    kSectionGeneralRowInitials
 };
 
 
@@ -74,6 +76,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     NSInteger selectedGenders;
     NSInteger selectedLanguages;
     NSUInteger numberOfSelectedLanguages;
+    NSArray *preferredInitials;
     
     switch (section) {
         case kSettingsSectionGeneral:
@@ -114,6 +117,20 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
                     cell.detailTextLabel.text = [NSString stringWithFormat:@"%tu", numberOfSelectedLanguages];
                 }
             }
+            else if (row == kSectionGeneralRowInitials) {
+                preferredInitials = [[userDefaults stringArrayForKey:kSettingsPreferredInitialsKey] sortedArrayUsingSelector:@selector(compare:)];
+                // TODO: check what happens if the string is too long.
+                // FIXME: preferred initial is not always displayed.
+                if (preferredInitials.count == 0) {
+                    cell.detailTextLabel.text = @" ";
+                }
+                else if (preferredInitials.count == 1) {
+                    cell.detailTextLabel.text = [preferredInitials objectAtIndex:0];
+                }
+                else {
+                    cell.detailTextLabel.text = [preferredInitials componentsJoinedByString:@" "];
+                }
+            }
             break;
             
         default:
@@ -133,7 +150,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     if (indexPath.section == kSettingsSectionRestart) {
         // NOTE: UIAlertController is iOS8 only, in case of backporting the app use UIActionSheet.
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Restart selection", nil)
-                                                                                 message:NSLocalizedString(@"Do you really want to restart the selection of names?", nil)
+                                                                                 message:NSLocalizedString(@"All your current selections and rejections will be cancelled.", nil)
                                                                           preferredStyle:UIAlertControllerStyleActionSheet];
 
         UIAlertAction *restartAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Restart", @"Restart button in the action sheet")
@@ -167,12 +184,17 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-    if ([segue.identifier isEqualToString:@"GendersSegue"]) {
+    NSString *segueIdentifier = segue.identifier;
+    if ([segueIdentifier isEqualToString:@"ShowGendersSegue"]) {
         GendersTableViewController *viewController = [segue destinationViewController];
         viewController.fetchingPreferencesDelegate = self;
     }
-    else if ([segue.identifier isEqualToString:@"LanguagesSegue"]) {
+    else if ([segueIdentifier isEqualToString:@"ShowLanguagesSegue"]) {
         LanguagesTableViewController *viewController = [segue destinationViewController];
+        viewController.fetchingPreferencesDelegate = self;
+    }
+    else if ([segueIdentifier isEqualToString:@"ShowInitialsSegue"])  {
+        InitialsTableViewController *viewController = [segue destinationViewController];
         viewController.fetchingPreferencesDelegate = self;
     }
 }
