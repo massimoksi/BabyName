@@ -17,7 +17,8 @@
 
 typedef NS_ENUM(NSInteger, SettingsSection) {
     kSettingsSectionGeneral = 0,
-    kSettingsSectionRestart
+    kSettingsSectionRestart,
+    kSettingsSectionAbout
 };
 
 typedef NS_ENUM(NSInteger, SectionGeneralRow) {
@@ -134,6 +135,10 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
                     cell.detailTextLabel.text = [preferredInitials componentsJoinedByString:@" "];
                 }
             }
+            break;
+           
+        case kSettingsSectionAbout:
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
             break;
             
         default:
