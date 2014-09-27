@@ -152,17 +152,33 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
 
     // Fetch all suggestions with state "maybe" and  matching the criteria from preferences.
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(state == %d) AND ((gender & %d) != 0) AND ((language & %d) != 0)", kSuggestionStateMaybe, genders, languages];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(state == %d) AND ((gender & %d) != 0) AND ((language & %d) != 0)", kSelectionStateMaybe, genders, languages];
     fetchRequest.predicate = predicate;
     
     NSError *error;
-    self.suggestions = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:fetchRequest
-                                                                                               error:&error]];
+    NSArray *fetchedSuggestions = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:fetchRequest
+                                                                                                          error:&error]];
     // TODO: check if it's better to check for the existance of the array or the length.
-    if (!self.suggestions) {
+    if (!fetchedSuggestions) {
         // TODO: handle the error.
     }
     else {
+        // Filter suggestions by preferred initials.
+        NSArray *initials = [userDefaults stringArrayForKey:kSettingsPreferredInitialsKey];
+        if (initials.count) {
+#if DEBUG
+            NSLog(@"Preferred initials: %@", [initials componentsJoinedByString:@", "]);
+#endif
+
+            NSString *initialsRegex = [NSString stringWithFormat:@"^[%@].*", [initials componentsJoinedByString:@""]];
+            NSPredicate *initialsPredicate = [NSPredicate predicateWithFormat:@"name MATCHES[cd] %@", initialsRegex];
+
+            self.suggestions = [NSMutableArray arrayWithArray:[fetchedSuggestions filteredArrayUsingPredicate:initialsPredicate]];
+        }
+        else {
+            self.suggestions = [NSMutableArray arrayWithArray:fetchedSuggestions];
+        }
+
 #if DEBUG
         NSLog(@"Fetched %tu suggestions.", self.suggestions.count);
 #endif
@@ -180,8 +196,13 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     NSLog(@"%tu suggestions to be evaluated.", self.suggestions.count);
 #endif
     
-    self.currentIndex = arc4random() % self.suggestions.count;
-    self.currentSuggestion = [self.suggestions objectAtIndex:self.currentIndex];
+    if (self.suggestions.count) {
+        self.currentIndex = arc4random() % self.suggestions.count;
+        self.currentSuggestion = [self.suggestions objectAtIndex:self.currentIndex];
+    }
+    else {
+        // TODO: implement.
+    }
 }
 
 - (void)updateNameLabel
@@ -416,7 +437,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 
 - (void)acceptSuggestion:(Suggestion *)suggestion
 {
-    suggestion.state = kSuggestionStateYes;
+    suggestion.state = kSelectionStateAccepted;
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
@@ -436,7 +457,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 
 - (void)rejectSuggestion:(Suggestion *)suggestion
 {
-    suggestion.state = kSuggestionStateNo;
+    suggestion.state = kSelectionStateRejected;
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {

@@ -7,15 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+
+#import "SuggestionModel.h"
 
 
-@interface Suggestion : NSManagedObject
-
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic) int16_t gender;
-@property (nonatomic) int32_t language;
-@property (nonatomic) int16_t state;
-@property (nonatomic, retain) NSString * variants;
+@interface Suggestion : SuggestionModel
 
 @end

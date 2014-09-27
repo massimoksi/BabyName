@@ -11,10 +11,9 @@
 
 @implementation Suggestion
 
-@dynamic name;
-@dynamic gender;
-@dynamic language;
-@dynamic state;
-@dynamic variants;
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"%@ - %d, %d, %d", self.name, self.gender, self.language, self.state];
+}
 
 @end
