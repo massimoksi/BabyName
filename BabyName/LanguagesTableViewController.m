@@ -57,10 +57,15 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LanguageCell"];
     
     Language *language = [self.sortedLanguages objectAtIndex:indexPath.row];
-    cell.textLabel.text = language.name;
+    cell.textLabel.text = NSLocalizedString(language.name, nil);
     cell.accessoryType = language.selected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     
     return cell;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    return NSLocalizedString(@"At least one language must be selected.", nil);
 }
 
 #pragma mark - Table view delegate
