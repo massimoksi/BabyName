@@ -122,7 +122,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
                 // TODO: check what happens if the string is too long.
                 // FIXME: preferred initial is not always displayed.
                 if (preferredInitials.count == 0) {
-                    cell.detailTextLabel.text = @"";
+                    cell.detailTextLabel.text = @" ";
                 }
                 else if (preferredInitials.count == 1) {
                     cell.detailTextLabel.text = [preferredInitials objectAtIndex:0];

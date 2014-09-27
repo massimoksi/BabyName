@@ -196,8 +196,13 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     NSLog(@"%tu suggestions to be evaluated.", self.suggestions.count);
 #endif
     
-    self.currentIndex = arc4random() % self.suggestions.count;
-    self.currentSuggestion = [self.suggestions objectAtIndex:self.currentIndex];
+    if (self.suggestions.count) {
+        self.currentIndex = arc4random() % self.suggestions.count;
+        self.currentSuggestion = [self.suggestions objectAtIndex:self.currentIndex];
+    }
+    else {
+        // TODO: implement.
+    }
 }
 
 - (void)updateNameLabel
