@@ -91,7 +91,7 @@
                                      forDirection:MSDynamicsDrawerDirectionRight];
     [drawerViewController setRevealWidth:CGRectGetWidth([[UIScreen mainScreen] bounds]) - 44.0f    // TODO: get rid of magic numbers.
                             forDirection:MSDynamicsDrawerDirectionRight];
-    [drawerViewController addStylersFromArray:@[[MSDynamicsDrawerShadowStyler styler], [MSDynamicsDrawerParallaxStyler styler]]
+    [drawerViewController addStylersFromArray:@[[MSDynamicsDrawerShadowStyler styler]]
                                  forDirection:MSDynamicsDrawerDirectionRight];
 
     return YES;
