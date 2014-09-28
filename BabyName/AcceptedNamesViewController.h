@@ -1,5 +1,5 @@
 //
-//  AcceptedNamesTableViewController.h
+//  AcceptedNamesViewController.h
 //  BabyName
 //
 //  Created by Massimo Peri on 28/09/14.
@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 
 
-@interface AcceptedNamesTableViewController : UIViewController
+@interface AcceptedNamesViewController : UIViewController
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 

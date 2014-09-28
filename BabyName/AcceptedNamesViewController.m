@@ -1,25 +1,25 @@
 //
-//  AcceptedNamesTableViewController.m
+//  AcceptedNamesViewController.m
 //  BabyName
 //
 //  Created by Massimo Peri on 28/09/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "AcceptedNamesTableViewController.h"
+#import "AcceptedNamesViewController.h"
 
 #import "Constants.h"
 #import "Suggestion.h"
 
 
-@interface AcceptedNamesTableViewController () <UITableViewDataSource>
+@interface AcceptedNamesViewController () <UITableViewDataSource>
 
 @property (nonatomic, strong) NSMutableArray *acceptedNames;
 
 @end
 
 
-@implementation AcceptedNamesTableViewController
+@implementation AcceptedNamesViewController
 
 - (void)viewDidLoad
 {

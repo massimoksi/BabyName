@@ -12,7 +12,7 @@
 
 #import "Constants.h"
 #import "NameViewController.h"
-#import "AcceptedNamesTableViewController.h"
+#import "AcceptedNamesViewController.h"
 
 
 @interface AppDelegate () <MSDynamicsDrawerViewControllerDelegate>
@@ -84,8 +84,8 @@
     nameViewController.managedObjectContext = self.managedObjectContext;
     drawerViewController.paneViewController = nameViewController;
 
-    AcceptedNamesTableViewController *acceptedNamesViewController = [[UIStoryboard storyboardWithName:@"Main"
-                                                                                               bundle:nil] instantiateViewControllerWithIdentifier:@"AcceptedNamesTVC"];
+    AcceptedNamesViewController *acceptedNamesViewController = [[UIStoryboard storyboardWithName:@"Main"
+                                                                                          bundle:nil] instantiateViewControllerWithIdentifier:@"AcceptedNamesVC"];
     acceptedNamesViewController.managedObjectContext = self.managedObjectContext;
     [drawerViewController setDrawerViewController:acceptedNamesViewController
                                      forDirection:MSDynamicsDrawerDirectionRight];

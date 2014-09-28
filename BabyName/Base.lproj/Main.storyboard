@@ -99,10 +99,10 @@
             </objects>
             <point key="canvasLocation" x="745" y="141"/>
         </scene>
-        <!--Accepted Names Table View Controller-->
+        <!--Accepted Names View Controller-->
         <scene sceneID="9sm-Ln-TRg">
             <objects>
-                <viewController storyboardIdentifier="AcceptedNamesTVC" id="szv-ux-AaA" customClass="AcceptedNamesTableViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AcceptedNamesVC" id="szv-ux-AaA" customClass="AcceptedNamesViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="VqI-Io-cYl"/>
                         <viewControllerLayoutGuide type="bottom" id="eOv-qO-ZMh"/>
@@ -147,7 +147,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vZN-rU-9aL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="745" y="917"/>
+            <point key="canvasLocation" x="1481" y="885"/>
         </scene>
         <!--Settings-->
         <scene sceneID="5OB-Xr-IIM">
