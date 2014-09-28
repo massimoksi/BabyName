@@ -23,6 +23,7 @@
 		56E4D0D419D20C830005DFDC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 56E4D0D219D20C830005DFDC /* Localizable.strings */; };
 		56EB752519D4BD3D00D18DF6 /* SuggestionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EB752419D4BD3D00D18DF6 /* SuggestionModel.m */; };
 		56EB752819D4C60C00D18DF6 /* InitialsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EB752719D4C60C00D18DF6 /* InitialsTableViewController.m */; };
+		56EB752C19D83E1A00D18DF6 /* AcceptedNamesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EB752B19D83E1A00D18DF6 /* AcceptedNamesTableViewController.m */; };
 		56F1C5CC19BF9297008D8A3D /* Suggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 56F1C5CB19BF9297008D8A3D /* Suggestion.m */; };
 		56F1C5CE19BFA152008D8A3D /* BabyName.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 56F1C5CD19BFA152008D8A3D /* BabyName.sqlite */; };
 /* End PBXBuildFile section */
@@ -70,6 +71,8 @@
 		56EB752419D4BD3D00D18DF6 /* SuggestionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionModel.m; sourceTree = "<group>"; };
 		56EB752619D4C60C00D18DF6 /* InitialsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialsTableViewController.h; sourceTree = "<group>"; };
 		56EB752719D4C60C00D18DF6 /* InitialsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialsTableViewController.m; sourceTree = "<group>"; };
+		56EB752A19D83E1A00D18DF6 /* AcceptedNamesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcceptedNamesTableViewController.h; sourceTree = "<group>"; };
+		56EB752B19D83E1A00D18DF6 /* AcceptedNamesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AcceptedNamesTableViewController.m; sourceTree = "<group>"; };
 		56F1C5CA19BF9297008D8A3D /* Suggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Suggestion.h; sourceTree = "<group>"; };
 		56F1C5CB19BF9297008D8A3D /* Suggestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Suggestion.m; sourceTree = "<group>"; };
 		56F1C5CD19BFA152008D8A3D /* BabyName.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = BabyName.sqlite; sourceTree = "<group>"; };
@@ -141,6 +144,8 @@
 				56E4D0CF19D0D8E70005DFDC /* Language.m */,
 				563B6B8719ACB83700F9EF37 /* NameViewController.h */,
 				563B6B8819ACB83800F9EF37 /* NameViewController.m */,
+				56EB752A19D83E1A00D18DF6 /* AcceptedNamesTableViewController.h */,
+				56EB752B19D83E1A00D18DF6 /* AcceptedNamesTableViewController.m */,
 				5691AE9D19C4564A00C1550F /* SettingsTableViewController.h */,
 				5691AE9E19C4564A00C1550F /* SettingsTableViewController.m */,
 				56E4D0D719D4998E0005DFDC /* FetchingPreferencesDelegate.h */,
@@ -335,6 +340,7 @@
 				56C647A819AC62FF005B1D46 /* AppDelegate.m in Sources */,
 				5691AEA219C4800900C1550F /* GendersTableViewController.m in Sources */,
 				56E4D0D019D0D8E70005DFDC /* Language.m in Sources */,
+				56EB752C19D83E1A00D18DF6 /* AcceptedNamesTableViewController.m in Sources */,
 				561ECCDB19CA375E00814D62 /* LanguagesTableViewController.m in Sources */,
 				563B6B8919ACB83800F9EF37 /* NameViewController.m in Sources */,
 				56EB752819D4C60C00D18DF6 /* InitialsTableViewController.m in Sources */,
