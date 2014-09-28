@@ -86,6 +86,7 @@
 
     AcceptedNamesTableViewController *acceptedNamesViewController = [[UIStoryboard storyboardWithName:@"Main"
                                                                                                bundle:nil] instantiateViewControllerWithIdentifier:@"AcceptedNamesTVC"];
+    acceptedNamesViewController.managedObjectContext = self.managedObjectContext;
     [drawerViewController setDrawerViewController:acceptedNamesViewController
                                      forDirection:MSDynamicsDrawerDirectionRight];
     [drawerViewController setRevealWidth:CGRectGetWidth([[UIScreen mainScreen] bounds]) - 44.0f    // TODO: get rid of magic numbers.
