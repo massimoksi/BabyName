@@ -8,8 +8,16 @@
 
 #import "AppDelegate.h"
 
+#import "MSDynamicsDrawerViewController.h"
+
 #import "Constants.h"
 #import "NameViewController.h"
+#import "AcceptedNamesViewController.h"
+
+
+@interface AppDelegate () <MSDynamicsDrawerViewControllerDelegate>
+
+@end
 
 
 @implementation AppDelegate
@@ -65,9 +73,27 @@
     NSLog(@"Database contains %tu suggestions.", count);
 #endif
 
-    NameViewController *nameViewController = (NameViewController *)self.window.rootViewController;
+    MSDynamicsDrawerViewController *drawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
+    drawerViewController.delegate = self;
+    drawerViewController.shouldAlignStatusBarToPaneView = NO;
+    [drawerViewController registerTouchForwardingClass:[UILabel class]];
+
+    NameViewController *nameViewController = [[UIStoryboard storyboardWithName:@"Main"
+                                                                        bundle:nil] instantiateViewControllerWithIdentifier:@"NameVC"];
+    nameViewController.drawerViewController = drawerViewController;
     nameViewController.managedObjectContext = self.managedObjectContext;
-    
+    drawerViewController.paneViewController = nameViewController;
+
+    AcceptedNamesViewController *acceptedNamesViewController = [[UIStoryboard storyboardWithName:@"Main"
+                                                                                          bundle:nil] instantiateViewControllerWithIdentifier:@"AcceptedNamesVC"];
+    acceptedNamesViewController.managedObjectContext = self.managedObjectContext;
+    [drawerViewController setDrawerViewController:acceptedNamesViewController
+                                     forDirection:MSDynamicsDrawerDirectionRight];
+    [drawerViewController setRevealWidth:CGRectGetWidth([[UIScreen mainScreen] bounds]) - 44.0f    // TODO: get rid of magic numbers.
+                            forDirection:MSDynamicsDrawerDirectionRight];
+    [drawerViewController addStylersFromArray:@[[MSDynamicsDrawerShadowStyler styler]]
+                                 forDirection:MSDynamicsDrawerDirectionRight];
+
     return YES;
 }
 

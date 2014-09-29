@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Suggestion.h"
+#import "MSDynamicsDrawerViewController.h"
 
 
 @interface NameViewController : UIViewController
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
+@property (nonatomic, weak) MSDynamicsDrawerViewController *drawerViewController;
 
 @end
