@@ -9,6 +9,7 @@
 #import "NameViewController.h"
 
 #import "Constants.h"
+#import "Suggestion.h"
 #import "SettingsTableViewController.h"
 
 
@@ -92,6 +93,17 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
         SettingsTableViewController *settingsViewController = (SettingsTableViewController *)settingsNavController.topViewController;
         settingsViewController.delegate = self;
     }
+}
+
+#pragma mark - Actions
+
+- (IBAction)showAcceptedNames:(id)sender
+{
+    [self.drawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen
+                                inDirection:MSDynamicsDrawerDirectionRight
+                                   animated:YES
+                      allowUserInterruption:YES
+                                 completion:nil];
 }
 
 #pragma mark - Gesture handlers

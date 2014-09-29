@@ -17,7 +17,8 @@
 
 typedef NS_ENUM(NSInteger, SettingsSection) {
     kSettingsSectionGeneral = 0,
-    kSettingsSectionRestart
+    kSettingsSectionRestart,
+    kSettingsSectionAbout
 };
 
 typedef NS_ENUM(NSInteger, SectionGeneralRow) {
@@ -135,6 +136,10 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
                 }
             }
             break;
+           
+        case kSettingsSectionAbout:
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
+            break;
             
         default:
             break;
@@ -166,9 +171,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel button in the action sheet")
                                                                style:UIAlertActionStyleCancel
-                                                             handler:^(UIAlertAction *action){
-                                                                // TODO: discard the action sheet.
-                                                             }];
+                                                             handler:nil];
         [alertController addAction:cancelAction];
 
         [self presentViewController:alertController
