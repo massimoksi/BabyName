@@ -171,9 +171,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel button in the action sheet")
                                                                style:UIAlertActionStyleCancel
-                                                             handler:^(UIAlertAction *action){
-                                                                // TODO: discard the action sheet.
-                                                             }];
+                                                             handler:nil];
         [alertController addAction:cancelAction];
 
         [self presentViewController:alertController
