@@ -370,7 +370,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
                 return CGVectorMake(-1.0, 0.0);
             }
             else {
-                return CGVectorMake(0.0, 1.0);
+                return CGVectorMake(0.0, 0.0);
             }
             break;
             
