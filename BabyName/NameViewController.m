@@ -192,10 +192,6 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
             self.suggestions = [NSMutableArray arrayWithArray:fetchedSuggestions];
         }
 
-#if DEBUG
-        NSLog(@"Fetched %tu suggestions.", self.suggestions.count);
-#endif
-
         self.nameLabelVisible = NO;
         self.nameLabel.alpha = 0.0;
         
@@ -527,6 +523,14 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     else {
         [self updateNameLabel];
     }
+}
+
+#pragma mark - Dynamics drawer view controller delegate
+
+- (BOOL)dynamicsDrawerViewController:(MSDynamicsDrawerViewController *)drawerViewController shouldBeginPanePan:(UIPanGestureRecognizer *)panGestureRecognizer
+{
+    // Inhibit pane pan while animating selection.
+    return self.panningEnabled;
 }
 
 #pragma mark - Settings view controller delegate

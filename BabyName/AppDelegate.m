@@ -83,6 +83,7 @@
     nameViewController.drawerViewController = drawerViewController;
     nameViewController.managedObjectContext = self.managedObjectContext;
     drawerViewController.paneViewController = nameViewController;
+    drawerViewController.delegate = nameViewController;
 
     AcceptedNamesViewController *acceptedNamesViewController = [[UIStoryboard storyboardWithName:@"Main"
                                                                                           bundle:nil] instantiateViewControllerWithIdentifier:@"AcceptedNamesVC"];
