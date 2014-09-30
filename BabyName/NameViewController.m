@@ -34,16 +34,16 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 static const CGFloat kPanningTranslationThreshold = 80.0;
 
 
-@interface NameViewController () <UIDynamicAnimatorDelegate, UICollisionBehaviorDelegate, SettingsTableViewControllerDelegate>
+@interface NameViewController () <UIDynamicAnimatorDelegate, SettingsTableViewControllerDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 
 @property (nonatomic) BOOL panningEnabled;
 @property (nonatomic) PanningState panningState;
 
-@property (strong, nonatomic) UIDynamicAnimator *animator;
-@property (strong, nonatomic) UIGravityBehavior *gravityBehavior;
-@property (strong, nonatomic) UICollisionBehavior *collisionBehavior;
+@property (nonatomic, strong) UIDynamicAnimator *animator;
+@property (nonatomic, strong) UIGravityBehavior *gravityBehavior;
+@property (nonatomic, strong) UICollisionBehavior *collisionBehavior;
 
 @property (nonatomic) BOOL nameLabelVisible;
 
@@ -67,9 +67,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     self.animator.delegate = self;
     
     self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.nameLabel]];
-    
     self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.nameLabel]];
-    self.collisionBehavior.collisionDelegate = self;
 
     [self updateSuggestions];
 }
@@ -136,12 +134,14 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateFailed || recognizer.state == UIGestureRecognizerStateCancelled) {
         self.panningState = [self endStateForGesture:recognizer
                                 withPanningDirection:panningDirection];
+
         self.gravityBehavior.gravityDirection = [self gravityDirectionForPanningDirection:panningDirection];
-        
-        [self.collisionBehavior setTranslatesReferenceBoundsIntoBoundaryWithInsets:[self edgeInsetsForPanningDirection:panningDirection]];
-        
         [self.animator addBehavior:self.gravityBehavior];
+        
+        [self.collisionBehavior setTranslatesReferenceBoundsIntoBoundaryWithInsets:[self edgeInsetsForPanningDirection:panningDirection]];        
         [self.animator addBehavior:self.collisionBehavior];
+
+        [self performEndingAction];
         
         // Disable panning until animation is finished.
         self.panningEnabled = NO;
@@ -179,7 +179,8 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
         NSArray *initials = [userDefaults stringArrayForKey:kSettingsPreferredInitialsKey];
         if (initials.count) {
 #if DEBUG
-            NSLog(@"Preferred initials: %@", [initials componentsJoinedByString:@", "]);
+            NSLog(@"[NameViewController] Settings:");
+            NSLog(@"    Preferred initials %@", [initials componentsJoinedByString:@", "]);
 #endif
 
             NSString *initialsRegex = [NSString stringWithFormat:@"^[%@].*", [initials componentsJoinedByString:@""]];
@@ -191,10 +192,6 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
             self.suggestions = [NSMutableArray arrayWithArray:fetchedSuggestions];
         }
 
-#if DEBUG
-        NSLog(@"Fetched %tu suggestions.", self.suggestions.count);
-#endif
-
         self.nameLabelVisible = NO;
         self.nameLabel.alpha = 0.0;
         
@@ -205,7 +202,8 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 - (void)fetchRandomSuggestion
 {
 #if DEBUG
-    NSLog(@"%tu suggestions to be evaluated.", self.suggestions.count);
+    NSLog(@"[NameViewController] Database:");
+    NSLog(@"    Fetched suggestions %tu", self.suggestions.count);
 #endif
     
     if (self.suggestions.count) {
@@ -372,7 +370,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
                 return CGVectorMake(-1.0, 0.0);
             }
             else {
-                return CGVectorMake(0.0, 1.0);
+                return CGVectorMake(0.0, 0.0);
             }
             break;
             
@@ -447,9 +445,30 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     }
 }
 
-- (void)acceptSuggestion:(Suggestion *)suggestion
+- (void)performEndingAction
 {
-    suggestion.state = kSelectionStateAccepted;
+    switch (self.panningState) {
+        case kPanningStateAccept:
+            [self acceptCurrentSuggestion];
+            break;
+
+        case kPanningStateReject:
+            [self rejectCurrentSuggestion];
+            break;
+
+        case kPanningStateMaybe:
+            [self rethinkCurrentSuggestion];
+            break;
+
+        default:
+        case kPanningStateIdle:
+            break;
+    }
+}
+
+- (void)acceptCurrentSuggestion
+{
+    self.currentSuggestion.state = kSelectionStateAccepted;
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
@@ -457,19 +476,17 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     }
     else {
 #if DEBUG
-        NSLog(@"Accepted %@", suggestion.name);
+        NSLog(@"[NameViewController] Accepted: %@", self.currentSuggestion.name);
 #endif
 
         // Remove the current suggestion from the array.
         [self.suggestions removeObjectAtIndex:self.currentIndex];
-
-        [self updateNameLabel];
     }
 }
 
-- (void)rejectSuggestion:(Suggestion *)suggestion
+- (void)rejectCurrentSuggestion
 {
-    suggestion.state = kSelectionStateRejected;
+    self.currentSuggestion.state = kSelectionStateRejected;
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
@@ -477,23 +494,19 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     }
     else {
 #if DEBUG
-        NSLog(@"Rejected %@", suggestion.name);
+        NSLog(@"[NameViewController] Rejected: %@", self.currentSuggestion.name);
 #endif
 
         // Remove the current suggestion from the array.
         [self.suggestions removeObjectAtIndex:self.currentIndex];
-        
-        [self updateNameLabel];
     }
 }
 
-- (void)rethinkSuggestion:(Suggestion *)suggestion
+- (void)rethinkCurrentSuggestion
 {
 #if DEBUG
-    NSLog(@"Rethink %@", suggestion.name);
+    NSLog(@"[NameViewController] Rethink: %@", self.currentSuggestion.name);
 #endif
-
-    [self updateNameLabel];
 }
 
 #pragma mark - Dynamics animator delegate
@@ -507,35 +520,17 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     if (self.panningState == kPanningStateIdle) {
         self.nameLabel.center = self.view.center;
     }
+    else {
+        [self updateNameLabel];
+    }
 }
 
-#pragma mark - Collision behavior delegate
+#pragma mark - Dynamics drawer view controller delegate
 
-- (void)collisionBehavior:(UICollisionBehavior *)behavior endedContactForItem:(id<UIDynamicItem>)item withBoundaryIdentifier:(id<NSCopying>)identifier
+- (BOOL)dynamicsDrawerViewController:(MSDynamicsDrawerViewController *)drawerViewController shouldBeginPanePan:(UIPanGestureRecognizer *)panGestureRecognizer
 {
-    if (self.nameLabelVisible && (self.panningState != kPanningStateIdle)) {
-        // Hide the name label.
-        self.nameLabelVisible = NO;
-        self.nameLabel.alpha = 0.0;
-        
-        switch (self.panningState) {
-            case kPanningStateAccept:
-                [self acceptSuggestion:self.currentSuggestion];
-                break;
-                
-            case kPanningStateReject:
-                [self rejectSuggestion:self.currentSuggestion];
-                break;
-                
-            case kPanningStateMaybe:
-                [self rethinkSuggestion:self.currentSuggestion];
-                break;
-                
-            default:
-            case kPanningStateIdle:
-                break;
-        }
-    }
+    // Inhibit pane pan while animating selection.
+    return self.panningEnabled;
 }
 
 #pragma mark - Settings view controller delegate
@@ -582,6 +577,9 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
                                                                                           error:&error]) {
             // TODO: handle error.
         }
+    }
+    else {
+        // TODO: handle error.
     }
 }
 
