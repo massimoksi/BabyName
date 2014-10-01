@@ -23,9 +23,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    [self performSegueWithIdentifier:@"EmptyNamesSegue"
-                              sender:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
