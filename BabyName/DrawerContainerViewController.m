@@ -57,11 +57,6 @@
         // Filter suggestions by preferred initials.
         NSArray *initials = [userDefaults stringArrayForKey:kSettingsPreferredInitialsKey];
         if (initials.count) {
-#if DEBUG
-            NSLog(@"[NameViewController] Settings:");
-            NSLog(@"    Preferred initials %@", [initials componentsJoinedByString:@", "]);
-#endif
-            
             NSString *initialsRegex = [NSString stringWithFormat:@"^[%@].*", [initials componentsJoinedByString:@""]];
             NSPredicate *initialsPredicate = [NSPredicate predicateWithFormat:@"name MATCHES[cd] %@", initialsRegex];
             
