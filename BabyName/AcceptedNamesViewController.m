@@ -15,13 +15,11 @@
 #import "Suggestion.h"
 
 
-//@interface AcceptedNamesViewController () <UITableViewDataSource, NSFetchedResultsControllerDelegate, MGSwipeTableCellDelegate>
-//
-//@property (nonatomic, weak) IBOutlet UITableView *tableView;
-//
-//@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
-//
-//@end
+@interface AcceptedNamesViewController () <UITableViewDataSource, NSFetchedResultsControllerDelegate, MGSwipeTableCellDelegate>
+
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
+
+@end
 
 
 @implementation AcceptedNamesViewController
@@ -59,8 +57,8 @@
 //#endif
 //        // TODO: handle error.
 //    }
-//    
-//    [self.tableView reloadData];
+    
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -99,33 +97,33 @@
 
 #pragma mark - Table view data source
 
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//    return self.fetchedResultsController.sections.count;
-//}
-//
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//    if (self.fetchedResultsController.sections.count > 0) {
-//        id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController.sections objectAtIndex:section];
-//        return [sectionInfo numberOfObjects];
-//    }
-//    else {
-//        return 0;
-//    }
-//}
-//
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    MGSwipeTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AcceptedNameCell"];
-//    
-//    Suggestion *suggestion = [self.fetchedResultsController objectAtIndexPath:indexPath];
-//
-//    cell.textLabel.text = suggestion.name;
-//    cell.delegate = self;
-//    
-//    return cell;
-//}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return self.fetchedResultsController.sections.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (self.fetchedResultsController.sections.count > 0) {
+        id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController.sections objectAtIndex:section];
+        return [sectionInfo numberOfObjects];
+    }
+    else {
+        return 0;
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MGSwipeTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AcceptedNameCell"];
+    
+    Suggestion *suggestion = [self.fetchedResultsController objectAtIndexPath:indexPath];
+
+    cell.textLabel.text = suggestion.name;
+    cell.delegate = self;
+    
+    return cell;
+}
 
 #pragma mark - Fetched results controller delegate
 

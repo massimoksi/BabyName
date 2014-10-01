@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
 
 
 @interface AcceptedNamesViewController : UIViewController
+
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end

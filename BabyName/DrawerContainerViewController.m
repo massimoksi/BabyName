@@ -107,18 +107,19 @@
         
     if ([[segue identifier] isEqualToString:@"EmptyNamesSegue"]) {
         EmptyNamesViewController *viewController = segue.destinationViewController;
+        
         [self addChildViewController:viewController];
         [self.view addSubview:viewController.view];
         [viewController didMoveToParentViewController:self];
     }
     else if ([[segue identifier] isEqualToString:@"AcceptedNamesSegue"]) {
         AcceptedNamesViewController *viewController = segue.destinationViewController;
+        viewController.fetchedResultsController = self.fetchedResultsController;
+        
         [self addChildViewController:viewController];
         [self.view addSubview:viewController.view];
         [viewController didMoveToParentViewController:self];
     }
 }
-
-
 
 @end
