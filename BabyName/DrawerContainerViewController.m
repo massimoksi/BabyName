@@ -13,9 +13,9 @@
 #import "AcceptedNamesViewController.h"
 
 
-@interface DrawerContainerViewController () <NSFetchedResultsControllerDelegate>
+@interface DrawerContainerViewController ()
 
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) NSMutableArray *acceptedNames;
 
 @end
 
@@ -30,27 +30,48 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
+                                              inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.entity = entity;
     
     // Get new preferences from user defaults.
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger genders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
     NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
-
-    // Fetch all suggestions with state "accepted" and  matching the criteria from preferences.
+    
+    // Fetch all suggestions with state "maybe" and  matching the criteria from preferences.
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(state == %d) AND ((gender & %d) != 0) AND ((language & %d) != 0)", kSelectionStateAccepted, genders, languages];
-    self.fetchedResultsController.fetchRequest.predicate = predicate;
+    fetchRequest.predicate = predicate;
     
     NSError *error;
-    if (![self.fetchedResultsController performFetch:&error]) {
-#if DEBUG
-        NSLog(@"[AcceptedNamesViewController] Error:");
-        NSLog(@"    Error while fetching %@, %@", error, [error userInfo]);
-#endif
-        // TODO: handle error.
+    NSArray *fetchedSuggestions = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:fetchRequest
+                                                                                                          error:&error]];
+    // TODO: check if it's better to check for the existance of the array or the length.
+    if (!fetchedSuggestions) {
+        // TODO: handle the error.
     }
     else {
-        // Load the view controller depending on the number of accepted names.
-        if (self.fetchedResultsController.fetchedObjects.count == 0) {
+        // Filter suggestions by preferred initials.
+        NSArray *initials = [userDefaults stringArrayForKey:kSettingsPreferredInitialsKey];
+        if (initials.count) {
+#if DEBUG
+            NSLog(@"[NameViewController] Settings:");
+            NSLog(@"    Preferred initials %@", [initials componentsJoinedByString:@", "]);
+#endif
+            
+            NSString *initialsRegex = [NSString stringWithFormat:@"^[%@].*", [initials componentsJoinedByString:@""]];
+            NSPredicate *initialsPredicate = [NSPredicate predicateWithFormat:@"name MATCHES[cd] %@", initialsRegex];
+            
+            self.acceptedNames = [NSMutableArray arrayWithArray:[fetchedSuggestions filteredArrayUsingPredicate:initialsPredicate]];
+        }
+        else {
+            self.acceptedNames = [NSMutableArray arrayWithArray:fetchedSuggestions];
+        }
+        
+        if (self.acceptedNames.count == 0) {
             [self performSegueWithIdentifier:@"EmptyNamesSegue"
                                       sender:self];
         }
@@ -64,34 +85,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Accessors
-
-- (NSFetchedResultsController *)fetchedResultsController
-{
-    if (_fetchedResultsController) {
-        return _fetchedResultsController;
-    }
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setFetchBatchSize:20];
-    
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
-                                              inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.entity = entity;
-    
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
-                                                                   ascending:YES];
-    [fetchRequest setSortDescriptors:@[sortDescriptor]];
-    
-    _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                    managedObjectContext:self.managedObjectContext
-                                                                      sectionNameKeyPath:nil
-                                                                               cacheName:nil];
-    _fetchedResultsController.delegate = self;
-    
-    return _fetchedResultsController;
 }
 
 #pragma mark - Navigation
@@ -114,7 +107,8 @@
     }
     else if ([[segue identifier] isEqualToString:@"AcceptedNamesSegue"]) {
         AcceptedNamesViewController *viewController = segue.destinationViewController;
-        viewController.fetchedResultsController = self.fetchedResultsController;
+        viewController.managedObjectContext = self.managedObjectContext;
+        viewController.acceptedNames = self.acceptedNames;
         
         [self addChildViewController:viewController];
         [self.view addSubview:viewController.view];

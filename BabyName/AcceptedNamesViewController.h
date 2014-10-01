@@ -12,6 +12,8 @@
 
 @interface AcceptedNamesViewController : UIViewController
 
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
+@property (nonatomic, strong) NSMutableArray *acceptedNames;
 
 @end
