@@ -72,23 +72,19 @@
     if (direction == MGSwipeDirectionRightToLeft) {
         // Check index and perform action.
         if (index == 0) {
-            NSUInteger swipedCellIndex = [self.tableView indexPathForCell:cell].row;
-            Suggestion *swipedSuggestion = [self.acceptedNames objectAtIndex:swipedCellIndex];
+            NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
+            Suggestion *swipedSuggestion = [self.acceptedNames objectAtIndex:swipedIndexPath.row];
             swipedSuggestion.state = kSelectionStateRejected;
 
             NSError *error;
             if (![self.managedObjectContext save:&error]) {
-#if DEBUG
-                NSLog(@"[AcceptedNamesViewController] Error:");
-                NSLog(@"    Error while saving %@, %@", error, [error userInfo]);
-#endif
                 // TODO: handle error.
             }
             else {
-                [self.acceptedNames removeObjectAtIndex:swipedCellIndex];
+                [self.acceptedNames removeObjectAtIndex:swipedIndexPath.row];
+                [self.tableView deleteRowsAtIndexPaths:@[swipedIndexPath]
+                                      withRowAnimation:UITableViewRowAnimationLeft];
             }
-            
-            [self.tableView reloadData];
         }
     }
 
