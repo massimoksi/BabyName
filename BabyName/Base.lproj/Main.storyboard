@@ -252,7 +252,20 @@
                     <view key="view" contentMode="scaleToFill" id="tDj-WU-mCT">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No name selected yet." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x4g-vW-1Tm">
+                                <rect key="frame" x="44" y="289" width="556" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="x4g-vW-1Tm" firstAttribute="width" secondItem="tDj-WU-mCT" secondAttribute="width" constant="-44" id="7o2-pX-ezF"/>
+                            <constraint firstItem="x4g-vW-1Tm" firstAttribute="leading" secondItem="tDj-WU-mCT" secondAttribute="leadingMargin" constant="28" id="QsN-8b-qpK"/>
+                            <constraint firstAttribute="centerY" secondItem="x4g-vW-1Tm" secondAttribute="centerY" id="YbJ-bB-C4k"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L9f-CB-8ht" userLabel="First Responder" sceneMemberID="firstResponder"/>
