@@ -9,6 +9,8 @@
 #import "DrawerContainerViewController.h"
 
 #import "Constants.h"
+#import "EmptyNamesViewController.h"
+#import "AcceptedNamesViewController.h"
 
 
 @interface DrawerContainerViewController () <NSFetchedResultsControllerDelegate>
@@ -47,6 +49,7 @@
         // TODO: handle error.
     }
     else {
+        // Load the view controller depending on the number of accepted names.
         if (self.fetchedResultsController.fetchedObjects.count == 0) {
             [self performSegueWithIdentifier:@"EmptyNamesSegue"
                                       sender:self];
@@ -97,23 +100,25 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    
+
+    if (self.childViewControllers.count != 0) {
+        [[self.childViewControllers objectAtIndex:0] removeFromParentViewController];
+    }
+        
     if ([[segue identifier] isEqualToString:@"EmptyNamesSegue"]) {
-        [self addChildViewController:segue.destinationViewController];
-        UIView* destView = ((UIViewController *)segue.destinationViewController).view;
-        destView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        destView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-        [self.view addSubview:destView];
-        [segue.destinationViewController didMoveToParentViewController:self];
+        EmptyNamesViewController *viewController = segue.destinationViewController;
+        [self addChildViewController:viewController];
+        [self.view addSubview:viewController.view];
+        [viewController didMoveToParentViewController:self];
     }
     else if ([[segue identifier] isEqualToString:@"AcceptedNamesSegue"]) {
-        [self addChildViewController:segue.destinationViewController];
-        UIView* destView = ((UIViewController *)segue.destinationViewController).view;
-        destView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        destView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-        [self.view addSubview:destView];
-        [segue.destinationViewController didMoveToParentViewController:self];
+        AcceptedNamesViewController *viewController = segue.destinationViewController;
+        [self addChildViewController:viewController];
+        [self.view addSubview:viewController.view];
+        [viewController didMoveToParentViewController:self];
     }
 }
+
+
 
 @end
