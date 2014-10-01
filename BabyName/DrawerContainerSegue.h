@@ -1,5 +1,5 @@
 //
-//  AcceptedNamesSegue.h
+//  DrawerContainerSegue.h
 //  BabyName
 //
 //  Created by Massimo Peri on 30/09/14.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface AcceptedNamesSegue : UIStoryboardSegue
+@interface DrawerContainerSegue : UIStoryboardSegue
 
 @end
