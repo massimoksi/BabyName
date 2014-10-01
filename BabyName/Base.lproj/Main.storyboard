@@ -68,7 +68,7 @@
                                     <constraint firstAttribute="height" constant="44" id="bbU-jA-mGr"/>
                                     <constraint firstAttribute="width" constant="44" id="nqe-xI-dV3"/>
                                 </constraints>
-                                <state key="normal" image="AcceptedNames">
+                                <state key="normal" image="List">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -496,7 +496,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="AcceptedNames" width="25" height="25"/>
+        <image name="List" width="25" height="25"/>
         <image name="Settings" width="25" height="25"/>
     </resources>
 </document>
