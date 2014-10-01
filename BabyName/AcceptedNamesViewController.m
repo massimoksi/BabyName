@@ -15,7 +15,7 @@
 #import "Suggestion.h"
 
 
-@interface AcceptedNamesViewController () <UITableViewDataSource, NSFetchedResultsControllerDelegate, MGSwipeTableCellDelegate>
+@interface AcceptedNamesViewController () <UITableViewDataSource, MGSwipeTableCellDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 
