@@ -13,7 +13,7 @@
 #import "AcceptedNamesViewController.h"
 
 
-static NSString * const kEmptyNamesSegueID = @"EmptyNamesSegue";
+static NSString * const kEmptyNamesSegueID    = @"EmptyNamesSegue";
 static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
 
 
@@ -54,7 +54,6 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
     NSError *error;
     NSArray *fetchedSuggestions = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:fetchRequest
                                                                                                           error:&error]];
-    // TODO: check if it's better to check for the existance of the array or the length.
     if (!fetchedSuggestions) {
         // TODO: handle the error.
     }
@@ -65,9 +64,11 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
             NSString *initialsRegex = [NSString stringWithFormat:@"^[%@].*", [initials componentsJoinedByString:@""]];
             NSPredicate *initialsPredicate = [NSPredicate predicateWithFormat:@"name MATCHES[cd] %@", initialsRegex];
             
+            // Filter the found elements by preferred initials.
             self.acceptedNames = [NSMutableArray arrayWithArray:[fetchedSuggestions filteredArrayUsingPredicate:initialsPredicate]];
         }
         else {
+            // No element meeting the request predicate, create a new empty array.
             self.acceptedNames = [NSMutableArray arrayWithArray:fetchedSuggestions];
         }
         
