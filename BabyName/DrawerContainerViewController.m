@@ -13,6 +13,10 @@
 #import "AcceptedNamesViewController.h"
 
 
+static NSString * const kEmptyNamesSegueID = @"EmptyNamesSegue";
+static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
+
+
 @interface DrawerContainerViewController ()
 
 @property (nonatomic, strong) NSMutableArray *acceptedNames;
@@ -22,7 +26,8 @@
 
 @implementation DrawerContainerViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
@@ -67,17 +72,18 @@
         }
         
         if (self.acceptedNames.count == 0) {
-            [self performSegueWithIdentifier:@"EmptyNamesSegue"
+            [self performSegueWithIdentifier:kEmptyNamesSegueID
                                       sender:self];
         }
         else {
-            [self performSegueWithIdentifier:@"AcceptedNamesSegue"
+            [self performSegueWithIdentifier:kAcceptedNamesSegueID
                                       sender:self];
         }
     }
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -93,14 +99,14 @@
         [[self.childViewControllers objectAtIndex:0] removeFromParentViewController];
     }
         
-    if ([[segue identifier] isEqualToString:@"EmptyNamesSegue"]) {
+    if ([[segue identifier] isEqualToString:kEmptyNamesSegueID]) {
         EmptyNamesViewController *viewController = segue.destinationViewController;
         
         [self addChildViewController:viewController];
         [self.view addSubview:viewController.view];
         [viewController didMoveToParentViewController:self];
     }
-    else if ([[segue identifier] isEqualToString:@"AcceptedNamesSegue"]) {
+    else if ([[segue identifier] isEqualToString:kAcceptedNamesSegueID]) {
         AcceptedNamesViewController *viewController = segue.destinationViewController;
         viewController.managedObjectContext = self.managedObjectContext;
         viewController.acceptedNames = self.acceptedNames;
