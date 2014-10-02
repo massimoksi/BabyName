@@ -13,13 +13,12 @@
 
 #import "Constants.h"
 #import "Suggestion.h"
+#import "DrawerContainerViewController.h"
 
 
-@interface AcceptedNamesViewController () <UITableViewDataSource, NSFetchedResultsControllerDelegate, MGSwipeTableCellDelegate>
+@interface AcceptedNamesViewController () <UITableViewDataSource, MGSwipeTableCellDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
-
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
@@ -32,119 +31,34 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-
-    // Get new preferences from user defaults.
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSInteger genders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
-    NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
-
-#if DEBUG
-    NSLog(@"[AcceptedNamesViewController] User settings:");
-    NSLog(@"    Gender: %zd", genders);
-    NSLog(@"    Languages: %zd", languages);
-#endif
-    
-    // Fetch all suggestions with state "accepted" and  matching the criteria from preferences.
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(state == %d) AND ((gender & %d) != 0) AND ((language & %d) != 0)", kSelectionStateAccepted, genders, languages];
-    self.fetchedResultsController.fetchRequest.predicate = predicate;
-    
-    NSError *error;
-    if (![self.fetchedResultsController performFetch:&error]) {
-#if DEBUG
-        NSLog(@"[AcceptedNamesViewController] Error:");
-        NSLog(@"    Error while fetching %@, %@", error, [error userInfo]);
-#endif
-        // TODO: handle error.
-    }
-    
-    [self.tableView reloadData];
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Accessors
-
-- (NSFetchedResultsController *)fetchedResultsController
-{
-    if (_fetchedResultsController) {
-        return _fetchedResultsController;
-    }
-
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setFetchBatchSize:20];
-
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
-                                              inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.entity = entity;
-
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
-                                                                   ascending:YES];
-    [fetchRequest setSortDescriptors:@[sortDescriptor]];
-
-    _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                    managedObjectContext:self.managedObjectContext
-                                                                      sectionNameKeyPath:nil
-                                                                               cacheName:nil];
-    _fetchedResultsController.delegate = self;
-
-    return _fetchedResultsController;
-}
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.fetchedResultsController.sections.count;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.fetchedResultsController.sections.count > 0) {
-        id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController.sections objectAtIndex:section];
-        return [sectionInfo numberOfObjects];
-    }
-    else {
-        return 0;
-    }
+    return self.acceptedNames.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MGSwipeTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AcceptedNameCell"];
     
-    Suggestion *suggestion = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    Suggestion *suggestion = [self.acceptedNames objectAtIndex:indexPath.row];
 
     cell.textLabel.text = suggestion.name;
     cell.delegate = self;
     
     return cell;
-}
-
-#pragma mark - Fetched results controller delegate
-
-//- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
-//{
-//    [self.tableView beginUpdates];
-//}
-//
-//- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-//{
-//    [self.tableView endUpdates];
-//}
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
-{
-    if (type == NSFetchedResultsChangeUpdate) {
-        [self.tableView deleteRowsAtIndexPaths:@[indexPath]
-                              withRowAnimation:UITableViewRowAnimationRight];
-    }
 }
 
 #pragma mark - Swipe table cell delegate
@@ -157,21 +71,27 @@
 - (BOOL)swipeTableCell:(MGSwipeTableCell *)cell tappedButtonAtIndex:(NSInteger)index direction:(MGSwipeDirection)direction fromExpansion:(BOOL)fromExpansion
 {
     if (direction == MGSwipeDirectionRightToLeft) {
-        // TODO: check index and perform action.
+        // Check index and perform action.
         if (index == 0) {
-            Suggestion *swipedSuggestion = [self.fetchedResultsController objectAtIndexPath:[self.tableView indexPathForCell:cell]];
+            NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
+            Suggestion *swipedSuggestion = [self.acceptedNames objectAtIndex:swipedIndexPath.row];
             swipedSuggestion.state = kSelectionStateRejected;
 
             NSError *error;
             if (![self.managedObjectContext save:&error]) {
-#if DEBUG
-                NSLog(@"[AcceptedNamesViewController] Error:");
-                NSLog(@"    Error while saving %@, %@", error, [error userInfo]);
-#endif
                 // TODO: handle error.
             }
-            
-            [self.tableView reloadData];
+            else {
+                [self.acceptedNames removeObjectAtIndex:swipedIndexPath.row];
+                [self.tableView deleteRowsAtIndexPaths:@[swipedIndexPath]
+                                      withRowAnimation:UITableViewRowAnimationLeft];
+                
+                // Switch to the view controller to handle empty state, if the array for accepted names is now empty.
+                if (self.acceptedNames.count == 0) {
+                    DrawerContainerViewController *containerViewController = (DrawerContainerViewController *)self.parentViewController;
+                    [containerViewController selectChildViewController];
+                }
+            }
         }
     }
 
@@ -192,7 +112,8 @@
 
         // Create swipe buttons.
         // TODO: replace title with an icon.
-        MGSwipeButton *deleteButton = [MGSwipeButton buttonWithTitle:@"Delete"
+        MGSwipeButton *deleteButton = [MGSwipeButton buttonWithTitle:@""
+                                                                icon:[UIImage imageNamed:@"Delete"]
                                                      backgroundColor:[UIColor redColor]];
 
         return @[deleteButton];

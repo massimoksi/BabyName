@@ -12,7 +12,7 @@
 
 #import "Constants.h"
 #import "NameViewController.h"
-#import "AcceptedNamesViewController.h"
+#import "DrawerContainerViewController.h"
 
 
 @interface AppDelegate () <MSDynamicsDrawerViewControllerDelegate>
@@ -85,10 +85,10 @@
     drawerViewController.paneViewController = nameViewController;
     drawerViewController.delegate = nameViewController;
 
-    AcceptedNamesViewController *acceptedNamesViewController = [[UIStoryboard storyboardWithName:@"Main"
-                                                                                          bundle:nil] instantiateViewControllerWithIdentifier:@"AcceptedNamesVC"];
-    acceptedNamesViewController.managedObjectContext = self.managedObjectContext;
-    [drawerViewController setDrawerViewController:acceptedNamesViewController
+    DrawerContainerViewController *containerViewController = [[UIStoryboard storyboardWithName:@"Main"
+                                                                                        bundle:nil] instantiateViewControllerWithIdentifier:@"DrawerContainerVC"];
+    containerViewController.managedObjectContext = self.managedObjectContext;
+    [drawerViewController setDrawerViewController:containerViewController
                                      forDirection:MSDynamicsDrawerDirectionRight];
     [drawerViewController setRevealWidth:CGRectGetWidth([[UIScreen mainScreen] bounds]) - 44.0f    // TODO: get rid of magic numbers.
                             forDirection:MSDynamicsDrawerDirectionRight];

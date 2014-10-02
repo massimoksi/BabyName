@@ -28,3 +28,7 @@ DerivedData
 # Core Data Editor
 #
 *.coredataeditor5
+
+# Sketch
+#
+*.sketch
