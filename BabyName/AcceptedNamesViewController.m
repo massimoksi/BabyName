@@ -13,6 +13,7 @@
 
 #import "Constants.h"
 #import "Suggestion.h"
+#import "DrawerContainerViewController.h"
 
 
 @interface AcceptedNamesViewController () <UITableViewDataSource, MGSwipeTableCellDelegate>
@@ -84,6 +85,12 @@
                 [self.acceptedNames removeObjectAtIndex:swipedIndexPath.row];
                 [self.tableView deleteRowsAtIndexPaths:@[swipedIndexPath]
                                       withRowAnimation:UITableViewRowAnimationLeft];
+                
+                // Switch to the view controller to handle empty state, if the array for accepted names is now empty.
+                if (self.acceptedNames.count == 0) {
+                    DrawerContainerViewController *containerViewController = (DrawerContainerViewController *)self.parentViewController;
+                    [containerViewController selectChildViewController];
+                }
             }
         }
     }

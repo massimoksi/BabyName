@@ -19,6 +19,8 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
 
 @interface DrawerContainerViewController ()
 
+@property (nonatomic) BOOL visible;
+
 @property (nonatomic, strong) NSMutableArray *acceptedNames;
 
 @end
@@ -36,6 +38,8 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
 {
     [super viewWillAppear:animated];
 
+    self.visible = YES;
+
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
@@ -52,8 +56,8 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
     fetchRequest.predicate = predicate;
     
     NSError *error;
-    NSArray *fetchedSuggestions = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:fetchRequest
-                                                                                                          error:&error]];
+    NSArray *fetchedSuggestions = [self.managedObjectContext executeFetchRequest:fetchRequest
+                                                                           error:&error];
     if (!fetchedSuggestions) {
         // TODO: handle the error.
     }
@@ -71,16 +75,16 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
             // No element meeting the request predicate, create a new empty array.
             self.acceptedNames = [NSMutableArray arrayWithArray:fetchedSuggestions];
         }
-        
-        if (self.acceptedNames.count == 0) {
-            [self performSegueWithIdentifier:kEmptyNamesSegueID
-                                      sender:self];
-        }
-        else {
-            [self performSegueWithIdentifier:kAcceptedNamesSegueID
-                                      sender:self];
-        }
+
+        [self selectChildViewController];
     }
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+
+    self.visible = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -91,31 +95,81 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 
-    if (self.childViewControllers.count != 0) {
-        [[self.childViewControllers objectAtIndex:0] removeFromParentViewController];
-    }
-        
     if ([[segue identifier] isEqualToString:kEmptyNamesSegueID]) {
-        EmptyNamesViewController *viewController = segue.destinationViewController;
+        if (self.childViewControllers.count != 0) {
+            if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[EmptyNamesViewController class]]) {
+                EmptyNamesViewController *viewController = segue.destinationViewController;
+
+                [self swapFromViewController:[self.childViewControllers objectAtIndex:0]
+                            toViewController:viewController];
+            }
+        }
+        else {
+            EmptyNamesViewController *viewController = segue.destinationViewController;
         
-        [self addChildViewController:viewController];
-        [self.view addSubview:viewController.view];
-        [viewController didMoveToParentViewController:self];
+            [self addChildViewController:viewController];
+            [self.view addSubview:viewController.view];
+            [viewController didMoveToParentViewController:self];
+        }
     }
     else if ([[segue identifier] isEqualToString:kAcceptedNamesSegueID]) {
-        AcceptedNamesViewController *viewController = segue.destinationViewController;
-        viewController.managedObjectContext = self.managedObjectContext;
-        viewController.acceptedNames = self.acceptedNames;
+        if (self.childViewControllers.count != 0) {
+            if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[AcceptedNamesViewController class]]) {
+                AcceptedNamesViewController *viewController = segue.destinationViewController;
+                viewController.managedObjectContext = self.managedObjectContext;
+                viewController.acceptedNames = self.acceptedNames;
+
+                [self swapFromViewController:[self.childViewControllers objectAtIndex:0]
+                            toViewController:viewController];
+            }
+        }
+        else {
+            AcceptedNamesViewController *viewController = segue.destinationViewController;
+            viewController.managedObjectContext = self.managedObjectContext;
+            viewController.acceptedNames = self.acceptedNames;
         
-        [self addChildViewController:viewController];
-        [self.view addSubview:viewController.view];
-        [viewController didMoveToParentViewController:self];
+            [self addChildViewController:viewController];
+            [self.view addSubview:viewController.view];
+            [viewController didMoveToParentViewController:self];
+        }
     }
+}
+
+#pragma mark - Private methods
+
+- (void)selectChildViewController
+{
+    if (self.acceptedNames.count == 0) {
+        // Load the view controller to handle empty state.
+        [self performSegueWithIdentifier:kEmptyNamesSegueID
+                                  sender:self];
+    }
+    else {
+        // Load the view controller to handle the list of accepted names.
+        [self performSegueWithIdentifier:kAcceptedNamesSegueID
+                                  sender:self];
+    }
+}
+
+- (void)swapFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController
+{
+    [self addChildViewController:toViewController];
+    [fromViewController willMoveToParentViewController:nil];
+
+    [self transitionFromViewController:fromViewController
+                      toViewController:toViewController
+                              duration:0.2
+                               options:(self.visible) ? UIViewAnimationOptionTransitionCrossDissolve : UIViewAnimationOptionTransitionNone
+                            animations:nil
+                            completion:^(BOOL finished){
+                                [toViewController didMoveToParentViewController:self];
+                                [fromViewController removeFromParentViewController];
+                            }];
 }
 
 @end
