@@ -1,12 +1,12 @@
 //
-//  NameViewController.m
+//  MainViewController.m
 //  BabyName
 //
 //  Created by Massimo Peri on 26/08/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "NameViewController.h"
+#import "MainViewController.h"
 
 #import "Constants.h"
 #import "Suggestion.h"
@@ -34,7 +34,7 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 static const CGFloat kPanningTranslationThreshold = 80.0;
 
 
-@interface NameViewController () <UIDynamicAnimatorDelegate, SettingsTableViewControllerDelegate>
+@interface MainViewController () <UIDynamicAnimatorDelegate, SettingsTableViewControllerDelegate>
 
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 
@@ -54,7 +54,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 @end
 
 
-@implementation NameViewController
+@implementation MainViewController
 
 - (void)viewDidLoad
 {
@@ -63,11 +63,11 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 
     self.panningEnabled = YES;
     
-    self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
-    self.animator.delegate = self;
-    
-    self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.nameLabel]];
-    self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.nameLabel]];
+//    self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+//    self.animator.delegate = self;
+//    
+//    self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.nameLabel]];
+//    self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.nameLabel]];
 
     [self updateSuggestions];
 }
