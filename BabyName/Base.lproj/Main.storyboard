@@ -502,6 +502,7 @@
                     <toolbarItems/>
                     <connections>
                         <segue destination="S1y-ND-9sH" kind="custom" identifier="ShowSelectionSegue" customClass="CustomContainerSegue" id="YJI-cc-7RI"/>
+                        <segue destination="Kgi-NW-zYW" kind="custom" identifier="ShowFinishedSegue" customClass="CustomContainerSegue" id="hSd-rb-t35"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iJn-rg-jkb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -555,6 +556,46 @@
                 </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2250" y="610"/>
+        </scene>
+        <!--Finished View Controller-->
+        <scene sceneID="sOK-sJ-qHn">
+            <objects>
+                <viewController storyboardIdentifier="FinishedVC" id="Kgi-NW-zYW" customClass="FinishedViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="iwX-VD-24d"/>
+                        <viewControllerLayoutGuide type="bottom" id="Opr-hD-6hS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tgb-wP-k2T">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Names are finished." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfy-2V-ZxE">
+                                <rect key="frame" x="16" y="216" width="568" height="60"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="XGn-5Q-WXS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="qfy-2V-ZxE" firstAttribute="trailing" secondItem="tgb-wP-k2T" secondAttribute="trailingMargin" id="VTE-ws-MKc"/>
+                            <constraint firstItem="qfy-2V-ZxE" firstAttribute="centerY" secondItem="tgb-wP-k2T" secondAttribute="centerY" id="VfW-u1-4Jd"/>
+                            <constraint firstItem="qfy-2V-ZxE" firstAttribute="leading" secondItem="tgb-wP-k2T" secondAttribute="leadingMargin" id="zQe-CH-L8I"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="492"/>
+                    <connections>
+                        <outlet property="nameLabel" destination="qfy-2V-ZxE" id="QRh-rS-LYR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sz1-Jh-hpz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2250" y="-102"/>
         </scene>
     </scenes>
     <resources>

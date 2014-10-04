@@ -11,6 +11,7 @@
 #import "Constants.h"
 #import "Suggestion.h"
 #import "SelectionViewController.h"
+#import "FinishedViewController.h"
 
 
 @interface MainContainerViewController () <SelectionViewDataSource>
@@ -48,6 +49,7 @@
         if (self.childViewControllers.count != 0) {
             if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[SelectionViewController class]]) {
                 SelectionViewController *viewController = segue.destinationViewController;
+                viewController.dataSource = self;
                 
                 [self swapFromViewController:[self.childViewControllers objectAtIndex:0]
                             toViewController:viewController];
@@ -56,6 +58,23 @@
         else {
             SelectionViewController *viewController = segue.destinationViewController;
             viewController.dataSource = self;
+            
+            [self addChildViewController:viewController];
+            [self.view addSubview:viewController.view];
+            [viewController didMoveToParentViewController:self];
+        }
+    }
+    else if ([segue.identifier isEqualToString:@"ShowFinishedSegue"]) {
+        if (self.childViewControllers.count != 0) {
+            if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[FinishedViewController class]]) {
+                FinishedViewController *viewController = segue.destinationViewController;
+                
+                [self swapFromViewController:[self.childViewControllers objectAtIndex:0]
+                            toViewController:viewController];
+            }
+        }
+        else {
+            FinishedViewController *viewController = segue.destinationViewController;
             
             [self addChildViewController:viewController];
             [self.view addSubview:viewController.view];
@@ -103,6 +122,10 @@
         // TODO: move somewhere else.
         if (self.suggestions.count) {
             [self performSegueWithIdentifier:@"ShowSelectionSegue"
+                                      sender:self];
+        }
+        else {
+            [self performSegueWithIdentifier:@"ShowFinishedSegue"
                                       sender:self];
         }
     }
