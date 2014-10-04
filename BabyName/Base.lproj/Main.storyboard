@@ -64,7 +64,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cj4-m5-dDv">
                                 <rect key="frame" x="0.0" y="64" width="600" height="492"/>
                                 <connections>
-                                    <segue destination="GA5-nV-Ywo" kind="embed" id="R1z-VG-S91"/>
+                                    <segue destination="GA5-nV-Ywo" kind="embed" identifier="EmbedContainerSegue" id="R1z-VG-S91"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -262,7 +262,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L9f-CB-8ht" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2250" y="875"/>
+            <point key="canvasLocation" x="2250" y="1409"/>
         </scene>
         <!--Accepted Names View Controller-->
         <scene sceneID="zhf-4i-kp3">
@@ -315,7 +315,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KXs-ZV-ZCD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2250" y="1579"/>
+            <point key="canvasLocation" x="2250" y="2113"/>
         </scene>
         <!--Gender-->
         <scene sceneID="n0R-E3-rW7">
@@ -478,18 +478,18 @@
                     </view>
                     <toolbarItems/>
                     <connections>
-                        <segue destination="gZu-bt-hWu" kind="custom" identifier="EmptyNamesSegue" customClass="DrawerContainerSegue" id="QoI-zQ-eNm"/>
-                        <segue destination="4fb-ts-GMS" kind="custom" identifier="AcceptedNamesSegue" customClass="DrawerContainerSegue" id="Lmr-Ky-v73"/>
+                        <segue destination="gZu-bt-hWu" kind="custom" identifier="EmptyNamesSegue" customClass="CustomContainerSegue" id="QoI-zQ-eNm"/>
+                        <segue destination="4fb-ts-GMS" kind="custom" identifier="AcceptedNamesSegue" customClass="CustomContainerSegue" id="Lmr-Ky-v73"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W8M-fr-Et6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1481" y="1199"/>
+            <point key="canvasLocation" x="1481" y="1733"/>
         </scene>
-        <!--View Controller-->
+        <!--Main Container View Controller-->
         <scene sceneID="DbA-Uz-1NO">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="GA5-nV-Ywo" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainCVC" automaticallyAdjustsScrollViewInsets="NO" id="GA5-nV-Ywo" customClass="MainContainerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bFP-Ii-N34"/>
                         <viewControllerLayoutGuide type="bottom" id="KBY-Nk-7DU"/>
@@ -497,13 +497,64 @@
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="dAw-BK-5dq">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
+                    <connections>
+                        <segue destination="S1y-ND-9sH" kind="custom" identifier="ShowSelectionSegue" customClass="CustomContainerSegue" id="YJI-cc-7RI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iJn-rg-jkb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1481" y="141"/>
+        </scene>
+        <!--Selection View Controller-->
+        <scene sceneID="BSP-Hl-KLy">
+            <objects>
+                <viewController storyboardIdentifier="SelectionVC" id="S1y-ND-9sH" customClass="SelectionViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sXS-hU-fzG"/>
+                        <viewControllerLayoutGuide type="bottom" id="xXS-Ki-NUn"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="m8w-us-ZZh">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erJ-k9-2IT">
+                                <rect key="frame" x="16" y="216" width="568" height="60"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="ill-gc-bA7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="48"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="Z0B-W7-bbC" appends="YES" id="6FT-JS-PIa"/>
+                                </connections>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="erJ-k9-2IT" firstAttribute="centerY" secondItem="m8w-us-ZZh" secondAttribute="centerY" id="duq-XV-G7t"/>
+                            <constraint firstItem="erJ-k9-2IT" firstAttribute="leading" secondItem="m8w-us-ZZh" secondAttribute="leadingMargin" id="eFp-CH-yIP"/>
+                            <constraint firstItem="erJ-k9-2IT" firstAttribute="trailing" secondItem="m8w-us-ZZh" secondAttribute="trailingMargin" id="p9a-7Q-nOQ"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="492"/>
+                    <connections>
+                        <outlet property="nameLabel" destination="erJ-k9-2IT" id="gPE-c6-8XT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="383-b2-LOn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="Z0B-W7-bbC">
+                    <connections>
+                        <action selector="panName:" destination="S1y-ND-9sH" id="v9o-1G-KEH"/>
+                    </connections>
+                </panGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="2250" y="610"/>
         </scene>
     </scenes>
     <resources>

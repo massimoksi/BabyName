@@ -209,8 +209,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 
 - (IBAction)closeSettings:(id)sender
 {
-    [self.delegate settingsViewControllerWillClose:self
-                    withUpdatedFetchingPreferences:self.fetchingPreferencesChanged];
+    [self.delegate settingsViewControllerWillClose:self.fetchingPreferencesChanged];
 }
 
 #pragma mark - Private methods

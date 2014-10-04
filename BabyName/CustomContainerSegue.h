@@ -1,5 +1,5 @@
 //
-//  DrawerContainerSegue.h
+//  CustomContainerSegue.h
 //  BabyName
 //
 //  Created by Massimo Peri on 30/09/14.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface DrawerContainerSegue : UIStoryboardSegue
+@interface CustomContainerSegue : UIStoryboardSegue
 
 @end

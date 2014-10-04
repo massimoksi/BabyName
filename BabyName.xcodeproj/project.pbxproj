@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		1C0171A9FDA2424AAAB35945 /* libPods-BabyName.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1A9D73A3408455B984CE430 /* libPods-BabyName.a */; };
+		5613AE4919DF481400CF1A0E /* MainContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5613AE4819DF481400CF1A0E /* MainContainerViewController.m */; };
+		5613AE4C19DF4B9200CF1A0E /* SelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5613AE4B19DF4B9200CF1A0E /* SelectionViewController.m */; };
 		561ECCDB19CA375E00814D62 /* LanguagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 561ECCDA19CA375E00814D62 /* LanguagesTableViewController.m */; };
 		5634858D19DB4C4400A548BB /* DrawerContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5634858C19DB4C4400A548BB /* DrawerContainerViewController.m */; };
-		5634859019DB528C00A548BB /* DrawerContainerSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5634858F19DB528C00A548BB /* DrawerContainerSegue.m */; };
+		5634859019DB528C00A548BB /* CustomContainerSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5634858F19DB528C00A548BB /* CustomContainerSegue.m */; };
 		563B6B8919ACB83800F9EF37 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 563B6B8819ACB83800F9EF37 /* MainViewController.m */; };
 		5691AE9F19C4564A00C1550F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5691AE9E19C4564A00C1550F /* SettingsTableViewController.m */; };
 		5691AEA219C4800900C1550F /* GendersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5691AEA119C4800900C1550F /* GendersTableViewController.m */; };
@@ -43,12 +45,16 @@
 
 /* Begin PBXFileReference section */
 		4DCA3DE7F7B3C88E08D42440 /* Pods-BabyName.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabyName.release.xcconfig"; path = "Pods/Target Support Files/Pods-BabyName/Pods-BabyName.release.xcconfig"; sourceTree = "<group>"; };
+		5613AE4719DF481400CF1A0E /* MainContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainContainerViewController.h; sourceTree = "<group>"; };
+		5613AE4819DF481400CF1A0E /* MainContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainContainerViewController.m; sourceTree = "<group>"; };
+		5613AE4A19DF4B9200CF1A0E /* SelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectionViewController.h; sourceTree = "<group>"; };
+		5613AE4B19DF4B9200CF1A0E /* SelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectionViewController.m; sourceTree = "<group>"; };
 		561ECCD919CA375E00814D62 /* LanguagesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguagesTableViewController.h; sourceTree = "<group>"; };
 		561ECCDA19CA375E00814D62 /* LanguagesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguagesTableViewController.m; sourceTree = "<group>"; };
 		5634858B19DB4C4400A548BB /* DrawerContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawerContainerViewController.h; sourceTree = "<group>"; };
 		5634858C19DB4C4400A548BB /* DrawerContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawerContainerViewController.m; sourceTree = "<group>"; };
-		5634858E19DB528C00A548BB /* DrawerContainerSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawerContainerSegue.h; sourceTree = "<group>"; };
-		5634858F19DB528C00A548BB /* DrawerContainerSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawerContainerSegue.m; sourceTree = "<group>"; };
+		5634858E19DB528C00A548BB /* CustomContainerSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomContainerSegue.h; sourceTree = "<group>"; };
+		5634858F19DB528C00A548BB /* CustomContainerSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomContainerSegue.m; sourceTree = "<group>"; };
 		563B6B8719ACB83700F9EF37 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		563B6B8819ACB83800F9EF37 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		5691AE9D19C4564A00C1550F /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
@@ -152,12 +158,16 @@
 				56F1C5CB19BF9297008D8A3D /* Suggestion.m */,
 				56E4D0CE19D0D8E70005DFDC /* Language.h */,
 				56E4D0CF19D0D8E70005DFDC /* Language.m */,
+				5634858E19DB528C00A548BB /* CustomContainerSegue.h */,
+				5634858F19DB528C00A548BB /* CustomContainerSegue.m */,
 				563B6B8719ACB83700F9EF37 /* MainViewController.h */,
 				563B6B8819ACB83800F9EF37 /* MainViewController.m */,
+				5613AE4719DF481400CF1A0E /* MainContainerViewController.h */,
+				5613AE4819DF481400CF1A0E /* MainContainerViewController.m */,
+				5613AE4A19DF4B9200CF1A0E /* SelectionViewController.h */,
+				5613AE4B19DF4B9200CF1A0E /* SelectionViewController.m */,
 				5634858B19DB4C4400A548BB /* DrawerContainerViewController.h */,
 				5634858C19DB4C4400A548BB /* DrawerContainerViewController.m */,
-				5634858E19DB528C00A548BB /* DrawerContainerSegue.h */,
-				5634858F19DB528C00A548BB /* DrawerContainerSegue.m */,
 				56E9263119DC5B4800033E73 /* EmptyNamesViewController.h */,
 				56E9263219DC5B4800033E73 /* EmptyNamesViewController.m */,
 				56EB752A19D83E1A00D18DF6 /* AcceptedNamesViewController.h */,
@@ -364,11 +374,13 @@
 				56F1C5CC19BF9297008D8A3D /* Suggestion.m in Sources */,
 				56C647A819AC62FF005B1D46 /* AppDelegate.m in Sources */,
 				5691AEA219C4800900C1550F /* GendersTableViewController.m in Sources */,
+				5613AE4C19DF4B9200CF1A0E /* SelectionViewController.m in Sources */,
 				56E4D0D019D0D8E70005DFDC /* Language.m in Sources */,
 				56EB752C19D83E1A00D18DF6 /* AcceptedNamesViewController.m in Sources */,
 				56E9263319DC5B4800033E73 /* EmptyNamesViewController.m in Sources */,
-				5634859019DB528C00A548BB /* DrawerContainerSegue.m in Sources */,
+				5634859019DB528C00A548BB /* CustomContainerSegue.m in Sources */,
 				561ECCDB19CA375E00814D62 /* LanguagesTableViewController.m in Sources */,
+				5613AE4919DF481400CF1A0E /* MainContainerViewController.m in Sources */,
 				563B6B8919ACB83800F9EF37 /* MainViewController.m in Sources */,
 				5634858D19DB4C4400A548BB /* DrawerContainerViewController.m in Sources */,
 				56EB752819D4C60C00D18DF6 /* InitialsTableViewController.m in Sources */,
