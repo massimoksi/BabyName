@@ -589,9 +589,6 @@
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="492"/>
-                    <connections>
-                        <outlet property="nameLabel" destination="qfy-2V-ZxE" id="QRh-rS-LYR"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sz1-Jh-hpz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

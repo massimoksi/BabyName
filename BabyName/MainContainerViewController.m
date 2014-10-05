@@ -14,6 +14,10 @@
 #import "FinishedViewController.h"
 
 
+static NSString * const kShowSelectionSegueID = @"ShowSelectionSegue";
+static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
+
+
 @interface MainContainerViewController () <SelectionViewDataSource>
 
 @property (nonatomic, strong) NSMutableArray *suggestions;
@@ -45,7 +49,7 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-    if ([segue.identifier isEqualToString:@"ShowSelectionSegue"]) {
+    if ([segue.identifier isEqualToString:kShowSelectionSegueID]) {
         if (self.childViewControllers.count != 0) {
             if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[SelectionViewController class]]) {
                 SelectionViewController *viewController = segue.destinationViewController;
@@ -64,7 +68,7 @@
             [viewController didMoveToParentViewController:self];
         }
     }
-    else if ([segue.identifier isEqualToString:@"ShowFinishedSegue"]) {
+    else if ([segue.identifier isEqualToString:kShowFinishedSegueID]) {
         if (self.childViewControllers.count != 0) {
             if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[FinishedViewController class]]) {
                 FinishedViewController *viewController = segue.destinationViewController;
@@ -119,19 +123,23 @@
             self.suggestions = [NSMutableArray arrayWithArray:fetchedSuggestions];
         }
 
-        // TODO: move somewhere else.
-        if (self.suggestions.count) {
-            [self performSegueWithIdentifier:@"ShowSelectionSegue"
-                                      sender:self];
-        }
-        else {
-            [self performSegueWithIdentifier:@"ShowFinishedSegue"
-                                      sender:self];
-        }
+        [self loadChildViewController];
     }
 }
 
 #pragma mark - Private methods
+
+- (void)loadChildViewController
+{
+    if (self.suggestions.count) {
+        [self performSegueWithIdentifier:kShowSelectionSegueID
+                                  sender:self];
+    }
+    else {
+        [self performSegueWithIdentifier:kShowFinishedSegueID
+                                  sender:self];
+    }
+}
 
 - (void)swapFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController
 {
@@ -175,6 +183,10 @@
         
         // Remove the current suggestion from the array.
         [self.suggestions removeObjectAtIndex:self.currentIndex];
+        if (self.suggestions.count == 0) {
+            [self performSegueWithIdentifier:kShowFinishedSegueID
+                                      sender:self];
+        }
     }
 }
 
@@ -194,6 +206,10 @@
         
         // Remove the current suggestion from the array.
         [self.suggestions removeObjectAtIndex:self.currentIndex];
+        if (self.suggestions.count == 0) {
+            [self performSegueWithIdentifier:kShowFinishedSegueID
+                                      sender:self];
+        }
     }
 }
 
