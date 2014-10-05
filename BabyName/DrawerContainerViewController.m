@@ -71,11 +71,15 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
             NSPredicate *initialsPredicate = [NSPredicate predicateWithFormat:@"name MATCHES[cd] %@", initialsRegex];
             
             // Filter the found elements by preferred initials.
-            self.acceptedNames = [NSMutableArray arrayWithArray:[fetchedSuggestions filteredArrayUsingPredicate:initialsPredicate]];
+            self.acceptedNames = [NSMutableArray arrayWithArray:[[fetchedSuggestions filteredArrayUsingPredicate:initialsPredicate] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name"
+                                                                                                                                                                                                ascending:YES
+                                                                                                                                                                                                 selector:@selector(caseInsensitiveCompare:)]]]];
         }
         else {
             // No element meeting the request predicate, create a new empty array.
-            self.acceptedNames = [NSMutableArray arrayWithArray:fetchedSuggestions];
+            self.acceptedNames = [NSMutableArray arrayWithArray:[fetchedSuggestions sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name"
+                                                                                                                                                ascending:YES
+                                                                                                                                                 selector:@selector(caseInsensitiveCompare:)]]]];
         }
 
         [self selectChildViewController];
