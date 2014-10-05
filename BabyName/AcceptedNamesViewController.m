@@ -11,8 +11,6 @@
 #import "MGSwipeTableCell.h"
 #import "MGSwipeButton.h"
 
-#import "Constants.h"
-#import "Suggestion.h"
 #import "DrawerContainerViewController.h"
 
 
@@ -37,6 +35,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.tableView reloadData];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -46,16 +51,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.acceptedNames.count;
+    return [self.dataSource numberOfAcceptedNames];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MGSwipeTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AcceptedNameCell"];
     
-    Suggestion *suggestion = [self.acceptedNames objectAtIndex:indexPath.row];
-
-    cell.textLabel.text = suggestion.name;
+    cell.textLabel.text = [self.dataSource acceptedNameAtIndex:indexPath.row];
     cell.delegate = self;
     
     return cell;
@@ -74,20 +77,13 @@
         // Check index and perform action.
         if (index == 0) {
             NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
-            Suggestion *swipedSuggestion = [self.acceptedNames objectAtIndex:swipedIndexPath.row];
-            swipedSuggestion.state = kSelectionStateRejected;
-
-            NSError *error;
-            if (![self.managedObjectContext save:&error]) {
-                // TODO: handle error.
-            }
-            else {
-                [self.acceptedNames removeObjectAtIndex:swipedIndexPath.row];
+            
+            if ([self.dataSource removeAcceptedNameAtIndex:swipedIndexPath.row]) {
                 [self.tableView deleteRowsAtIndexPaths:@[swipedIndexPath]
                                       withRowAnimation:UITableViewRowAnimationLeft];
                 
                 // Switch to the view controller to handle empty state, if the array for accepted names is now empty.
-                if (self.acceptedNames.count == 0) {
+                if ([self.dataSource numberOfAcceptedNames] == 0) {
                     DrawerContainerViewController *containerViewController = (DrawerContainerViewController *)self.parentViewController;
                     [containerViewController selectChildViewController];
                 }
@@ -111,7 +107,6 @@
         expansionSettings.fillOnTrigger = YES;
 
         // Create swipe buttons.
-        // TODO: replace title with an icon.
         MGSwipeButton *deleteButton = [MGSwipeButton buttonWithTitle:@""
                                                                 icon:[UIImage imageNamed:@"Delete"]
                                                      backgroundColor:[UIColor redColor]];

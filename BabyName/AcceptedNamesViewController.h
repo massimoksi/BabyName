@@ -7,13 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreData/CoreData.h>
+
+@protocol AcceptedNamesViewDataSource;
 
 
 @interface AcceptedNamesViewController : UIViewController
 
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, weak) id<AcceptedNamesViewDataSource> dataSource;
 
-@property (nonatomic, strong) NSMutableArray *acceptedNames;
+@end
+
+
+@protocol AcceptedNamesViewDataSource <NSObject>
+
+- (NSInteger)numberOfAcceptedNames;
+- (NSString *)acceptedNameAtIndex:(NSUInteger)index;
+
+- (BOOL)removeAcceptedNameAtIndex:(NSUInteger)index;
 
 @end
