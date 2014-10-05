@@ -184,7 +184,6 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     // Get the new view controller using [segue destinationViewController].
@@ -209,8 +208,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 
 - (IBAction)closeSettings:(id)sender
 {
-    [self.delegate settingsViewControllerWillClose:self
-                    withUpdatedFetchingPreferences:self.fetchingPreferencesChanged];
+    [self.delegate settingsViewControllerWillClose:self.fetchingPreferencesChanged];
 }
 
 #pragma mark - Private methods

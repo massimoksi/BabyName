@@ -1,5 +1,5 @@
 //
-//  NameViewController.h
+//  MainViewController.h
 //  BabyName
 //
 //  Created by Massimo Peri on 26/08/14.
@@ -11,7 +11,7 @@
 #import "MSDynamicsDrawerViewController.h"
 
 
-@interface NameViewController : UIViewController <MSDynamicsDrawerViewControllerDelegate>
+@interface MainViewController : UIViewController <MSDynamicsDrawerViewControllerDelegate>
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
