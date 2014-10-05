@@ -22,7 +22,7 @@
 
 @protocol SettingsTableViewControllerDelegate <NSObject>
 
-- (void)settingsViewControllerWillClose:(SettingsTableViewController *)viewController withUpdatedFetchingPreferences:(BOOL)updatedFetchingPreferences;
+- (void)settingsViewControllerWillClose:(BOOL)updated;
 
 - (void)resetAllSelections;
 

@@ -11,7 +11,7 @@
 #import "MSDynamicsDrawerViewController.h"
 
 #import "Constants.h"
-#import "NameViewController.h"
+#import "MainViewController.h"
 #import "DrawerContainerViewController.h"
 
 
@@ -78,12 +78,12 @@
     drawerViewController.shouldAlignStatusBarToPaneView = NO;
     [drawerViewController registerTouchForwardingClass:[UILabel class]];
 
-    NameViewController *nameViewController = [[UIStoryboard storyboardWithName:@"Main"
-                                                                        bundle:nil] instantiateViewControllerWithIdentifier:@"NameVC"];
-    nameViewController.drawerViewController = drawerViewController;
-    nameViewController.managedObjectContext = self.managedObjectContext;
-    drawerViewController.paneViewController = nameViewController;
-    drawerViewController.delegate = nameViewController;
+    MainViewController *mainViewController = [[UIStoryboard storyboardWithName:@"Main"
+                                                                        bundle:nil] instantiateViewControllerWithIdentifier:@"MainVC"];
+    mainViewController.drawerViewController = drawerViewController;
+    mainViewController.managedObjectContext = self.managedObjectContext;
+    drawerViewController.paneViewController = mainViewController;
+    drawerViewController.delegate = mainViewController;
 
     DrawerContainerViewController *containerViewController = [[UIStoryboard storyboardWithName:@"Main"
                                                                                         bundle:nil] instantiateViewControllerWithIdentifier:@"DrawerContainerVC"];

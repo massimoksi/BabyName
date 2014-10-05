@@ -13,6 +13,7 @@
 #import "AcceptedNamesViewController.h"
 
 
+// TODO: rename all segues.
 static NSString * const kEmptyNamesSegueID    = @"EmptyNamesSegue";
 static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
 
