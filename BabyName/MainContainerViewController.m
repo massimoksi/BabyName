@@ -22,6 +22,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
 
 @property (nonatomic, strong) NSMutableArray *suggestions;
 @property (nonatomic) NSUInteger currentIndex;
+@property (nonatomic) BOOL updateSelection;
 
 @end
 
@@ -123,6 +124,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
             self.suggestions = [NSMutableArray arrayWithArray:fetchedSuggestions];
         }
 
+        self.updateSelection = YES;
         [self loadChildViewController];
     }
 }
@@ -159,10 +161,17 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
 
 #pragma mark - Selection view data source
 
+- (BOOL)shouldReloadName
+{
+    return self.updateSelection;
+}
+
 - (NSString *)randomName
 {
     self.currentIndex = arc4random() % self.suggestions.count;
     Suggestion *currentSuggestion = [self.suggestions objectAtIndex:self.currentIndex];
+    
+    self.updateSelection = NO;
     
     return currentSuggestion.name;
 }

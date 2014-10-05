@@ -58,8 +58,15 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     
     self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.nameLabel]];
     self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.nameLabel]];
-    
-    [self configureNameLabel];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    if ([self.dataSource shouldReloadName]) {
+        [self configureNameLabel];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

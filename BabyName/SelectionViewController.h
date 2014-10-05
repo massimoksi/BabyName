@@ -20,6 +20,8 @@
 
 @protocol SelectionViewDataSource <NSObject>
 
+- (BOOL)shouldReloadName;
+
 - (NSString *)randomName;
 
 - (void)acceptName;
