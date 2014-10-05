@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @protocol SelectionViewDataSource;
+@protocol SelectionViewDelegate;
 
 
 @interface SelectionViewController : UIViewController
 
 @property (nonatomic, weak) id<SelectionViewDataSource> dataSource;
+@property (nonatomic, weak) id<SelectionViewDelegate> delegate;
 
 @end
 
@@ -23,6 +25,14 @@
 - (BOOL)shouldReloadName;
 
 - (NSString *)randomName;
+
+@end
+
+
+@protocol SelectionViewDelegate <NSObject>
+
+- (void)selectionViewDidBeginPanning;
+- (void)selectionViewDidEndPanning;
 
 - (void)acceptName;
 - (void)rejectName;

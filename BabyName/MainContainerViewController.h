@@ -13,6 +13,7 @@
 @interface MainContainerViewController : UIViewController
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic) BOOL panningEnabled;
 
 - (void)updateSuggestions;
 

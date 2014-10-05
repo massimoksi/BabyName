@@ -103,6 +103,8 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
         [self.animator removeAllBehaviors];
 
         panningDirection = [self directionForGesture:recognizer];
+        
+        [self.delegate selectionViewDidBeginPanning];
     }
     else if (recognizer.state == UIGestureRecognizerStateChanged) {
         self.nameLabel.center = [self calculatedCenterForGesture:recognizer
@@ -134,6 +136,8 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 {
     // Enable panning when animation is finished.
     self.panningEnabled = YES;
+    
+    [self.delegate selectionViewDidEndPanning];
 
     // Adjust misalignment to center.
     if (self.panningState == kPanningStateIdle) {
@@ -165,11 +169,11 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 {
     switch (self.panningState) {
         case kPanningStateAccept:
-            [self.dataSource acceptName];
+            [self.delegate acceptName];
             break;
 
         case kPanningStateReject:
-            [self.dataSource rejectName];
+            [self.delegate rejectName];
             break;
 
         default:

@@ -65,14 +65,14 @@
                                  completion:nil];
 }
 
-//#pragma mark - Dynamics drawer view controller delegate
-//
-//- (BOOL)dynamicsDrawerViewController:(MSDynamicsDrawerViewController *)drawerViewController shouldBeginPanePan:(UIPanGestureRecognizer *)panGestureRecognizer
-//{
-//    // Inhibit pane pan while animating selection.
-//    return self.panningEnabled;
-//}
-//
+#pragma mark - Dynamics drawer view controller delegate
+
+- (BOOL)dynamicsDrawerViewController:(MSDynamicsDrawerViewController *)drawerViewController shouldBeginPanePan:(UIPanGestureRecognizer *)panGestureRecognizer
+{
+    // Inhibit pane pan while animating selection.
+    return self.containerViewController.panningEnabled;
+}
+
 #pragma mark - Settings view controller delegate
 
 - (void)settingsViewControllerWillClose:(BOOL)updated

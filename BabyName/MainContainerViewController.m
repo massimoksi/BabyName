@@ -18,7 +18,7 @@ static NSString * const kShowSelectionSegueID = @"ShowSelectionSegue";
 static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
 
 
-@interface MainContainerViewController () <SelectionViewDataSource>
+@interface MainContainerViewController () <SelectionViewDataSource, SelectionViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *suggestions;
 @property (nonatomic) NSUInteger currentIndex;
@@ -33,6 +33,8 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.panningEnabled = YES;
     
     [self updateSuggestions];
 }
@@ -55,6 +57,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
             if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[SelectionViewController class]]) {
                 SelectionViewController *viewController = segue.destinationViewController;
                 viewController.dataSource = self;
+                viewController.delegate = self;
                 
                 [self swapFromViewController:[self.childViewControllers objectAtIndex:0]
                             toViewController:viewController];
@@ -63,6 +66,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
         else {
             SelectionViewController *viewController = segue.destinationViewController;
             viewController.dataSource = self;
+            viewController.delegate = self;
             
             [self addChildViewController:viewController];
             [self.view addSubview:viewController.view];
@@ -174,6 +178,18 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     self.updateSelection = NO;
     
     return currentSuggestion.name;
+}
+
+#pragma mark - Selection view delegate
+
+- (void)selectionViewDidBeginPanning
+{
+    self.panningEnabled = NO;
+}
+
+- (void)selectionViewDidEndPanning
+{
+    self.panningEnabled = YES;
 }
 
 - (void)acceptName
