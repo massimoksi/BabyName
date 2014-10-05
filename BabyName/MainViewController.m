@@ -87,20 +87,22 @@
 
 - (void)resetAllSelections
 {
+    NSPersistentStoreCoordinator *coordinator = [self.managedObjectContext persistentStoreCoordinator];
+    
     // Retrieve the address of the persistent store.
-    NSURL *storeURL = [[self.managedObjectContext persistentStoreCoordinator] URLForPersistentStore:[[[self.managedObjectContext persistentStoreCoordinator] persistentStores] lastObject]];
+    NSURL *storeURL = [coordinator URLForPersistentStore:[[coordinator persistentStores] lastObject]];
     
     // Drop pending changes.
     [self.managedObjectContext reset];
     
     NSError *error;
-    if ([[self.managedObjectContext persistentStoreCoordinator] removePersistentStore:[[[self.managedObjectContext persistentStoreCoordinator] persistentStores] lastObject]
-                                                                                error:&error]) {
+    if ([coordinator removePersistentStore:[[[self.managedObjectContext persistentStoreCoordinator] persistentStores] lastObject]
+                                     error:&error]) {
         // Remove the persistent store.
         [[NSFileManager defaultManager] removeItemAtURL:storeURL
                                                   error:&error];
 
-        // Copy the pre-p opulated database.
+        // Copy the pre-populated database.
         NSURL *preloadURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"BabyName"
                                                                                    ofType:@"sqlite"]];
         if (![[NSFileManager defaultManager] copyItemAtURL:preloadURL
@@ -110,11 +112,11 @@
         }
         
         // Re-load the persistent store.
-        if (![[self.managedObjectContext persistentStoreCoordinator] addPersistentStoreWithType:NSSQLiteStoreType
-                                                                                  configuration:nil
-                                                                                            URL:storeURL
-                                                                                        options:nil
-                                                                                          error:&error]) {
+        if (![coordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                       configuration:nil
+                                                 URL:storeURL
+                                             options:nil
+                                               error:&error]) {
             // TODO: handle error.
         }
     }
