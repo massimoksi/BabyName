@@ -48,7 +48,7 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
                                               inManagedObjectContext:self.managedObjectContext];
     fetchRequest.entity = entity;
     
-    // Get new preferences from user defaults.
+    // Get preferences from user defaults.
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger genders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
     NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
