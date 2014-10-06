@@ -12,6 +12,7 @@
 #import "Suggestion.h"
 #import "MainContainerViewController.h"
 #import "SettingsTableViewController.h"
+#import "SearchNameTableViewController.h"
 
 
 @interface MainViewController () <UIDynamicAnimatorDelegate, SettingsTableViewControllerDelegate>
@@ -51,6 +52,11 @@
         UINavigationController *settingsNavController = [segue destinationViewController];
         SettingsTableViewController *settingsViewController = (SettingsTableViewController *)settingsNavController.topViewController;
         settingsViewController.delegate = self;
+    }
+    else if ([segue.identifier isEqualToString:@"ShowSearchNameSegue"]) {
+        UINavigationController *searchNameNavController = [segue destinationViewController];
+        SearchNameTableViewController *searchNameViewController = (SearchNameTableViewController *)searchNameNavController.topViewController;
+        searchNameViewController.managedObjectContext = self.managedObjectContext;
     }
 }
 
