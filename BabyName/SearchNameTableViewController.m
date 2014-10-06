@@ -10,6 +10,7 @@
 
 #import "Constants.h"
 #import "Suggestion.h"
+#import "SearchNameTableViewCell.h"
 
 
 @interface SearchNameTableViewController ()
@@ -95,11 +96,24 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchNameCell"];
+    SearchNameTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchNameCell"];
     
     Suggestion *suggestion = [self.fetchedResultsController objectAtIndexPath:indexPath];
 
-    cell.textLabel.text = suggestion.name;
+    cell.nameLabel.text = suggestion.name;
+    switch (suggestion.state) {
+    	case kSelectionStateMaybe:
+    		cell.stateImageView.image = nil;
+    		break;
+
+    	case kSelectionStateAccepted:
+    		cell.stateImageView.image = [UIImage imageNamed:@"Accepted"];
+    		break;
+
+    	case kSelectionStateRejected:
+    		cell.stateImageView.image = [UIImage imageNamed:@"Rejected"];
+    		break;
+    }
 
     return cell;
 }

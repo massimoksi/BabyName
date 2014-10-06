@@ -288,19 +288,40 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchNameCell" textLabel="P2d-oK-SwK" style="IBUITableViewCellStyleDefault" id="aAu-4g-wtj">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchNameCell" id="aAu-4g-wtj" customClass="SearchNameTableViewCell">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aAu-4g-wtj" id="BIm-G0-Wea">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P2d-oK-SwK">
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="t9d-8t-hbl">
+                                            <rect key="frame" x="559" y="9" width="26" height="26"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="26" id="KVT-jM-HsM"/>
+                                                <constraint firstAttribute="height" constant="26" id="YEc-QJ-NBE"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9x-M9-Vhs">
+                                            <rect key="frame" x="15" y="11" width="532" height="22"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="22" id="40r-pw-4dC"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerY" secondItem="t9d-8t-hbl" secondAttribute="centerY" id="Avz-9n-lig"/>
+                                        <constraint firstAttribute="centerY" secondItem="e9x-M9-Vhs" secondAttribute="centerY" id="NAE-98-ogm"/>
+                                        <constraint firstItem="e9x-M9-Vhs" firstAttribute="leading" secondItem="BIm-G0-Wea" secondAttribute="leading" constant="15" id="U1B-Li-IpZ"/>
+                                        <constraint firstAttribute="trailing" secondItem="t9d-8t-hbl" secondAttribute="trailing" constant="15" id="mHQ-4G-uIG"/>
+                                        <constraint firstItem="t9d-8t-hbl" firstAttribute="leading" secondItem="e9x-M9-Vhs" secondAttribute="trailing" constant="12" id="q8h-AO-bTN"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="nameLabel" destination="e9x-M9-Vhs" id="wjt-r1-JuF"/>
+                                    <outlet property="stateImageView" destination="t9d-8t-hbl" id="zM8-gI-qHb"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -318,7 +339,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DZw-LN-jeF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2245" y="2902"/>
+            <point key="canvasLocation" x="2245" y="2901"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Xcd-3r-XGB">
