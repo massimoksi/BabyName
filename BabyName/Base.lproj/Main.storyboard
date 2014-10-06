@@ -237,7 +237,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="oSB-OI-TEu">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="EL7-GU-BPY">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="EL7-GU-BPY">
                             <connections>
                                 <action selector="closeSettings:" destination="6aS-Cb-Scn" id="cLt-fb-jTg"/>
                             </connections>
@@ -308,7 +308,13 @@
                             <outlet property="delegate" destination="eCq-A1-tOy" id="q7I-0Z-FOx"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Search" id="31p-oY-fE6"/>
+                    <navigationItem key="navigationItem" title="Search" id="31p-oY-fE6">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="fdr-mq-kmz">
+                            <connections>
+                                <action selector="closeSearch:" destination="eCq-A1-tOy" id="khp-uS-u7N"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DZw-LN-jeF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

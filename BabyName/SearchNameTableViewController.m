@@ -71,6 +71,13 @@
 }
 */
 
+#pragma mark - Actions
+
+- (IBAction)closeSearch:(id)sender
+{
+    [self.presentingDelegate closePresentedViewController:self];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
