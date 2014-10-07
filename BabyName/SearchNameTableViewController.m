@@ -50,7 +50,7 @@
     
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
     	                                                                managedObjectContext:self.managedObjectContext
-    	                                                                  sectionNameKeyPath:nil
+    	                                                                  sectionNameKeyPath:@"name"
     	                                                                           cacheName:nil];
     self.fetchedResultsController.delegate = self;
 
@@ -90,11 +90,22 @@
 	return [[self.fetchedResultsController sections] count];
 }
 
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    return [self.fetchedResultsController sectionIndexTitles];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    return [self.fetchedResultsController sectionForSectionIndexTitle:title
+                                                              atIndex:index];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSArray *sections = [self.fetchedResultsController sections];
     id<NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:section];
-     
+    
     return [sectionInfo numberOfObjects];
 }
 
@@ -104,8 +115,8 @@
     cell.delegate = self;
     
     [self configureCell:cell
-    	    atIndexPath:indexPath];
-
+            atIndexPath:indexPath];
+    
     return cell;
 }
 
