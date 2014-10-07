@@ -30,6 +30,7 @@
     // Do any additional setup after loading the view.
 
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.fetchBatchSize = 20;
     
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
                                               inManagedObjectContext:self.managedObjectContext];
