@@ -8,12 +8,14 @@
 
 #import "SearchNameTableViewController.h"
 
+#import "MGSwipeButton.h"
+
 #import "Constants.h"
 #import "Suggestion.h"
 #import "SearchNameTableViewCell.h"
 
 
-@interface SearchNameTableViewController ()
+@interface SearchNameTableViewController () <NSFetchedResultsControllerDelegate, MGSwipeTableCellDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
@@ -49,6 +51,7 @@
     	                                                                managedObjectContext:self.managedObjectContext
     	                                                                  sectionNameKeyPath:nil
     	                                                                           cacheName:nil];
+    self.fetchedResultsController.delegate = self;
 
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
@@ -97,7 +100,121 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SearchNameTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchNameCell"];
+    cell.delegate = self;
     
+    [self configureCell:cell
+    	    atIndexPath:indexPath];
+
+    return cell;
+}
+
+#pragma mark - Fetched results controller delegate
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableView beginUpdates];
+}
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+	if (type == NSFetchedResultsChangeUpdate) {
+        SearchNameTableViewCell *swipedCell = (SearchNameTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        
+		[self configureCell:swipedCell
+			    atIndexPath:indexPath];
+        swipedCell.rightButtons = @[];
+	}
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableView endUpdates];
+}
+
+#pragma mark - Swipe table cell delegate
+
+- (BOOL)swipeTableCell:(MGSwipeTableCell *)cell canSwipe:(MGSwipeDirection)direction
+{
+    return (direction == MGSwipeDirectionRightToLeft);
+}
+
+- (BOOL)swipeTableCell:(MGSwipeTableCell *)cell tappedButtonAtIndex:(NSInteger)index direction:(MGSwipeDirection)direction fromExpansion:(BOOL)fromExpansion
+{
+    if (direction == MGSwipeDirectionRightToLeft) {
+    	NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
+    	Suggestion *swipedSuggestion = [self.fetchedResultsController objectAtIndexPath:swipedIndexPath];
+
+    	switch (swipedSuggestion.state) {
+    		case kSelectionStateMaybe:
+    			swipedSuggestion.state = (index == 0) ? kSelectionStateRejected : kSelectionStateAccepted;
+    			break;
+
+    		case kSelectionStateAccepted:
+    			swipedSuggestion.state = (index == 0) ? kSelectionStateRejected : kSelectionStateMaybe;
+    			break;
+
+    		case kSelectionStateRejected:
+    			swipedSuggestion.state = (index == 0) ? kSelectionStateMaybe : kSelectionStateAccepted;
+    			break;
+    	}
+
+    	NSError *error;
+    	if (![self.managedObjectContext save:&error]) {
+    		// TODO: handle error.
+    	}
+    }
+
+    // NOTE: return YES to autohide the current swipe buttons.
+    return YES;
+}
+
+- (NSArray *)swipeTableCell:(MGSwipeTableCell *)cell swipeButtonsForDirection:(MGSwipeDirection)direction swipeSettings:(MGSwipeSettings *)swipeSettings expansionSettings:(MGSwipeExpansionSettings *)expansionSettings
+{
+    // NOTE: setting up buttons with this delegate instead of using cell properties improves memory usage because buttons are only created in demand.
+    if (direction == MGSwipeDirectionRightToLeft) {
+        // Configure swipe settings.
+        swipeSettings.transition = MGSwipeTransitionStatic;
+
+        MGSwipeButton *rejectButton = [MGSwipeButton buttonWithTitle:@""
+        	                                                    icon:[UIImage imageNamed:@"Rejected"]
+        	                                         backgroundColor:[UIColor redColor]];
+
+        MGSwipeButton *maybeButton = [MGSwipeButton buttonWithTitle:@""
+        	                                                   icon:[UIImage imageNamed:@"Maybe"]
+        	                                        backgroundColor:[UIColor yellowColor]];
+
+        MGSwipeButton *acceptButton = [MGSwipeButton buttonWithTitle:@""
+        	                                                    icon:[UIImage imageNamed:@"Accepted"]
+        	                                         backgroundColor:[UIColor greenColor]];
+
+        NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
+        Suggestion *swipedSuggestion = [self.fetchedResultsController objectAtIndexPath:swipedIndexPath];
+        NSArray *swipeButtons;
+
+        switch (swipedSuggestion.state) {
+        	case kSelectionStateMaybe:
+        		swipeButtons = @[rejectButton, acceptButton];
+        		break;
+
+        	case kSelectionStateAccepted:
+        		swipeButtons = @[rejectButton, maybeButton];
+        		break;
+
+        	case kSelectionStateRejected:
+        		swipeButtons = @[maybeButton, acceptButton];
+        		break;
+        }
+
+        return swipeButtons;
+    }
+    else {
+        return @[];
+    }
+}
+
+#pragma mark - Private methods
+
+- (void)configureCell:(SearchNameTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
     Suggestion *suggestion = [self.fetchedResultsController objectAtIndexPath:indexPath];
 
     cell.nameLabel.text = suggestion.name;
@@ -114,8 +231,6 @@
     		cell.stateImageView.image = [UIImage imageNamed:@"Rejected"];
     		break;
     }
-
-    return cell;
 }
 
 @end

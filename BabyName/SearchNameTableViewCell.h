@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#import "MGSwipeTableCell.h"
 
-@interface SearchNameTableViewCell : UITableViewCell
+
+@interface SearchNameTableViewCell : MGSwipeTableCell
 
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *stateImageView;
