@@ -15,9 +15,14 @@
 #import "SearchNameTableViewCell.h"
 
 
-@interface SearchNameTableViewController () <NSFetchedResultsControllerDelegate, MGSwipeTableCellDelegate>
+@interface SearchNameTableViewController () <NSFetchedResultsControllerDelegate, UISearchControllerDelegate, UISearchResultsUpdating, MGSwipeTableCellDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+
+@property (nonatomic, strong) UISearchController *searchController;
+
+@property (nonatomic) NSInteger selectedGenders;
+@property (nonatomic) NSInteger selectedLanguages;
 
 @end
 
@@ -29,6 +34,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
+    // Fetch search criteria from preferences.
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    self.selectedGenders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
+    self.selectedLanguages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
+    
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.fetchBatchSize = 20;
     
@@ -36,21 +46,16 @@
                                               inManagedObjectContext:self.managedObjectContext];
     fetchRequest.entity = entity;
 
-    // Fetch all suggestions matching the criteria from preferences.
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSInteger genders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
-    NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"((gender & %d) != 0) AND ((language & %d) != 0)", genders, languages];
-    fetchRequest.predicate = predicate;
-    
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name"
                                                                      ascending:YES
                                                                       selector:@selector(caseInsensitiveCompare:)];
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     
+    [self configurePredicateWithSearchString:nil];
+    
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
     	                                                                managedObjectContext:self.managedObjectContext
-    	                                                                  sectionNameKeyPath:@"name"
+    	                                                                  sectionNameKeyPath:nil
     	                                                                           cacheName:nil];
     self.fetchedResultsController.delegate = self;
 
@@ -58,6 +63,8 @@
     if (![self.fetchedResultsController performFetch:&error]) {
     	// TODO: handle error.
     }
+    
+    [self configureSearchController];
 }
 
 - (void)didReceiveMemoryWarning
@@ -83,6 +90,59 @@
     [self.presentingDelegate closePresentedViewController:self];
 }
 
+#pragma mark - Private methods
+
+- (void)configurePredicateWithSearchString:(NSString *)searchString
+{
+    NSPredicate *searchPredicate;
+    if (![searchString isEqualToString:@""]) {
+        searchPredicate = [NSPredicate predicateWithFormat:@"((gender & %d) != 0) AND ((language & %d) != 0) AND (name BEGINSWITH[cd] %@)", self.selectedGenders, self.selectedLanguages, searchString];
+    }
+    else {
+        searchPredicate = [NSPredicate predicateWithFormat:@"((gender & %d) != 0) AND ((language & %d) != 0)", self.selectedGenders, self.selectedLanguages];
+    }
+    
+    self.fetchedResultsController.fetchRequest.predicate = searchPredicate;
+}
+
+- (void)configureSearchController
+{
+    UITableViewController *searchResultsController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
+    searchResultsController.tableView.dataSource = self;
+    searchResultsController.tableView.delegate = self;
+    
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x,
+                                                       self.searchController.searchBar.frame.origin.y,
+                                                       self.searchController.searchBar.frame.size.width,
+                                                       44.0);
+    
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+    
+    self.definesPresentationContext = YES;
+}
+
+- (void)configureCell:(SearchNameTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+    Suggestion *suggestion = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    cell.nameLabel.text = suggestion.name;
+    switch (suggestion.state) {
+        case kSelectionStateMaybe:
+            cell.stateImageView.image = nil;
+            break;
+            
+        case kSelectionStateAccepted:
+            cell.stateImageView.image = [UIImage imageNamed:@"Accepted"];
+            break;
+            
+        case kSelectionStateRejected:
+            cell.stateImageView.image = [UIImage imageNamed:@"Rejected"];
+            break;
+    }
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -90,16 +150,16 @@
 	return [[self.fetchedResultsController sections] count];
 }
 
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
-{
-    return [self.fetchedResultsController sectionIndexTitles];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-{
-    return [self.fetchedResultsController sectionForSectionIndexTitle:title
-                                                              atIndex:index];
-}
+//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+//{
+//    return [self.fetchedResultsController sectionIndexTitles];
+//}
+//
+//- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+//{
+//    return [self.fetchedResultsController sectionForSectionIndexTitle:title
+//                                                              atIndex:index];
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -111,7 +171,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SearchNameTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchNameCell"];
+    SearchNameTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SearchNameCell"];
     cell.delegate = self;
     
     [self configureCell:cell
@@ -133,13 +193,48 @@
         
 		[self configureCell:swipedCell
 			    atIndexPath:indexPath];
-        swipedCell.rightButtons = @[];
 	}
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     [self.tableView endUpdates];
+}
+
+//#pragma mark - Search controller delegate
+//
+//- (void)willDismissSearchController:(UISearchController *)searchController
+//{
+//    // Reset the predicate for the fetch request.
+//    [self configurePredicateWithSearchString:nil];
+//    
+//    NSError *error;
+//    if (![self.fetchedResultsController performFetch:&error]) {
+//        // TODO: handle error.
+//    }
+//}
+//
+//- (void)didDismissSearchController:(UISearchController *)searchController
+//{
+//    [self.tableView reloadData];
+//}
+
+#pragma mark - Search results updating
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    NSString *searchString = searchController.searchBar.text;
+    [self configurePredicateWithSearchString:searchString];
+    
+    NSError *error;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        // TODO: handle error.
+    }
+    else {
+        // Update the table view displayed by the search results controller.
+        UITableViewController *searchResultsController = (UITableViewController *)searchController.searchResultsController;
+        [searchResultsController.tableView reloadData];
+    }
 }
 
 #pragma mark - Swipe table cell delegate
@@ -220,28 +315,6 @@
     }
     else {
         return @[];
-    }
-}
-
-#pragma mark - Private methods
-
-- (void)configureCell:(SearchNameTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
-{
-    Suggestion *suggestion = [self.fetchedResultsController objectAtIndexPath:indexPath];
-
-    cell.nameLabel.text = suggestion.name;
-    switch (suggestion.state) {
-    	case kSelectionStateMaybe:
-    		cell.stateImageView.image = nil;
-    		break;
-
-    	case kSelectionStateAccepted:
-    		cell.stateImageView.image = [UIImage imageNamed:@"Accepted"];
-    		break;
-
-    	case kSelectionStateRejected:
-    		cell.stateImageView.image = [UIImage imageNamed:@"Rejected"];
-    		break;
     }
 }
 
