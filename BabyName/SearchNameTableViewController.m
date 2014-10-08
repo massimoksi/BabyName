@@ -24,6 +24,8 @@
 @property (nonatomic) NSInteger selectedGenders;
 @property (nonatomic) NSInteger selectedLanguages;
 
+@property (nonatomic) BOOL searchControllerActive;
+
 @end
 
 
@@ -34,6 +36,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
+    self.searchControllerActive = NO;
+    
     // Fetch search criteria from preferences.
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.selectedGenders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
@@ -51,14 +55,14 @@
                                                                       selector:@selector(caseInsensitiveCompare:)];
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     
-    [self configurePredicateWithSearchString:nil];
-    
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
     	                                                                managedObjectContext:self.managedObjectContext
     	                                                                  sectionNameKeyPath:nil
     	                                                                           cacheName:nil];
     self.fetchedResultsController.delegate = self;
 
+    [self configurePredicateWithSearchString:@""];
+    
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
     	// TODO: handle error.
@@ -112,6 +116,7 @@
     searchResultsController.tableView.delegate = self;
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
+    self.searchController.delegate = self;
     self.searchController.searchResultsUpdater = self;
     self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x,
                                                        self.searchController.searchBar.frame.origin.y,
@@ -150,17 +155,6 @@
 	return [[self.fetchedResultsController sections] count];
 }
 
-//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
-//{
-//    return [self.fetchedResultsController sectionIndexTitles];
-//}
-//
-//- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-//{
-//    return [self.fetchedResultsController sectionForSectionIndexTitle:title
-//                                                              atIndex:index];
-//}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSArray *sections = [self.fetchedResultsController sections];
@@ -184,40 +178,68 @@
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
-    [self.tableView beginUpdates];
+    UITableView *activeTableView;
+    if (self.searchControllerActive) {
+        activeTableView = ((UITableViewController *)self.searchController.searchResultsController).tableView;
+    }
+    else {
+        activeTableView = self.tableView;
+    }
+    [activeTableView beginUpdates];
 }
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
 	if (type == NSFetchedResultsChangeUpdate) {
-        SearchNameTableViewCell *swipedCell = (SearchNameTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        UITableView *activeTableView;
+        if (self.searchControllerActive) {
+            activeTableView = ((UITableViewController *)self.searchController.searchResultsController).tableView;
+        }
+        else {
+            activeTableView = self.tableView;
+        }
+        SearchNameTableViewCell *swipedCell = (SearchNameTableViewCell *)[activeTableView cellForRowAtIndexPath:indexPath];
         
 		[self configureCell:swipedCell
 			    atIndexPath:indexPath];
+        swipedCell.rightButtons = @[];
+        [activeTableView reloadData];
 	}
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    [self.tableView endUpdates];
+    UITableView *activeTableView;
+    if (self.searchControllerActive) {
+        activeTableView = ((UITableViewController *)self.searchController.searchResultsController).tableView;
+    }
+    else {
+        activeTableView = self.tableView;
+    }
+    [activeTableView endUpdates];
 }
 
-//#pragma mark - Search controller delegate
-//
-//- (void)willDismissSearchController:(UISearchController *)searchController
-//{
-//    // Reset the predicate for the fetch request.
-//    [self configurePredicateWithSearchString:nil];
-//    
-//    NSError *error;
-//    if (![self.fetchedResultsController performFetch:&error]) {
-//        // TODO: handle error.
-//    }
-//}
-//
-//- (void)didDismissSearchController:(UISearchController *)searchController
-//{
-//    [self.tableView reloadData];
-//}
+#pragma mark - Search controller delegate
+
+- (void)didPresentSearchController:(UISearchController *)searchController
+{
+    self.searchControllerActive = YES;
+}
+
+- (void)willDismissSearchController:(UISearchController *)searchController
+{
+    // Reset the predicate for the fetch request.
+    [self configurePredicateWithSearchString:@""];
+    
+    NSError *error;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        // TODO: handle error.
+    }
+}
+
+- (void)didDismissSearchController:(UISearchController *)searchController
+{
+    self.searchControllerActive = NO;
+}
 
 #pragma mark - Search results updating
 
@@ -247,7 +269,15 @@
 - (BOOL)swipeTableCell:(MGSwipeTableCell *)cell tappedButtonAtIndex:(NSInteger)index direction:(MGSwipeDirection)direction fromExpansion:(BOOL)fromExpansion
 {
     if (direction == MGSwipeDirectionRightToLeft) {
-    	NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
+        UITableView *activeTableView;
+        if (self.searchControllerActive) {
+            activeTableView = ((UITableViewController *)self.searchController.searchResultsController).tableView;
+        }
+        else {
+            activeTableView = self.tableView;
+        }
+        
+    	NSIndexPath *swipedIndexPath = [activeTableView indexPathForCell:cell];
     	Suggestion *swipedSuggestion = [self.fetchedResultsController objectAtIndexPath:swipedIndexPath];
 
     	switch (swipedSuggestion.state) {
@@ -293,7 +323,14 @@
         	                                                    icon:[UIImage imageNamed:@"Accepted"]
         	                                         backgroundColor:[UIColor greenColor]];
 
-        NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
+        UITableView *activeTableView;
+        if (self.searchControllerActive) {
+            activeTableView = ((UITableViewController *)self.searchController.searchResultsController).tableView;
+        }
+        else {
+            activeTableView = self.tableView;
+        }
+        NSIndexPath *swipedIndexPath = [activeTableView indexPathForCell:cell];
         Suggestion *swipedSuggestion = [self.fetchedResultsController objectAtIndexPath:swipedIndexPath];
         NSArray *swipeButtons;
 
