@@ -202,7 +202,12 @@
 		[self configureCell:swipedCell
 			    atIndexPath:indexPath];
         swipedCell.rightButtons = @[];
-        [activeTableView reloadData];
+        [swipedCell refreshContentView];
+        [swipedCell setSwipeOffset:0.0
+                          animated:YES
+                        completion:^{
+                            [activeTableView reloadData];
+                        }];
 	}
 }
 
@@ -301,7 +306,7 @@
     }
 
     // NOTE: return YES to autohide the current swipe buttons.
-    return YES;
+    return NO;
 }
 
 - (NSArray *)swipeTableCell:(MGSwipeTableCell *)cell swipeButtonsForDirection:(MGSwipeDirection)direction swipeSettings:(MGSwipeSettings *)swipeSettings expansionSettings:(MGSwipeExpansionSettings *)expansionSettings
