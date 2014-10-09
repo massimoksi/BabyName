@@ -12,9 +12,10 @@
 #import "Suggestion.h"
 #import "MainContainerViewController.h"
 #import "SettingsTableViewController.h"
+#import "SearchNameTableViewController.h"
 
 
-@interface MainViewController () <UIDynamicAnimatorDelegate, SettingsTableViewControllerDelegate>
+@interface MainViewController () <UIDynamicAnimatorDelegate, SettingsTableViewControllerDelegate, PresentingDelegate>
 
 @property (nonatomic, strong) MainContainerViewController *containerViewController; // TODO: check if this property should be strong or weak.
 
@@ -51,6 +52,12 @@
         UINavigationController *settingsNavController = [segue destinationViewController];
         SettingsTableViewController *settingsViewController = (SettingsTableViewController *)settingsNavController.topViewController;
         settingsViewController.delegate = self;
+    }
+    else if ([segue.identifier isEqualToString:@"ShowSearchNameSegue"]) {
+        UINavigationController *searchNameNavController = [segue destinationViewController];
+        SearchNameTableViewController *searchNameViewController = (SearchNameTableViewController *)searchNameNavController.topViewController;
+        searchNameViewController.managedObjectContext = self.managedObjectContext;
+        searchNameViewController.presentingDelegate = self;
     }
 }
 
@@ -123,6 +130,14 @@
     else {
         // TODO: handle error.
     }
+}
+
+#pragma mark - Presenting Delegate
+
+- (void)closePresentedViewController:(UIViewController *)viewController
+{
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
 }
 
 @end

@@ -9,6 +9,7 @@
 #import "DrawerContainerViewController.h"
 
 #import "Constants.h"
+#import "Suggestion.h"
 #import "EmptyNamesViewController.h"
 #import "AcceptedNamesViewController.h"
 
@@ -18,7 +19,7 @@ static NSString * const kEmptyNamesSegueID    = @"EmptyNamesSegue";
 static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
 
 
-@interface DrawerContainerViewController ()
+@interface DrawerContainerViewController () <AcceptedNamesViewDataSource>
 
 @property (nonatomic) BOOL visible;
 
@@ -47,7 +48,7 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
                                               inManagedObjectContext:self.managedObjectContext];
     fetchRequest.entity = entity;
     
-    // Get new preferences from user defaults.
+    // Get preferences from user defaults.
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger genders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
     NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
@@ -70,11 +71,15 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
             NSPredicate *initialsPredicate = [NSPredicate predicateWithFormat:@"name MATCHES[cd] %@", initialsRegex];
             
             // Filter the found elements by preferred initials.
-            self.acceptedNames = [NSMutableArray arrayWithArray:[fetchedSuggestions filteredArrayUsingPredicate:initialsPredicate]];
+            self.acceptedNames = [NSMutableArray arrayWithArray:[[fetchedSuggestions filteredArrayUsingPredicate:initialsPredicate] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name"
+                                                                                                                                                                                                ascending:YES
+                                                                                                                                                                                                 selector:@selector(caseInsensitiveCompare:)]]]];
         }
         else {
             // No element meeting the request predicate, create a new empty array.
-            self.acceptedNames = [NSMutableArray arrayWithArray:fetchedSuggestions];
+            self.acceptedNames = [NSMutableArray arrayWithArray:[fetchedSuggestions sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name"
+                                                                                                                                                ascending:YES
+                                                                                                                                                 selector:@selector(caseInsensitiveCompare:)]]]];
         }
 
         [self selectChildViewController];
@@ -122,8 +127,7 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
         if (self.childViewControllers.count != 0) {
             if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[AcceptedNamesViewController class]]) {
                 AcceptedNamesViewController *viewController = segue.destinationViewController;
-                viewController.managedObjectContext = self.managedObjectContext;
-                viewController.acceptedNames = self.acceptedNames;
+                viewController.dataSource = self;
 
                 [self swapFromViewController:[self.childViewControllers objectAtIndex:0]
                             toViewController:viewController];
@@ -131,13 +135,42 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
         }
         else {
             AcceptedNamesViewController *viewController = segue.destinationViewController;
-            viewController.managedObjectContext = self.managedObjectContext;
-            viewController.acceptedNames = self.acceptedNames;
+            viewController.dataSource = self;
         
             [self addChildViewController:viewController];
             [self.view addSubview:viewController.view];
             [viewController didMoveToParentViewController:self];
         }
+    }
+}
+
+#pragma mark - Accepted names view data source
+
+- (NSInteger)numberOfAcceptedNames
+{
+    return self.acceptedNames.count;
+}
+
+- (NSString *)acceptedNameAtIndex:(NSUInteger)index
+{
+    Suggestion *suggestion = [self.acceptedNames objectAtIndex:index];
+    
+    return suggestion.name;
+}
+
+- (BOOL)removeAcceptedNameAtIndex:(NSUInteger)index
+{
+    Suggestion *suggestion = [self.acceptedNames objectAtIndex:index];
+    suggestion.state = kSelectionStateRejected;
+    
+    NSError *error;
+    if (![self.managedObjectContext save:&error]) {
+        return NO;
+    }
+    else {
+        [self.acceptedNames removeObjectAtIndex:index];
+        
+        return YES;
     }
 }
 
