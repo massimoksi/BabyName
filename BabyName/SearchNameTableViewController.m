@@ -138,12 +138,16 @@
             cell.stateImageView.image = nil;
             break;
             
+        case kSelectionStateRejected:
+            cell.stateImageView.image = [UIImage imageNamed:@"Rejected"];
+            break;
+            
         case kSelectionStateAccepted:
             cell.stateImageView.image = [UIImage imageNamed:@"Accepted"];
             break;
             
-        case kSelectionStateRejected:
-            cell.stateImageView.image = [UIImage imageNamed:@"Rejected"];
+        case kSelectionStatePreferred:
+            cell.stateImageView.image = [UIImage imageNamed:@"Preferred"];
             break;
     }
 }
@@ -199,6 +203,7 @@
     }
     [activeTableView beginUpdates];
 }
+
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
 	if (type == NSFetchedResultsChangeUpdate) {
@@ -293,30 +298,31 @@
         else {
             activeTableView = self.tableView;
         }
-        
-    	NSIndexPath *swipedIndexPath = [activeTableView indexPathForCell:cell];
-    	Suggestion *swipedSuggestion = [self.fetchedResultsController objectAtIndexPath:swipedIndexPath];
 
+        NSIndexPath *swipedIndexPath = [activeTableView indexPathForCell:cell];
+        Suggestion *swipedSuggestion = [self.fetchedResultsController objectAtIndexPath:swipedIndexPath];
+    
     	switch (swipedSuggestion.state) {
     		case kSelectionStateMaybe:
     			swipedSuggestion.state = (index == 0) ? kSelectionStateRejected : kSelectionStateAccepted;
     			break;
 
-    		case kSelectionStateAccepted:
-    			swipedSuggestion.state = (index == 0) ? kSelectionStateRejected : kSelectionStateMaybe;
-    			break;
-
     		case kSelectionStateRejected:
     			swipedSuggestion.state = (index == 0) ? kSelectionStateMaybe : kSelectionStateAccepted;
     			break;
+
+            case kSelectionStateAccepted:
+            case kSelectionStatePreferred:
+                swipedSuggestion.state = (index == 0) ? kSelectionStateRejected : kSelectionStateMaybe;
+                break;
     	}
 
-    	NSError *error;
-    	if (![self.managedObjectContext save:&error]) {
-    		// TODO: handle error.
-    	}
+        NSError *error;
+        if (![self.managedObjectContext save:&error]) {
+            // TODO: handle error.
+        }
     }
-
+    
     // NOTE: return YES to autohide the current swipe buttons.
     return NO;
 }
@@ -356,13 +362,14 @@
         		swipeButtons = @[rejectButton, acceptButton];
         		break;
 
-        	case kSelectionStateAccepted:
-        		swipeButtons = @[rejectButton, maybeButton];
-        		break;
-
         	case kSelectionStateRejected:
         		swipeButtons = @[maybeButton, acceptButton];
         		break;
+                
+            case kSelectionStateAccepted:
+            case kSelectionStatePreferred:
+                swipeButtons = @[rejectButton, maybeButton];
+                break;
         }
 
         return swipeButtons;
