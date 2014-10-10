@@ -17,6 +17,7 @@
 
 typedef NS_ENUM(NSInteger, SettingsSection) {
     kSettingsSectionGeneral = 0,
+    kSettingsSectionAdvanced,
     kSettingsSectionRestart,
     kSettingsSectionAbout
 };
@@ -25,6 +26,10 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     kSectionGeneralRowGenders = 0,
     kSectionGeneralRowLanguages,
     kSectionGeneralRowInitials
+};
+
+typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
+    kSectionAdvancedRowShowSurname = 0
 };
 
 
@@ -68,6 +73,14 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 - (IBAction)closeSettings:(id)sender
 {
     [self.presentingDelegate presentedViewControllerWillClose:self.fetchingPreferencesChanged];
+}
+
+- (IBAction)showSurname:(id)sender
+{
+    UISwitch *surnameSwitch = sender;
+    
+    [[NSUserDefaults standardUserDefaults] setBool:surnameSwitch.isOn
+                                            forKey:kSettingsShowSurnameKey];
 }
 
 #pragma mark - Private methods
@@ -155,6 +168,12 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
             }
             break;
            
+        case kSettingsSectionAdvanced:
+            if (row == kSectionAdvancedRowShowSurname) {
+                ((UISwitch *)cell.accessoryView).on = [userDefaults boolForKey:kSettingsShowSurnameKey];
+            }
+            break;
+            
         case kSettingsSectionAbout:
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
             break;
@@ -167,6 +186,16 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 }
 
 #pragma mark - Table view delegate
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44.0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44.0;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
