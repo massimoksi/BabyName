@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "FetchingPreferencesDelegate.h"
+#import "PresentingDelegate.h"
 
 @protocol SettingsTableViewControllerDelegate;
 
@@ -16,13 +17,12 @@
 @interface SettingsTableViewController : UITableViewController <FetchingPreferencesDelegate>
 
 @property (nonatomic, weak) id<SettingsTableViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<PresentingDelegate> presentingDelegate;
 
 @end
 
 
 @protocol SettingsTableViewControllerDelegate <NSObject>
-
-- (void)settingsViewControllerWillClose:(BOOL)updated;
 
 - (void)resetAllSelections;
 

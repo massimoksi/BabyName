@@ -54,7 +54,7 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
     NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
     
     // Fetch all suggestions with state "maybe" and  matching the criteria from preferences.
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(state == %d) AND ((gender & %d) != 0) AND ((language & %d) != 0)", kSelectionStateAccepted, genders, languages];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(state >= %d) AND ((gender & %d) != 0) AND ((language & %d) != 0)", kSelectionStateAccepted, genders, languages];
     fetchRequest.predicate = predicate;
     
     NSError *error;
@@ -71,9 +71,7 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
             NSPredicate *initialsPredicate = [NSPredicate predicateWithFormat:@"name MATCHES[cd] %@", initialsRegex];
             
             // Filter the found elements by preferred initials.
-            self.acceptedNames = [NSMutableArray arrayWithArray:[[fetchedSuggestions filteredArrayUsingPredicate:initialsPredicate] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name"
-                                                                                                                                                                                                ascending:YES
-                                                                                                                                                                                                 selector:@selector(caseInsensitiveCompare:)]]]];
+            self.acceptedNames = [NSMutableArray arrayWithArray:[[fetchedSuggestions filteredArrayUsingPredicate:initialsPredicate] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name"                                                                                                                                            ascending:YES                                                                                                                                             selector:@selector(caseInsensitiveCompare:)]]]];
         }
         else {
             // No element meeting the request predicate, create a new empty array.
@@ -144,36 +142,6 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
     }
 }
 
-#pragma mark - Accepted names view data source
-
-- (NSInteger)numberOfAcceptedNames
-{
-    return self.acceptedNames.count;
-}
-
-- (NSString *)acceptedNameAtIndex:(NSUInteger)index
-{
-    Suggestion *suggestion = [self.acceptedNames objectAtIndex:index];
-    
-    return suggestion.name;
-}
-
-- (BOOL)removeAcceptedNameAtIndex:(NSUInteger)index
-{
-    Suggestion *suggestion = [self.acceptedNames objectAtIndex:index];
-    suggestion.state = kSelectionStateRejected;
-    
-    NSError *error;
-    if (![self.managedObjectContext save:&error]) {
-        return NO;
-    }
-    else {
-        [self.acceptedNames removeObjectAtIndex:index];
-        
-        return YES;
-    }
-}
-
 #pragma mark - Private methods
 
 - (void)selectChildViewController
@@ -204,6 +172,84 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
                                 [toViewController didMoveToParentViewController:self];
                                 [fromViewController removeFromParentViewController];
                             }];
+}
+
+- (NSUInteger)indexOfPreferredName
+{
+    NSPredicate *preferredPredicate = [NSPredicate predicateWithFormat:@"(state >= %d)", kSelectionStatePreferred];
+    NSArray *preferredNames = [self.acceptedNames filteredArrayUsingPredicate:preferredPredicate];
+
+    if (preferredNames.count == 0) {
+        return NSNotFound;
+    }
+    else {
+        Suggestion *preferredSuggestion = [preferredNames objectAtIndex:0];
+
+        return [self.acceptedNames indexOfObject:preferredSuggestion];
+    }
+}
+
+#pragma mark - Accepted names view data source
+
+- (NSInteger)numberOfAcceptedNames
+{
+    return self.acceptedNames.count;
+}
+
+- (id)acceptedNameAtIndex:(NSUInteger)index
+{
+    return [self.acceptedNames objectAtIndex:index];
+}
+
+- (BOOL)removeAcceptedNameAtIndex:(NSUInteger)index
+{
+    Suggestion *suggestion = [self.acceptedNames objectAtIndex:index];
+    suggestion.state = kSelectionStateRejected;
+    
+    NSError *error;
+    if (![self.managedObjectContext save:&error]) {
+        // TODO: handle error.
+
+        return NO;
+    }
+    else {
+        [self.acceptedNames removeObjectAtIndex:index];
+        
+        return YES;
+    }
+}
+
+- (BOOL)preferAcceptedNameAtIndex:(NSUInteger)index
+{
+    Suggestion *suggestion = [self.acceptedNames objectAtIndex:index];
+
+    NSUInteger preferredIndex = [self indexOfPreferredName];
+    if (preferredIndex == NSNotFound) {
+        suggestion.state = kSelectionStatePreferred;
+    }
+    else {
+        if (index == preferredIndex) {
+            // Name is already preferred, so unprefer it.
+            suggestion.state = kSelectionStateAccepted;
+        }
+        else {
+            // There is already a preferred name, un prefer it and prefer the new one.
+            Suggestion *preferredSuggestion = [self.acceptedNames objectAtIndex:preferredIndex];
+            preferredSuggestion.state = kSelectionStateAccepted;
+
+            suggestion.state = kSelectionStatePreferred;
+        }
+    }
+
+    NSError *error;
+    if (![self.managedObjectContext save:&error]) {
+        // TODO: handle error.
+
+        return NO;
+    }
+    else {
+        return YES;
+    }
 }
 
 @end

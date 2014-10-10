@@ -25,6 +25,7 @@
 @property (nonatomic) NSInteger selectedLanguages;
 
 @property (nonatomic) BOOL searchControllerActive;
+@property (nonatomic) BOOL fetchedObjectsChanged;
 
 @end
 
@@ -37,6 +38,7 @@
     // Do any additional setup after loading the view.
 
     self.searchControllerActive = NO;
+    self.fetchedObjectsChanged = NO;
     
     // Fetch search criteria from preferences.
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -91,7 +93,7 @@
 
 - (IBAction)closeSearch:(id)sender
 {
-    [self.presentingDelegate closePresentedViewController:self];
+    [self.presentingDelegate presentedViewControllerWillClose:self.fetchedObjectsChanged];
 }
 
 #pragma mark - Private methods
@@ -138,12 +140,16 @@
             cell.stateImageView.image = nil;
             break;
             
+        case kSelectionStateRejected:
+            cell.stateImageView.image = [UIImage imageNamed:@"Rejected"];
+            break;
+            
         case kSelectionStateAccepted:
             cell.stateImageView.image = [UIImage imageNamed:@"Accepted"];
             break;
             
-        case kSelectionStateRejected:
-            cell.stateImageView.image = [UIImage imageNamed:@"Rejected"];
+        case kSelectionStatePreferred:
+            cell.stateImageView.image = [UIImage imageNamed:@"Preferred"];
             break;
     }
 }
@@ -199,6 +205,7 @@
     }
     [activeTableView beginUpdates];
 }
+
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
 	if (type == NSFetchedResultsChangeUpdate) {
@@ -293,30 +300,34 @@
         else {
             activeTableView = self.tableView;
         }
-        
-    	NSIndexPath *swipedIndexPath = [activeTableView indexPathForCell:cell];
-    	Suggestion *swipedSuggestion = [self.fetchedResultsController objectAtIndexPath:swipedIndexPath];
 
+        NSIndexPath *swipedIndexPath = [activeTableView indexPathForCell:cell];
+        Suggestion *swipedSuggestion = [self.fetchedResultsController objectAtIndexPath:swipedIndexPath];
+    
     	switch (swipedSuggestion.state) {
     		case kSelectionStateMaybe:
     			swipedSuggestion.state = (index == 0) ? kSelectionStateRejected : kSelectionStateAccepted;
     			break;
 
-    		case kSelectionStateAccepted:
-    			swipedSuggestion.state = (index == 0) ? kSelectionStateRejected : kSelectionStateMaybe;
-    			break;
-
     		case kSelectionStateRejected:
     			swipedSuggestion.state = (index == 0) ? kSelectionStateMaybe : kSelectionStateAccepted;
     			break;
+
+            case kSelectionStateAccepted:
+            case kSelectionStatePreferred:
+                swipedSuggestion.state = (index == 0) ? kSelectionStateRejected : kSelectionStateMaybe;
+                break;
     	}
 
-    	NSError *error;
-    	if (![self.managedObjectContext save:&error]) {
-    		// TODO: handle error.
-    	}
+        NSError *error;
+        if (![self.managedObjectContext save:&error]) {
+            // TODO: handle error.
+        }
+        else {
+            self.fetchedObjectsChanged = YES;
+        }
     }
-
+    
     // NOTE: return YES to autohide the current swipe buttons.
     return NO;
 }
@@ -356,13 +367,14 @@
         		swipeButtons = @[rejectButton, acceptButton];
         		break;
 
-        	case kSelectionStateAccepted:
-        		swipeButtons = @[rejectButton, maybeButton];
-        		break;
-
         	case kSelectionStateRejected:
         		swipeButtons = @[maybeButton, acceptButton];
         		break;
+
+            case kSelectionStateAccepted:
+            case kSelectionStatePreferred:
+                swipeButtons = @[rejectButton, maybeButton];
+                break;
         }
 
         return swipeButtons;

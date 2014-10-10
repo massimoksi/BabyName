@@ -52,6 +52,7 @@
         UINavigationController *settingsNavController = [segue destinationViewController];
         SettingsTableViewController *settingsViewController = (SettingsTableViewController *)settingsNavController.topViewController;
         settingsViewController.delegate = self;
+        settingsViewController.presentingDelegate = self;
     }
     else if ([segue.identifier isEqualToString:@"ShowSearchNameSegue"]) {
         UINavigationController *searchNameNavController = [segue destinationViewController];
@@ -81,16 +82,6 @@
 }
 
 #pragma mark - Settings view controller delegate
-
-- (void)settingsViewControllerWillClose:(BOOL)updated
-{
-    if (updated) {
-        [self.containerViewController updateSuggestions];
-    }
-    
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
-}
 
 - (void)resetAllSelections
 {
@@ -134,8 +125,12 @@
 
 #pragma mark - Presenting Delegate
 
-- (void)closePresentedViewController:(UIViewController *)viewController
+- (void)presentedViewControllerWillClose:(BOOL)updated
 {
+    if (updated) {
+        [self.containerViewController updateSuggestions];
+    }
+    
     [self dismissViewControllerAnimated:YES
                              completion:nil];
 }
