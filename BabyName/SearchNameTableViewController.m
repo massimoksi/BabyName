@@ -25,6 +25,7 @@
 @property (nonatomic) NSInteger selectedLanguages;
 
 @property (nonatomic) BOOL searchControllerActive;
+@property (nonatomic) BOOL fetchedObjectsChanged;
 
 @end
 
@@ -37,6 +38,7 @@
     // Do any additional setup after loading the view.
 
     self.searchControllerActive = NO;
+    self.fetchedObjectsChanged = NO;
     
     // Fetch search criteria from preferences.
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -91,7 +93,7 @@
 
 - (IBAction)closeSearch:(id)sender
 {
-    [self.presentingDelegate closePresentedViewController:self];
+    [self.presentingDelegate presentedViewControllerWillClose:self.fetchedObjectsChanged];
 }
 
 #pragma mark - Private methods
@@ -321,6 +323,9 @@
         if (![self.managedObjectContext save:&error]) {
             // TODO: handle error.
         }
+        else {
+            self.fetchedObjectsChanged = YES;
+        }
     }
     
     // NOTE: return YES to autohide the current swipe buttons.
@@ -365,7 +370,7 @@
         	case kSelectionStateRejected:
         		swipeButtons = @[maybeButton, acceptButton];
         		break;
-                
+
             case kSelectionStateAccepted:
             case kSelectionStatePreferred:
                 swipeButtons = @[rejectButton, maybeButton];
