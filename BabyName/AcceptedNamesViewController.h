@@ -21,8 +21,9 @@
 @protocol AcceptedNamesViewDataSource <NSObject>
 
 - (NSInteger)numberOfAcceptedNames;
-- (NSString *)acceptedNameAtIndex:(NSUInteger)index;
+- (id)acceptedNameAtIndex:(NSUInteger)index;
 
 - (BOOL)removeAcceptedNameAtIndex:(NSUInteger)index;
+- (BOOL)preferAcceptedNameAtIndex:(NSUInteger)index;
 
 @end

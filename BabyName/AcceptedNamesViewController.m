@@ -8,13 +8,15 @@
 
 #import "AcceptedNamesViewController.h"
 
-#import "MGSwipeTableCell.h"
 #import "MGSwipeButton.h"
 
+#import "Constants.h"
+#import "Suggestion.h"
+#import "SearchNameTableViewCell.h"
 #import "DrawerContainerViewController.h"
 
 
-@interface AcceptedNamesViewController () <UITableViewDataSource, MGSwipeTableCellDelegate>
+@interface AcceptedNamesViewController () <UITableViewDataSource, UITableViewDelegate, MGSwipeTableCellDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 
@@ -56,12 +58,37 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MGSwipeTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AcceptedNameCell"];
-    
-    cell.textLabel.text = [self.dataSource acceptedNameAtIndex:indexPath.row];
+    SearchNameTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AcceptedNameCell"];
+
+    Suggestion *suggestion = [self.dataSource acceptedNameAtIndex:indexPath.row];
+
+    cell.nameLabel.text = suggestion.name;
+    cell.stateImageView.image = (suggestion.state == kSelectionStatePreferred) ? [UIImage imageNamed:@"Preferred"] : nil;
     cell.delegate = self;
     
     return cell;
+}
+
+#pragma mark - Table view delegate
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44.0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44.0;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([self.dataSource preferAcceptedNameAtIndex:indexPath.row]) {
+        // Update table view.
+        [tableView deselectRowAtIndexPath:indexPath
+                                 animated:YES];
+        [tableView reloadData];
+    }
 }
 
 #pragma mark - Swipe table cell delegate
@@ -82,6 +109,8 @@
                 [self.tableView deleteRowsAtIndexPaths:@[swipedIndexPath]
                                       withRowAnimation:UITableViewRowAnimationLeft];
                 
+                [cell refreshContentView];
+
                 // Switch to the view controller to handle empty state, if the array for accepted names is now empty.
                 if ([self.dataSource numberOfAcceptedNames] == 0) {
                     DrawerContainerViewController *containerViewController = (DrawerContainerViewController *)self.parentViewController;

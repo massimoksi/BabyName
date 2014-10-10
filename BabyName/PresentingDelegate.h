@@ -11,6 +11,6 @@
 
 @protocol PresentingDelegate <NSObject>
 
-- (void)closePresentedViewController:(UIViewController *)viewController;
+- (void)presentedViewControllerWillClose:(BOOL)updated;
 
 @end

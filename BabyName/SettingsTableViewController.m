@@ -63,6 +63,24 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Actions
+
+- (IBAction)closeSettings:(id)sender
+{
+    [self.presentingDelegate presentedViewControllerWillClose:self.fetchingPreferencesChanged];
+}
+
+#pragma mark - Private methods
+
+- (NSUInteger)numberOfSelectedLanguages
+{
+    NSInteger selectedLanguages = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedLanguagesKey];
+    // NOTE: in case a new language is introduced, the count calculation needs to be updated.
+    NSUInteger count = ((selectedLanguages >> 3) & 1) + ((selectedLanguages >> 2) & 1) + ((selectedLanguages >> 1) & 1) + (selectedLanguages & 1);
+    
+    return count;
+}
+
 #pragma mark - Table view data source
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -202,24 +220,6 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
         InitialsTableViewController *viewController = [segue destinationViewController];
         viewController.fetchingPreferencesDelegate = self;
     }
-}
-
-#pragma mark - Actions
-
-- (IBAction)closeSettings:(id)sender
-{
-    [self.delegate settingsViewControllerWillClose:self.fetchingPreferencesChanged];
-}
-
-#pragma mark - Private methods
-
-- (NSUInteger)numberOfSelectedLanguages
-{
-    NSInteger selectedLanguages = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedLanguagesKey];
-    // NOTE: in case a new language is introduced, the count calculation needs to be updated.
-    NSUInteger count = ((selectedLanguages >> 3) & 1) + ((selectedLanguages >> 2) & 1) + ((selectedLanguages >> 1) & 1) + (selectedLanguages & 1);
-    
-    return count;
 }
 
 #pragma mark - Fetching preferences delegate
