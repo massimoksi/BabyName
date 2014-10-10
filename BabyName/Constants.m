@@ -9,6 +9,7 @@
 #import "Constants.h"
 
 
-NSString * const kSettingsSelectedGendersKey = @"SettingsSelectedGenders";
+NSString * const kSettingsSelectedGendersKey   = @"SettingsSelectedGenders";
 NSString * const kSettingsSelectedLanguagesKey = @"SettingsSelectedLanguages";
 NSString * const kSettingsPreferredInitialsKey = @"SettingsPreferredInitials";
+NSString * const kSettingsShowSurnameKey       = @"SettingsShowSurname";
