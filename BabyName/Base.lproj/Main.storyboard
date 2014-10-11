@@ -299,6 +299,7 @@
                         <outlet property="genderLabel" destination="2WS-AB-Baa" id="Qlv-b4-xu9"/>
                         <outlet property="initialsLabel" destination="vh8-AZ-Ym4" id="L6f-RC-nXW"/>
                         <outlet property="languageLabel" destination="t88-X1-hnf" id="65D-q9-UcO"/>
+                        <outlet property="surnameCell" destination="eAw-bI-UjY" id="RgO-Ra-Eem"/>
                         <outlet property="surnameSwitch" destination="sV2-0V-ogq" id="fii-AD-53K"/>
                         <outlet property="versionLabel" destination="Nzx-Yy-ZIB" id="0SG-Qw-NgK"/>
                     </connections>

@@ -18,3 +18,9 @@
 #define COCOAPODS_VERSION_MINOR_MSDynamicsDrawerViewController 5
 #define COCOAPODS_VERSION_PATCH_MSDynamicsDrawerViewController 1
 
+// StaticDataTableViewController
+#define COCOAPODS_POD_AVAILABLE_StaticDataTableViewController
+#define COCOAPODS_VERSION_MAJOR_StaticDataTableViewController 2
+#define COCOAPODS_VERSION_MINOR_StaticDataTableViewController 0
+#define COCOAPODS_VERSION_PATCH_StaticDataTableViewController 3
+

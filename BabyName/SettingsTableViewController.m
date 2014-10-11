@@ -43,6 +43,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 @property (nonatomic, weak) IBOutlet UILabel *initialsLabel;
 @property (nonatomic, weak) IBOutlet UILabel *versionLabel;
 @property (nonatomic, weak) IBOutlet UISwitch *surnameSwitch;
+@property (nonatomic, weak) IBOutlet UITableViewCell *surnameCell;
 
 @end
 
@@ -60,6 +61,10 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.fetchingPreferencesChanged = NO;
+    
+    self.insertTableViewRowAnimation = UITableViewRowAnimationMiddle;
+    self.deleteTableViewRowAnimation = UITableViewRowAnimationMiddle;
+    self.reloadTableViewRowAnimation = UITableViewRowAnimationMiddle;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -118,7 +123,11 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
         self.initialsLabel.text = [preferredInitials componentsJoinedByString:@" "];
     }
     
-    self.surnameSwitch.on = [userDefaults boolForKey:kSettingsShowSurnameKey];
+    BOOL surnameVisible = [userDefaults boolForKey:kSettingsShowSurnameKey];
+    self.surnameSwitch.on = surnameVisible;
+    [self cell:self.surnameCell
+     setHidden:!surnameVisible];
+    [self reloadDataAnimated:NO];
     
     self.versionLabel.text = [NSString stringWithFormat:@"%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
 }
@@ -160,10 +169,14 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 
 - (IBAction)showSurname:(id)sender
 {
-    UISwitch *surnameSwitch = sender;
+    BOOL surnameVisible = self.surnameSwitch.isOn;
     
-    [[NSUserDefaults standardUserDefaults] setBool:surnameSwitch.isOn
+    [[NSUserDefaults standardUserDefaults] setBool:surnameVisible
                                             forKey:kSettingsShowSurnameKey];
+    
+    [self cell:self.surnameCell
+     setHidden:!surnameVisible];
+    [self reloadDataAnimated:YES];
 }
 
 #pragma mark - Private methods
