@@ -220,6 +220,24 @@
                                             <outlet property="accessoryView" destination="sV2-0V-ogq" id="wHv-Zq-QGa"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="eAw-bI-UjY">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eAw-bI-UjY" id="b1N-xx-Pmt">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Surname" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T29-Rh-ds3">
+                                                    <rect key="frame" x="15" y="13" width="509" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="T29-Rh-ds3" firstAttribute="top" secondItem="b1N-xx-Pmt" secondAttribute="topMargin" constant="5" id="Ws4-Kd-GlK"/>
+                                                <constraint firstItem="T29-Rh-ds3" firstAttribute="leading" secondItem="b1N-xx-Pmt" secondAttribute="leadingMargin" constant="7" id="YUy-Yn-Jhb"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection id="SHv-2i-JdJ">
@@ -277,6 +295,13 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="genderLabel" destination="2WS-AB-Baa" id="Qlv-b4-xu9"/>
+                        <outlet property="initialsLabel" destination="vh8-AZ-Ym4" id="L6f-RC-nXW"/>
+                        <outlet property="languageLabel" destination="t88-X1-hnf" id="65D-q9-UcO"/>
+                        <outlet property="surnameSwitch" destination="sV2-0V-ogq" id="fii-AD-53K"/>
+                        <outlet property="versionLabel" destination="Nzx-Yy-ZIB" id="0SG-Qw-NgK"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NGE-Jx-yQH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

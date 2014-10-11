@@ -29,13 +29,20 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 };
 
 typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
-    kSectionAdvancedRowShowSurname = 0
+    kSectionAdvancedRowShowSurname = 0,
+    kSectionAdvancedRowSurname
 };
 
 
 @interface SettingsTableViewController ()
 
 @property (nonatomic) BOOL fetchingPreferencesChanged;
+
+@property (nonatomic, weak) IBOutlet UILabel *genderLabel;
+@property (nonatomic, weak) IBOutlet UILabel *languageLabel;
+@property (nonatomic, weak) IBOutlet UILabel *initialsLabel;
+@property (nonatomic, weak) IBOutlet UILabel *versionLabel;
+@property (nonatomic, weak) IBOutlet UISwitch *surnameSwitch;
 
 @end
 
@@ -58,14 +65,90 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
-    [self.tableView reloadData];
+    NSInteger selectedGenders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
+    switch (selectedGenders) {
+        case 1:
+            self.genderLabel.text = NSLocalizedString(@"Male", nil);
+            break;
+                        
+        case 2:
+            self.genderLabel.text = NSLocalizedString(@"Female", nil);
+            break;
+                        
+        case 3:
+            self.genderLabel.text = NSLocalizedString(@"Both", nil);
+            break;
+    }
+    
+    NSUInteger numberOfSelectedLanguages = [self numberOfSelectedLanguages];
+    if (numberOfSelectedLanguages == 1) {
+        NSInteger selectedLanguages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
+        if (selectedLanguages == kLanguageBitmaskIT) {
+            self.languageLabel.text = NSLocalizedString(@"Italian", nil);
+        }
+        else if (selectedLanguages == kLanguageBitmaskEN) {
+            self.languageLabel.text = NSLocalizedString(@"English", nil);
+        }
+        else if (selectedLanguages == kLanguageBitmaskDE) {
+            self.languageLabel.text = NSLocalizedString(@"German", nil);
+        }
+        else if (selectedLanguages == kLanguageBitmaskFR) {
+            self.languageLabel.text = NSLocalizedString(@"French", nil);
+        }
+    }
+    else {
+        self.languageLabel.text = [NSString stringWithFormat:@"%tu", numberOfSelectedLanguages];
+    }
+    
+    NSArray *preferredInitials = [[userDefaults stringArrayForKey:kSettingsPreferredInitialsKey] sortedArrayUsingSelector:@selector(compare:)];
+    NSUInteger preferredInitialsCount = preferredInitials.count;
+    if (preferredInitialsCount == 0) {
+        self.initialsLabel.text = @" ";
+    }
+    else if (preferredInitialsCount == 1) {
+        self.initialsLabel.text = [preferredInitials objectAtIndex:0];
+    }
+    else if (preferredInitialsCount > 8) {
+        self.initialsLabel.text = [NSString stringWithFormat:@"%tu", preferredInitialsCount];
+    }
+    else {
+        self.initialsLabel.text = [preferredInitials componentsJoinedByString:@" "];
+    }
+    
+    self.surnameSwitch.on = [userDefaults boolForKey:kSettingsShowSurnameKey];
+    
+    self.versionLabel.text = [NSString stringWithFormat:@"%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    
+    NSString *segueIdentifier = segue.identifier;
+    if ([segueIdentifier isEqualToString:@"ShowGendersSegue"]) {
+        GendersTableViewController *viewController = [segue destinationViewController];
+        viewController.fetchingPreferencesDelegate = self;
+    }
+    else if ([segueIdentifier isEqualToString:@"ShowLanguagesSegue"]) {
+        LanguagesTableViewController *viewController = [segue destinationViewController];
+        viewController.fetchingPreferencesDelegate = self;
+    }
+    else if ([segueIdentifier isEqualToString:@"ShowInitialsSegue"])  {
+        InitialsTableViewController *viewController = [segue destinationViewController];
+        viewController.fetchingPreferencesDelegate = self;
+    }
 }
 
 #pragma mark - Actions
@@ -92,97 +175,6 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     NSUInteger count = ((selectedLanguages >> 3) & 1) + ((selectedLanguages >> 2) & 1) + ((selectedLanguages >> 1) & 1) + (selectedLanguages & 1);
     
     return count;
-}
-
-#pragma mark - Table view data source
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [super tableView:tableView
-                       cellForRowAtIndexPath:indexPath];
-    
-    NSInteger section = indexPath.section;
-    NSInteger row = indexPath.row;
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    
-    NSInteger selectedGenders;
-    NSInteger selectedLanguages;
-    NSUInteger numberOfSelectedLanguages;
-    NSArray *preferredInitials;
-    NSUInteger preferredInitialsCount;
-    
-    switch (section) {
-        case kSettingsSectionGeneral:
-            if (row == kSectionGeneralRowGenders) {
-                selectedGenders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
-                switch (selectedGenders) {
-                    case 1:
-                        cell.detailTextLabel.text = NSLocalizedString(@"Male", nil);
-                        break;
-                        
-                    case 2:
-                        cell.detailTextLabel.text = NSLocalizedString(@"Female", nil);
-                        break;
-                        
-                    case 3:
-                        cell.detailTextLabel.text = NSLocalizedString(@"Both", nil);
-                        break;
-                }
-            }
-            else if (row == kSectionGeneralRowLanguages) {
-                numberOfSelectedLanguages = [self numberOfSelectedLanguages];
-                if (numberOfSelectedLanguages == 1) {
-                    selectedLanguages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
-                    if (selectedLanguages == kLanguageBitmaskIT) {
-                        cell.detailTextLabel.text = NSLocalizedString(@"Italian", nil);
-                    }
-                    else if (selectedLanguages == kLanguageBitmaskEN) {
-                        cell.detailTextLabel.text = NSLocalizedString(@"English", nil);
-                    }
-                    else if (selectedLanguages == kLanguageBitmaskDE) {
-                        cell.detailTextLabel.text = NSLocalizedString(@"German", nil);
-                    }
-                    else if (selectedLanguages == kLanguageBitmaskFR) {
-                        cell.detailTextLabel.text = NSLocalizedString(@"French", nil);
-                    }
-                }
-                else {
-                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%tu", numberOfSelectedLanguages];
-                }
-            }
-            else if (row == kSectionGeneralRowInitials) {
-                preferredInitials = [[userDefaults stringArrayForKey:kSettingsPreferredInitialsKey] sortedArrayUsingSelector:@selector(compare:)];
-                preferredInitialsCount = preferredInitials.count;
-                if (preferredInitialsCount == 0) {
-                    cell.detailTextLabel.text = @" ";
-                }
-                else if (preferredInitialsCount == 1) {
-                    cell.detailTextLabel.text = [preferredInitials objectAtIndex:0];
-                }
-                else if (preferredInitialsCount > 8) {
-                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%tu", preferredInitialsCount];
-                }
-                else {
-                    cell.detailTextLabel.text = [preferredInitials componentsJoinedByString:@" "];
-                }
-            }
-            break;
-           
-        case kSettingsSectionAdvanced:
-            if (row == kSectionAdvancedRowShowSurname) {
-                ((UISwitch *)cell.accessoryView).on = [userDefaults boolForKey:kSettingsShowSurnameKey];
-            }
-            break;
-            
-        case kSettingsSectionAbout:
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
-            break;
-            
-        default:
-            break;
-    }
-    
-    return cell;
 }
 
 #pragma mark - Table view delegate
@@ -226,28 +218,6 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
                          completion:^{
                              self.fetchingPreferencesChanged = YES;
                          }];
-    }
-}
-
-#pragma mark - Navigation
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    
-    NSString *segueIdentifier = segue.identifier;
-    if ([segueIdentifier isEqualToString:@"ShowGendersSegue"]) {
-        GendersTableViewController *viewController = [segue destinationViewController];
-        viewController.fetchingPreferencesDelegate = self;
-    }
-    else if ([segueIdentifier isEqualToString:@"ShowLanguagesSegue"]) {
-        LanguagesTableViewController *viewController = [segue destinationViewController];
-        viewController.fetchingPreferencesDelegate = self;
-    }
-    else if ([segueIdentifier isEqualToString:@"ShowInitialsSegue"])  {
-        InitialsTableViewController *viewController = [segue destinationViewController];
-        viewController.fetchingPreferencesDelegate = self;
     }
 }
 
