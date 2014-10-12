@@ -226,15 +226,29 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Surname" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T29-Rh-ds3">
-                                                    <rect key="frame" x="15" y="13" width="509" height="20"/>
+                                                    <rect key="frame" x="15" y="12" width="200" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="VFR-eU-FGq"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="12" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bXt-aS-BL6">
+                                                    <rect key="frame" x="227" y="7" width="358" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="6aS-Cb-Scn" id="hJ4-kX-KRC"/>
+                                                    </connections>
+                                                </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="T29-Rh-ds3" firstAttribute="top" secondItem="b1N-xx-Pmt" secondAttribute="topMargin" constant="5" id="Ws4-Kd-GlK"/>
-                                                <constraint firstItem="T29-Rh-ds3" firstAttribute="leading" secondItem="b1N-xx-Pmt" secondAttribute="leadingMargin" constant="7" id="YUy-Yn-Jhb"/>
+                                                <constraint firstAttribute="centerY" secondItem="bXt-aS-BL6" secondAttribute="centerY" id="0K2-A0-Q1A"/>
+                                                <constraint firstItem="bXt-aS-BL6" firstAttribute="leading" secondItem="T29-Rh-ds3" secondAttribute="trailing" constant="12" id="60s-fg-JeU"/>
+                                                <constraint firstItem="T29-Rh-ds3" firstAttribute="leading" secondItem="b1N-xx-Pmt" secondAttribute="leading" constant="15" id="GRr-dI-uSm"/>
+                                                <constraint firstAttribute="centerY" secondItem="T29-Rh-ds3" secondAttribute="centerY" id="Ikg-Uw-TCh"/>
+                                                <constraint firstAttribute="trailing" secondItem="bXt-aS-BL6" secondAttribute="trailing" constant="15" id="LNz-99-o0T"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -301,12 +315,13 @@
                         <outlet property="languageLabel" destination="t88-X1-hnf" id="65D-q9-UcO"/>
                         <outlet property="surnameCell" destination="eAw-bI-UjY" id="RgO-Ra-Eem"/>
                         <outlet property="surnameSwitch" destination="sV2-0V-ogq" id="fii-AD-53K"/>
+                        <outlet property="surnameTextField" destination="bXt-aS-BL6" id="q9H-ay-3WU"/>
                         <outlet property="versionLabel" destination="Nzx-Yy-ZIB" id="0SG-Qw-NgK"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NGE-Jx-yQH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2262" y="-808"/>
+            <point key="canvasLocation" x="2262" y="-807"/>
         </scene>
         <!--Empty Names View Controller-->
         <scene sceneID="aCK-fk-oZQ">

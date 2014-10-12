@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 };
 
 
-@interface SettingsTableViewController ()
+@interface SettingsTableViewController () <UITextFieldDelegate>
 
 @property (nonatomic) BOOL fetchingPreferencesChanged;
 
@@ -44,6 +44,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 @property (nonatomic, weak) IBOutlet UILabel *versionLabel;
 @property (nonatomic, weak) IBOutlet UISwitch *surnameSwitch;
 @property (nonatomic, weak) IBOutlet UITableViewCell *surnameCell;
+@property (nonatomic, weak) IBOutlet UITextField *surnameTextField;
 
 @end
 
@@ -129,6 +130,8 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
      setHidden:!surnameVisible];
     [self reloadDataAnimated:NO];
     
+    self.surnameTextField.text = [userDefaults stringForKey:kSettingsSurnameKey];
+    
     self.versionLabel.text = [NSString stringWithFormat:@"%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
 }
 
@@ -192,15 +195,15 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 
 #pragma mark - Table view delegate
 
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 44.0;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 44.0;
-}
+//- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return 44.0;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return 44.0;
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -232,6 +235,26 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
                              self.fetchingPreferencesChanged = YES;
                          }];
     }
+    else if (indexPath.section == kSettingsSectionAdvanced) {
+        if (indexPath.row == kSectionAdvancedRowSurname) {
+            [self.surnameTextField becomeFirstResponder];
+        }
+    }
+}
+
+#pragma mark - Text field delegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [[NSUserDefaults standardUserDefaults] setObject:textField.text
+                                              forKey:kSettingsSurnameKey];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+
+    return NO;
 }
 
 #pragma mark - Fetching preferences delegate
