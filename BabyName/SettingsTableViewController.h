@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+#import "StaticDataTableViewController.h"
+
 #import "FetchingPreferencesDelegate.h"
 #import "PresentingDelegate.h"
 
 @protocol SettingsTableViewControllerDelegate;
 
 
-@interface SettingsTableViewController : UITableViewController <FetchingPreferencesDelegate>
+@interface SettingsTableViewController : StaticDataTableViewController <FetchingPreferencesDelegate>
 
 @property (nonatomic, weak) id<SettingsTableViewControllerDelegate> delegate;
 @property (nonatomic, weak) id<PresentingDelegate> presentingDelegate;
