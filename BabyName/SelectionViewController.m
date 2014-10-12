@@ -8,6 +8,8 @@
 
 #import "SelectionViewController.h"
 
+#import "Constants.h"
+
 
 typedef NS_ENUM(NSUInteger, PanningDirection) {
     kPanningDirectionNone = 0,
@@ -33,6 +35,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 @interface SelectionViewController () <UIDynamicAnimatorDelegate>
 
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
+@property (nonatomic, weak) IBOutlet UILabel *surnameLabel;
 
 @property (nonatomic) BOOL panningEnabled;
 @property (nonatomic) PanningState panningState;
@@ -67,6 +70,10 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     if ([self.dataSource shouldReloadName]) {
         [self configureNameLabel];
     }
+
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    self.surnameLabel.alpha = ([userDefaults boolForKey:kSettingsShowSurnameKey]) ? 1.0 : 0.0;
+    self.surnameLabel.text = [userDefaults stringForKey:kSettingsSurnameKey];
 }
 
 - (void)didReceiveMemoryWarning {

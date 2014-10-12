@@ -717,7 +717,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erJ-k9-2IT">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erJ-k9-2IT" userLabel="Name">
                                 <rect key="frame" x="16" y="216" width="568" height="60"/>
                                 <gestureRecognizers/>
                                 <constraints>
@@ -730,9 +730,22 @@
                                     <outletCollection property="gestureRecognizers" destination="Z0B-W7-bbC" appends="YES" id="6FT-JS-PIa"/>
                                 </connections>
                             </label>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sx5-jb-hns" userLabel="Surname">
+                                <rect key="frame" x="16" y="284" width="568" height="60"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="2wg-yF-7DQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="48"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="sx5-jb-hns" firstAttribute="leading" secondItem="m8w-us-ZZh" secondAttribute="leading" constant="16" id="4Zg-Lh-l63"/>
+                            <constraint firstAttribute="trailing" secondItem="sx5-jb-hns" secondAttribute="trailing" constant="16" id="I8l-eY-jG0"/>
+                            <constraint firstItem="sx5-jb-hns" firstAttribute="top" secondItem="erJ-k9-2IT" secondAttribute="bottom" constant="8" id="OdO-HO-eLG"/>
                             <constraint firstItem="erJ-k9-2IT" firstAttribute="centerY" secondItem="m8w-us-ZZh" secondAttribute="centerY" id="duq-XV-G7t"/>
                             <constraint firstItem="erJ-k9-2IT" firstAttribute="leading" secondItem="m8w-us-ZZh" secondAttribute="leadingMargin" id="eFp-CH-yIP"/>
                             <constraint firstItem="erJ-k9-2IT" firstAttribute="trailing" secondItem="m8w-us-ZZh" secondAttribute="trailingMargin" id="p9a-7Q-nOQ"/>
@@ -742,6 +755,7 @@
                     <size key="freeformSize" width="600" height="492"/>
                     <connections>
                         <outlet property="nameLabel" destination="erJ-k9-2IT" id="gPE-c6-8XT"/>
+                        <outlet property="surnameLabel" destination="sx5-jb-hns" id="C8e-fy-wSC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="383-b2-LOn" userLabel="First Responder" sceneMemberID="firstResponder"/>
