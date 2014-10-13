@@ -157,7 +157,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 
     // Row: due date picker.
     self.dueDatePicker.date = (dueDate) ? dueDate : [NSDate date];
-    // TODO: set the minimum date.
+    self.dueDatePicker.minimumDate = [NSDate date];
     [self cell:self.datePickerCell
      setHidden:!self.datePickerVisible];
 
