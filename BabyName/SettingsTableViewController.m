@@ -200,6 +200,10 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 
 - (IBAction)closeSettings:(id)sender
 {
+    if (self.datePickerVisible) {
+        [self showDatePickerAnimated:NO];
+    }
+    
     [self.presentingDelegate presentedViewControllerWillClose:self.fetchingPreferencesChanged];
 }
 
@@ -236,7 +240,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     return count;
 }
 
-- (void)showDatePicker
+- (void)showDatePickerAnimated:(BOOL)animated
 {
     // TODO: change the color of the label.
     if (self.datePickerVisible) {
@@ -255,7 +259,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
          setHidden:NO];
     }
 
-    [self reloadDataAnimated:YES];
+    [self reloadDataAnimated:animated];
 }
 
 #pragma mark - Table view delegate
@@ -283,12 +287,12 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
                 [self.surnameTextField becomeFirstResponder];
             }
             else if (row == kSectionAdvancedRowDueDate) {
-                [self showDatePicker];
+                [self showDatePickerAnimated:YES];
             }
         }
         else {
             if (row == kSectionAdvancedRowDueDate - 1) {
-                [self showDatePicker];
+                [self showDatePickerAnimated:YES];
             }
         }
     }
