@@ -30,21 +30,27 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 
 typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     kSectionAdvancedRowShowSurname = 0,
-    kSectionAdvancedRowSurname
+    kSectionAdvancedRowSurname,
+    kSectionAdvancedRowDueDate,
+    kSectionAdvancedRowDatePicker
 };
 
 
 @interface SettingsTableViewController () <UITextFieldDelegate>
 
 @property (nonatomic) BOOL fetchingPreferencesChanged;
+@property (nonatomic) BOOL datePickerVisible;
 
 @property (nonatomic, weak) IBOutlet UILabel *genderLabel;
 @property (nonatomic, weak) IBOutlet UILabel *languageLabel;
 @property (nonatomic, weak) IBOutlet UILabel *initialsLabel;
-@property (nonatomic, weak) IBOutlet UILabel *versionLabel;
 @property (nonatomic, weak) IBOutlet UISwitch *surnameSwitch;
 @property (nonatomic, weak) IBOutlet UITableViewCell *surnameCell;
 @property (nonatomic, weak) IBOutlet UITextField *surnameTextField;
+@property (nonatomic, weak) IBOutlet UILabel *dueDateLabel;
+@property (nonatomic, weak) IBOutlet UIDatePicker *dueDatePicker;
+@property (nonatomic, weak) IBOutlet UITableViewCell *datePickerCell;
+@property (nonatomic, weak) IBOutlet UILabel *versionLabel;
 
 @end
 
@@ -72,8 +78,11 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 {
     [super viewWillAppear:animated];
 
+    self.datePickerVisible = NO;
+
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
+    // Row: genders.
     NSInteger selectedGenders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
     switch (selectedGenders) {
         case 1:
@@ -89,6 +98,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
             break;
     }
     
+    // Row: languages.
     NSUInteger numberOfSelectedLanguages = [self numberOfSelectedLanguages];
     if (numberOfSelectedLanguages == 1) {
         NSInteger selectedLanguages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
@@ -109,6 +119,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
         self.languageLabel.text = [NSString stringWithFormat:@"%tu", numberOfSelectedLanguages];
     }
     
+    // Row: initials.
     NSArray *preferredInitials = [[userDefaults stringArrayForKey:kSettingsPreferredInitialsKey] sortedArrayUsingSelector:@selector(compare:)];
     NSUInteger preferredInitialsCount = preferredInitials.count;
     if (preferredInitialsCount == 0) {
@@ -124,15 +135,37 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
         self.initialsLabel.text = [preferredInitials componentsJoinedByString:@" "];
     }
     
+    // Row: show surname.
     BOOL surnameVisible = [userDefaults boolForKey:kSettingsShowSurnameKey];
     self.surnameSwitch.on = surnameVisible;
+    
+    // Row: surname.
     [self cell:self.surnameCell
      setHidden:!surnameVisible];
-    [self reloadDataAnimated:NO];
-    
     self.surnameTextField.text = [userDefaults stringForKey:kSettingsSurnameKey];
-    
+
+    // Row: due date.
+    NSDate *dueDate = [userDefaults objectForKey:kSettingsDueDateKey];
+    if (dueDate) {
+        self.dueDateLabel.text = [NSDateFormatter localizedStringFromDate:dueDate
+                                                                dateStyle:NSDateFormatterLongStyle
+                                                                timeStyle:NSDateFormatterNoStyle];
+    }
+    else {
+        self.dueDateLabel.text = nil;
+    }
+
+    // Row: due date picker.
+    self.dueDatePicker.date = (dueDate) ? dueDate : [NSDate date];
+    // TODO: set the minimum date.
+    [self cell:self.datePickerCell
+     setHidden:!self.datePickerVisible];
+
+    // TODO: replace version label with dedicated views.
     self.versionLabel.text = [NSString stringWithFormat:@"%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
+
+    // Show/hide dynamic cells.
+    [self reloadDataAnimated:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -182,6 +215,16 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     [self reloadDataAnimated:YES];
 }
 
+- (IBAction)changeDueDate:(id)sender
+{
+    UIDatePicker *datePicker = sender;
+
+    // Update the due date label.
+    self.dueDateLabel.text = [NSDateFormatter localizedStringFromDate:datePicker.date
+                                                            dateStyle:NSDateFormatterLongStyle
+                                                            timeStyle:NSDateFormatterNoStyle];
+}
+
 #pragma mark - Private methods
 
 - (NSUInteger)numberOfSelectedLanguages
@@ -191,6 +234,28 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     NSUInteger count = ((selectedLanguages >> 3) & 1) + ((selectedLanguages >> 2) & 1) + ((selectedLanguages >> 1) & 1) + (selectedLanguages & 1);
     
     return count;
+}
+
+- (void)showDatePicker
+{
+    // TODO: change the color of the label.
+    if (self.datePickerVisible) {
+        self.datePickerVisible = NO;
+
+        [[NSUserDefaults standardUserDefaults] setObject:self.dueDatePicker.date
+                                                  forKey:kSettingsDueDateKey];
+
+        [self cell:self.datePickerCell
+         setHidden:YES];
+    }
+    else {
+        self.datePickerVisible = YES;
+        
+        [self cell:self.datePickerCell
+         setHidden:NO];
+    }
+
+    [self reloadDataAnimated:YES];
 }
 
 #pragma mark - Table view delegate
@@ -207,39 +272,55 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath
-                             animated:YES];
+    NSInteger section = indexPath.section;
+    NSInteger row = indexPath.row;
     
-    if (indexPath.section == kSettingsSectionRestart) {
+    if (section == kSettingsSectionAdvanced) {
+        BOOL surnameVisible = [[NSUserDefaults standardUserDefaults] boolForKey:kSettingsShowSurnameKey];
+        
+        if (surnameVisible) {
+            if (row == kSectionAdvancedRowSurname) {
+                [self.surnameTextField becomeFirstResponder];
+            }
+            else if (row == kSectionAdvancedRowDueDate) {
+                [self showDatePicker];
+            }
+        }
+        else {
+            if (row == kSectionAdvancedRowDueDate - 1) {
+                [self showDatePicker];
+            }
+        }
+    }
+    else if (section == kSettingsSectionRestart) {
         // NOTE: UIAlertController is iOS8 only, in case of backporting the app use UIActionSheet.
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Restart selection", nil)
                                                                                  message:NSLocalizedString(@"All your current selections and rejections will be cancelled.", nil)
                                                                           preferredStyle:UIAlertControllerStyleActionSheet];
-
+        
         UIAlertAction *restartAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Restart", @"Restart button in the action sheet")
                                                                 style:UIAlertActionStyleDestructive
                                                               handler:^(UIAlertAction *action){
-                                                                // Inform the delegate to reset all selections.
-                                                                [self.delegate resetAllSelections];
-                                                            }];
+                                                                  // Inform the delegate to reset all selections.
+                                                                  [self.delegate resetAllSelections];
+                                                              }];
         [alertController addAction:restartAction];
-
+        
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel button in the action sheet")
                                                                style:UIAlertActionStyleCancel
                                                              handler:nil];
         [alertController addAction:cancelAction];
-
+        
         [self presentViewController:alertController
                            animated:YES
                          completion:^{
                              self.fetchingPreferencesChanged = YES;
                          }];
     }
-    else if (indexPath.section == kSettingsSectionAdvanced) {
-        if (indexPath.row == kSectionAdvancedRowSurname) {
-            [self.surnameTextField becomeFirstResponder];
-        }
-    }
+
+    
+    [tableView deselectRowAtIndexPath:indexPath
+                             animated:YES];
 }
 
 #pragma mark - Text field delegate
