@@ -202,8 +202,8 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 - (IBAction)closeSettings:(id)sender
 {
     if (self.datePickerVisible) {
-        [self showDatePickerAnimated:NO
-                             andSave:YES];
+        [self revealDatePickerAnimated:NO
+                               andSave:YES];
     }
     
     [self.presentingDelegate presentedViewControllerWillClose:self.fetchingPreferencesChanged];
@@ -242,7 +242,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     return count;
 }
 
-- (void)showDatePickerAnimated:(BOOL)animated andSave:(BOOL)save
+- (void)revealDatePickerAnimated:(BOOL)animated andSave:(BOOL)save
 {
     // TODO: change the color of the label.
     if (self.datePickerVisible) {
@@ -307,14 +307,14 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
                 [self.surnameTextField becomeFirstResponder];
             }
             else if (row == kSectionAdvancedRowDueDate) {
-                [self showDatePickerAnimated:YES
-                                     andSave:!self.datePickerClearing];
+                [self revealDatePickerAnimated:YES
+                                       andSave:!self.datePickerClearing];
             }
         }
         else {
             if (row == kSectionAdvancedRowDueDate - 1) {
-                [self showDatePickerAnimated:YES
-                                     andSave:!self.datePickerClearing];
+                [self revealDatePickerAnimated:YES
+                                       andSave:!self.datePickerClearing];
             }
         }
     }
@@ -357,8 +357,8 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
         return YES;
     }
     else {
-        [self showDatePickerAnimated:YES
-                             andSave:!self.datePickerClearing];
+        [self revealDatePickerAnimated:YES
+                               andSave:!self.datePickerClearing];
         
         return NO;
     }
