@@ -235,7 +235,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="12" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bXt-aS-BL6">
-                                                    <rect key="frame" x="227" y="7" width="358" height="30"/>
+                                                    <rect key="frame" x="223" y="7" width="362" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
                                                     <connections>
@@ -245,31 +245,40 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="centerY" secondItem="bXt-aS-BL6" secondAttribute="centerY" id="0K2-A0-Q1A"/>
-                                                <constraint firstItem="bXt-aS-BL6" firstAttribute="leading" secondItem="T29-Rh-ds3" secondAttribute="trailing" constant="12" id="60s-fg-JeU"/>
+                                                <constraint firstItem="bXt-aS-BL6" firstAttribute="leading" secondItem="T29-Rh-ds3" secondAttribute="trailing" constant="8" id="60s-fg-JeU"/>
                                                 <constraint firstItem="T29-Rh-ds3" firstAttribute="leading" secondItem="b1N-xx-Pmt" secondAttribute="leading" constant="15" id="GRr-dI-uSm"/>
                                                 <constraint firstAttribute="centerY" secondItem="T29-Rh-ds3" secondAttribute="centerY" id="Ikg-Uw-TCh"/>
                                                 <constraint firstAttribute="trailing" secondItem="bXt-aS-BL6" secondAttribute="trailing" constant="15" id="LNz-99-o0T"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="8e3-qO-i2j" detailTextLabel="TQS-g0-fUx" style="IBUITableViewCellStyleValue1" id="Thz-oI-6c7">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Thz-oI-6c7">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Thz-oI-6c7" id="Xq3-pw-bNN">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Due date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8e3-qO-i2j">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Due date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yj2-wT-6Ab">
+                                                    <rect key="frame" x="15" y="11" width="200" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TQS-g0-fUx">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <textField opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TJC-66-CaA">
+                                                    <rect key="frame" x="223" y="7" width="362" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="6aS-Cb-Scn" id="Les-5t-kVp"/>
+                                                    </connections>
+                                                </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="TJC-66-CaA" firstAttribute="leading" secondItem="Yj2-wT-6Ab" secondAttribute="trailing" constant="8" id="5JF-7J-jAR"/>
+                                                <constraint firstAttribute="centerY" secondItem="Yj2-wT-6Ab" secondAttribute="centerY" id="BVq-oE-vZv"/>
+                                                <constraint firstAttribute="centerY" secondItem="TJC-66-CaA" secondAttribute="centerY" id="Mxt-Fz-ZRE"/>
+                                                <constraint firstItem="Yj2-wT-6Ab" firstAttribute="leading" secondItem="Xq3-pw-bNN" secondAttribute="leading" constant="15" id="lw3-Kw-f73"/>
+                                                <constraint firstAttribute="trailing" secondItem="TJC-66-CaA" secondAttribute="trailing" constant="15" id="oDY-yA-5UJ"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="217" id="Zt5-q7-GsX">
@@ -354,8 +363,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="datePickerCell" destination="Zt5-q7-GsX" id="0b5-ND-O3P"/>
-                        <outlet property="dueDateLabel" destination="TQS-g0-fUx" id="JCf-3a-z0f"/>
                         <outlet property="dueDatePicker" destination="j8U-it-HeB" id="Qqj-RW-uNz"/>
+                        <outlet property="dueDateTextField" destination="TJC-66-CaA" id="9Es-ma-pNM"/>
                         <outlet property="genderLabel" destination="2WS-AB-Baa" id="Qlv-b4-xu9"/>
                         <outlet property="initialsLabel" destination="vh8-AZ-Ym4" id="L6f-RC-nXW"/>
                         <outlet property="languageLabel" destination="t88-X1-hnf" id="65D-q9-UcO"/>
@@ -367,7 +376,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NGE-Jx-yQH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2262" y="-809"/>
+            <point key="canvasLocation" x="2262" y="-807"/>
         </scene>
         <!--Empty Names View Controller-->
         <scene sceneID="aCK-fk-oZQ">
