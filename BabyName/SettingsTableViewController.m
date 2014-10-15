@@ -39,6 +39,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 @interface SettingsTableViewController () <UITextFieldDelegate>
 
 @property (nonatomic) BOOL fetchingPreferencesChanged;
+@property (nonatomic) BOOL surnameCellVisible;
 @property (nonatomic) BOOL datePickerVisible;
 @property (nonatomic) BOOL datePickerClearing;
 
@@ -69,6 +70,8 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.fetchingPreferencesChanged = NO;
+
+    self.dueDatePicker.minimumDate = [NSDate date];
     
     self.insertTableViewRowAnimation = UITableViewRowAnimationMiddle;
     self.deleteTableViewRowAnimation = UITableViewRowAnimationMiddle;
@@ -139,12 +142,23 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     
     // Row: show surname.
     BOOL surnameVisible = [userDefaults boolForKey:kSettingsShowSurnameKey];
-    self.surnameSwitch.on = surnameVisible;
+    NSString *surname = [userDefaults stringForKey:kSettingsSurnameKey];
+    self.surnameCellVisible = (surnameVisible && surname);
+    
+    self.surnameCellVisible = [userDefaults boolForKey:kSettingsShowSurnameKey] && [userDefaults stringForKey:kSettingsSurnameKey];
+    self.surnameSwitch.on = self.surnameCellVisible;
     
     // Row: surname.
-    [self cell:self.surnameCell
-     setHidden:!surnameVisible];
-    self.surnameTextField.text = [userDefaults stringForKey:kSettingsSurnameKey];
+    if (self.surnameCellVisible) {
+        [self cell:self.surnameCell
+         setHidden:NO];
+        
+        self.surnameTextField.text = [userDefaults stringForKey:kSettingsSurnameKey];
+    }
+    else {
+        [self cell:self.surnameCell
+         setHidden:YES];
+    }
 
     // Row: due date.
     NSDate *dueDate = [userDefaults objectForKey:kSettingsDueDateKey];
@@ -158,7 +172,6 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     }
 
     // Row: due date picker.
-    self.dueDatePicker.minimumDate = [NSDate date];
     [self cell:self.datePickerCell
      setHidden:YES];
 
@@ -209,16 +222,42 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     [self.presentingDelegate presentedViewControllerWillClose:self.fetchingPreferencesChanged];
 }
 
-- (IBAction)showSurname:(id)sender
+- (IBAction)toggleSurname:(id)sender
 {
-    BOOL surnameVisible = self.surnameSwitch.isOn;
+    self.surnameCellVisible = self.surnameSwitch.isOn;
     
-    [[NSUserDefaults standardUserDefaults] setBool:surnameVisible
-                                            forKey:kSettingsShowSurnameKey];
-    
-    [self cell:self.surnameCell
-     setHidden:!surnameVisible];
-    [self reloadDataAnimated:YES];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    // Toggled switch on.
+    //  1. Set preference to user defaults.
+    //  2. Show the surname cell.
+    //  3. Start editing the surname.
+    if (self.surnameCellVisible) {
+        [userDefaults setBool:YES
+                       forKey:kSettingsShowSurnameKey];
+        
+        [self cell:self.surnameCell
+         setHidden:NO];
+        [self reloadDataAnimated:YES];
+        
+        [self.surnameTextField becomeFirstResponder];
+    }
+    // Toggled switch off.
+    //  1. Set preference to user default.
+    //  2. Hide the surname cell.
+    //  3. Remove surname from user default.
+    //  4. Clear the surname text field.
+    else {
+        [userDefaults setBool:NO
+                       forKey:kSettingsShowSurnameKey];
+
+        [self cell:self.surnameCell
+         setHidden:YES];
+        [self reloadDataAnimated:YES];
+
+        [userDefaults removeObjectForKey:kSettingsSurnameKey];
+        
+        self.surnameTextField.text = nil;
+    }
 }
 
 - (IBAction)changeDueDate:(id)sender
@@ -302,9 +341,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     NSInteger row = indexPath.row;
     
     if (section == kSettingsSectionAdvanced) {
-        BOOL surnameVisible = [[NSUserDefaults standardUserDefaults] boolForKey:kSettingsShowSurnameKey];
-        
-        if (surnameVisible) {
+        if (self.surnameCellVisible) {
             if (row == kSectionAdvancedRowSurname) {
                 [self.surnameTextField becomeFirstResponder];
             }
@@ -345,7 +382,6 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
                              self.fetchingPreferencesChanged = YES;
                          }];
     }
-
     
     [tableView deselectRowAtIndexPath:indexPath
                              animated:YES];
@@ -369,8 +405,24 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     if (textField == self.surnameTextField) {
-        [[NSUserDefaults standardUserDefaults] setObject:textField.text
-                                                  forKey:kSettingsSurnameKey];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
+        NSString *surname = textField.text;
+        // Editing ends with a surname that needs to be saved to preferences.
+        if (![surname isEqualToString:@""]) {
+            [userDefaults setObject:textField.text
+                             forKey:kSettingsSurnameKey];
+        }
+        // Editing ends without a surname.
+        //  1. Remove any existing surname from preferences.
+        //  2. Toggle the switch to disable surname visualization.
+        //  3. Hide the cell with the text field to enter the surname.
+        else {
+            [userDefaults removeObjectForKey:kSettingsSurnameKey];
+
+            self.surnameSwitch.on = NO;
+            [self toggleSurname:self];
+        }
     }
 }
 
@@ -385,11 +437,11 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField
 {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
     if (textField == self.dueDateTextField) {
         self.datePickerClearing = YES;
         
-        // Remove preference for due date.
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults removeObjectForKey:kSettingsDueDateKey];
     }
 

@@ -204,7 +204,7 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sV2-0V-ogq">
                                                     <rect key="frame" x="536" y="7" width="51" height="31"/>
                                                     <connections>
-                                                        <action selector="showSurname:" destination="6aS-Cb-Scn" eventType="valueChanged" id="Tqa-KC-u1s"/>
+                                                        <action selector="toggleSurname:" destination="6aS-Cb-Scn" eventType="valueChanged" id="zQL-mN-B2D"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -237,7 +237,7 @@
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="12" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bXt-aS-BL6">
                                                     <rect key="frame" x="223" y="7" width="362" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="6aS-Cb-Scn" id="hJ4-kX-KRC"/>
                                                     </connections>
@@ -266,7 +266,7 @@
                                                 <textField opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TJC-66-CaA">
                                                     <rect key="frame" x="223" y="7" width="362" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="6aS-Cb-Scn" id="Les-5t-kVp"/>
                                                     </connections>
