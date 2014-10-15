@@ -14,10 +14,21 @@
 #import "SettingsTableViewController.h"
 #import "SearchNameTableViewController.h"
 
+#if DEBUG
+    #import "TweaksTableViewController.h"
+#endif  
+
 
 @interface MainViewController () <UIDynamicAnimatorDelegate, SettingsTableViewControllerDelegate, PresentingDelegate>
 
 @property (nonatomic, strong) MainContainerViewController *containerViewController; // TODO: check if this property should be strong or weak.
+
+@property (nonatomic, weak) IBOutlet UIButton *settingsButton;
+
+#if DEBUG
+@property (nonatomic, strong) NSArray *cyanShades;
+@property (nonatomic, strong) NSArray *pinkShades;
+#endif
 
 @end
 
@@ -28,7 +39,52 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
+#if DEBUG
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                            action:@selector(showTweaks:)];
+    [self.settingsButton addGestureRecognizer:longPress];
+#endif
 }
+
+#if DEBUG
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    self.cyanShades = @[
+                        [UIColor colorWithRed:163.0/255.0 green:216.0/255.0 blue:255.0/255.0 alpha:1.0],
+                        [UIColor colorWithRed:216.0/255.0 green:232.0/255.0 blue:255.0/255.0 alpha:1.0],
+                        [UIColor colorWithRed:211.0/255.0 green:217.0/255.0 blue:255.0/255.0 alpha:1.0],
+                        [UIColor colorWithRed:201.0/255.0 green:222.0/255.0 blue:255.0/255.0 alpha:1.0]
+                        ];
+    
+    self.pinkShades = @[
+                        [UIColor colorWithRed:255.0/255.0 green:221.0/255.0 blue:252.0/255.0 alpha:1.0],
+                        [UIColor colorWithRed:255.0/255.0 green:196.0/255.0 blue:224.0/255.0 alpha:1.0],
+                        [UIColor colorWithRed:255.0/255.0 green:186.0/255.0 blue:230.0/255.0 alpha:1.0],
+                        [UIColor colorWithRed:255.0/255.0 green:216.0/255.0 blue:251.0/255.0 alpha:1.0]
+                        ];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSInteger gender = [userDefaults integerForKey:kSettingsSelectedGendersKey];
+    NSInteger selectedCyan = [userDefaults integerForKey:kTweaksCyanShadeKey];
+    NSInteger selectedPink = [userDefaults integerForKey:kTweaksPinkShadeKey];
+    switch (gender) {
+        case 1:
+            self.view.backgroundColor = self.cyanShades[selectedCyan];
+            break;
+
+        case 2:
+            self.view.backgroundColor = self.pinkShades[selectedPink];
+            break;
+
+        case 3:
+            self.view.backgroundColor = [UIColor greenColor];
+            break;
+    }
+}
+#endif
 
 - (void)didReceiveMemoryWarning
 {
@@ -72,6 +128,21 @@
                       allowUserInterruption:YES
                                  completion:nil];
 }
+
+#if DEBUG
+- (void)showTweaks:(UILongPressGestureRecognizer *)gesture
+{
+    if (gesture.state == UIGestureRecognizerStateEnded) {
+        TweaksTableViewController *tweaksController = [[TweaksTableViewController alloc] init];
+        tweaksController.presentingDelegate = self;
+
+        UINavigationController *tweaksNavController = [[UINavigationController alloc] initWithRootViewController:tweaksController];
+        [self presentViewController:tweaksNavController
+                           animated:YES
+                         completion:nil];
+    }
+}
+#endif
 
 #pragma mark - Private methods
 

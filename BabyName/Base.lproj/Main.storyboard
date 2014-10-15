@@ -96,6 +96,9 @@
                             <constraint firstItem="Cj4-m5-dDv" firstAttribute="leading" secondItem="PBz-82-rUH" secondAttribute="leading" id="tl2-Va-szY"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="settingsButton" destination="aIj-PG-8Q2" id="dSa-VC-VmJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xzU-PU-lHV" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="oQh-Sa-oWz">
@@ -748,7 +751,7 @@
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="dAw-BK-5dq">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
                     <connections>
@@ -796,7 +799,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="sx5-jb-hns" firstAttribute="leading" secondItem="m8w-us-ZZh" secondAttribute="leading" constant="16" id="4Zg-Lh-l63"/>
                             <constraint firstAttribute="trailing" secondItem="sx5-jb-hns" secondAttribute="trailing" constant="16" id="I8l-eY-jG0"/>
@@ -845,7 +848,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="qfy-2V-ZxE" firstAttribute="trailing" secondItem="tgb-wP-k2T" secondAttribute="trailingMargin" id="VTE-ws-MKc"/>
                             <constraint firstItem="qfy-2V-ZxE" firstAttribute="centerY" secondItem="tgb-wP-k2T" secondAttribute="centerY" id="VfW-u1-4Jd"/>
