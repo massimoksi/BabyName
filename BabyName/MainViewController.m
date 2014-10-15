@@ -73,6 +73,28 @@
                                  completion:nil];
 }
 
+#pragma mark - Private methods
+
+- (void)showAlertWithMessage:(NSString *)message
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil)
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction *action){
+                                                            // Dismiss alert controller.
+                                                            [alertController dismissViewControllerAnimated:YES
+                                                                                                completion:nil]; 
+                                                        }];
+    [alertController addAction:acceptAction];
+
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
+}
+
 #pragma mark - Dynamics drawer view controller delegate
 
 - (BOOL)dynamicsDrawerViewController:(MSDynamicsDrawerViewController *)drawerViewController shouldBeginPanePan:(UIPanGestureRecognizer *)panGestureRecognizer
@@ -106,7 +128,7 @@
         if (![[NSFileManager defaultManager] copyItemAtURL:preloadURL
                                                      toURL:storeURL
                                                      error:&error]) {
-            // TODO: handle error.
+            [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
         }
         
         // Re-load the persistent store.
@@ -115,11 +137,11 @@
                                                  URL:storeURL
                                              options:nil
                                                error:&error]) {
-            // TODO: handle error.
+            [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
         }
     }
     else {
-        // TODO: handle error.
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
     }
 }
 

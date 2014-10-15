@@ -67,7 +67,7 @@
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
-    	// TODO: handle error.
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
     }
     
     [self configureSearchController];
@@ -152,6 +152,26 @@
             cell.stateImageView.image = [UIImage imageNamed:@"Preferred"];
             break;
     }
+}
+
+- (void)showAlertWithMessage:(NSString *)message
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil)
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction *action){
+                                                            // Dismiss alert controller.
+                                                            [alertController dismissViewControllerAnimated:YES
+                                                                                                completion:nil]; 
+                                                        }];
+    [alertController addAction:acceptAction];
+
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
 }
 
 #pragma mark - Table view data source
@@ -256,7 +276,7 @@
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
-        // TODO: handle error.
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
     }
 }
 
@@ -274,7 +294,7 @@
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
-        // TODO: handle error.
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
     }
     else {
         // Update the table view displayed by the search results controller.
@@ -321,7 +341,7 @@
 
         NSError *error;
         if (![self.managedObjectContext save:&error]) {
-            // TODO: handle error.
+            [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
         }
         else {
             self.fetchedObjectsChanged = YES;
