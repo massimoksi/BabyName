@@ -244,13 +244,15 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 
 - (void)revealDatePickerAnimated:(BOOL)animated andSave:(BOOL)save
 {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
     // TODO: change the color of the label.
     if (self.datePickerVisible) {
         self.datePickerVisible = NO;
 
         if (save) {
-            [[NSUserDefaults standardUserDefaults] setObject:self.dueDatePicker.date
-                                                      forKey:kSettingsDueDateKey];
+            [userDefaults setObject:self.dueDatePicker.date
+                             forKey:kSettingsDueDateKey];
         }
 
         self.dueDateTextField.clearButtonMode = UITextFieldViewModeNever;
@@ -260,7 +262,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     else {
         self.datePickerVisible = YES;
         
-        NSDate *dueDate = [[NSUserDefaults standardUserDefaults] objectForKey:kSettingsDueDateKey];
+        NSDate *dueDate = [userDefaults objectForKey:kSettingsDueDateKey];
         if (dueDate) {
             self.dueDatePicker.date = dueDate;
         }
