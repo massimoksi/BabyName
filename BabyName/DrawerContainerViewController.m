@@ -189,6 +189,26 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
     }
 }
 
+- (void)showAlertWithMessage:(NSString *)message
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil)
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction *action){
+                                                            // Dismiss alert controller.
+                                                            [alertController dismissViewControllerAnimated:YES
+                                                                                                completion:nil]; 
+                                                        }];
+    [alertController addAction:acceptAction];
+
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
+}
+
 #pragma mark - Accepted names view data source
 
 - (NSInteger)numberOfAcceptedNames
@@ -208,7 +228,7 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
-        // TODO: handle error.
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
 
         return NO;
     }
@@ -243,7 +263,7 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
 
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
-        // TODO: handle error.
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
 
         return NO;
     }

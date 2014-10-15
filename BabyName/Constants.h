@@ -14,6 +14,7 @@ extern NSString * const kSettingsSelectedLanguagesKey;
 extern NSString * const kSettingsPreferredInitialsKey;
 extern NSString * const kSettingsShowSurnameKey;
 extern NSString * const kSettingsSurnameKey;
+extern NSString * const kSettingsDueDateKey;
 
 
 typedef NS_ENUM(NSInteger, LanguageIndex) {
