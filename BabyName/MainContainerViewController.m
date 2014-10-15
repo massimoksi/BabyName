@@ -163,6 +163,26 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
                             }];
 }
 
+- (void)showAlertWithMessage:(NSString *)message
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil)
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction *action){
+                                                            // Dismiss alert controller.
+                                                            [alertController dismissViewControllerAnimated:YES
+                                                                                                completion:nil]; 
+                                                        }];
+    [alertController addAction:acceptAction];
+
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
+}
+
 #pragma mark - Selection view data source
 
 - (BOOL)shouldReloadName
@@ -199,7 +219,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
-        // TODO: handle error.
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
     }
     else {
 #if DEBUG
@@ -222,7 +242,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
-        // TODO: handle error.
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
     }
     else {
 #if DEBUG
