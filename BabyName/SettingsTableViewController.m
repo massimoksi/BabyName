@@ -285,7 +285,6 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
-    // TODO: change the color of the label.
     if (self.datePickerVisible) {
         self.datePickerVisible = NO;
 
@@ -294,6 +293,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
                              forKey:kSettingsDueDateKey];
         }
 
+        self.dueDateTextField.textColor = [UIColor blackColor]; // temp
         self.dueDateTextField.clearButtonMode = UITextFieldViewModeNever;
         [self cell:self.datePickerCell
          setHidden:YES];
@@ -313,6 +313,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
                                                                         timeStyle:NSDateFormatterNoStyle];
         }
         
+        self.dueDateTextField.textColor = [UIColor redColor]; // temp
         self.dueDateTextField.clearButtonMode = UITextFieldViewModeAlways;
         [self cell:self.datePickerCell
          setHidden:NO];
