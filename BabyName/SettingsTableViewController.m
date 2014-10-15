@@ -275,6 +275,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 - (NSUInteger)numberOfSelectedLanguages
 {
     NSInteger selectedLanguages = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedLanguagesKey];
+    
     // NOTE: in case a new language is introduced, the count calculation needs to be updated.
     NSUInteger count = ((selectedLanguages >> 3) & 1) + ((selectedLanguages >> 2) & 1) + ((selectedLanguages >> 1) & 1) + (selectedLanguages & 1);
     
@@ -297,6 +298,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
         self.dueDateTextField.clearButtonMode = UITextFieldViewModeNever;
         [self cell:self.datePickerCell
          setHidden:YES];
+        [self reloadDataAnimated:animated];
     }
     else {
         self.datePickerVisible = YES;
@@ -317,10 +319,13 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
         self.dueDateTextField.clearButtonMode = UITextFieldViewModeAlways;
         [self cell:self.datePickerCell
          setHidden:NO];
+        [self reloadDataAnimated:animated];
+        
+        // Scroll the table view in order to make it completely visible.
+        [self.tableView scrollRectToVisible:self.datePickerCell.frame
+                                   animated:YES];
     }
-
-    [self reloadDataAnimated:animated];
-
+    
     self.datePickerClearing = NO;
 }
 
