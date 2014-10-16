@@ -54,6 +54,8 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.view.backgroundColor = [UIColor clearColor];
+    
     self.panningEnabled = YES;
     
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
