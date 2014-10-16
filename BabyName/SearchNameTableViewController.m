@@ -71,6 +71,10 @@
     }
     
     [self configureSearchController];
+
+    // Hide the search bar.
+    [self.tableView setContentOffset:CGPointMake(0.0, 44.0)
+                            animated:NO];
 }
 
 - (void)didReceiveMemoryWarning
