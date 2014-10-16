@@ -71,6 +71,10 @@
     }
     
     [self configureSearchController];
+
+    // Hide the search bar.
+    [self.tableView setContentOffset:CGPointMake(0.0, 44.0)
+                            animated:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -277,6 +281,12 @@
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
         [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
+    }
+    else {
+        // Reload table view in case some object has been changed.
+        if (self.fetchedObjectsChanged) {
+            [self.tableView reloadData];
+        }
     }
 }
 

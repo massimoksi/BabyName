@@ -94,7 +94,7 @@
                             forDirection:MSDynamicsDrawerDirectionRight];
     [drawerViewController addStylersFromArray:@[[MSDynamicsDrawerShadowStyler styler]]
                                  forDirection:MSDynamicsDrawerDirectionRight];
-
+    
     return YES;
 }
 

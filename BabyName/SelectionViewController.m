@@ -53,6 +53,9 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
+    // It's not possible to make the view transparent in Storyboard due to white labels.
+    self.view.backgroundColor = [UIColor clearColor];
     
     self.panningEnabled = YES;
     
