@@ -282,6 +282,12 @@
     if (![self.fetchedResultsController performFetch:&error]) {
         [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
     }
+    else {
+        // Reload table view in case some object has been changed.
+        if (self.fetchedObjectsChanged) {
+            [self.tableView reloadData];
+        }
+    }
 }
 
 - (void)didDismissSearchController:(UISearchController *)searchController
