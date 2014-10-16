@@ -8,12 +8,15 @@
 
 #import "MainViewController.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "Constants.h"
 #import "Suggestion.h"
 #import "MainContainerViewController.h"
 #import "SettingsTableViewController.h"
 #import "SearchNameTableViewController.h"
 
+// TODO: get rid of tweaks.
 #if DEBUG
     #import "TweaksTableViewController.h"
 #endif  
@@ -24,6 +27,8 @@
 @property (nonatomic, strong) MainContainerViewController *containerViewController; // TODO: check if this property should be strong or weak.
 
 @property (nonatomic, weak) IBOutlet UIButton *settingsButton;
+
+@property (nonatomic, strong) CAGradientLayer *genericBackgroundLayer;
 
 #if DEBUG
 @property (nonatomic, strong) NSArray *cyanShades;
@@ -40,6 +45,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
+    self.genericBackgroundLayer = [CAGradientLayer layer];
+    
 #if DEBUG
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self
                                                                                             action:@selector(showTweaks:)];
@@ -47,44 +54,56 @@
 #endif
 }
 
-#if DEBUG
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 
+#if DEBUG
     self.cyanShades = @[
-                        [UIColor colorWithRed:163.0/255.0 green:216.0/255.0 blue:255.0/255.0 alpha:1.0],
-                        [UIColor colorWithRed:216.0/255.0 green:232.0/255.0 blue:255.0/255.0 alpha:1.0],
-                        [UIColor colorWithRed:211.0/255.0 green:217.0/255.0 blue:255.0/255.0 alpha:1.0],
-                        [UIColor colorWithRed:201.0/255.0 green:222.0/255.0 blue:255.0/255.0 alpha:1.0]
-                        ];
+        [UIColor colorWithRed:163.0/255.0 green:216.0/255.0 blue:255.0/255.0 alpha:1.0],
+        [UIColor colorWithRed:216.0/255.0 green:232.0/255.0 blue:255.0/255.0 alpha:1.0],
+        [UIColor colorWithRed:211.0/255.0 green:217.0/255.0 blue:255.0/255.0 alpha:1.0],
+        [UIColor colorWithRed:201.0/255.0 green:222.0/255.0 blue:255.0/255.0 alpha:1.0]
+    ];
     
     self.pinkShades = @[
-                        [UIColor colorWithRed:255.0/255.0 green:221.0/255.0 blue:252.0/255.0 alpha:1.0],
-                        [UIColor colorWithRed:255.0/255.0 green:196.0/255.0 blue:224.0/255.0 alpha:1.0],
-                        [UIColor colorWithRed:255.0/255.0 green:186.0/255.0 blue:230.0/255.0 alpha:1.0],
-                        [UIColor colorWithRed:255.0/255.0 green:216.0/255.0 blue:251.0/255.0 alpha:1.0]
-                        ];
+        [UIColor colorWithRed:255.0/255.0 green:221.0/255.0 blue:252.0/255.0 alpha:1.0],
+        [UIColor colorWithRed:255.0/255.0 green:196.0/255.0 blue:224.0/255.0 alpha:1.0],
+        [UIColor colorWithRed:255.0/255.0 green:186.0/255.0 blue:230.0/255.0 alpha:1.0],
+        [UIColor colorWithRed:255.0/255.0 green:216.0/255.0 blue:251.0/255.0 alpha:1.0]
+    ];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger gender = [userDefaults integerForKey:kSettingsSelectedGendersKey];
     NSInteger selectedCyan = [userDefaults integerForKey:kTweaksCyanShadeKey];
     NSInteger selectedPink = [userDefaults integerForKey:kTweaksPinkShadeKey];
-    switch (gender) {
-        case 1:
-            self.view.backgroundColor = self.cyanShades[selectedCyan];
-            break;
 
-        case 2:
-            self.view.backgroundColor = self.pinkShades[selectedPink];
-            break;
-
-        case 3:
-            self.view.backgroundColor = [UIColor greenColor];
-            break;
+    // Create the gradient layer for the background.
+    self.genericBackgroundLayer.frame = self.view.bounds;
+    self.genericBackgroundLayer.colors = @[
+        (id)((UIColor *)self.cyanShades[selectedCyan]).CGColor,
+        (id)((UIColor *)self.pinkShades[selectedPink]).CGColor
+    ];
+    // Remove the gradient layer if already present.
+    if ([self.view.layer.sublayers objectAtIndex:0] == self.genericBackgroundLayer) {
+        [self.genericBackgroundLayer removeFromSuperlayer];
     }
-}
+
+    if (gender == kGenderBitmaskMale) {
+        self.view.backgroundColor = self.cyanShades[selectedCyan];
+    }
+    else if (gender == kGenderBitmaskFemale) {
+        self.view.backgroundColor = self.pinkShades[selectedPink];
+    }
+    else {
+        self.view.backgroundColor = [UIColor lightGrayColor];
+
+        [self.view.layer insertSublayer:self.genericBackgroundLayer
+                                atIndex:0];
+        self.view.layer.masksToBounds = YES;
+    }
 #endif
+}
 
 - (void)didReceiveMemoryWarning
 {
