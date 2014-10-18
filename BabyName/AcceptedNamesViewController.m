@@ -137,7 +137,7 @@
 
         // Create swipe buttons.
         MGSwipeButton *deleteButton = [MGSwipeButton buttonWithTitle:@""
-                                                                icon:[UIImage imageNamed:@"Delete"]
+                                                                icon:[[UIImage imageNamed:@"Delete"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
                                                      backgroundColor:[UIColor redColor]];
 
         return @[deleteButton];

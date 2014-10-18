@@ -381,15 +381,15 @@
         swipeSettings.transition = MGSwipeTransitionStatic;
 
         MGSwipeButton *rejectButton = [MGSwipeButton buttonWithTitle:@""
-        	                                                    icon:[UIImage imageNamed:@"Rejected"]
+        	                                                    icon:[[UIImage imageNamed:@"Rejected"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
         	                                         backgroundColor:[UIColor redColor]];
 
         MGSwipeButton *maybeButton = [MGSwipeButton buttonWithTitle:@""
-        	                                                   icon:[UIImage imageNamed:@"Maybe"]
+        	                                                   icon:[[UIImage imageNamed:@"Maybe"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
         	                                        backgroundColor:[UIColor yellowColor]];
 
         MGSwipeButton *acceptButton = [MGSwipeButton buttonWithTitle:@""
-        	                                                    icon:[UIImage imageNamed:@"Accepted"]
+        	                                                    icon:[[UIImage imageNamed:@"Accepted"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
         	                                         backgroundColor:[UIColor greenColor]];
 
         UITableView *activeTableView;
