@@ -145,15 +145,15 @@
             break;
             
         case kSelectionStateRejected:
-            cell.stateImageView.image = [UIImage imageNamed:@"Rejected"];
+            cell.stateImageView.image = [[UIImage imageNamed:@"Rejected"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             break;
             
         case kSelectionStateAccepted:
-            cell.stateImageView.image = [UIImage imageNamed:@"Accepted"];
+            cell.stateImageView.image = [[UIImage imageNamed:@"Accepted"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             break;
             
         case kSelectionStatePreferred:
-            cell.stateImageView.image = [UIImage imageNamed:@"Preferred"];
+            cell.stateImageView.image = [[UIImage imageNamed:@"Preferred"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             break;
     }
 }
