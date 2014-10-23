@@ -145,15 +145,15 @@
             break;
             
         case kSelectionStateRejected:
-            cell.stateImageView.image = [[UIImage imageNamed:@"Rejected"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            cell.stateImageView.image = [UIImage imageNamed:@"Rejected"];
             break;
             
         case kSelectionStateAccepted:
-            cell.stateImageView.image = [[UIImage imageNamed:@"Accepted"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            cell.stateImageView.image = [UIImage imageNamed:@"Accepted"];
             break;
             
         case kSelectionStatePreferred:
-            cell.stateImageView.image = [[UIImage imageNamed:@"Preferred"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            cell.stateImageView.image = [UIImage imageNamed:@"Preferred"];
             break;
     }
 }
@@ -381,16 +381,19 @@
         swipeSettings.transition = MGSwipeTransitionStatic;
 
         MGSwipeButton *rejectButton = [MGSwipeButton buttonWithTitle:@""
-        	                                                    icon:[[UIImage imageNamed:@"Rejected"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
-        	                                         backgroundColor:[UIColor redColor]];
+        	                                                    icon:[UIImage imageNamed:@"Rejected"]
+        	                                         backgroundColor:[UIColor redColor]
+                                                             padding:14];
 
         MGSwipeButton *maybeButton = [MGSwipeButton buttonWithTitle:@""
-        	                                                   icon:[[UIImage imageNamed:@"Maybe"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
-        	                                        backgroundColor:[UIColor yellowColor]];
+        	                                                   icon:[UIImage imageNamed:@"Refresh"]
+        	                                        backgroundColor:[UIColor yellowColor]
+                                                            padding:14];
 
         MGSwipeButton *acceptButton = [MGSwipeButton buttonWithTitle:@""
-        	                                                    icon:[[UIImage imageNamed:@"Accepted"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
-        	                                         backgroundColor:[UIColor greenColor]];
+        	                                                    icon:[UIImage imageNamed:@"Accepted"]
+        	                                         backgroundColor:[UIColor greenColor]
+                                                             padding:14];
 
         UITableView *activeTableView;
         if (self.searchControllerActive) {

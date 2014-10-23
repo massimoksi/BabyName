@@ -35,7 +35,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aIj-PG-8Q2" userLabel="Button - Settings">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aIj-PG-8Q2" userLabel="Button - Settings">
                                 <rect key="frame" x="278" y="556" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="56G-tb-UcA"/>
@@ -46,7 +46,7 @@
                                     <segue destination="ie2-NB-bOZ" kind="presentation" identifier="SettingsSegue" id="1We-Yg-ihW"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXX-Pb-RV2" userLabel="Button - List">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXX-Pb-RV2" userLabel="Button - List">
                                 <rect key="frame" x="556" y="20" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="bbU-jA-mGr"/>
@@ -63,7 +63,7 @@
                                     <segue destination="GA5-nV-Ywo" kind="embed" identifier="EmbedContainerSegue" id="R1z-VG-S91"/>
                                 </connections>
                             </containerView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UPX-kb-auN" userLabel="Button - Search">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UPX-kb-auN" userLabel="Button - Search">
                                 <rect key="frame" x="556" y="556" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="44" id="Cer-VB-Kvd"/>
@@ -423,14 +423,14 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="t9d-8t-hbl">
-                                            <rect key="frame" x="559" y="9" width="26" height="26"/>
+                                            <rect key="frame" x="569" y="14" width="16" height="16"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="26" id="KVT-jM-HsM"/>
-                                                <constraint firstAttribute="height" constant="26" id="YEc-QJ-NBE"/>
+                                                <constraint firstAttribute="width" constant="16" id="KVT-jM-HsM"/>
+                                                <constraint firstAttribute="height" constant="16" id="YEc-QJ-NBE"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9x-M9-Vhs">
-                                            <rect key="frame" x="15" y="11" width="532" height="22"/>
+                                            <rect key="frame" x="15" y="11" width="546" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="40r-pw-4dC"/>
                                             </constraints>
@@ -444,7 +444,7 @@
                                         <constraint firstAttribute="centerY" secondItem="e9x-M9-Vhs" secondAttribute="centerY" id="NAE-98-ogm"/>
                                         <constraint firstItem="e9x-M9-Vhs" firstAttribute="leading" secondItem="BIm-G0-Wea" secondAttribute="leading" constant="15" id="U1B-Li-IpZ"/>
                                         <constraint firstAttribute="trailing" secondItem="t9d-8t-hbl" secondAttribute="trailing" constant="15" id="mHQ-4G-uIG"/>
-                                        <constraint firstItem="t9d-8t-hbl" firstAttribute="leading" secondItem="e9x-M9-Vhs" secondAttribute="trailing" constant="12" id="q8h-AO-bTN"/>
+                                        <constraint firstItem="t9d-8t-hbl" firstAttribute="leading" secondItem="e9x-M9-Vhs" secondAttribute="trailing" constant="8" id="q8h-AO-bTN"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -509,7 +509,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5we-Xg-JN7">
-                                                    <rect key="frame" x="15" y="11" width="488" height="21"/>
+                                                    <rect key="frame" x="15" y="11" width="502" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="NSn-DT-Haf"/>
                                                     </constraints>
@@ -518,10 +518,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9JL-oO-NaA">
-                                                    <rect key="frame" x="515" y="8" width="26" height="26"/>
+                                                    <rect key="frame" x="525" y="13" width="16" height="16"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="26" id="0N5-eC-1Tq"/>
-                                                        <constraint firstAttribute="width" constant="26" id="ZTl-Gy-xjb"/>
+                                                        <constraint firstAttribute="height" constant="16" id="0N5-eC-1Tq"/>
+                                                        <constraint firstAttribute="width" constant="16" id="ZTl-Gy-xjb"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
@@ -530,7 +530,7 @@
                                                 <constraint firstAttribute="centerY" secondItem="9JL-oO-NaA" secondAttribute="centerY" constant="0.5" id="AWF-cg-G82"/>
                                                 <constraint firstAttribute="centerY" secondItem="5we-Xg-JN7" secondAttribute="centerY" id="HiV-Rh-TlO"/>
                                                 <constraint firstItem="5we-Xg-JN7" firstAttribute="leading" secondItem="x7B-wO-JhK" secondAttribute="leading" constant="8" id="Lx9-Xl-BQ8"/>
-                                                <constraint firstItem="9JL-oO-NaA" firstAttribute="leading" secondItem="5we-Xg-JN7" secondAttribute="trailing" constant="12" id="Q8L-ao-BgG"/>
+                                                <constraint firstItem="9JL-oO-NaA" firstAttribute="leading" secondItem="5we-Xg-JN7" secondAttribute="trailing" constant="8" id="Q8L-ao-BgG"/>
                                                 <constraint firstAttribute="trailing" secondItem="9JL-oO-NaA" secondAttribute="trailing" constant="15" id="wym-BR-Mdd"/>
                                             </constraints>
                                             <variation key="default">

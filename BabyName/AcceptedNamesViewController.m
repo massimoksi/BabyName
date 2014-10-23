@@ -63,7 +63,7 @@
     Suggestion *suggestion = [self.dataSource acceptedNameAtIndex:indexPath.row];
 
     cell.nameLabel.text = suggestion.name;
-    cell.stateImageView.image = (suggestion.state == kSelectionStatePreferred) ? [[UIImage imageNamed:@"Preferred"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] : nil;
+    cell.stateImageView.image = (suggestion.state == kSelectionStatePreferred) ? [UIImage imageNamed:@"Preferred"] : nil;
     cell.delegate = self;
     
     return cell;
@@ -137,8 +137,9 @@
 
         // Create swipe buttons.
         MGSwipeButton *deleteButton = [MGSwipeButton buttonWithTitle:@""
-                                                                icon:[[UIImage imageNamed:@"Delete"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
-                                                     backgroundColor:[UIColor redColor]];
+                                                                icon:[UIImage imageNamed:@"Rejected"]
+                                                     backgroundColor:[UIColor redColor]
+                                                             padding:14];
 
         return @[deleteButton];
     }
