@@ -61,7 +61,7 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
     NSArray *fetchedSuggestions = [self.managedObjectContext executeFetchRequest:fetchRequest
                                                                            error:&error];
     if (!fetchedSuggestions) {
-        // TODO: handle the error.
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
     }
     else {
         // Filter suggestions by preferred initials.
