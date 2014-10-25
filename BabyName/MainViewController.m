@@ -83,7 +83,7 @@
         self.containerViewController = [segue destinationViewController];
         self.containerViewController.managedObjectContext = self.managedObjectContext;
     }
-    else if ([segue.identifier isEqualToString:@"SettingsSegue"]) {   // TODO: rename segue.
+    else if ([segue.identifier isEqualToString:@"ShowSettingsSegue"]) {
         UINavigationController *settingsNavController = [segue destinationViewController];
         SettingsTableViewController *settingsViewController = (SettingsTableViewController *)settingsNavController.topViewController;
         settingsViewController.delegate = self;
