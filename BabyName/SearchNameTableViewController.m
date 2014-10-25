@@ -382,15 +382,18 @@
 
         MGSwipeButton *rejectButton = [MGSwipeButton buttonWithTitle:@""
         	                                                    icon:[UIImage imageNamed:@"Rejected"]
-        	                                         backgroundColor:[UIColor redColor]];
+        	                                         backgroundColor:[UIColor redColor]
+                                                             padding:14];
 
         MGSwipeButton *maybeButton = [MGSwipeButton buttonWithTitle:@""
-        	                                                   icon:[UIImage imageNamed:@"Maybe"]
-        	                                        backgroundColor:[UIColor yellowColor]];
+        	                                                   icon:[UIImage imageNamed:@"Refresh"]
+        	                                        backgroundColor:[UIColor yellowColor]
+                                                            padding:14];
 
         MGSwipeButton *acceptButton = [MGSwipeButton buttonWithTitle:@""
         	                                                    icon:[UIImage imageNamed:@"Accepted"]
-        	                                         backgroundColor:[UIColor greenColor]];
+        	                                         backgroundColor:[UIColor greenColor]
+                                                             padding:14];
 
         UITableView *activeTableView;
         if (self.searchControllerActive) {

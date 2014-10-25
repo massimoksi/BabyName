@@ -16,11 +16,6 @@
 #import "SettingsTableViewController.h"
 #import "SearchNameTableViewController.h"
 
-// TODO: get rid of tweaks.
-#if DEBUG
-    #import "TweaksTableViewController.h"
-#endif  
-
 
 @interface MainViewController () <UIDynamicAnimatorDelegate, SettingsTableViewControllerDelegate, PresentingDelegate>
 
@@ -28,12 +23,7 @@
 
 @property (nonatomic, weak) IBOutlet UIButton *settingsButton;
 
-@property (nonatomic, strong) CAGradientLayer *genericBackgroundLayer;
-
-#if DEBUG
-@property (nonatomic, strong) NSArray *cyanShades;
-@property (nonatomic, strong) NSArray *pinkShades;
-#endif
+@property (nonatomic, strong) CAGradientLayer *backgroundGradientLayer;
 
 @end
 
@@ -45,64 +35,32 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    self.genericBackgroundLayer = [CAGradientLayer layer];
-    
-#if DEBUG
-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                                                            action:@selector(showTweaks:)];
-    [self.settingsButton addGestureRecognizer:longPress];
-#endif
+    self.backgroundGradientLayer = [CAGradientLayer layer];
+    self.backgroundGradientLayer.frame = self.view.bounds;
+    [self.view.layer insertSublayer:self.backgroundGradientLayer
+                            atIndex:0];
+    self.view.layer.masksToBounds = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 
-#if DEBUG
-    self.cyanShades = @[
-        [UIColor colorWithRed:163.0/255.0 green:216.0/255.0 blue:255.0/255.0 alpha:1.0],
-        [UIColor colorWithRed:216.0/255.0 green:232.0/255.0 blue:255.0/255.0 alpha:1.0],
-        [UIColor colorWithRed:211.0/255.0 green:217.0/255.0 blue:255.0/255.0 alpha:1.0],
-        [UIColor colorWithRed:201.0/255.0 green:222.0/255.0 blue:255.0/255.0 alpha:1.0]
-    ];
-    
-    self.pinkShades = @[
-        [UIColor colorWithRed:255.0/255.0 green:221.0/255.0 blue:252.0/255.0 alpha:1.0],
-        [UIColor colorWithRed:255.0/255.0 green:196.0/255.0 blue:224.0/255.0 alpha:1.0],
-        [UIColor colorWithRed:255.0/255.0 green:186.0/255.0 blue:230.0/255.0 alpha:1.0],
-        [UIColor colorWithRed:255.0/255.0 green:216.0/255.0 blue:251.0/255.0 alpha:1.0]
-    ];
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSInteger gender = [userDefaults integerForKey:kSettingsSelectedGendersKey];
-    NSInteger selectedCyan = [userDefaults integerForKey:kTweaksCyanShadeKey];
-    NSInteger selectedPink = [userDefaults integerForKey:kTweaksPinkShadeKey];
-
-    // Create the gradient layer for the background.
-    self.genericBackgroundLayer.frame = self.view.bounds;
-    self.genericBackgroundLayer.colors = @[
-        (id)((UIColor *)self.cyanShades[selectedCyan]).CGColor,
-        (id)((UIColor *)self.pinkShades[selectedPink]).CGColor
-    ];
-    // Remove the gradient layer if already present.
-    if ([self.view.layer.sublayers objectAtIndex:0] == self.genericBackgroundLayer) {
-        [self.genericBackgroundLayer removeFromSuperlayer];
-    }
-
+    NSInteger gender = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedGendersKey];
     if (gender == kGenderBitmaskMale) {
-        self.view.backgroundColor = self.cyanShades[selectedCyan];
+        self.backgroundGradientLayer.colors = @[(id)[UIColor colorWithRed:163.0/255.0 green:216.0/255.0 blue:255.0/255.0 alpha:1.0].CGColor,
+                                                (id)[UIColor colorWithRed:56.0/255.0 green:171.0/255.0 blue:255.0/255.0 alpha:1.0].CGColor];
     }
     else if (gender == kGenderBitmaskFemale) {
-        self.view.backgroundColor = self.pinkShades[selectedPink];
+        self.backgroundGradientLayer.colors = @[(id)[UIColor colorWithRed:255.0/255.0 green:186.0/255.0 blue:230.0/255.0 alpha:1.0].CGColor,
+                                                (id)[UIColor colorWithRed:255.0/255.0 green:113.0/255.0 blue:149.0/255.0 alpha:1.0].CGColor];
     }
     else {
-        self.view.backgroundColor = [UIColor lightGrayColor];
-
-        [self.view.layer insertSublayer:self.genericBackgroundLayer
-                                atIndex:0];
-        self.view.layer.masksToBounds = YES;
+        self.backgroundGradientLayer.colors = @[(id)[UIColor colorWithRed:163.0/255.0 green:216.0/255.0 blue:255.0/255.0 alpha:1.0].CGColor,
+                                                (id)[UIColor colorWithRed:56.0/255.0 green:171.0/255.0 blue:255.0/255.0 alpha:1.0].CGColor,
+                                                (id)[UIColor colorWithRed:255.0/255.0 green:113.0/255.0 blue:149.0/255.0 alpha:1.0].CGColor,
+                                                (id)[UIColor colorWithRed:255.0/255.0 green:186.0/255.0 blue:230.0/255.0 alpha:1.0].CGColor];
     }
-#endif
 }
 
 - (void)didReceiveMemoryWarning
@@ -127,14 +85,18 @@
         self.containerViewController = [segue destinationViewController];
         self.containerViewController.managedObjectContext = self.managedObjectContext;
     }
-    else if ([segue.identifier isEqualToString:@"SettingsSegue"]) {   // TODO: rename segue.
+    else if ([segue.identifier isEqualToString:@"ShowSettingsSegue"]) {
         UINavigationController *settingsNavController = [segue destinationViewController];
+        settingsNavController.navigationBar.barStyle = UIStatusBarStyleLightContent;
+        
         SettingsTableViewController *settingsViewController = (SettingsTableViewController *)settingsNavController.topViewController;
         settingsViewController.delegate = self;
         settingsViewController.presentingDelegate = self;
     }
     else if ([segue.identifier isEqualToString:@"ShowSearchNameSegue"]) {
         UINavigationController *searchNameNavController = [segue destinationViewController];
+        searchNameNavController.navigationBar.barStyle = UIStatusBarStyleLightContent;
+        
         SearchNameTableViewController *searchNameViewController = (SearchNameTableViewController *)searchNameNavController.topViewController;
         searchNameViewController.managedObjectContext = self.managedObjectContext;
         searchNameViewController.presentingDelegate = self;
@@ -151,21 +113,6 @@
                       allowUserInterruption:YES
                                  completion:nil];
 }
-
-#if DEBUG
-- (void)showTweaks:(UILongPressGestureRecognizer *)gesture
-{
-    if (gesture.state == UIGestureRecognizerStateEnded) {
-        TweaksTableViewController *tweaksController = [[TweaksTableViewController alloc] init];
-        tweaksController.presentingDelegate = self;
-
-        UINavigationController *tweaksNavController = [[UINavigationController alloc] initWithRootViewController:tweaksController];
-        [self presentViewController:tweaksNavController
-                           animated:YES
-                         completion:nil];
-    }
-}
-#endif
 
 #pragma mark - Private methods
 
