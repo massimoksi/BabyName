@@ -246,8 +246,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     // Toggled switch off.
     //  1. Set preference to user default.
     //  2. Hide the surname cell.
-    //  3. Remove surname from user default.
-    //  4. Clear the surname text field.
+    //  3. Remove surname from user default (if empty).
     else {
         [userDefaults setBool:NO
                        forKey:kSettingsShowSurnameKey];
@@ -256,9 +255,11 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
          setHidden:YES];
         [self reloadDataAnimated:YES];
 
-        [userDefaults removeObjectForKey:kSettingsSurnameKey];
-        
-        self.surnameTextField.text = nil;
+        if ([self.surnameTextField.text isEqualToString:@""]) {
+            [userDefaults removeObjectForKey:kSettingsSurnameKey];
+
+            self.surnameTextField.text = nil;
+        }        
     }
 }
 
