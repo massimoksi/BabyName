@@ -416,6 +416,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchNameCell" id="aAu-4g-wtj" customClass="SearchNameTableViewCell">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -424,6 +425,7 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="t9d-8t-hbl">
                                             <rect key="frame" x="569" y="14" width="16" height="16"/>
+                                            <color key="tintColor" red="0.93491393327713013" green="0.29370671510696411" blue="0.35200083255767822" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="16" id="KVT-jM-HsM"/>
                                                 <constraint firstAttribute="height" constant="16" id="YEc-QJ-NBE"/>
@@ -477,6 +479,11 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="SXA-ju-BF4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.93491393327713013" green="0.29370671510696411" blue="0.35200083255767822" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.11778432875871658" green="0.13847029209136963" blue="0.24367153644561768" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
                     </navigationBar>
                     <connections>
                         <segue destination="eCq-A1-tOy" kind="relationship" relationship="rootViewController" id="hsT-Lh-ana"/>

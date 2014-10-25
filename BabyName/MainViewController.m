@@ -96,6 +96,7 @@
         SearchNameTableViewController *searchNameViewController = (SearchNameTableViewController *)searchNameNavController.topViewController;
         searchNameViewController.managedObjectContext = self.managedObjectContext;
         searchNameViewController.presentingDelegate = self;
+        searchNameNavController.navigationBar.barStyle = UIStatusBarStyleLightContent;
     }
 }
 
