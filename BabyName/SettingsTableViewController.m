@@ -76,6 +76,8 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     self.insertTableViewRowAnimation = UITableViewRowAnimationMiddle;
     self.deleteTableViewRowAnimation = UITableViewRowAnimationMiddle;
     self.reloadTableViewRowAnimation = UITableViewRowAnimationMiddle;
+    
+    self.surnameTextField.tintColor = [UIColor colorWithRed:240.0/255.0 green:74.0/255.0 blue:92.0/255.0 alpha:1.0];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -294,7 +296,10 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
                              forKey:kSettingsDueDateKey];
         }
 
-        self.dueDateTextField.textColor = [UIColor blackColor]; // temp
+        self.dueDateTextField.textColor = [UIColor colorWithRed:159.0/255.0
+                                                          green:160.0/255.0
+                                                           blue:164.0/255.0
+                                                          alpha:1.0];
         self.dueDateTextField.clearButtonMode = UITextFieldViewModeNever;
         [self cell:self.datePickerCell
          setHidden:YES];
@@ -315,7 +320,10 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
                                                                         timeStyle:NSDateFormatterNoStyle];
         }
         
-        self.dueDateTextField.textColor = [UIColor redColor]; // temp
+        self.dueDateTextField.textColor = [UIColor colorWithRed:240.0/255.0
+                                                          green:74.0/255.0
+                                                           blue:92.0/255.0
+                                                          alpha:1.0];
         self.dueDateTextField.clearButtonMode = UITextFieldViewModeAlways;
         [self cell:self.datePickerCell
          setHidden:NO];

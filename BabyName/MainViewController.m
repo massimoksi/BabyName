@@ -87,16 +87,19 @@
     }
     else if ([segue.identifier isEqualToString:@"ShowSettingsSegue"]) {
         UINavigationController *settingsNavController = [segue destinationViewController];
+        settingsNavController.navigationBar.barStyle = UIStatusBarStyleLightContent;
+        
         SettingsTableViewController *settingsViewController = (SettingsTableViewController *)settingsNavController.topViewController;
         settingsViewController.delegate = self;
         settingsViewController.presentingDelegate = self;
     }
     else if ([segue.identifier isEqualToString:@"ShowSearchNameSegue"]) {
         UINavigationController *searchNameNavController = [segue destinationViewController];
+        searchNameNavController.navigationBar.barStyle = UIStatusBarStyleLightContent;
+        
         SearchNameTableViewController *searchNameViewController = (SearchNameTableViewController *)searchNameNavController.topViewController;
         searchNameViewController.managedObjectContext = self.managedObjectContext;
         searchNameViewController.presentingDelegate = self;
-        searchNameNavController.navigationBar.barStyle = UIStatusBarStyleLightContent;
     }
 }
 
