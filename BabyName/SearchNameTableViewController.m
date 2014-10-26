@@ -139,6 +139,7 @@
     UITableViewController *searchResultsController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
     searchResultsController.tableView.dataSource = self;
     searchResultsController.tableView.delegate = self;
+    searchResultsController.tableView.allowsSelection = NO;
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
     self.searchController.delegate = self;
