@@ -18,4 +18,6 @@
 @property (nonatomic) int16_t state;
 @property (nonatomic, retain) NSString * variants;
 
+@property (nonatomic, readonly) NSString *initial;
+
 @end

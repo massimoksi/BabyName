@@ -59,7 +59,7 @@
     
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
     	                                                                managedObjectContext:self.managedObjectContext
-    	                                                                  sectionNameKeyPath:nil
+    	                                                                  sectionNameKeyPath:@"initial"
     	                                                                           cacheName:nil];
     self.fetchedResultsController.delegate = self;
 
@@ -73,6 +73,7 @@
     [self configureSearchController];
 
     // Hide the search bar.
+    // TODO: Move the search field into the navigation bar.
     [self.tableView setContentOffset:CGPointMake(0.0, 44.0)
                             animated:NO];
 }
@@ -193,7 +194,24 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	return [[self.fetchedResultsController sections] count];
+	return [self.fetchedResultsController sections].count;
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    return [self.fetchedResultsController sectionIndexTitles];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    return [self.fetchedResultsController sectionForSectionIndexTitle:title
+                                                              atIndex:index];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    id<NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
+    return sectionInfo.name;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -328,6 +346,7 @@
 
 - (BOOL)swipeTableCell:(MGSwipeTableCell *)cell canSwipe:(MGSwipeDirection)direction
 {
+    // Swipe only right to left.
     return (direction == MGSwipeDirectionRightToLeft);
 }
 
