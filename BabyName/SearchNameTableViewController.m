@@ -346,8 +346,12 @@
 
 - (BOOL)swipeTableCell:(MGSwipeTableCell *)cell canSwipe:(MGSwipeDirection)direction
 {
-    // Swipe only right to left.
-    return (direction == MGSwipeDirectionRightToLeft);
+    if (direction == MGSwipeDirectionRightToLeft) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
 }
 
 - (BOOL)swipeTableCell:(MGSwipeTableCell *)cell tappedButtonAtIndex:(NSInteger)index direction:(MGSwipeDirection)direction fromExpansion:(BOOL)fromExpansion
