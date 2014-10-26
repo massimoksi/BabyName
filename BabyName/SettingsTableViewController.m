@@ -38,7 +38,6 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 
 @interface SettingsTableViewController () <UITextFieldDelegate>
 
-@property (nonatomic) BOOL fetchingPreferencesChanged;
 @property (nonatomic) BOOL surnameCellVisible;
 @property (nonatomic) BOOL datePickerVisible;
 @property (nonatomic) BOOL datePickerClearing;
@@ -187,6 +186,16 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     [self reloadDataAnimated:NO];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    if (self.datePickerVisible) {
+        [self revealDatePickerAnimated:NO
+                               andSave:YES];
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -216,16 +225,6 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 }
 
 #pragma mark - Actions
-
-- (IBAction)closeSettings:(id)sender
-{
-    if (self.datePickerVisible) {
-        [self revealDatePickerAnimated:NO
-                               andSave:YES];
-    }
-    
-    [self.presentingDelegate presentedViewControllerWillClose:self.fetchingPreferencesChanged];
-}
 
 - (IBAction)toggleSurname:(id)sender
 {

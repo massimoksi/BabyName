@@ -25,7 +25,6 @@
 @property (nonatomic) NSInteger selectedLanguages;
 
 @property (nonatomic) BOOL searchControllerActive;
-@property (nonatomic) BOOL fetchedObjectsChanged;
 
 @property (nonatomic, readonly) UITableView *activeTableView;
 
@@ -110,13 +109,6 @@
     else {
         return self.tableView;
     }
-}
-
-#pragma mark - Actions
-
-- (IBAction)closeSearch:(id)sender
-{
-    [self.presentingDelegate presentedViewControllerWillClose:self.fetchedObjectsChanged];
 }
 
 #pragma mark - Private methods

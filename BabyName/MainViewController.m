@@ -17,7 +17,7 @@
 #import "SearchNameTableViewController.h"
 
 
-@interface MainViewController () <UIDynamicAnimatorDelegate, SettingsTableViewControllerDelegate, PresentingDelegate>
+@interface MainViewController () <UIDynamicAnimatorDelegate, SettingsTableViewControllerDelegate>
 
 @property (nonatomic, strong) MainContainerViewController *containerViewController; // TODO: check if this property should be strong or weak.
 
@@ -91,7 +91,6 @@
         
         SettingsTableViewController *settingsViewController = (SettingsTableViewController *)settingsNavController.topViewController;
         settingsViewController.delegate = self;
-        settingsViewController.presentingDelegate = self;
     }
     else if ([segue.identifier isEqualToString:@"ShowSearchNameSegue"]) {
         UINavigationController *searchNameNavController = [segue destinationViewController];
@@ -99,7 +98,6 @@
         
         SearchNameTableViewController *searchNameViewController = (SearchNameTableViewController *)searchNameNavController.topViewController;
         searchNameViewController.managedObjectContext = self.managedObjectContext;
-        searchNameViewController.presentingDelegate = self;
     }
 }
 
@@ -112,6 +110,22 @@
                                    animated:YES
                       allowUserInterruption:YES
                                  completion:nil];
+}
+
+- (IBAction)unwindToMain:(UIStoryboardSegue *)segue
+{
+    if ([segue.identifier isEqualToString:@"CloseSettingsSegue"]) {
+        SettingsTableViewController *settingsViewController = segue.sourceViewController;
+        if (settingsViewController.fetchingPreferencesChanged) {
+            [self.containerViewController updateSuggestions];
+        }
+    }
+    else if ([segue.identifier isEqualToString:@"CloseSearchSegue"]) {
+        SearchNameTableViewController *searchViewController = segue.sourceViewController;
+        if (searchViewController.fetchedObjectsChanged) {
+            [self.containerViewController updateSuggestions];
+        }
+    }
 }
 
 #pragma mark - Private methods
@@ -199,6 +213,7 @@
 
 #pragma mark - Presenting delegate
 
+// TODO: remove.
 - (void)presentedViewControllerWillClose:(BOOL)updated
 {
     if (updated) {

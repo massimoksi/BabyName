@@ -362,6 +362,7 @@
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="EL7-GU-BPY">
                             <connections>
                                 <action selector="closeSettings:" destination="6aS-Cb-Scn" id="cLt-fb-jTg"/>
+                                <segue destination="Cw6-SS-GIc" kind="unwind" identifier="CloseSettingsSegue" unwindAction="unwindToMain:" id="HXx-hT-IsK"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -379,6 +380,7 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NGE-Jx-yQH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Cw6-SS-GIc" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2262" y="-807"/>
         </scene>
@@ -470,11 +472,13 @@
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="fdr-mq-kmz">
                             <connections>
                                 <action selector="closeSearch:" destination="eCq-A1-tOy" id="khp-uS-u7N"/>
+                                <segue destination="06M-Ic-El5" kind="unwind" identifier="CloseSearchSegue" unwindAction="unwindToMain:" id="QFv-bx-lX8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DZw-LN-jeF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="06M-Ic-El5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2245" y="2901"/>
         </scene>

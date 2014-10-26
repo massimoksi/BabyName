@@ -70,7 +70,6 @@
 		5691AEA719C56EF100C1550F /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		56AE21E719E3295200302C57 /* SearchNameTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchNameTableViewController.h; sourceTree = "<group>"; };
 		56AE21E819E3295200302C57 /* SearchNameTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchNameTableViewController.m; sourceTree = "<group>"; };
-		56AE21EB19E338F300302C57 /* PresentingDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PresentingDelegate.h; sourceTree = "<group>"; };
 		56AE21EC19E33D8400302C57 /* SearchNameTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchNameTableViewCell.h; sourceTree = "<group>"; };
 		56AE21ED19E33D8400302C57 /* SearchNameTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchNameTableViewCell.m; sourceTree = "<group>"; };
 		56C6479F19AC62FF005B1D46 /* BabyName.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyName.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,7 +188,6 @@
 		5636493D19FBB64700FD8870 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				56AE21EB19E338F300302C57 /* PresentingDelegate.h */,
 				56E4D0D719D4998E0005DFDC /* FetchingPreferencesDelegate.h */,
 			);
 			name = Protocols;
