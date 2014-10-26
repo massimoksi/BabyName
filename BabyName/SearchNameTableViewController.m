@@ -45,24 +45,6 @@
     self.selectedGenders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
     self.selectedLanguages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    fetchRequest.fetchBatchSize = 20;
-    
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
-                                              inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.entity = entity;
-
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name"
-                                                                     ascending:YES
-                                                                      selector:@selector(caseInsensitiveCompare:)];
-    [fetchRequest setSortDescriptors:@[sortDescriptor]];
-    
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-    	                                                                managedObjectContext:self.managedObjectContext
-    	                                                                  sectionNameKeyPath:@"initial"
-    	                                                                           cacheName:nil];
-    self.fetchedResultsController.delegate = self;
-
     [self configurePredicateWithSearchString:@""];
     
     NSError *error;
@@ -93,6 +75,35 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - Accessors
+
+- (NSFetchedResultsController *)fetchedResultsController
+{
+    if (_fetchedResultsController) {
+        return _fetchedResultsController;
+    }
+
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.fetchBatchSize = 20;
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
+                                              inManagedObjectContext:self.managedObjectContext];
+    fetchRequest.entity = entity;
+
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name"
+                                                                     ascending:YES
+                                                                      selector:@selector(caseInsensitiveCompare:)];
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    
+    _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                    managedObjectContext:self.managedObjectContext
+                                                                      sectionNameKeyPath:@"initial"
+                                                                               cacheName:nil];
+    _fetchedResultsController.delegate = self;
+
+    return _fetchedResultsController;
+}
 
 #pragma mark - Actions
 
