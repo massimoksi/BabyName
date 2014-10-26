@@ -27,6 +27,8 @@
 @property (nonatomic) BOOL searchControllerActive;
 @property (nonatomic) BOOL fetchedObjectsChanged;
 
+@property (nonatomic, readonly) UITableView *activeTableView;
+
 @end
 
 
@@ -103,6 +105,16 @@
     _fetchedResultsController.delegate = self;
 
     return _fetchedResultsController;
+}
+
+- (UITableView *)activeTableView
+{
+    if (self.searchControllerActive) {
+        return ((UITableViewController *)self.searchController.searchResultsController).tableView;
+    }
+    else {
+        return self.tableView;
+    }
 }
 
 #pragma mark - Actions
@@ -260,27 +272,13 @@
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
-    UITableView *activeTableView;
-    if (self.searchControllerActive) {
-        activeTableView = ((UITableViewController *)self.searchController.searchResultsController).tableView;
-    }
-    else {
-        activeTableView = self.tableView;
-    }
-    [activeTableView beginUpdates];
+    [self.activeTableView beginUpdates];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
 	if (type == NSFetchedResultsChangeUpdate) {
-        UITableView *activeTableView;
-        if (self.searchControllerActive) {
-            activeTableView = ((UITableViewController *)self.searchController.searchResultsController).tableView;
-        }
-        else {
-            activeTableView = self.tableView;
-        }
-        SearchNameTableViewCell *swipedCell = (SearchNameTableViewCell *)[activeTableView cellForRowAtIndexPath:indexPath];
+        SearchNameTableViewCell *swipedCell = (SearchNameTableViewCell *)[self.activeTableView cellForRowAtIndexPath:indexPath];
         
 		[self configureCell:swipedCell
 			    atIndexPath:indexPath];
@@ -289,21 +287,14 @@
         [swipedCell setSwipeOffset:0.0
                           animated:YES
                         completion:^{
-                            [activeTableView reloadData];
+                            [self.activeTableView reloadData];
                         }];
 	}
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    UITableView *activeTableView;
-    if (self.searchControllerActive) {
-        activeTableView = ((UITableViewController *)self.searchController.searchResultsController).tableView;
-    }
-    else {
-        activeTableView = self.tableView;
-    }
-    [activeTableView endUpdates];
+    [self.activeTableView endUpdates];
 }
 
 #pragma mark - Search controller delegate
@@ -368,15 +359,7 @@
 - (BOOL)swipeTableCell:(MGSwipeTableCell *)cell tappedButtonAtIndex:(NSInteger)index direction:(MGSwipeDirection)direction fromExpansion:(BOOL)fromExpansion
 {
     if (direction == MGSwipeDirectionRightToLeft) {
-        UITableView *activeTableView;
-        if (self.searchControllerActive) {
-            activeTableView = ((UITableViewController *)self.searchController.searchResultsController).tableView;
-        }
-        else {
-            activeTableView = self.tableView;
-        }
-
-        NSIndexPath *swipedIndexPath = [activeTableView indexPathForCell:cell];
+        NSIndexPath *swipedIndexPath = [self.activeTableView indexPathForCell:cell];
         Suggestion *swipedSuggestion = [self.fetchedResultsController objectAtIndexPath:swipedIndexPath];
     
     	switch (swipedSuggestion.state) {
@@ -429,14 +412,7 @@
         	                                         backgroundColor:[UIColor greenColor]
                                                              padding:14];
 
-        UITableView *activeTableView;
-        if (self.searchControllerActive) {
-            activeTableView = ((UITableViewController *)self.searchController.searchResultsController).tableView;
-        }
-        else {
-            activeTableView = self.tableView;
-        }
-        NSIndexPath *swipedIndexPath = [activeTableView indexPathForCell:cell];
+        NSIndexPath *swipedIndexPath = [self.activeTableView indexPathForCell:cell];
         Suggestion *swipedSuggestion = [self.fetchedResultsController objectAtIndexPath:swipedIndexPath];
         NSArray *swipeButtons;
 
