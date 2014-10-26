@@ -211,17 +211,4 @@
     }
 }
 
-#pragma mark - Presenting delegate
-
-// TODO: remove.
-- (void)presentedViewControllerWillClose:(BOOL)updated
-{
-    if (updated) {
-        [self.containerViewController updateSuggestions];
-    }
-    
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
-}
-
 @end

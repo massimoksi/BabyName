@@ -14,9 +14,8 @@
 #import "AcceptedNamesViewController.h"
 
 
-// TODO: rename all segues.
-static NSString * const kEmptyNamesSegueID    = @"EmptyNamesSegue";
-static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
+static NSString * const kShowEmptyNamesSegueID    = @"ShowEmptyNamesSegue";
+static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
 
 
 @interface DrawerContainerViewController () <AcceptedNamesViewDataSource>
@@ -104,7 +103,7 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 
-    if ([[segue identifier] isEqualToString:kEmptyNamesSegueID]) {
+    if ([[segue identifier] isEqualToString:kShowEmptyNamesSegueID]) {
         if (self.childViewControllers.count != 0) {
             if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[EmptyNamesViewController class]]) {
                 EmptyNamesViewController *viewController = segue.destinationViewController;
@@ -121,7 +120,7 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
             [viewController didMoveToParentViewController:self];
         }
     }
-    else if ([[segue identifier] isEqualToString:kAcceptedNamesSegueID]) {
+    else if ([[segue identifier] isEqualToString:kShowAcceptedNamesSegueID]) {
         if (self.childViewControllers.count != 0) {
             if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[AcceptedNamesViewController class]]) {
                 AcceptedNamesViewController *viewController = segue.destinationViewController;
@@ -148,12 +147,12 @@ static NSString * const kAcceptedNamesSegueID = @"AcceptedNamesSegue";
 {
     if (self.acceptedNames.count == 0) {
         // Load the view controller to handle empty state.
-        [self performSegueWithIdentifier:kEmptyNamesSegueID
+        [self performSegueWithIdentifier:kShowEmptyNamesSegueID
                                   sender:self];
     }
     else {
         // Load the view controller to handle the list of accepted names.
-        [self performSegueWithIdentifier:kAcceptedNamesSegueID
+        [self performSegueWithIdentifier:kShowAcceptedNamesSegueID
                                   sender:self];
     }
 }
