@@ -800,7 +800,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="ill-gc-bA7"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="48"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="50"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                                 <connections>
@@ -808,12 +808,12 @@
                                 </connections>
                             </label>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sx5-jb-hns" userLabel="Surname">
-                                <rect key="frame" x="16" y="284" width="568" height="60"/>
+                                <rect key="frame" x="16" y="284" width="568" height="44"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="2wg-yF-7DQ"/>
+                                    <constraint firstAttribute="height" constant="44" id="2wg-yF-7DQ"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="48"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="32"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
