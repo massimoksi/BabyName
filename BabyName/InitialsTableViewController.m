@@ -9,6 +9,7 @@
 #import "InitialsTableViewController.h"
 
 #import "Constants.h"
+#import "SettingsTableViewController.h"
 
 
 @interface InitialsTableViewController ()
@@ -91,8 +92,8 @@
     [[NSUserDefaults standardUserDefaults] setObject:self.preferredInitials
                                               forKey:kSettingsPreferredInitialsKey];
     
-    // Inform delegate that fetching preferences changed.
-    [self.fetchingPreferencesDelegate viewControllerDidChangeFetchingPreferences];
+    SettingsTableViewController *settingsViewController = [self.navigationController.viewControllers objectAtIndex:0];
+    settingsViewController.fetchingPreferencesChanged = YES;
     
     // Update table view.
     [tableView deselectRowAtIndexPath:indexPath

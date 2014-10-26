@@ -202,27 +202,15 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     // Dispose of any resources that can be recreated.
 }
 
+/*
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    
-    NSString *segueIdentifier = segue.identifier;
-    if ([segueIdentifier isEqualToString:@"ShowGendersSegue"]) {
-        GendersTableViewController *viewController = [segue destinationViewController];
-        viewController.fetchingPreferencesDelegate = self;
-    }
-    else if ([segueIdentifier isEqualToString:@"ShowLanguagesSegue"]) {
-        LanguagesTableViewController *viewController = [segue destinationViewController];
-        viewController.fetchingPreferencesDelegate = self;
-    }
-    else if ([segueIdentifier isEqualToString:@"ShowInitialsSegue"])  {
-        InitialsTableViewController *viewController = [segue destinationViewController];
-        viewController.fetchingPreferencesDelegate = self;
-    }
 }
+*/
 
 #pragma mark - Actions
 
@@ -472,13 +460,6 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     }
 
     return YES;
-}
-
-#pragma mark - Fetching preferences delegate
-
-- (void)viewControllerDidChangeFetchingPreferences
-{
-    self.fetchingPreferencesChanged = YES;
 }
 
 @end

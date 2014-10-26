@@ -10,6 +10,7 @@
 
 #import "Constants.h"
 #import "Language.h"
+#import "SettingsTableViewController.h"
 
 
 @interface LanguagesTableViewController ()
@@ -103,8 +104,8 @@
         [userDefaults setInteger:selectedLanguages
                           forKey:kSettingsSelectedLanguagesKey];
         
-        // Inform delegate that fetching preferences changed.
-        [self.fetchingPreferencesDelegate viewControllerDidChangeFetchingPreferences];
+        SettingsTableViewController *settingsViewController = [self.navigationController.viewControllers objectAtIndex:0];
+        settingsViewController.fetchingPreferencesChanged = YES;
         
         // Update table view.
         [tableView deselectRowAtIndexPath:indexPath

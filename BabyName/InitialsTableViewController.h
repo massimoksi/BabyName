@@ -8,11 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "FetchingPreferencesDelegate.h"
-
 
 @interface InitialsTableViewController : UITableViewController
-
-@property (nonatomic, weak) id<FetchingPreferencesDelegate> fetchingPreferencesDelegate;
 
 @end

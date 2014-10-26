@@ -88,7 +88,6 @@
 		56E4D0D119D20A090005DFDC /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Main.strings; sourceTree = "<group>"; };
 		56E4D0D319D20C830005DFDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		56E4D0D519D20C890005DFDC /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
-		56E4D0D719D4998E0005DFDC /* FetchingPreferencesDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FetchingPreferencesDelegate.h; sourceTree = "<group>"; };
 		56E9263119DC5B4800033E73 /* EmptyNamesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyNamesViewController.h; sourceTree = "<group>"; };
 		56E9263219DC5B4800033E73 /* EmptyNamesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyNamesViewController.m; sourceTree = "<group>"; };
 		56EB752319D4BD3D00D18DF6 /* SuggestionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionModel.h; sourceTree = "<group>"; };
@@ -185,14 +184,6 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
-		5636493D19FBB64700FD8870 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				56E4D0D719D4998E0005DFDC /* FetchingPreferencesDelegate.h */,
-			);
-			name = Protocols;
-			sourceTree = "<group>";
-		};
 		563B6B8619ACA24900F9EF37 /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,7 +226,6 @@
 				5636493C19FBB62900FD8870 /* Views */,
 				5636493B19FBB5F100FD8870 /* Controllers */,
 				5636493A19FBB5D500FD8870 /* Segues */,
-				5636493D19FBB64700FD8870 /* Protocols */,
 				56C647A219AC62FF005B1D46 /* Supporting Files */,
 			);
 			path = BabyName;

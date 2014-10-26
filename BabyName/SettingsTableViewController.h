@@ -10,12 +10,10 @@
 
 #import "StaticDataTableViewController.h"
 
-#import "FetchingPreferencesDelegate.h"
-
 @protocol SettingsTableViewControllerDelegate;
 
 
-@interface SettingsTableViewController : StaticDataTableViewController <FetchingPreferencesDelegate>
+@interface SettingsTableViewController : StaticDataTableViewController
 
 @property (nonatomic, weak) id<SettingsTableViewControllerDelegate> delegate;
 
