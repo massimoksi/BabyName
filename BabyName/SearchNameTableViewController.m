@@ -217,12 +217,22 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	return [self.fetchedResultsController sections].count;
+    if (self.searchControllerActive) {
+        return 1;
+    }
+    else {
+        return [self.fetchedResultsController sections].count;
+    }
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-    return [self.fetchedResultsController sectionIndexTitles];
+    if (self.searchControllerActive) {
+        return nil;
+    }
+    else {
+        return [self.fetchedResultsController sectionIndexTitles];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
@@ -233,16 +243,26 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    id<NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-    return sectionInfo.name;
+    if (self.searchController) {
+        id<NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
+        return sectionInfo.name;
+    }
+    else {
+        return nil;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSArray *sections = [self.fetchedResultsController sections];
-    id<NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:section];
+    if (self.searchControllerActive) {
+        return self.fetchedResultsController.fetchedObjects.count;
+    }
+    else {
+        NSArray *sections = [self.fetchedResultsController sections];
+        id<NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:section];
     
-    return [sectionInfo numberOfObjects];
+        return [sectionInfo numberOfObjects];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -302,6 +322,8 @@
 - (void)didPresentSearchController:(UISearchController *)searchController
 {
     self.searchControllerActive = YES;
+
+    [self.activeTableView reloadSectionIndexTitles];
 }
 
 - (void)willDismissSearchController:(UISearchController *)searchController
@@ -324,6 +346,8 @@
 - (void)didDismissSearchController:(UISearchController *)searchController
 {
     self.searchControllerActive = NO;
+
+    [self.activeTableView reloadSectionIndexTitles];
 }
 
 #pragma mark - Search results updating
