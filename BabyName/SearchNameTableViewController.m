@@ -55,11 +55,6 @@
     }
     
     [self configureSearchController];
-
-    // Hide the search bar.
-    // TODO: Move the search field into the navigation bar.
-    [self.tableView setContentOffset:CGPointMake(0.0, 44.0)
-                            animated:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -152,6 +147,10 @@
                                                        self.searchController.searchBar.frame.origin.y,
                                                        self.searchController.searchBar.frame.size.width,
                                                        44.0);
+    self.searchController.searchBar.tintColor = [UIColor colorWithRed:240.0/255.0
+                                                                green:74.0/255.0
+                                                                 blue:92.0/255.0
+                                                                alpha:1.0];
     
     self.tableView.tableHeaderView = self.searchController.searchBar;
     

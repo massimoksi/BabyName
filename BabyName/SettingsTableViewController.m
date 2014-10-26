@@ -77,7 +77,10 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     self.deleteTableViewRowAnimation = UITableViewRowAnimationMiddle;
     self.reloadTableViewRowAnimation = UITableViewRowAnimationMiddle;
     
-    self.surnameTextField.tintColor = [UIColor colorWithRed:240.0/255.0 green:74.0/255.0 blue:92.0/255.0 alpha:1.0];
+    self.surnameTextField.tintColor = [UIColor colorWithRed:240.0/255.0
+                                                      green:74.0/255.0
+                                                       blue:92.0/255.0
+                                                      alpha:1.0];
 }
 
 - (void)viewWillAppear:(BOOL)animated
