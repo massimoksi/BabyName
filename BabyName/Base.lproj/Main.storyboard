@@ -71,7 +71,7 @@
                                 </constraints>
                                 <state key="normal" image="Search"/>
                                 <connections>
-                                    <segue destination="D9V-Ou-PKe" kind="presentation" identifier="ShowSearchNameSegue" id="aLH-vd-dec"/>
+                                    <segue destination="D9V-Ou-PKe" kind="presentation" identifier="ShowSearchSegue" id="aLH-vd-dec"/>
                                 </connections>
                             </button>
                         </subviews>

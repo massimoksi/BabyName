@@ -17,6 +17,6 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic) int16_t state;
 
-@property (nonatomic, readonly) NSString *initials;
+@property (nonatomic, readonly) NSString *initial;
 
 @end

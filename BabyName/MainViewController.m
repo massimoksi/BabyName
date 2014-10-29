@@ -92,7 +92,7 @@
         SettingsTableViewController *settingsViewController = (SettingsTableViewController *)settingsNavController.topViewController;
         settingsViewController.delegate = self;
     }
-    else if ([segue.identifier isEqualToString:@"ShowSearchNameSegue"]) {
+    else if ([segue.identifier isEqualToString:@"ShowSearchSegue"]) {
         UINavigationController *searchNameNavController = [segue destinationViewController];
         searchNameNavController.navigationBar.barStyle = UIStatusBarStyleLightContent;
         
