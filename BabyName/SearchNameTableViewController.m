@@ -24,8 +24,6 @@
 @property (nonatomic) NSInteger selectedGenders;
 @property (nonatomic) NSInteger selectedLanguages;
 
-@property (nonatomic) BOOL searchControllerActive;
-
 @property (nonatomic, readonly) UITableView *activeTableView;
 
 @end
@@ -38,7 +36,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    self.searchControllerActive = NO;
     self.fetchedObjectsChanged = NO;
     
     // Fetch search criteria from preferences.
@@ -103,7 +100,7 @@
 
 - (UITableView *)activeTableView
 {
-    if (self.searchControllerActive) {
+    if (self.searchController.active) {
         return ((UITableViewController *)self.searchController.searchResultsController).tableView;
     }
     else {
@@ -209,7 +206,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.searchControllerActive) {
+    if (self.searchController.active) {
         return 1;
     }
     else {
@@ -219,7 +216,7 @@
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-    if (self.searchControllerActive) {
+    if (self.searchController.active) {
         return nil;
     }
     else {
@@ -246,7 +243,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.searchControllerActive) {
+    if (self.searchController.active) {
         return self.fetchedResultsController.fetchedObjects.count;
     }
     else {
@@ -313,8 +310,6 @@
 
 - (void)didPresentSearchController:(UISearchController *)searchController
 {
-    self.searchControllerActive = YES;
-
     [self.activeTableView reloadSectionIndexTitles];
 }
 
@@ -337,8 +332,6 @@
 
 - (void)didDismissSearchController:(UISearchController *)searchController
 {
-    self.searchControllerActive = NO;
-
     [self.activeTableView reloadSectionIndexTitles];
 }
 
