@@ -13,6 +13,7 @@
 		5613AE5019E0A2A600CF1A0E /* FinishedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5613AE4F19E0A2A600CF1A0E /* FinishedViewController.m */; };
 		561ECCDB19CA375E00814D62 /* LanguagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 561ECCDA19CA375E00814D62 /* LanguagesTableViewController.m */; };
 		562FF89119FDA2D90045D06D /* Suggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 562FF89019FDA2D90045D06D /* Suggestion.m */; };
+		562FF8951A0189780045D06D /* BabyName.csv in Resources */ = {isa = PBXBuildFile; fileRef = 562FF8941A0189780045D06D /* BabyName.csv */; };
 		5634858D19DB4C4400A548BB /* DrawerContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5634858C19DB4C4400A548BB /* DrawerContainerViewController.m */; };
 		5634859019DB528C00A548BB /* CustomContainerSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5634858F19DB528C00A548BB /* CustomContainerSegue.m */; };
 		563B6B8919ACB83800F9EF37 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 563B6B8819ACB83800F9EF37 /* MainViewController.m */; };
@@ -32,7 +33,6 @@
 		56E9263319DC5B4800033E73 /* EmptyNamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56E9263219DC5B4800033E73 /* EmptyNamesViewController.m */; };
 		56EB752819D4C60C00D18DF6 /* InitialsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EB752719D4C60C00D18DF6 /* InitialsTableViewController.m */; };
 		56EB752C19D83E1A00D18DF6 /* AcceptedNamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EB752B19D83E1A00D18DF6 /* AcceptedNamesViewController.m */; };
-		56F1C5CE19BFA152008D8A3D /* BabyName.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 56F1C5CD19BFA152008D8A3D /* BabyName.sqlite */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +57,7 @@
 		561ECCDA19CA375E00814D62 /* LanguagesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguagesTableViewController.m; sourceTree = "<group>"; };
 		562FF88F19FDA2D90045D06D /* Suggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Suggestion.h; sourceTree = "<group>"; };
 		562FF89019FDA2D90045D06D /* Suggestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Suggestion.m; sourceTree = "<group>"; };
+		562FF8941A0189780045D06D /* BabyName.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BabyName.csv; sourceTree = "<group>"; };
 		5634858B19DB4C4400A548BB /* DrawerContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawerContainerViewController.h; sourceTree = "<group>"; };
 		5634858C19DB4C4400A548BB /* DrawerContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawerContainerViewController.m; sourceTree = "<group>"; };
 		5634858E19DB528C00A548BB /* CustomContainerSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomContainerSegue.h; sourceTree = "<group>"; };
@@ -95,7 +96,6 @@
 		56EB752719D4C60C00D18DF6 /* InitialsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialsTableViewController.m; sourceTree = "<group>"; };
 		56EB752A19D83E1A00D18DF6 /* AcceptedNamesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcceptedNamesViewController.h; sourceTree = "<group>"; };
 		56EB752B19D83E1A00D18DF6 /* AcceptedNamesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AcceptedNamesViewController.m; sourceTree = "<group>"; };
-		56F1C5CD19BFA152008D8A3D /* BabyName.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = BabyName.sqlite; sourceTree = "<group>"; };
 		B08F272EA7E089A4D5FFF164 /* Pods-BabyName.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabyName.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BabyName/Pods-BabyName.debug.xcconfig"; sourceTree = "<group>"; };
 		F1A9D73A3408455B984CE430 /* libPods-BabyName.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BabyName.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -229,7 +229,7 @@
 		56C647A219AC62FF005B1D46 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				56F1C5CD19BFA152008D8A3D /* BabyName.sqlite */,
+				562FF8941A0189780045D06D /* BabyName.csv */,
 				56C647A319AC62FF005B1D46 /* Info.plist */,
 				56C647A419AC62FF005B1D46 /* main.m */,
 				56E4D0D219D20C830005DFDC /* Localizable.strings */,
@@ -355,8 +355,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56F1C5CE19BFA152008D8A3D /* BabyName.sqlite in Resources */,
 				56E4D0D419D20C830005DFDC /* Localizable.strings in Resources */,
+				562FF8951A0189780045D06D /* BabyName.csv in Resources */,
 				56C647B119AC62FF005B1D46 /* Main.storyboard in Resources */,
 				56C647B319AC62FF005B1D46 /* Images.xcassets in Resources */,
 			);

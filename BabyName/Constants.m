@@ -9,13 +9,10 @@
 #import "Constants.h"
 
 
+NSString * const kSettingsDBPopulatedKey       = @"SettingsDBPopulated";
 NSString * const kSettingsSelectedGendersKey   = @"SettingsSelectedGenders";
 NSString * const kSettingsSelectedLanguagesKey = @"SettingsSelectedLanguages";
 NSString * const kSettingsPreferredInitialsKey = @"SettingsPreferredInitials";
 NSString * const kSettingsShowSurnameKey       = @"SettingsShowSurname";
 NSString * const kSettingsSurnameKey           = @"SettingsSurname";
 NSString * const kSettingsDueDateKey           = @"SettingsDueDate";
-#if DEBUG
-NSString * const kTweaksCyanShadeKey           = @"TweaksCyanShade";
-NSString * const kTweaksPinkShadeKey           = @"TweaksPinkShade";
-#endif

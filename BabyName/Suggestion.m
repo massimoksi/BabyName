@@ -16,7 +16,7 @@
 @dynamic name;
 @dynamic state;
 
-- (NSString *)initial
+- (NSString *)initials
 {
     return [self.name.decomposedStringWithCanonicalMapping substringToIndex:1];
 }
