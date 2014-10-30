@@ -38,6 +38,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 @property (nonatomic, weak) IBOutlet UILabel *surnameLabel;
 
 @property (nonatomic) BOOL panningEnabled;
+@property (nonatomic) CGPoint panningOrigin;
 @property (nonatomic) PanningState panningState;
 
 @property (nonatomic, strong) UIDynamicAnimator *animator;
@@ -82,6 +83,14 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    self.panningOrigin = self.nameLabel.center;
+    NSLog(@"%@", NSStringFromCGPoint(self.panningOrigin));
 }
 
 /*
@@ -149,9 +158,9 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     
     [self.delegate selectionViewDidEndPanning];
 
-    // Adjust misalignment to center.
     if (self.panningState == kPanningStateIdle) {
-        self.nameLabel.center = self.view.center;
+        // Adjust misalignment to center.
+        self.nameLabel.center = self.panningOrigin;
     }
     else {
         [self configureNameLabel];
@@ -163,9 +172,8 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 - (void)configureNameLabel
 {
     self.nameLabel.text = [self.dataSource randomName];
-    self.nameLabel.center = self.view.center;
+    self.nameLabel.center = self.panningOrigin;
 
-//    self.nameLabelVisible = YES;
     [UIView animateWithDuration:0.5
                      animations:^{
                          self.nameLabel.alpha = 1.0;
@@ -231,12 +239,12 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
             break;
 
         case kPanningDirectionUp:
-            if (center.y + translation.y < self.view.center.y) {
+            if (center.y + translation.y < self.panningOrigin.y) {
                 return CGPointMake(center.x,
                                    center.y + translation.y);
             }
             else {
-                return self.view.center;
+                return self.panningOrigin;
             }
 
         default:
@@ -282,10 +290,10 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
                 return kPanningStateReject;
             }
             else {
-                if (newCenter.x >= self.view.center.x + kPanningTranslationThreshold) {
+                if (newCenter.x >= self.panningOrigin.x + kPanningTranslationThreshold) {
                     return kPanningStateAccept;
                 }
-                else if (newCenter.x <= self.view.center.x - kPanningTranslationThreshold) {
+                else if (newCenter.x <= self.panningOrigin.x - kPanningTranslationThreshold) {
                     return kPanningStateReject;
                 }
                 else {
@@ -299,7 +307,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
                 return kPanningStateMaybe;
             }
             else {
-                if (newCenter.y <= self.view.center.y - kPanningTranslationThreshold) {
+                if (newCenter.y <= self.panningOrigin.y - kPanningTranslationThreshold) {
                     return kPanningStateMaybe;
                 }
                 else {

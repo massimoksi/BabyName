@@ -796,7 +796,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erJ-k9-2IT" userLabel="Name">
-                                <rect key="frame" x="16" y="216" width="568" height="60"/>
+                                <rect key="frame" x="16" y="211" width="568" height="60"/>
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="ill-gc-bA7"/>
@@ -809,7 +809,7 @@
                                 </connections>
                             </label>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sx5-jb-hns" userLabel="Surname">
-                                <rect key="frame" x="16" y="284" width="568" height="44"/>
+                                <rect key="frame" x="16" y="279" width="568" height="44"/>
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="2wg-yF-7DQ"/>
@@ -824,7 +824,7 @@
                             <constraint firstItem="sx5-jb-hns" firstAttribute="leading" secondItem="m8w-us-ZZh" secondAttribute="leading" constant="16" id="4Zg-Lh-l63"/>
                             <constraint firstAttribute="trailing" secondItem="sx5-jb-hns" secondAttribute="trailing" constant="16" id="I8l-eY-jG0"/>
                             <constraint firstItem="sx5-jb-hns" firstAttribute="top" secondItem="erJ-k9-2IT" secondAttribute="bottom" constant="8" id="OdO-HO-eLG"/>
-                            <constraint firstItem="erJ-k9-2IT" firstAttribute="centerY" secondItem="m8w-us-ZZh" secondAttribute="centerY" id="duq-XV-G7t"/>
+                            <constraint firstItem="erJ-k9-2IT" firstAttribute="centerY" secondItem="m8w-us-ZZh" secondAttribute="centerY" constant="-5" id="duq-XV-G7t"/>
                             <constraint firstItem="erJ-k9-2IT" firstAttribute="leading" secondItem="m8w-us-ZZh" secondAttribute="leadingMargin" id="eFp-CH-yIP"/>
                             <constraint firstItem="erJ-k9-2IT" firstAttribute="trailing" secondItem="m8w-us-ZZh" secondAttribute="trailingMargin" id="p9a-7Q-nOQ"/>
                         </constraints>
