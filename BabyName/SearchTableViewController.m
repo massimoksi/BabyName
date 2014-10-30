@@ -15,7 +15,7 @@
 #import "SearchNameTableViewCell.h"
 
 
-@interface SearchTableViewController () <NSFetchedResultsControllerDelegate, UISearchControllerDelegate, UISearchResultsUpdating, MGSwipeTableCellDelegate>
+@interface SearchTableViewController () <NSFetchedResultsControllerDelegate, UISearchControllerDelegate, UISearchBarDelegate, MGSwipeTableCellDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
@@ -125,6 +125,16 @@
 
 - (void)configureSearchController
 {
+    UISearchBar *searchBar = [[UISearchBar alloc] init];
+    searchBar.delegate = self;
+    [searchBar sizeToFit];
+    searchBar.tintColor = [UIColor colorWithRed:240.0/255.0
+                                          green:74.0/255.0
+                                           blue:92.0/255.0
+                                          alpha:1.0];
+    self.navigationItem.titleView = searchBar;
+    self.navigationItem.titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+
     UITableViewController *searchResultsController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
     searchResultsController.tableView.dataSource = self;
     searchResultsController.tableView.delegate = self;
@@ -132,18 +142,9 @@
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
     self.searchController.delegate = self;
-    self.searchController.searchResultsUpdater = self;
-    self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x,
-                                                       self.searchController.searchBar.frame.origin.y,
-                                                       self.searchController.searchBar.frame.size.width,
-                                                       44.0);
-    self.searchController.searchBar.tintColor = [UIColor colorWithRed:240.0/255.0
-                                                                green:74.0/255.0
-                                                                 blue:92.0/255.0
-                                                                alpha:1.0];
     
-    self.tableView.tableHeaderView = self.searchController.searchBar;
-    
+    // NOTE: indicates whether this view controller's view is covered when the view controller or one of its descendants presents a view controller.
+    // TODO: check if it's still necessary.
     self.definesPresentationContext = YES;
 }
 
@@ -306,6 +307,53 @@
     [self.activeTableView endUpdates];
 }
 
+#pragma mark - Search bar delegate
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    self.searchController.active = YES;
+
+    return YES;
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    NSString *searchString = searchBar.text;
+    [self configurePredicateWithSearchString:searchString];
+    
+    NSError *error;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
+    }
+    else {
+        // Update the table view displayed by the search results controller.
+        [self.activeTableView reloadData];
+    }
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    // HACK!!!
+    // TODO: check if I can find a better solution.
+    [self configurePredicateWithSearchString:@" "];
+    
+    NSError *error;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
+    }
+    else {
+        // Update the table view displayed by the search results controller.
+        [self.activeTableView reloadData];
+    }
+}
+
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
+{
+    self.searchController.active = NO;
+
+    return YES;
+}
+
 #pragma mark - Search controller delegate
 
 - (void)didPresentSearchController:(UISearchController *)searchController
@@ -333,24 +381,6 @@
 - (void)didDismissSearchController:(UISearchController *)searchController
 {
     [self.activeTableView reloadSectionIndexTitles];
-}
-
-#pragma mark - Search results updating
-
-- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
-{
-    NSString *searchString = searchController.searchBar.text;
-    [self configurePredicateWithSearchString:searchString];
-    
-    NSError *error;
-    if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
-    }
-    else {
-        // Update the table view displayed by the search results controller.
-        UITableViewController *searchResultsController = (UITableViewController *)searchController.searchResultsController;
-        [searchResultsController.tableView reloadData];
-    }
 }
 
 #pragma mark - Swipe table cell delegate
