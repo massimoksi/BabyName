@@ -12,7 +12,7 @@
 
 #import "Constants.h"
 #import "Suggestion.h"
-#import "SearchNameTableViewCell.h"
+#import "SearchTableViewCell.h"
 
 
 @interface SearchTableViewController () <NSFetchedResultsControllerDelegate, UISearchBarDelegate, MGSwipeTableCellDelegate>
@@ -142,7 +142,7 @@
     self.fetchedResultsController.fetchRequest.predicate = searchPredicate;
 }
 
-- (void)configureCell:(SearchNameTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (void)configureCell:(SearchTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     Suggestion *suggestion = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
@@ -220,7 +220,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SearchNameTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SearchNameCell"];
+    SearchTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SearchCell"];
     cell.delegate = self;
     
     [self configureCell:cell
@@ -251,7 +251,7 @@
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
 	if (type == NSFetchedResultsChangeUpdate) {
-        SearchNameTableViewCell *swipedCell = (SearchNameTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        SearchTableViewCell *swipedCell = (SearchTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         
 		[self configureCell:swipedCell
 			    atIndexPath:indexPath];

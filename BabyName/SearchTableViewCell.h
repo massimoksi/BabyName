@@ -1,5 +1,5 @@
 //
-//  SearchNameTableViewCell.h
+//  SearchTableViewCell.h
 //  BabyName
 //
 //  Created by Massimo Peri on 03/10/14.
@@ -11,7 +11,7 @@
 #import "MGSwipeTableCell.h"
 
 
-@interface SearchNameTableViewCell : MGSwipeTableCell
+@interface SearchTableViewCell : MGSwipeTableCell
 
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *stateImageView;
