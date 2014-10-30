@@ -9,6 +9,7 @@
 #import "SettingsTableViewController.h"
 
 #import "Constants.h"
+#import "Suggestion.h"
 #import "Language.h"
 #import "GendersTableViewController.h"
 #import "LanguagesTableViewController.h"
@@ -328,6 +329,32 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     self.datePickerClearing = NO;
 }
 
+- (void)resetAllSelections
+{
+    NSManagedObjectContext *context = self.managedObjectContext;
+
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"Suggestion"
+                                      inManagedObjectContext:context];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"state > %d", kSelectionStateMaybe];
+
+    NSError *error;
+    NSArray *allModifiedSuggestions = [context executeFetchRequest:fetchRequest
+                                                             error:&error];
+    if (allModifiedSuggestions) {
+        for (Suggestion *modifiedSuggestion in allModifiedSuggestions) {
+            modifiedSuggestion.state = kSelectionStateMaybe;
+        }
+    }
+
+    if (![context save:&error]) {
+        // TODO: handle error.
+    }
+    else {
+        self.fetchingPreferencesChanged = YES;
+    }
+}
+
 #pragma mark - Table view delegate
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -372,7 +399,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
         }
     }
     else if (section == kSettingsSectionRestart) {
-        // NOTE: UIAlertController is iOS8 only, in case of backporting the app use UIActionSheet.
+        // TODO: add iOS7 support using UIActionSheet.
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Restart selection", nil)
                                                                                  message:NSLocalizedString(@"All your current selections and rejections will be cancelled.", nil)
                                                                           preferredStyle:UIAlertControllerStyleActionSheet];
@@ -381,7 +408,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
                                                                 style:UIAlertActionStyleDestructive
                                                               handler:^(UIAlertAction *action){
                                                                   // Inform the delegate to reset all selections.
-                                                                  [self.delegate resetAllSelections];
+                                                                  [self resetAllSelections];
                                                               }];
         [alertController addAction:restartAction];
         

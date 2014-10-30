@@ -17,11 +17,9 @@
 #import "SearchNameTableViewController.h"
 
 
-@interface MainViewController () <UIDynamicAnimatorDelegate, SettingsTableViewControllerDelegate>
+@interface MainViewController ()
 
-@property (nonatomic, strong) MainContainerViewController *containerViewController; // TODO: check if this property should be strong or weak.
-
-@property (nonatomic, weak) IBOutlet UIButton *settingsButton;
+@property (nonatomic, strong) MainContainerViewController *containerViewController;
 
 @property (nonatomic, strong) CAGradientLayer *backgroundGradientLayer;
 
@@ -49,7 +47,7 @@
     NSInteger gender = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedGendersKey];
     if (gender == kGenderBitmaskMale) {
         self.backgroundGradientLayer.colors = @[(id)[UIColor colorWithRed:163.0/255.0 green:216.0/255.0 blue:255.0/255.0 alpha:1.0].CGColor,
-                                                (id)[UIColor colorWithRed:56.0/255.0 green:171.0/255.0 blue:255.0/255.0 alpha:1.0].CGColor];
+                                                (id)[UIColor colorWithRed:56.0/255.0  green:171.0/255.0 blue:255.0/255.0 alpha:1.0].CGColor];
     }
     else if (gender == kGenderBitmaskFemale) {
         self.backgroundGradientLayer.colors = @[(id)[UIColor colorWithRed:255.0/255.0 green:186.0/255.0 blue:230.0/255.0 alpha:1.0].CGColor,
@@ -57,7 +55,7 @@
     }
     else {
         self.backgroundGradientLayer.colors = @[(id)[UIColor colorWithRed:163.0/255.0 green:216.0/255.0 blue:255.0/255.0 alpha:1.0].CGColor,
-                                                (id)[UIColor colorWithRed:56.0/255.0 green:171.0/255.0 blue:255.0/255.0 alpha:1.0].CGColor,
+                                                (id)[UIColor colorWithRed:56.0/255.0  green:171.0/255.0 blue:255.0/255.0 alpha:1.0].CGColor,
                                                 (id)[UIColor colorWithRed:255.0/255.0 green:113.0/255.0 blue:149.0/255.0 alpha:1.0].CGColor,
                                                 (id)[UIColor colorWithRed:255.0/255.0 green:186.0/255.0 blue:230.0/255.0 alpha:1.0].CGColor];
     }
@@ -90,7 +88,7 @@
         settingsNavController.navigationBar.barStyle = UIStatusBarStyleLightContent;
         
         SettingsTableViewController *settingsViewController = (SettingsTableViewController *)settingsNavController.topViewController;
-        settingsViewController.delegate = self;
+        settingsViewController.managedObjectContext = self.managedObjectContext;
     }
     else if ([segue.identifier isEqualToString:@"ShowSearchSegue"]) {
         UINavigationController *searchNameNavController = [segue destinationViewController];
@@ -167,48 +165,6 @@
 {
     // Inhibit pane pan while animating selection.
     return self.containerViewController.panningEnabled;
-}
-
-#pragma mark - Settings view controller delegate
-
-- (void)resetAllSelections
-{
-    NSPersistentStoreCoordinator *coordinator = [self.managedObjectContext persistentStoreCoordinator];
-    
-    // Retrieve the address of the persistent store.
-    NSURL *storeURL = [coordinator URLForPersistentStore:[[coordinator persistentStores] lastObject]];
-    
-    // Drop pending changes.
-    [self.managedObjectContext reset];
-    
-    NSError *error;
-    if ([coordinator removePersistentStore:[[[self.managedObjectContext persistentStoreCoordinator] persistentStores] lastObject]
-                                     error:&error]) {
-        // Remove the persistent store.
-        [[NSFileManager defaultManager] removeItemAtURL:storeURL
-                                                  error:&error];
-
-        // Copy the pre-populated database.
-        NSURL *preloadURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"BabyName"
-                                                                                   ofType:@"sqlite"]];
-        if (![[NSFileManager defaultManager] copyItemAtURL:preloadURL
-                                                     toURL:storeURL
-                                                     error:&error]) {
-            [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
-        }
-        
-        // Re-load the persistent store.
-        if (![coordinator addPersistentStoreWithType:NSSQLiteStoreType
-                                       configuration:nil
-                                                 URL:storeURL
-                                             options:nil
-                                               error:&error]) {
-            [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
-        }
-    }
-    else {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
-    }
 }
 
 @end

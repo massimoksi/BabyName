@@ -7,23 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
 
 #import "StaticDataTableViewController.h"
-
-@protocol SettingsTableViewControllerDelegate;
 
 
 @interface SettingsTableViewController : StaticDataTableViewController
 
-@property (nonatomic, weak) id<SettingsTableViewControllerDelegate> delegate;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 @property (nonatomic) BOOL fetchingPreferencesChanged;
-
-@end
-
-
-@protocol SettingsTableViewControllerDelegate <NSObject>
-
-- (void)resetAllSelections;
 
 @end
