@@ -90,7 +90,6 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     [super viewDidAppear:animated];
     
     self.panningOrigin = self.nameLabel.center;
-    NSLog(@"%@", NSStringFromCGPoint(self.panningOrigin));
 }
 
 /*
