@@ -43,6 +43,7 @@
                                                green:74.0/255.0
                                                 blue:92.0/255.0
                                                alpha:1.0];
+    self.searchBar.placeholder = NSLocalizedString(@"Search", nil);
     self.navigationItem.titleView = self.searchBar;
     self.navigationItem.titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
