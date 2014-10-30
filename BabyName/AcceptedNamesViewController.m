@@ -12,7 +12,7 @@
 
 #import "Constants.h"
 #import "Suggestion.h"
-#import "SearchNameTableViewCell.h"
+#import "SearchTableViewCell.h"
 #import "DrawerContainerViewController.h"
 
 
@@ -58,7 +58,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SearchNameTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AcceptedNameCell"];
+    SearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AcceptedNameCell"];
 
     Suggestion *suggestion = [self.dataSource acceptedNameAtIndex:indexPath.row];
 
