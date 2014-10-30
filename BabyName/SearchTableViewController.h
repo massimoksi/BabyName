@@ -1,5 +1,5 @@
 //
-//  SearchNameTableViewController.h
+//  SearchTableViewController.h
 //  BabyName
 //
 //  Created by Massimo Peri on 03/10/14.
@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 
 
-@interface SearchNameTableViewController : UITableViewController
+@interface SearchTableViewController : UITableViewController
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 

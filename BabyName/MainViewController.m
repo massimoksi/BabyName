@@ -14,7 +14,7 @@
 #import "Suggestion.h"
 #import "MainContainerViewController.h"
 #import "SettingsTableViewController.h"
-#import "SearchNameTableViewController.h"
+#import "SearchTableViewController.h"
 
 
 @interface MainViewController ()
@@ -91,11 +91,11 @@
         settingsViewController.managedObjectContext = self.managedObjectContext;
     }
     else if ([segue.identifier isEqualToString:@"ShowSearchSegue"]) {
-        UINavigationController *searchNameNavController = [segue destinationViewController];
-        searchNameNavController.navigationBar.barStyle = UIStatusBarStyleLightContent;
+        UINavigationController *searchNavController = [segue destinationViewController];
+        searchNavController.navigationBar.barStyle = UIStatusBarStyleLightContent;
         
-        SearchNameTableViewController *searchNameViewController = (SearchNameTableViewController *)searchNameNavController.topViewController;
-        searchNameViewController.managedObjectContext = self.managedObjectContext;
+        SearchTableViewController *searchViewController = (SearchTableViewController *)searchNavController.topViewController;
+        searchViewController.managedObjectContext = self.managedObjectContext;
     }
 }
 
@@ -119,7 +119,7 @@
         }
     }
     else if ([segue.identifier isEqualToString:@"CloseSearchSegue"]) {
-        SearchNameTableViewController *searchViewController = segue.sourceViewController;
+        SearchTableViewController *searchViewController = segue.sourceViewController;
         if (searchViewController.fetchedObjectsChanged) {
             [self.containerViewController updateSuggestions];
         }

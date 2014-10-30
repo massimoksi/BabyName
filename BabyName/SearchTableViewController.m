@@ -1,12 +1,12 @@
 //
-//  SearchNameTableViewController.m
+//  SearchTableViewController.m
 //  BabyName
 //
 //  Created by Massimo Peri on 03/10/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "SearchNameTableViewController.h"
+#import "SearchTableViewController.h"
 
 #import "MGSwipeButton.h"
 
@@ -15,7 +15,7 @@
 #import "SearchNameTableViewCell.h"
 
 
-@interface SearchNameTableViewController () <NSFetchedResultsControllerDelegate, UISearchControllerDelegate, UISearchResultsUpdating, MGSwipeTableCellDelegate>
+@interface SearchTableViewController () <NSFetchedResultsControllerDelegate, UISearchControllerDelegate, UISearchResultsUpdating, MGSwipeTableCellDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
@@ -29,7 +29,7 @@
 @end
 
 
-@implementation SearchNameTableViewController
+@implementation SearchTableViewController
 
 - (void)viewDidLoad
 {
