@@ -80,7 +80,8 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     self.surnameLabel.text = [userDefaults stringForKey:kSettingsSurnameKey];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -90,6 +91,11 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     [super viewDidAppear:animated];
     
     self.panningOrigin = self.nameLabel.center;
+}
+
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
 }
 
 /*
@@ -103,6 +109,14 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 */
 
 #pragma mark - Gesture handlers
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    // Refresh name when shaking.
+    if (motion == UIEventSubtypeMotionShake) {
+        [self configureNameLabel];
+    }
+}
 
 - (IBAction)panName:(UIPanGestureRecognizer *)recognizer
 {
