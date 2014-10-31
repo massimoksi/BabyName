@@ -44,6 +44,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 @property (nonatomic, strong) UIDynamicAnimator *animator;
 @property (nonatomic, strong) UIGravityBehavior *gravityBehavior;
 @property (nonatomic, strong) UICollisionBehavior *collisionBehavior;
+@property (nonatomic, strong) UIDynamicItemBehavior *itemBehavior;
 
 @end
 
@@ -65,6 +66,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     
     self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.nameLabel]];
     self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.nameLabel]];
+    self.itemBehavior = [[UIDynamicItemBehavior alloc] initWithItems:@[self.nameLabel]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -149,6 +151,31 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
         self.panningState = [self endStateForGesture:recognizer
                                 withPanningDirection:panningDirection];
 
+        
+        CGPoint linearVelocity;
+        switch (self.panningState) {
+            default:
+            case kPanningStateIdle:
+                linearVelocity = CGPointZero;
+                break;
+                
+            case kPanningStateAccept:
+            case kPanningStateReject:
+                linearVelocity = CGPointMake([recognizer velocityInView:self.view].x, 0.0);
+                break;
+                
+            case kPanningStateMaybe:
+                linearVelocity = CGPointMake(0.0, [recognizer velocityInView:self.view].y);
+                break;
+        }
+        [self.itemBehavior addLinearVelocity:linearVelocity
+                                     forItem:self.nameLabel];
+        [self.animator addBehavior:self.itemBehavior];
+        
+        
+        
+        
+        
         self.gravityBehavior.gravityDirection = [self gravityDirectionForPanningDirection:panningDirection];
         [self.animator addBehavior:self.gravityBehavior];
 
