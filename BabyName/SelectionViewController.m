@@ -150,7 +150,6 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateFailed || recognizer.state == UIGestureRecognizerStateCancelled) {
         self.panningState = [self endStateForGesture:recognizer
                                 withPanningDirection:panningDirection];
-
         
         CGPoint linearVelocity;
         switch (self.panningState) {
@@ -171,10 +170,6 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
         [self.itemBehavior addLinearVelocity:linearVelocity
                                      forItem:self.nameLabel];
         [self.animator addBehavior:self.itemBehavior];
-        
-        
-        
-        
         
         self.gravityBehavior.gravityDirection = [self gravityDirectionForPanningDirection:panningDirection];
         [self.animator addBehavior:self.gravityBehavior];
