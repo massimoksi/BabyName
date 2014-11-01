@@ -223,7 +223,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     // Toggled switch on.
     //  1. Set preference to user defaults.
     //  2. Show the surname cell.
-    //  3. Start editing the surname.
+    //  3. Start editing the surname (if not defined yet).
     if (self.surnameCellVisible) {
         [userDefaults setBool:YES
                        forKey:kSettingsShowSurnameKey];
@@ -231,8 +231,14 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
         [self cell:self.surnameCell
          setHidden:NO];
         [self reloadDataAnimated:YES];
-        
-        [self.surnameTextField becomeFirstResponder];
+
+        NSString *surname = [userDefaults stringForKey:kSettingsSurnameKey];
+        if (surname) {
+            self.surnameTextField.text = surname;
+        }
+        else {
+            [self.surnameTextField becomeFirstResponder];
+        }
     }
     // Toggled switch off.
     //  1. Set preference to user default.
@@ -366,15 +372,15 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 //{
 //    return 44.0;
 //}
-//
-//- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    if ((indexPath.section == kSettingsSectionAdvanced) && (indexPath.row == kSectionAdvancedRowShowSurname)) {
-//        return nil;
-//    }
-//    
-//    return indexPath;
-//}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ((indexPath.section == kSettingsSectionAdvanced) && (indexPath.row == kSectionAdvancedRowShowSurname)) {
+        return nil;
+    }
+    
+    return indexPath;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
