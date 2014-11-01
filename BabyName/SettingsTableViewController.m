@@ -357,24 +357,24 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 
 #pragma mark - Table view delegate
 
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 44.0;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 44.0;
-}
-
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ((indexPath.section == kSettingsSectionAdvanced) && (indexPath.row == kSectionAdvancedRowShowSurname)) {
-        return nil;
-    }
-    
-    return indexPath;
-}
+//- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return 44.0;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return 44.0;
+//}
+//
+//- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if ((indexPath.section == kSettingsSectionAdvanced) && (indexPath.row == kSectionAdvancedRowShowSurname)) {
+//        return nil;
+//    }
+//    
+//    return indexPath;
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
