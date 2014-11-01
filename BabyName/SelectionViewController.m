@@ -13,9 +13,7 @@
 
 typedef NS_ENUM(NSUInteger, PanningDirection) {
     kPanningDirectionNone = 0,
-    kPanningDirectionUp,
     kPanningDirectionRight,
-    kPanningDirectionDown,
     kPanningDirectionLeft
 };
 
@@ -134,6 +132,9 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     // Handle panning.
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         panningDirection = [self directionForGesture:recognizer];
+        if (panningDirection == kPanningDirectionNone) {
+            return;
+        }
         
         [self.delegate selectionViewDidBeginPanning];
     }
@@ -147,22 +148,13 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateFailed || recognizer.state == UIGestureRecognizerStateCancelled) {
         self.panningState = [self endStateForGesture:recognizer
                                 withPanningDirection:panningDirection];
-        
-        CGPoint linearVelocity;
-        switch (self.panningState) {
-            default:
-            case kPanningStateIdle:
-                linearVelocity = CGPointZero;
-                break;
-                
-            case kPanningStateAccept:
-            case kPanningStateReject:
-                linearVelocity = CGPointMake([recognizer velocityInView:self.view].x, 0.0);
-                break;
+
+        // Add linear velocity to smooth the animation.
+        if ((self.panningState == kPanningStateAccept) || (self.panningState == kPanningStateReject)) {
+            [self.itemBehavior addLinearVelocity:CGPointMake([recognizer velocityInView:self.view].x, 0.0)
+                                         forItem:self.nameLabel];
+            [self.animator addBehavior:self.itemBehavior];
         }
-        [self.itemBehavior addLinearVelocity:linearVelocity
-                                     forItem:self.nameLabel];
-        [self.animator addBehavior:self.itemBehavior];
         
         self.gravityBehavior.gravityDirection = [self gravityDirectionForPanningDirection:panningDirection];
         [self.animator addBehavior:self.gravityBehavior];
@@ -223,7 +215,6 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
         }
     }
     else {
-        
         return kPanningDirectionNone;
     }
 }
@@ -241,9 +232,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
             break;
             
         default:
-        case kPanningDirectionUp:
         case kPanningDirectionNone:
-        case kPanningDirectionDown:
             return center;
             break;
     }
@@ -298,8 +287,6 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
             
         default:
         case kPanningDirectionNone:
-        case kPanningDirectionUp:
-        case kPanningDirectionDown:
             return kPanningStateIdle;
             break;
     }
@@ -311,9 +298,6 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
         case kPanningStateIdle:
             if (direction == kPanningDirectionLeft) {
                 return CGVectorMake(1.0, 0.0);
-            }
-            else if (direction == kPanningDirectionUp) {
-                return CGVectorMake(0.0, 1.0);
             }
             else if (direction == kPanningDirectionRight) {
                 return CGVectorMake(-1.0, 0.0);
@@ -346,12 +330,6 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
                                         -self.nameLabel.frame.size.width,
                                         0.0,
                                         kNameLabelPadding);
-            }
-            else if (direction == kPanningDirectionUp) {
-                return UIEdgeInsetsMake(-self.nameLabel.frame.size.height,
-                                        0.0,
-                                        (self.view.frame.size.height - self.nameLabel.frame.size.height) / 2,
-                                        0.0);
             }
             else if (direction == kPanningDirectionRight) {
                 return UIEdgeInsetsMake(0.0,
