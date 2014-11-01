@@ -35,7 +35,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aIj-PG-8Q2" userLabel="Button - Settings">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aIj-PG-8Q2" userLabel="Button - Settings">
                                 <rect key="frame" x="278" y="556" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="56G-tb-UcA"/>
@@ -46,7 +46,7 @@
                                     <segue destination="ie2-NB-bOZ" kind="presentation" identifier="ShowSettingsSegue" id="1We-Yg-ihW"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXX-Pb-RV2" userLabel="Button - List">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXX-Pb-RV2" userLabel="Button - List">
                                 <rect key="frame" x="556" y="20" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="bbU-jA-mGr"/>
@@ -63,7 +63,7 @@
                                     <segue destination="GA5-nV-Ywo" kind="embed" identifier="EmbedContainerSegue" id="R1z-VG-S91"/>
                                 </connections>
                             </containerView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UPX-kb-auN" userLabel="Button - Search">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UPX-kb-auN" userLabel="Button - Search">
                                 <rect key="frame" x="556" y="556" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="44" id="Cer-VB-Kvd"/>
