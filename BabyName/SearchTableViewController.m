@@ -39,9 +39,9 @@
     self.searchBar = [[UISearchBar alloc] init];
     self.searchBar.delegate = self;
     [self.searchBar sizeToFit];
-    self.searchBar.tintColor = [UIColor colorWithRed:240.0/255.0
-                                               green:74.0/255.0
-                                                blue:92.0/255.0
+    self.searchBar.tintColor = [UIColor colorWithRed:0.962
+                                               green:0.388
+                                                blue:0.434
                                                alpha:1.0];
     self.searchBar.placeholder = NSLocalizedString(@"Search", nil);
     self.navigationItem.titleView = self.searchBar;
@@ -371,17 +371,26 @@
 
         MGSwipeButton *rejectButton = [MGSwipeButton buttonWithTitle:@""
         	                                                    icon:[UIImage imageNamed:@"Rejected"]
-        	                                         backgroundColor:[UIColor redColor]
+                                                     backgroundColor:[UIColor colorWithRed:0.962
+                                                                                     green:0.388
+                                                                                      blue:0.434
+                                                                                     alpha:1.0]
                                                              padding:14];
 
         MGSwipeButton *maybeButton = [MGSwipeButton buttonWithTitle:@""
         	                                                   icon:[UIImage imageNamed:@"Refresh"]
-        	                                        backgroundColor:[UIColor yellowColor]
+        	                                        backgroundColor:[UIColor colorWithRed:1.000
+                                                                                    green:0.801
+                                                                                     blue:0.000
+                                                                                    alpha:1.0]
                                                             padding:14];
 
         MGSwipeButton *acceptButton = [MGSwipeButton buttonWithTitle:@""
         	                                                    icon:[UIImage imageNamed:@"Accepted"]
-        	                                         backgroundColor:[UIColor greenColor]
+        	                                         backgroundColor:[UIColor colorWithRed:0.391
+                                                                                     green:0.769
+                                                                                      blue:0.384
+                                                                                     alpha:1.0]
                                                              padding:14];
 
         NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
