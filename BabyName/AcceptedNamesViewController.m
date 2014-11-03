@@ -81,30 +81,19 @@
     return 44.0;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([self.dataSource preferAcceptedNameAtIndex:indexPath.row]) {
-        // Update table view.
-        [tableView deselectRowAtIndexPath:indexPath
-                                 animated:YES];
-        [tableView reloadData];
-    }
-}
-
 #pragma mark - Swipe table cell delegate
 
 - (BOOL)swipeTableCell:(MGSwipeTableCell *)cell canSwipe:(MGSwipeDirection)direction
 {
-    return (direction == MGSwipeDirectionRightToLeft);
+    return YES;
 }
 
 - (BOOL)swipeTableCell:(MGSwipeTableCell *)cell tappedButtonAtIndex:(NSInteger)index direction:(MGSwipeDirection)direction fromExpansion:(BOOL)fromExpansion
 {
+    NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
+
     if (direction == MGSwipeDirectionRightToLeft) {
-        // Check index and perform action.
-        if (index == 0) {
-            NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
-            
+        if (index == 0) {            
             if ([self.dataSource removeAcceptedNameAtIndex:swipedIndexPath.row]) {
                 [self.tableView deleteRowsAtIndexPaths:@[swipedIndexPath]
                                       withRowAnimation:UITableViewRowAnimationLeft];
@@ -119,6 +108,14 @@
             }
         }
     }
+    else {
+        if (index == 0) {
+            if ([self.dataSource preferAcceptedNameAtIndex:swipedIndexPath.row]) {
+                // Update table view.
+                [self.tableView reloadData];
+            }
+        }
+    }
 
     // NOTE: return YES to autohide the current swipe buttons.
     return YES;
@@ -126,16 +123,15 @@
 
 - (NSArray *)swipeTableCell:(MGSwipeTableCell *)cell swipeButtonsForDirection:(MGSwipeDirection)direction swipeSettings:(MGSwipeSettings *)swipeSettings expansionSettings:(MGSwipeExpansionSettings *)expansionSettings
 {
+    // Configure swipe settings.
+    swipeSettings.transition = MGSwipeTransitionStatic;
+
+    // Configure expansions settings.
+    expansionSettings.buttonIndex = 0;
+    expansionSettings.fillOnTrigger = YES;
+
     // NOTE: setting up buttons with this delegate instead of using cell properties improves memory usage because buttons are only created in demand.
     if (direction == MGSwipeDirectionRightToLeft) {
-        // Configure swipe settings.
-        swipeSettings.transition = MGSwipeTransitionStatic;
-
-        // Configure expansions settings.
-        expansionSettings.buttonIndex = 0;
-        expansionSettings.fillOnTrigger = YES;
-
-        // Create swipe buttons.
         MGSwipeButton *deleteButton = [MGSwipeButton buttonWithTitle:@""
                                                                 icon:[UIImage imageNamed:@"Rejected"]
                                                      backgroundColor:[UIColor colorWithRed:0.962
@@ -147,7 +143,17 @@
         return @[deleteButton];
     }
     else {
-        return nil;
+        NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
+        Suggestion *swipedSuggestion = [self.dataSource acceptedNameAtIndex:swipedIndexPath.row];
+
+        // TODO: create glyphs for icons.
+        // TODO: choose the right color for the swipe button.
+        MGSwipeButton *preferButton = [MGSwipeButton buttonWithTitle:@""
+                                                                icon:(swipedSuggestion.state == kSelectionStatePreferred) ? [UIImage imageNamed:@"Unprefer"] : [UIImage imageNamed:@"Prefer"]
+                                                     backgroundColor:[UIColor colorWithRed:0.144 green:0.652 blue:1 alpha:1]
+                                                             padding:14];
+
+        return @[preferButton];
     }
 }
 
