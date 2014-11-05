@@ -171,11 +171,12 @@
         NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
         Suggestion *swipedSuggestion = [self.dataSource acceptedNameAtIndex:swipedIndexPath.row];
 
-        // TODO: create glyphs for icons.
-        // TODO: choose the right color for the swipe button.
         MGSwipeButton *preferButton = [MGSwipeButton buttonWithTitle:@""
                                                                 icon:(swipedSuggestion.state == kSelectionStatePreferred) ? [UIImage imageNamed:@"Unprefer"] : [UIImage imageNamed:@"Prefer"]
-                                                     backgroundColor:[UIColor colorWithRed:0.144 green:0.652 blue:1 alpha:1]
+                                                     backgroundColor:[UIColor colorWithRed:0.144
+                                                                                     green:0.652
+                                                                                      blue:1.000
+                                                                                     alpha:1.0]
                                                              padding:14];
 
         return @[preferButton];
