@@ -104,7 +104,7 @@
         [userDefaults setInteger:selectedLanguages
                           forKey:kSettingsSelectedLanguagesKey];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSelectionPreferencesChangedNotification
+        [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectsOutdatedNotification
                                                             object:self];
         
         // Update table view.

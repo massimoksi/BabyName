@@ -341,7 +341,7 @@
             [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
         }
         else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kSelectionObjectsChangedNotification
+            [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectsOutdatedNotification
                                                                 object:self];
         }
     }

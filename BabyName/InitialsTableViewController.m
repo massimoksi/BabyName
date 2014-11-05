@@ -92,7 +92,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:self.preferredInitials
                                               forKey:kSettingsPreferredInitialsKey];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSelectionPreferencesChangedNotification
+    [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectsOutdatedNotification
                                                         object:self];
     
     // Update table view.

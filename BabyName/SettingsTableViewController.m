@@ -355,7 +355,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
         // TODO: handle error.
     }
     else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSelectionPreferencesChangedNotification
+        [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectsOutdatedNotification
                                                             object:self];
     }
 }

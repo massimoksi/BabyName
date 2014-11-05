@@ -17,8 +17,7 @@ extern NSString * const kSettingsShowSurnameKey;
 extern NSString * const kSettingsSurnameKey;
 extern NSString * const kSettingsDueDateKey;
 
-extern NSString * const kSelectionPreferencesChangedNotification;
-extern NSString * const kSelectionObjectsChangedNotification;
+extern NSString * const kFetchedObjectsOutdatedNotification;
 
 
 typedef NS_ENUM(NSInteger, LanguageIndex) {

@@ -55,7 +55,7 @@
     [[NSUserDefaults standardUserDefaults] setInteger:(self.gender + 1)
                                                forKey:kSettingsSelectedGendersKey];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSelectionPreferencesChangedNotification
+    [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectsOutdatedNotification
                                                         object:self];
     
     // Update table view.

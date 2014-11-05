@@ -41,11 +41,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter addObserver:self
                            selector:@selector(updateFetchingPreferences:)
-                               name:kSelectionPreferencesChangedNotification
-                             object:nil];
-    [notificationCenter addObserver:self
-                           selector:@selector(updateFetchedSuggestions:)
-                               name:kSelectionObjectsChangedNotification
+                               name:kFetchedObjectsOutdatedNotification
                              object:nil];
 }
 
@@ -53,10 +49,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
 {
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter removeObserver:self
-                                  name:kSelectionPreferencesChangedNotification
-                                object:nil];
-    [notificationCenter removeObserver:self
-                                  name:kSelectionObjectsChangedNotification
+                                  name:kFetchedObjectsOutdatedNotification
                                 object:nil];
 }
 
