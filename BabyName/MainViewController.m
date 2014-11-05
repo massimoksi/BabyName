@@ -130,33 +130,22 @@
 
 - (void)showAlertWithMessage:(NSString *)message
 {
-    if ([UIAlertController class]) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil)
-                                                                                 message:message
-                                                                          preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil)
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
 
-        UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
-                                                              style:UIAlertActionStyleDefault
-                                                            handler:^(UIAlertAction *action){
-                                                                // Dismiss alert controller.
-                                                                [alertController dismissViewControllerAnimated:YES
-                                                                                                    completion:nil]; 
-                                                            }];
-        [alertController addAction:acceptAction];
+    UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction *action){
+                                                            // Dismiss alert controller.
+                                                            [alertController dismissViewControllerAnimated:YES
+                                                                                                completion:nil]; 
+                                                        }];
+    [alertController addAction:acceptAction];
 
-        [self presentViewController:alertController
-                           animated:YES
-                         completion:nil];
-    }
-    else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
-                                                            message:message
-                                                           delegate:nil
-                                                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                                  otherButtonTitles:nil];
-
-        [alertView show];
-    }
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
 }
 
 #pragma mark - Dynamics drawer view controller delegate
