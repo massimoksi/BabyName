@@ -81,7 +81,16 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
                                                                                                                                                  selector:@selector(caseInsensitiveCompare:)]]]];
         }
 
-        [self selectChildViewController];
+        if (self.acceptedNames.count == 0) {
+            // Load the view controller to handle empty state.
+            [self performSegueWithIdentifier:kShowEmptyNamesSegueID
+                                      sender:self];
+        }
+        else {
+            // Load the view controller to handle the list of accepted names.
+            [self performSegueWithIdentifier:kShowAcceptedNamesSegueID
+                                      sender:self];
+        }
     }
 }
 
@@ -146,20 +155,6 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
 }
 
 #pragma mark - Private methods
-
-- (void)selectChildViewController
-{
-    if (self.acceptedNames.count == 0) {
-        // Load the view controller to handle empty state.
-        [self performSegueWithIdentifier:kShowEmptyNamesSegueID
-                                  sender:self];
-    }
-    else {
-        // Load the view controller to handle the list of accepted names.
-        [self performSegueWithIdentifier:kShowAcceptedNamesSegueID
-                                  sender:self];
-    }
-}
 
 - (void)swapFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController
 {
@@ -239,6 +234,10 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
     }
     else {
         [self.acceptedNames removeObjectAtIndex:index];
+        if (self.acceptedNames.count == 0) {
+            [self performSegueWithIdentifier:kShowEmptyNamesSegueID
+                                      sender:self];
+        }
         
         return YES;
     }

@@ -100,12 +100,6 @@
                                       withRowAnimation:UITableViewRowAnimationLeft];
                 
                 [cell refreshContentView];
-
-                // Switch to the view controller to handle empty state, if the array for accepted names is now empty.
-                if ([self.dataSource numberOfAcceptedNames] == 0) {
-                    DrawerContainerViewController *containerViewController = (DrawerContainerViewController *)self.parentViewController;
-                    [containerViewController selectChildViewController];
-                }
             }
         }
     }
