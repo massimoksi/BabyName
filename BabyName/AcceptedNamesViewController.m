@@ -110,9 +110,38 @@
     }
     else {
         if (index == 0) {
-            if ([self.dataSource preferAcceptedNameAtIndex:swipedIndexPath.row]) {
-                // Update table view.
-                [self.tableView reloadData];
+            Suggestion *swipedSuggestion = [self.dataSource acceptedNameAtIndex:swipedIndexPath.row];
+
+            if (swipedSuggestion.state != kSelectionStatePreferred) {
+                // TODO: change message.
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"%@", swipedSuggestion.name]
+                                                                                         message:NSLocalizedString(@"Choose name and end selection.", nil)
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                                       style:UIAlertActionStyleCancel
+                                                                     handler:nil];
+                [alertController addAction:cancelAction];
+
+                UIAlertAction *selectAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Select", nil)
+                                                                      style:UIAlertActionStyleDefault
+                                                                    handler:^(UIAlertAction *action){
+                                                                        // Prefer the currently selected name.
+                                                                        if ([self.dataSource preferAcceptedNameAtIndex:swipedIndexPath.row]) {
+                                                                            [self.tableView reloadData];
+                                                                        }
+                                                                    }];
+                [alertController addAction:selectAction];
+
+                [self presentViewController:alertController
+                                   animated:YES
+                                 completion:nil];
+            }
+            else {
+                // Unprefer the currently preferred name.
+                if ([self.dataSource preferAcceptedNameAtIndex:swipedIndexPath.row]) {
+                    [self.tableView reloadData];
+                }
             }
         }
     }
