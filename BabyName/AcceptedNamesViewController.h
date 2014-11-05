@@ -24,6 +24,7 @@
 
 - (NSInteger)numberOfAcceptedNames;
 - (id)acceptedNameAtIndex:(NSUInteger)index;
+- (BOOL)hasPreferredName;
 
 @end
 

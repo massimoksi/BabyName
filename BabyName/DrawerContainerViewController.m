@@ -219,6 +219,16 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
     return [self.acceptedNames objectAtIndex:index];
 }
 
+- (BOOL)hasPreferredName
+{
+    if ([self indexOfPreferredName] == NSNotFound) {
+        return NO;
+    }
+    else {
+        return YES;
+    }
+}
+
 #pragma mark - Accepted names view delegate
 
 - (BOOL)removeAcceptedNameAtIndex:(NSUInteger)index
