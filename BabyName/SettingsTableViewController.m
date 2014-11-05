@@ -69,8 +69,6 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    self.fetchingPreferencesChanged = NO;
-
     self.dueDatePicker.minimumDate = [NSDate date];
     
     self.insertTableViewRowAnimation = UITableViewRowAnimationMiddle;
@@ -357,7 +355,8 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
         // TODO: handle error.
     }
     else {
-        self.fetchingPreferencesChanged = YES;
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSelectionPreferencesChangedNotification
+                                                            object:self];
     }
 }
 
@@ -425,9 +424,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
         
         [self presentViewController:alertController
                            animated:YES
-                         completion:^{
-                             self.fetchingPreferencesChanged = YES;
-                         }];
+                         completion:nil];
     }
     
     [tableView deselectRowAtIndexPath:indexPath

@@ -16,6 +16,4 @@
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
-@property (nonatomic) BOOL fetchingPreferencesChanged;
-
 @end

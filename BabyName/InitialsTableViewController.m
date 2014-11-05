@@ -92,8 +92,8 @@
     [[NSUserDefaults standardUserDefaults] setObject:self.preferredInitials
                                               forKey:kSettingsPreferredInitialsKey];
     
-    SettingsTableViewController *settingsViewController = [self.navigationController.viewControllers objectAtIndex:0];
-    settingsViewController.fetchingPreferencesChanged = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSelectionPreferencesChangedNotification
+                                                        object:self];
     
     // Update table view.
     [tableView deselectRowAtIndexPath:indexPath

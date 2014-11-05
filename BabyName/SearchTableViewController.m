@@ -34,8 +34,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    self.fetchedObjectsChanged = NO;
-
     self.searchBar = [[UISearchBar alloc] init];
     self.searchBar.delegate = self;
     [self.searchBar sizeToFit];
@@ -343,7 +341,8 @@
             [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
         }
         else {
-            self.fetchedObjectsChanged = YES;
+            [[NSNotificationCenter defaultCenter] postNotificationName:kSelectionObjectsChangedNotification
+                                                                object:self];
         }
     }
     

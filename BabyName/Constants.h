@@ -17,6 +17,9 @@ extern NSString * const kSettingsShowSurnameKey;
 extern NSString * const kSettingsSurnameKey;
 extern NSString * const kSettingsDueDateKey;
 
+extern NSString * const kSelectionPreferencesChangedNotification;
+extern NSString * const kSelectionObjectsChangedNotification;
+
 
 typedef NS_ENUM(NSInteger, LanguageIndex) {
     kLanguageIndexIT = 0,
@@ -32,12 +35,10 @@ typedef NS_OPTIONS(NSInteger, LanguageBitmask) {
     kLanguageBitmaskFR = 1 << kLanguageIndexFR
 };
 
-
 typedef NS_OPTIONS(NSInteger, GenderBitmask) {
     kGenderBitmaskMale   = 1 << 0,
     kGenderBitmaskFemale = 1 << 1
 };
-
 
 typedef NS_ENUM(NSInteger, SelectionState) {
     kSelectionStateMaybe = 0,

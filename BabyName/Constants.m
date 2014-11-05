@@ -16,3 +16,6 @@ NSString * const kSettingsPreferredInitialsKey = @"SettingsPreferredInitials";
 NSString * const kSettingsShowSurnameKey       = @"SettingsShowSurname";
 NSString * const kSettingsSurnameKey           = @"SettingsSurname";
 NSString * const kSettingsDueDateKey           = @"SettingsDueDate";
+
+NSString * const kSelectionPreferencesChangedNotification = @"SelectionPreferencesChanged";
+NSString * const kSelectionObjectsChangedNotification     = @"SelectionObjectsChanged";

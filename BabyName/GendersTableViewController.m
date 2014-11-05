@@ -55,8 +55,8 @@
     [[NSUserDefaults standardUserDefaults] setInteger:(self.gender + 1)
                                                forKey:kSettingsSelectedGendersKey];
     
-    SettingsTableViewController *settingsViewController = [self.navigationController.viewControllers objectAtIndex:0];
-    settingsViewController.fetchingPreferencesChanged = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSelectionPreferencesChangedNotification
+                                                        object:self];
     
     // Update table view.
     [tableView deselectRowAtIndexPath:indexPath

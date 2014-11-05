@@ -37,6 +37,27 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     self.panningEnabled = YES;
     
     [self updateSuggestions];
+
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter addObserver:self
+                           selector:@selector(updateFetchingPreferences:)
+                               name:kSelectionPreferencesChangedNotification
+                             object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(updateFetchedSuggestions:)
+                               name:kSelectionObjectsChangedNotification
+                             object:nil];
+}
+
+- (void)dealloc
+{
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter removeObserver:self
+                                  name:kSelectionPreferencesChangedNotification
+                                object:nil];
+    [notificationCenter removeObserver:self
+                                  name:kSelectionObjectsChangedNotification
+                                object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -131,6 +152,18 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
         self.updateSelection = YES;
         [self loadChildViewController];
     }
+}
+
+#pragma mark - Notification handlers
+
+- (void)updateFetchingPreferences:(NSNotification *)notification
+{
+    [self updateSuggestions];
+}
+
+- (void)updateFetchedSuggestions:(NSNotification *)notification
+{
+    [self updateSuggestions];
 }
 
 #pragma mark - Private methods

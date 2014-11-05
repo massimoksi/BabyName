@@ -14,6 +14,4 @@
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
-@property (nonatomic) BOOL fetchedObjectsChanged;
-
 @end

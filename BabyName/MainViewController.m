@@ -112,18 +112,19 @@
 
 - (IBAction)unwindToMain:(UIStoryboardSegue *)segue
 {
-    if ([segue.identifier isEqualToString:@"CloseSettingsSegue"]) {
-        SettingsTableViewController *settingsViewController = segue.sourceViewController;
-        if (settingsViewController.fetchingPreferencesChanged) {
-            [self.containerViewController updateSuggestions];
-        }
-    }
-    else if ([segue.identifier isEqualToString:@"CloseSearchSegue"]) {
-        SearchTableViewController *searchViewController = segue.sourceViewController;
-        if (searchViewController.fetchedObjectsChanged) {
-            [self.containerViewController updateSuggestions];
-        }
-    }
+    // TODO: remove.
+    // if ([segue.identifier isEqualToString:@"CloseSettingsSegue"]) {
+    //     SettingsTableViewController *settingsViewController = segue.sourceViewController;
+    //     if (settingsViewController.fetchingPreferencesChanged) {
+    //         [self.containerViewController updateSuggestions];
+    //     }
+    // }
+    // else if ([segue.identifier isEqualToString:@"CloseSearchSegue"]) {
+    //     SearchTableViewController *searchViewController = segue.sourceViewController;
+    //     if (searchViewController.fetchedObjectsChanged) {
+    //         [self.containerViewController updateSuggestions];
+    //     }
+    // }
 }
 
 #pragma mark - Private methods
