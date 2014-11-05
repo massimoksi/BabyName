@@ -36,11 +36,11 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     
     self.panningEnabled = YES;
     
-    [self updateSuggestions];
+    [self fetchSuggestions];
 
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter addObserver:self
-                           selector:@selector(handleNotification:)
+                           selector:@selector(updateSuggestions:)
                                name:kFetchedObjectsOutdatedNotification
                              object:nil];
 }
@@ -108,7 +108,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
 
 #pragma mark - Actions
 
-- (void)updateSuggestions
+- (void)fetchSuggestions
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
@@ -149,9 +149,9 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
 
 #pragma mark - Notification handlers
 
-- (void)handleNotification:(NSNotification *)notification
+- (void)updateSuggestions:(NSNotification *)notification
 {
-    [self updateSuggestions];
+    [self fetchSuggestions];
 }
 
 #pragma mark - Private methods
