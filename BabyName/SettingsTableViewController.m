@@ -404,7 +404,6 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
         }
     }
     else if (section == kSettingsSectionRestart) {
-        // TODO: add iOS7 support using UIActionSheet.
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Restart selection", nil)
                                                                                  message:NSLocalizedString(@"All your current selections and rejections will be cancelled.", nil)
                                                                           preferredStyle:UIAlertControllerStyleActionSheet];

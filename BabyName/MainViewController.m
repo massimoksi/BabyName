@@ -99,6 +99,11 @@
     }
 }
 
+- (IBAction)unwindToMain:(UIStoryboardSegue *)segue
+{
+    // Unwind.
+}
+
 #pragma mark - Actions
 
 - (IBAction)showAcceptedNames:(id)sender
@@ -108,23 +113,6 @@
                                    animated:YES
                       allowUserInterruption:YES
                                  completion:nil];
-}
-
-- (IBAction)unwindToMain:(UIStoryboardSegue *)segue
-{
-    // TODO: remove.
-    // if ([segue.identifier isEqualToString:@"CloseSettingsSegue"]) {
-    //     SettingsTableViewController *settingsViewController = segue.sourceViewController;
-    //     if (settingsViewController.fetchingPreferencesChanged) {
-    //         [self.containerViewController updateSuggestions];
-    //     }
-    // }
-    // else if ([segue.identifier isEqualToString:@"CloseSearchSegue"]) {
-    //     SearchTableViewController *searchViewController = segue.sourceViewController;
-    //     if (searchViewController.fetchedObjectsChanged) {
-    //         [self.containerViewController updateSuggestions];
-    //     }
-    // }
 }
 
 #pragma mark - Private methods
