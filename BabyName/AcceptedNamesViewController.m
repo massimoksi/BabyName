@@ -93,8 +93,9 @@
     NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
 
     if (direction == MGSwipeDirectionRightToLeft) {
-        if (index == 0) {            
-            if ([self.dataSource removeAcceptedNameAtIndex:swipedIndexPath.row]) {
+        if (index == 0) {
+            // TODO: rename the method.
+            if ([self.delegate removeAcceptedNameAtIndex:swipedIndexPath.row]) {
                 [self.tableView deleteRowsAtIndexPaths:@[swipedIndexPath]
                                       withRowAnimation:UITableViewRowAnimationLeft];
                 
@@ -127,7 +128,7 @@
                                                                       style:UIAlertActionStyleDefault
                                                                     handler:^(UIAlertAction *action){
                                                                         // Prefer the currently selected name.
-                                                                        if ([self.dataSource preferAcceptedNameAtIndex:swipedIndexPath.row]) {
+                                                                        if ([self.delegate preferAcceptedNameAtIndex:swipedIndexPath.row]) {
                                                                             [self.tableView reloadData];
                                                                         }
                                                                     }];
@@ -139,7 +140,8 @@
             }
             else {
                 // Unprefer the currently preferred name.
-                if ([self.dataSource preferAcceptedNameAtIndex:swipedIndexPath.row]) {
+                // TODO: create a different method.
+                if ([self.delegate preferAcceptedNameAtIndex:swipedIndexPath.row]) {
                     [self.tableView reloadData];
                 }
             }

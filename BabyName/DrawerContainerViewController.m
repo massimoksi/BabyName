@@ -18,7 +18,7 @@ static NSString * const kShowEmptyNamesSegueID    = @"ShowEmptyNamesSegue";
 static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
 
 
-@interface DrawerContainerViewController () <AcceptedNamesViewDataSource>
+@interface DrawerContainerViewController () <AcceptedNamesViewDataSource, AcceptedNamesViewDelegate>
 
 @property (nonatomic) BOOL visible;
 
@@ -70,7 +70,9 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
             NSPredicate *initialsPredicate = [NSPredicate predicateWithFormat:@"name MATCHES[cd] %@", initialsRegex];
             
             // Filter the found elements by preferred initials.
-            self.acceptedNames = [NSMutableArray arrayWithArray:[[fetchedSuggestions filteredArrayUsingPredicate:initialsPredicate] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name"                                                                                                                                            ascending:YES                                                                                                                                             selector:@selector(caseInsensitiveCompare:)]]]];
+            self.acceptedNames = [NSMutableArray arrayWithArray:[[fetchedSuggestions filteredArrayUsingPredicate:initialsPredicate] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name"
+                                                                                                                                                      ascending:YES
+                                                                                                                                                       selector:@selector(caseInsensitiveCompare:)]]]];
         }
         else {
             // No element meeting the request predicate, create a new empty array.
@@ -125,6 +127,7 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
             if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[AcceptedNamesViewController class]]) {
                 AcceptedNamesViewController *viewController = segue.destinationViewController;
                 viewController.dataSource = self;
+                viewController.delegate = self;
 
                 [self swapFromViewController:[self.childViewControllers objectAtIndex:0]
                             toViewController:viewController];
@@ -133,6 +136,7 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
         else {
             AcceptedNamesViewController *viewController = segue.destinationViewController;
             viewController.dataSource = self;
+            viewController.delegate = self;
         
             [self addChildViewController:viewController];
             [self.view addSubview:viewController.view];
@@ -219,6 +223,8 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
 {
     return [self.acceptedNames objectAtIndex:index];
 }
+
+#pragma mark - Accepted names view delegate
 
 - (BOOL)removeAcceptedNameAtIndex:(NSUInteger)index
 {

@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @protocol AcceptedNamesViewDataSource;
+@protocol AcceptedNamesViewDelegate;
 
 
 @interface AcceptedNamesViewController : UIViewController
 
 @property (nonatomic, weak) id<AcceptedNamesViewDataSource> dataSource;
+@property (nonatomic, weak) id<AcceptedNamesViewDelegate> delegate;
 
 @end
 
@@ -22,6 +24,11 @@
 
 - (NSInteger)numberOfAcceptedNames;
 - (id)acceptedNameAtIndex:(NSUInteger)index;
+
+@end
+
+
+@protocol AcceptedNamesViewDelegate <NSObject>
 
 - (BOOL)removeAcceptedNameAtIndex:(NSUInteger)index;
 - (BOOL)preferAcceptedNameAtIndex:(NSUInteger)index;
