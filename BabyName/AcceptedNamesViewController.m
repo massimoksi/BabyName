@@ -94,7 +94,6 @@
 
     if (direction == MGSwipeDirectionRightToLeft) {
         if (index == 0) {
-            // TODO: rename the method.
             if ([self.delegate removeAcceptedNameAtIndex:swipedIndexPath.row]) {
                 [self.tableView deleteRowsAtIndexPaths:@[swipedIndexPath]
                                       withRowAnimation:UITableViewRowAnimationLeft];
@@ -121,6 +120,8 @@
                 UIAlertAction *selectAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Select", nil)
                                                                       style:UIAlertActionStyleDefault
                                                                     handler:^(UIAlertAction *action){
+                                                                        NSLog(@"Hello World!!!");
+                                                                        
                                                                         // Prefer the currently selected name.
                                                                         if ([self.delegate preferAcceptedNameAtIndex:swipedIndexPath.row]) {
                                                                             [self.tableView reloadData];
@@ -134,8 +135,7 @@
             }
             else {
                 // Unprefer the currently preferred name.
-                // TODO: create a different method.
-                if ([self.delegate preferAcceptedNameAtIndex:swipedIndexPath.row]) {
+                if ([self.delegate unpreferAcceptedNameAtIndex:swipedIndexPath.row]) {
                     [self.tableView reloadData];
                 }
             }

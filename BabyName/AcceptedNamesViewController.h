@@ -32,5 +32,6 @@
 
 - (BOOL)removeAcceptedNameAtIndex:(NSUInteger)index;
 - (BOOL)preferAcceptedNameAtIndex:(NSUInteger)index;
+- (BOOL)unpreferAcceptedNameAtIndex:(NSUInteger)index;
 
 @end

@@ -252,23 +252,32 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
         suggestion.state = kSelectionStatePreferred;
     }
     else {
-        if (index == preferredIndex) {
-            // Name is already preferred, so unprefer it.
-            suggestion.state = kSelectionStateAccepted;
-        }
-        else {
-            // There is already a preferred name, un prefer it and prefer the new one.
-            Suggestion *preferredSuggestion = [self.acceptedNames objectAtIndex:preferredIndex];
-            preferredSuggestion.state = kSelectionStateAccepted;
+        Suggestion *preferredSuggestion = [self.acceptedNames objectAtIndex:preferredIndex];
+        preferredSuggestion.state = kSelectionStateAccepted;
 
-            suggestion.state = kSelectionStatePreferred;
-        }
+        suggestion.state = kSelectionStatePreferred;
     }
 
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
         [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
 
+        return NO;
+    }
+    else {
+        return YES;
+    }
+}
+
+- (BOOL)unpreferAcceptedNameAtIndex:(NSUInteger)index
+{
+    Suggestion *suggestion = [self.acceptedNames objectAtIndex:index];
+    suggestion.state = kSelectionStateAccepted;
+
+    NSError *error;
+    if (![self.managedObjectContext save:&error]) {
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
+        
         return NO;
     }
     else {
