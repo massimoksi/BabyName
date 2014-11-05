@@ -124,8 +124,8 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     fetchRequest.predicate = predicate;
     
     NSError *error;
-    NSArray *fetchedSuggestions = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:fetchRequest
-                                                                                                          error:&error]];
+    NSArray *fetchedSuggestions = [self.managedObjectContext executeFetchRequest:fetchRequest
+                                                                           error:&error];
     if (!fetchedSuggestions) {
         [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
     }
