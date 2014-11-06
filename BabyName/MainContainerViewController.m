@@ -127,7 +127,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     NSArray *fetchedSuggestions = [self.managedObjectContext executeFetchRequest:fetchRequest
                                                                            error:&error];
     if (!fetchedSuggestions) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
     }
     else {
         // Filter suggestions by preferred initials.
@@ -186,11 +186,11 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
 
 - (void)showAlertWithMessage:(NSString *)message
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil)
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", @"Alert: title.")
                                                                              message:message
                                                                       preferredStyle:UIAlertControllerStyleAlert];
 
-    UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
+    UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"Alert: accept button.")
                                                           style:UIAlertActionStyleDefault
                                                         handler:^(UIAlertAction *action){
                                                             // Dismiss alert controller.
@@ -240,7 +240,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
     }
     else {
 #if DEBUG
@@ -263,7 +263,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
     }
     else {
 #if DEBUG

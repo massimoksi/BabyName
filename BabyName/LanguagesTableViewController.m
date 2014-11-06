@@ -79,7 +79,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LanguageCell"];
     
     Language *language = [self.sortedLanguages objectAtIndex:indexPath.row];
-    cell.textLabel.text = NSLocalizedString(language.name, nil);
+    cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%@", @"Language."), language.name];
     cell.accessoryType = language.selected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     
     return cell;
@@ -87,7 +87,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-    return NSLocalizedString(@"At least one language must be selected.", nil);
+    return NSLocalizedString(@"At least one language must be selected.", @"Table view: footer.");
 }
 
 #pragma mark - Table view delegate

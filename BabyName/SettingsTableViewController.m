@@ -94,15 +94,15 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     NSInteger selectedGenders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
     switch (selectedGenders) {
         case 1:
-            self.genderLabel.text = NSLocalizedString(@"Male", nil);
+            self.genderLabel.text = NSLocalizedString(@"Male", @"Gender.");
             break;
                         
         case 2:
-            self.genderLabel.text = NSLocalizedString(@"Female", nil);
+            self.genderLabel.text = NSLocalizedString(@"Female", @"Gender.");
             break;
                         
         case 3:
-            self.genderLabel.text = NSLocalizedString(@"Both", nil);
+            self.genderLabel.text = NSLocalizedString(@"Both", @"Both genders.");
             break;
     }
     
@@ -111,16 +111,16 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     if (numberOfSelectedLanguages == 1) {
         NSInteger selectedLanguages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
         if (selectedLanguages == kLanguageBitmaskIT) {
-            self.languageLabel.text = NSLocalizedString(@"Italian", nil);
+            self.languageLabel.text = NSLocalizedString(@"Italian", @"Language.");
         }
         else if (selectedLanguages == kLanguageBitmaskEN) {
-            self.languageLabel.text = NSLocalizedString(@"English", nil);
+            self.languageLabel.text = NSLocalizedString(@"English", @"Language.");
         }
         else if (selectedLanguages == kLanguageBitmaskDE) {
-            self.languageLabel.text = NSLocalizedString(@"German", nil);
+            self.languageLabel.text = NSLocalizedString(@"German", @"Language.");
         }
         else if (selectedLanguages == kLanguageBitmaskFR) {
-            self.languageLabel.text = NSLocalizedString(@"French", nil);
+            self.languageLabel.text = NSLocalizedString(@"French", @"Language.");
         }
     }
     else {
@@ -404,11 +404,11 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
         }
     }
     else if (section == kSettingsSectionRestart) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Restart selection", nil)
-                                                                                 message:NSLocalizedString(@"All your current selections and rejections will be cancelled.", nil)
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Restart selection", @"Action: title.")
+                                                                                 message:NSLocalizedString(@"All your current selections and rejections will be cancelled.", @"Action: ask confirmation if selection should restart from ground.")
                                                                           preferredStyle:UIAlertControllerStyleActionSheet];
         
-        UIAlertAction *restartAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Restart", @"Restart button in the action sheet")
+        UIAlertAction *restartAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Restart", @"Action: accept button.")
                                                                 style:UIAlertActionStyleDestructive
                                                               handler:^(UIAlertAction *action){
                                                                   // Inform the delegate to reset all selections.
@@ -416,7 +416,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
                                                               }];
         [alertController addAction:restartAction];
         
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel button in the action sheet")
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Action: cancel button.")
                                                                style:UIAlertActionStyleCancel
                                                              handler:nil];
         [alertController addAction:cancelAction];

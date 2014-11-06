@@ -116,15 +116,15 @@
                 else {
                     // TODO: change message.
                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"%@", swipedSuggestion.name]
-                                                                                             message:NSLocalizedString(@"Choose name and end selection.", nil)
+                                                                                             message:NSLocalizedString(@"Choose name and end selection.", @"Alert: message.")
                                                                                       preferredStyle:UIAlertControllerStyleAlert];
                     
-                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Alert: cancel button.")
                                                                            style:UIAlertActionStyleCancel
                                                                          handler:nil];
                     [alertController addAction:cancelAction];
                     
-                    UIAlertAction *selectAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Select", nil)
+                    UIAlertAction *selectAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Select", @"Alert: confirm button.")
                                                                            style:UIAlertActionStyleDefault
                                                                          handler:^(UIAlertAction *action){
                                                                              // Prefer the currently selected name.

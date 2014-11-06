@@ -41,7 +41,7 @@
                                                green:0.388
                                                 blue:0.434
                                                alpha:1.0];
-    self.searchBar.placeholder = NSLocalizedString(@"Search", nil);
+    self.searchBar.placeholder = NSLocalizedString(@"Search", @"Search bar: placeholder text.");
     self.navigationItem.titleView = self.searchBar;
     self.navigationItem.titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
@@ -54,7 +54,7 @@
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
     }
 }
 
@@ -114,7 +114,7 @@
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
     }
     
     [self.tableView reloadData];
@@ -167,11 +167,11 @@
 
 - (void)showAlertWithMessage:(NSString *)message
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil)
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", @"Alert: title.")
                                                                              message:message
                                                                       preferredStyle:UIAlertControllerStyleAlert];
 
-    UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
+    UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"Alert: accept button.")
                                                           style:UIAlertActionStyleDefault
                                                         handler:^(UIAlertAction *action){
                                                             // Dismiss alert controller.
@@ -274,7 +274,7 @@
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
     }
     else {
         // Update the table view displayed by the search results controller.
@@ -288,7 +288,7 @@
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
     }
     else {
         // Update the table view displayed by the search results controller.
@@ -338,7 +338,7 @@
 
         NSError *error;
         if (![self.managedObjectContext save:&error]) {
-            [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
+            [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
         }
         else {
             [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectsOutdatedNotification
