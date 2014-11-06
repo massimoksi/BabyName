@@ -219,10 +219,10 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
         return kPanningStateReject;
     }
     else {
-        if (location.x >= CGRectGetWidth(self.view.frame) * 0.80) {
+        if (location.x >= CGRectGetWidth(self.view.frame) * 0.9) {
             return kPanningStateAccept;
         }
-        else if (location.x <= CGRectGetWidth(self.view.frame) * 0.20) {
+        else if (location.x <= CGRectGetWidth(self.view.frame) * 0.1) {
             return kPanningStateReject;
         }
         else {
