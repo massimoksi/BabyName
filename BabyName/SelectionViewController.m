@@ -38,7 +38,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 
 @property (nonatomic, strong) UIDynamicAnimator *animator;
 @property (nonatomic, strong) UISnapBehavior *snapBehavior;
-@property (nonatomic, strong) UIAttachmentBehavior *attachmentBehavior;
 @property (nonatomic, strong) UIGravityBehavior *gravityBehavior;
 @property (nonatomic, strong) UICollisionBehavior *collisionBehavior;
 @property (nonatomic, strong) UIDynamicItemBehavior *itemBehavior;
@@ -85,9 +84,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.nameLabel]];
     self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.nameLabel]];
     self.itemBehavior = [[UIDynamicItemBehavior alloc] initWithItems:@[self.nameLabel]];
-    
-    self.attachmentBehavior = [[UIAttachmentBehavior alloc] initWithItem:self.nameLabel
-                                                        attachedToAnchor:self.panningOrigin];
 }
 
 - (void)didReceiveMemoryWarning
@@ -164,33 +160,35 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
             case kPanningStateAccept:
                 [self.itemBehavior addLinearVelocity:CGPointMake([recognizer velocityInView:self.view].x, 0.0)
                                              forItem:self.nameLabel];
+                [self.animator addBehavior:self.itemBehavior];
 
                 self.gravityBehavior.gravityDirection = CGVectorMake(1.0, 0.0);
+                [self.animator addBehavior:self.gravityBehavior];
 
                 [self.collisionBehavior removeAllBoundaries];
                 [self.collisionBehavior addBoundaryWithIdentifier:@"AcceptBoundary"
                                                         fromPoint:CGPointMake(CGRectGetWidth(self.view.frame) * 2.0, CGRectGetMinY(self.view.frame))
                                                           toPoint:CGPointMake(CGRectGetWidth(self.view.frame) * 2.0, CGRectGetMaxY(self.view.frame))];
-
-                [self.animator addBehavior:self.itemBehavior];
-                [self.animator addBehavior:self.gravityBehavior];
                 [self.animator addBehavior:self.collisionBehavior];
+
+                [self.delegate acceptName];
                 break;
 
             case kPanningStateReject:
                 [self.itemBehavior addLinearVelocity:CGPointMake([recognizer velocityInView:self.view].x, 0.0)
                                              forItem:self.nameLabel];
+                [self.animator addBehavior:self.itemBehavior];
 
                 self.gravityBehavior.gravityDirection = CGVectorMake(-1.0, 0.0);
+                [self.animator addBehavior:self.gravityBehavior];
 
                 [self.collisionBehavior removeAllBoundaries];
                 [self.collisionBehavior addBoundaryWithIdentifier:@"RejectBoundary"
                                                         fromPoint:CGPointMake(-CGRectGetWidth(self.view.frame), CGRectGetMinY(self.view.frame))
                                                           toPoint:CGPointMake(-CGRectGetWidth(self.view.frame), CGRectGetMaxY(self.view.frame))];
-
-                [self.animator addBehavior:self.itemBehavior];
-                [self.animator addBehavior:self.gravityBehavior];
                 [self.animator addBehavior:self.collisionBehavior];
+
+                [self.delegate rejectName];
                 break;
 
             default:
@@ -202,8 +200,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                 [self.animator addBehavior:self.itemBehavior];
                 break;
         }
-        
-        [self performEndingAction];
 
         // Disable panning until animation is finished.
         self.panningEnabled = NO;
@@ -224,23 +220,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                      completion:^(BOOL finished){
                          self.panningState = kPanningStateIdle;
                      }];
-}
-
-- (void)performEndingAction
-{
-    switch (self.panningState) {
-        case kPanningStateAccept:
-            [self.delegate acceptName];
-            break;
-            
-        case kPanningStateReject:
-            [self.delegate rejectName];
-            break;
-            
-        default:
-        case kPanningStateIdle:
-            break;
-    }
 }
 
 - (PanningDirection)directionForGesture:(UIPanGestureRecognizer *)recognizer
