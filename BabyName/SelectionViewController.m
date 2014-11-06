@@ -145,9 +145,8 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
         [self.delegate selectionViewDidBeginPanning];
     }
     else if (recognizer.state == UIGestureRecognizerStateChanged) {
-        // TODO: simplify this method.
-        self.nameLabel.center = [self calculatedCenterForGesture:recognizer
-                                            withPanningDirection:panningDirection];
+        CGPoint origin = self.nameLabel.center;
+        self.nameLabel.center = CGPointMake(origin.x + [recognizer translationInView:self.view].x, origin.y);
 
         [recognizer setTranslation:CGPointZero
                             inView:self.view];
@@ -236,25 +235,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     }
     else {
         return kPanningDirectionNone;
-    }
-}
-
-- (CGPoint)calculatedCenterForGesture:(UIPanGestureRecognizer *)recognizer withPanningDirection:(PanningDirection)direction
-{
-    CGPoint center = self.nameLabel.center;
-    CGPoint translation = [recognizer translationInView:self.view];
-    
-    switch (direction) {
-        case kPanningDirectionLeft:
-        case kPanningDirectionRight:
-            return CGPointMake(center.x + translation.x,
-                               center.y);
-            break;
-            
-        default:
-        case kPanningDirectionNone:
-            return center;
-            break;
     }
 }
 
