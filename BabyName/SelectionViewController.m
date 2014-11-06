@@ -11,12 +11,6 @@
 #import "Constants.h"
 
 
-typedef NS_ENUM(NSUInteger, PanningDirection) {
-    kPanningDirectionNone = 0,
-    kPanningDirectionRight,
-    kPanningDirectionLeft
-};
-
 typedef NS_ENUM(NSUInteger, PanningState) {
     kPanningStateIdle = 0,
     kPanningStateAccept,
@@ -125,23 +119,16 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 
 - (IBAction)panName:(UIPanGestureRecognizer *)recognizer
 {
-    static PanningDirection panningDirection = kPanningDirectionNone;
-
-    // Discard gesture recognizer if panning is disabled.
-    if (!self.panningEnabled) {
-        recognizer.enabled = NO;
-    }
-    else {
-        recognizer.enabled = YES;
-    }
-
-    // Handle panning.
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-        panningDirection = [self directionForGesture:recognizer];
-        if (panningDirection == kPanningDirectionNone) {
+        // Gesture must be disarded if:
+        //  * Panning vertically (vy > vx).
+        //  * Panning is disabled (a previous pan is still animating).
+        CGPoint velocity = [recognizer velocityInView:self.view];
+        if ((fabs(velocity.y) > fabs(velocity.x)) || !self.panningEnabled) {
+            // Discard gesture.
             return;
         }
-        
+
         [self.delegate selectionViewDidBeginPanning];
     }
     else if (recognizer.state == UIGestureRecognizerStateChanged) {
@@ -152,8 +139,7 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                             inView:self.view];
     }
     else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateFailed || recognizer.state == UIGestureRecognizerStateCancelled) {
-        self.panningState = [self endStateForGesture:recognizer
-                                withPanningDirection:panningDirection];
+        self.panningState = [self endStateForGesture:recognizer];
 
         switch (self.panningState) {
             case kPanningStateAccept:
@@ -221,73 +207,27 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                      }];
 }
 
-- (PanningDirection)directionForGesture:(UIPanGestureRecognizer *)recognizer
-{
-    CGPoint velocity = [recognizer velocityInView:recognizer.view.superview];
-    
-    if (fabs(velocity.x) >= fabs(velocity.y)) {
-        if (velocity.x > 0.0) {
-            return kPanningDirectionRight;
-        }
-        else {
-            return kPanningDirectionLeft;
-        }
-    }
-    else {
-        return kPanningDirectionNone;
-    }
-}
-
-- (PanningState)endStateForGesture:(UIPanGestureRecognizer *)recognizer withPanningDirection:(PanningDirection)direction
+- (PanningState)endStateForGesture:(UIPanGestureRecognizer *)recognizer
 {
     CGPoint velocity = [recognizer velocityInView:self.view];
     CGPoint location = [recognizer locationInView:self.view];
     
-    switch (direction) {
-        case kPanningDirectionRight:
-            if (velocity.x >= kPanningVelocityThreshold) {
-                return kPanningStateAccept;
-            }
-            else if (velocity.x <= -kPanningVelocityThreshold) {
-                return kPanningStateReject;
-            }
-            else {
-                if (location.x >= CGRectGetWidth(self.view.frame) * 0.90) {
-                    return kPanningStateAccept;
-                }
-                else if (location.x <= CGRectGetWidth(self.view.frame) * 0.10) {
-                    return kPanningStateReject;
-                }
-                else {
-                    return kPanningStateIdle;
-                }
-            }
-            break;
-            
-        case kPanningDirectionLeft:
-            if (velocity.x >= kPanningVelocityThreshold) {
-                return kPanningStateAccept;
-            }
-            else if (velocity.x <= -kPanningVelocityThreshold) {
-                return kPanningStateReject;
-            }
-            else {
-                if (location.x >= CGRectGetWidth(self.view.frame) * 0.90) {
-                    return kPanningStateAccept;
-                }
-                else if (location.x <= CGRectGetWidth(self.view.frame) * 0.10) {
-                    return kPanningStateReject;
-                }
-                else {
-                    return kPanningStateIdle;
-                }
-            }
-            break;
-            
-        default:
-        case kPanningDirectionNone:
+    if (velocity.x >= kPanningVelocityThreshold) {
+        return kPanningStateAccept;
+    }
+    else if (velocity.x <= -kPanningVelocityThreshold) {
+        return kPanningStateReject;
+    }
+    else {
+        if (location.x >= CGRectGetWidth(self.view.frame) * 0.80) {
+            return kPanningStateAccept;
+        }
+        else if (location.x <= CGRectGetWidth(self.view.frame) * 0.20) {
+            return kPanningStateReject;
+        }
+        else {
             return kPanningStateIdle;
-            break;
+        }
     }
 }
 
@@ -304,6 +244,7 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 
     if (self.panningState == kPanningStateIdle) {
         // Adjust misalignment to center.
+        // TODO: check if adjustment is necessary also with snap behavior.
         self.nameLabel.center = self.panningOrigin;
     }
     else {
