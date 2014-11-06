@@ -26,7 +26,6 @@ typedef NS_ENUM(NSUInteger, PanningState) {
 
 static const CGFloat kNameLabelPadding = 10.0; // TODO: replace with a calculation.
 static const CGFloat kPanningVelocityThreshold = 100.0;
-static const CGFloat kPanningTranslationThreshold = 80.0;
 
 
 @interface SelectionViewController () <UIDynamicAnimatorDelegate>
@@ -241,8 +240,7 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 - (PanningState)endStateForGesture:(UIPanGestureRecognizer *)recognizer withPanningDirection:(PanningDirection)direction
 {
     CGPoint velocity = [recognizer velocityInView:self.view];
-    CGPoint newCenter = [self calculatedCenterForGesture:recognizer
-                                    withPanningDirection:direction];
+    CGPoint location = [recognizer locationInView:self.view];
     
     switch (direction) {
         case kPanningDirectionRight:
@@ -253,10 +251,10 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
                 return kPanningStateReject;
             }
             else {
-                if (newCenter.x >= self.view.center.x + kPanningTranslationThreshold) {
+                if (location.x >= CGRectGetWidth(self.view.frame) * 0.80) {
                     return kPanningStateAccept;
                 }
-                else if (newCenter.x <= self.view.center.x - kPanningTranslationThreshold) {
+                else if (location.x <= CGRectGetWidth(self.view.frame) * 0.20) {
                     return kPanningStateReject;
                 }
                 else {
@@ -273,10 +271,10 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
                 return kPanningStateReject;
             }
             else {
-                if (newCenter.x >= self.panningOrigin.x + kPanningTranslationThreshold) {
+                if (location.x >= CGRectGetWidth(self.view.frame) * 0.80) {
                     return kPanningStateAccept;
                 }
-                else if (newCenter.x <= self.panningOrigin.x - kPanningTranslationThreshold) {
+                else if (location.x <= CGRectGetWidth(self.view.frame) * 0.20) {
                     return kPanningStateReject;
                 }
                 else {
