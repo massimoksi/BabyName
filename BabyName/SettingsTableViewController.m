@@ -274,7 +274,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 {
     NSInteger selectedLanguages = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedLanguagesKey];
     
-    // NOTE: in case a new language is introduced, the count calculation needs to be updated.
+    // NOTE: in case a new language is introduced, the formula calculation needs to be updated.
     NSUInteger count = ((selectedLanguages >> 3) & 1) + ((selectedLanguages >> 2) & 1) + ((selectedLanguages >> 1) & 1) + (selectedLanguages & 1);
     
     return count;
@@ -284,6 +284,12 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
+    // Due date picker is visible.
+    //  1. Save due date to user defaults (if changed).
+    //  2. Configure due date text field.
+    //      a. Set color to grey (detail text label).
+    //      b. Hide clear button.
+    //  3. Hide the cell containing the due date picker.
     if (self.datePickerVisible) {
         self.datePickerVisible = NO;
 
@@ -297,10 +303,20 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
                                                            blue:164.0/255.0
                                                           alpha:1.0];
         self.dueDateTextField.clearButtonMode = UITextFieldViewModeNever;
+
         [self cell:self.datePickerCell
          setHidden:YES];
         [self reloadDataAnimated:animated];
     }
+    // Due date picker is not visible.
+    //  1. Configure the due date picker with user defaults.
+    //      a. Due date (if available).
+    //      b. Today (if not available).
+    //  2. Configure the due date text field.
+    //      a. Set color to red.
+    //      b. Show clear button.
+    //  3. Reveal the cell containing the due date picker.
+    //  4. Scroll table view to completely show the due date picker.
     else {
         self.datePickerVisible = YES;
         
@@ -321,11 +337,11 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
                                                            blue:92.0/255.0
                                                           alpha:1.0];
         self.dueDateTextField.clearButtonMode = UITextFieldViewModeAlways;
+
         [self cell:self.datePickerCell
          setHidden:NO];
         [self reloadDataAnimated:animated];
         
-        // Scroll the table view in order to make it completely visible.
         [self.tableView scrollRectToVisible:self.datePickerCell.frame
                                    animated:YES];
     }
