@@ -352,12 +352,32 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     }
 
     if (![context save:&error]) {
-        // TODO: handle error.
+        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
     }
     else {
         [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectsOutdatedNotification
                                                             object:self];
     }
+}
+
+- (void)showAlertWithMessage:(NSString *)message
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil)
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction *action){
+                                                            // Dismiss alert controller.
+                                                            [alertController dismissViewControllerAnimated:YES
+                                                                                                completion:nil]; 
+                                                        }];
+    [alertController addAction:acceptAction];
+
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
 }
 
 #pragma mark - Table view delegate
