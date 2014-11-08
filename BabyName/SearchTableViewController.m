@@ -54,7 +54,7 @@
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
 }
 
@@ -114,7 +114,7 @@
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
     
     [self.tableView reloadData];
@@ -274,7 +274,7 @@
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
     else {
         // Update the table view displayed by the search results controller.
@@ -288,7 +288,7 @@
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
     else {
         // Update the table view displayed by the search results controller.
@@ -338,7 +338,7 @@
 
         NSError *error;
         if (![self.managedObjectContext save:&error]) {
-            [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
+            [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
         }
         else {
             [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectsOutdatedNotification

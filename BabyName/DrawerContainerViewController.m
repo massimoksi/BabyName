@@ -60,7 +60,7 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
     NSArray *fetchedSuggestions = [self.managedObjectContext executeFetchRequest:fetchRequest
                                                                            error:&error];
     if (!fetchedSuggestions) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
     else {
         // Filter suggestions by preferred initials.
@@ -238,7 +238,7 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
 
         return NO;
     }
@@ -270,7 +270,7 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
 
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
 
         return NO;
     }
@@ -289,7 +289,7 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
 
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
         
         return NO;
     }

@@ -368,7 +368,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     }
 
     if (![context save:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
     else {
         [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectsOutdatedNotification

@@ -184,7 +184,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
         if (invalid) {
             preferredSuggestion.state = kSelectionStateAccepted;
             if (![self.managedObjectContext save:&error]) {
-                [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
+                [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
             }
         }
     }
@@ -222,7 +222,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
             fetchedSuggestions = [context executeFetchRequest:fetchRequest
                                                         error:&error];
             if (!fetchedSuggestions) {
-                [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
+                [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
             }
             else {
                 // Filter suggestions by initials from user defaults.
@@ -247,7 +247,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
         [self loadChildViewController];
     }
     else {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
 }
 
@@ -343,7 +343,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
     else {
 #if DEBUG
@@ -366,7 +366,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", @"Generic error message.")];
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
     else {
 #if DEBUG
