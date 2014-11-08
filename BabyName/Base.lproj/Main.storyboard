@@ -325,7 +325,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="ZHT-2W-iAb">
+                            <tableViewSection headerTitle="Info" id="ZHT-2W-iAb">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="j90-Ja-UDH" style="IBUITableViewCellStyleDefault" id="xo7-4a-rJx">
                                         <autoresizingMask key="autoresizingMask"/>
