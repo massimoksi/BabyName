@@ -15,6 +15,8 @@
 
 @interface LanguagesTableViewController ()
 
+@property (nonatomic) BOOL languagesChanged;
+
 @property (nonatomic, strong) NSArray *sortedLanguages;
 
 @end
@@ -32,6 +34,8 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    self.languagesChanged = NO;
+    
     [self updateCachedLanguages];
 }
 
@@ -39,6 +43,16 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if (self.languagesChanged) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kFetchingPreferencesChangedNotification
+                                                            object:self];
+    }
 }
 
 #pragma mark - Private methods
@@ -100,12 +114,11 @@
     NSInteger selectedBitmask = 1 << language.index;
     NSInteger selectedLanguages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey] ^ selectedBitmask;
     if (selectedLanguages) {
+        self.languagesChanged = YES;
+        
         // Update user defaults.
         [userDefaults setInteger:selectedLanguages
                           forKey:kSettingsSelectedLanguagesKey];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectsOutdatedNotification
-                                                            object:self];
         
         // Update table view.
         [tableView deselectRowAtIndexPath:indexPath
