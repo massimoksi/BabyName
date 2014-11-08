@@ -20,7 +20,7 @@ typedef NS_ENUM(NSInteger, SettingsSection) {
     kSettingsSectionGeneral = 0,
     kSettingsSectionAdvanced,
     kSettingsSectionRestart,
-    kSettingsSectionAbout
+    kSettingsSectionInfo
 };
 
 typedef NS_ENUM(NSInteger, SectionGeneralRow) {
@@ -36,6 +36,11 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     kSectionAdvancedRowDatePicker
 };
 
+typedef NS_ENUM(NSInteger, SectionInfoRow) {
+    kSectionInfoRowAbout = 0,
+    kSectionInfoRowWrite,
+    kSectionInfoRowRate
+};
 
 @interface SettingsTableViewController () <UITextFieldDelegate>
 
@@ -177,9 +182,6 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     // Row: due date picker.
     [self cell:self.datePickerCell
      setHidden:YES];
-
-    // TODO: replace version label with dedicated views.
-    self.versionLabel.text = [NSString stringWithFormat:@"%@ (%@)", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
 
     // Show/hide dynamic cells.
     [self reloadDataAnimated:NO];
