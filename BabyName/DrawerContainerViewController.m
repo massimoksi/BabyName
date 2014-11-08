@@ -275,6 +275,9 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
         return NO;
     }
     else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectWasPreferredNotification
+                                                            object:self];
+
         return YES;
     }
 }
@@ -291,6 +294,9 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
         return NO;
     }
     else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectWasUnpreferredNotification
+                                                            object:self];
+
         return YES;
     }
 }
