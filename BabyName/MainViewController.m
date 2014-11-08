@@ -99,11 +99,6 @@
     }
 }
 
-- (IBAction)unwindToMain:(UIStoryboardSegue *)segue
-{
-    // Unwind.
-}
-
 #pragma mark - Actions
 
 - (IBAction)showAcceptedNames:(id)sender
@@ -113,6 +108,11 @@
                                    animated:YES
                       allowUserInterruption:YES
                                  completion:nil];
+}
+
+- (IBAction)unwindToMain:(UIStoryboardSegue *)segue
+{
+    // Unwind.
 }
 
 #pragma mark - Dynamics drawer view controller delegate

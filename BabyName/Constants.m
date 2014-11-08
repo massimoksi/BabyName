@@ -17,4 +17,7 @@ NSString * const kSettingsShowSurnameKey       = @"SettingsShowSurname";
 NSString * const kSettingsSurnameKey           = @"SettingsSurname";
 NSString * const kSettingsDueDateKey           = @"SettingsDueDate";
 
-NSString * const kFetchedObjectsOutdatedNotification = @"FetchedObjectsOutdated";
+NSString * const kFetchedObjectsOutdatedNotification      = @"FetchedObjectsOutdated";
+NSString * const kFetchedObjectWasPreferredNotification   = @"FetchedObjectWasPreferred";
+NSString * const kFetchedObjectWasUnpreferredNotification = @"FetchedObjectWasUnpreferred";
+NSString * const kFetchingPreferencesChangedNotification  = @"FetchingPreferencesChanged";

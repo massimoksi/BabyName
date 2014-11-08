@@ -67,7 +67,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 {
     [super viewDidAppear:animated];
     
-    self.panningEnabled = YES;
     self.panningOrigin = self.nameLabel.center;
     
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
@@ -119,13 +118,16 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 
 - (IBAction)panName:(UIPanGestureRecognizer *)recognizer
 {
+    if (!self.panningEnabled) {
+        return;
+    }
+    else {
+    }
+    
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-        // Gesture must be disarded if:
-        //  * Panning vertically (vy > vx).
-        //  * Panning is disabled (a previous pan is still animating).
         CGPoint velocity = [recognizer velocityInView:self.view];
-        if ((fabs(velocity.y) > fabs(velocity.x)) || !self.panningEnabled) {
-            // Discard gesture.
+        if (fabs(velocity.y) > fabs(velocity.x)) {
+            // TODO: discard gesture.
             return;
         }
 
@@ -195,9 +197,14 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 
 - (void)configureNameLabel
 {
-    self.nameLabel.text = [self.dataSource randomName];
+    Suggestion *suggestion = [self.dataSource randomSuggestion];
+    
+    self.nameLabel.text = suggestion.name;
     self.nameLabel.center = self.panningOrigin;
     
+    // Disable panning if the suggestion received by the data source is the preferred one.
+    self.panningEnabled = (suggestion.state == kSelectionStatePreferred) ? NO : YES;
+
     [UIView animateWithDuration:0.5
                      animations:^{
                          self.nameLabel.alpha = 1.0;

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "Suggestion.h"
+
 @protocol SelectionViewDataSource;
 @protocol SelectionViewDelegate;
 
@@ -17,6 +19,8 @@
 @property (nonatomic, weak) id<SelectionViewDataSource> dataSource;
 @property (nonatomic, weak) id<SelectionViewDelegate> delegate;
 
+- (void)configureNameLabel;
+
 @end
 
 
@@ -24,7 +28,7 @@
 
 - (BOOL)shouldReloadName;
 
-- (NSString *)randomName;
+- (Suggestion *)randomSuggestion;
 
 @end
 
