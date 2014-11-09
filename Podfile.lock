@@ -1,15 +1,18 @@
 PODS:
   - MGSwipeTableCell (1.2.0)
+  - MMMarkdown (0.3)
   - MSDynamicsDrawerViewController (1.5.1)
   - StaticDataTableViewController (2.0.3)
 
 DEPENDENCIES:
-  - MGSwipeTableCell (~> 1.2)
+  - MGSwipeTableCell
+  - MMMarkdown
   - MSDynamicsDrawerViewController (~> 1.5)
   - StaticDataTableViewController (~> 2.0)
 
 SPEC CHECKSUMS:
   MGSwipeTableCell: 7e891341216cf91a6250ccde22c4c26b5247bb51
+  MMMarkdown: 95af8920c647512d1efa2ac8ac1932baf3266e2c
   MSDynamicsDrawerViewController: 0002059480a4b5ddde7eafbafb958a79a9b0ffaf
   StaticDataTableViewController: 171ee35f17f6176baa98ce05c1e4769a628732ad
 

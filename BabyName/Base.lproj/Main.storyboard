@@ -796,6 +796,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="adm-mT-P8d" kind="show" identifier="ShowCreditsSegue" id="aMh-BO-9bG"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -845,6 +848,43 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DzP-Mr-ZLs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3711" y="-239"/>
+        </scene>
+        <!--Credits-->
+        <scene sceneID="a40-HR-mxN">
+            <objects>
+                <viewController storyboardIdentifier="CreditsVC" id="adm-mT-P8d" customClass="CreditsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wCY-4A-bf0"/>
+                        <viewControllerLayoutGuide type="bottom" id="eCF-ai-sSF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="moK-ev-OyB">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="94Q-7k-Iie">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="94Q-7k-Iie" firstAttribute="leading" secondItem="moK-ev-OyB" secondAttribute="leading" id="Dsk-7c-sSi"/>
+                            <constraint firstItem="94Q-7k-Iie" firstAttribute="top" secondItem="moK-ev-OyB" secondAttribute="top" id="IQl-nZ-p0q"/>
+                            <constraint firstItem="eCF-ai-sSF" firstAttribute="top" secondItem="94Q-7k-Iie" secondAttribute="bottom" id="M1c-Rp-3iJ"/>
+                            <constraint firstAttribute="trailing" secondItem="94Q-7k-Iie" secondAttribute="trailing" id="uZF-mn-ci5"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Credits" id="HLW-ob-J20"/>
+                    <connections>
+                        <outlet property="ackTextView" destination="94Q-7k-Iie" id="tVh-CZ-tRb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="E7R-K0-yTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4503" y="-239"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Mhc-yQ-r59">
