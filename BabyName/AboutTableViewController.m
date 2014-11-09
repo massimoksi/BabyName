@@ -8,8 +8,10 @@
 
 #import "AboutTableViewController.h"
 
+#import <MessageUI/MessageUI.h>
 
-@interface AboutTableViewController ()
+
+@interface AboutTableViewController () <MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, weak) IBOutlet UILabel *versionLabel;
 
@@ -35,6 +37,50 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Private methods
+
+- (void)sendEmail
+{
+    if ([MFMailComposeViewController canSendMail]) {
+        MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
+        mailComposer.navigationBar.barTintColor = [UIColor colorWithRed:0.118
+                                                                  green:0.141
+                                                                   blue:0.235
+                                                                  alpha:1.000];
+        mailComposer.navigationBar.tintColor = [UIColor colorWithRed:0.941
+                                                               green:0.290
+                                                                blue:0.361
+                                                               alpha:1.000];
+        mailComposer.navigationBar.barStyle = UIStatusBarStyleLightContent;
+        mailComposer.mailComposeDelegate = self;
+        [mailComposer setToRecipients:@[@"massimo.peri@icloud.com"]];
+        
+        [self presentViewController:mailComposer
+                           animated:YES
+                         completion:nil];
+    }
+}
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ((indexPath.section == 0) && (indexPath.row == 0)) {
+        [self sendEmail];
+    }
+    
+    [tableView deselectRowAtIndexPath:indexPath
+                             animated:YES];
+}
+
+#pragma mark - Mail composer view controller delegate
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
 }
 
 @end
