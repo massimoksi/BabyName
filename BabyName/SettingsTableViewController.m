@@ -37,9 +37,7 @@ typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
 };
 
 typedef NS_ENUM(NSInteger, SectionInfoRow) {
-    kSectionInfoRowAbout = 0,
-    kSectionInfoRowWrite,
-    kSectionInfoRowRate
+    kSectionInfoRowAbout = 0
 };
 
 @interface SettingsTableViewController () <UITextFieldDelegate>
