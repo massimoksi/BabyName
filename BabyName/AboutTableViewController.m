@@ -47,15 +47,19 @@
 {
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
-        mailComposer.navigationBar.barTintColor = [UIColor bbn_barTintColor];
-        mailComposer.navigationBar.tintColor = [UIColor bbn_tintColor];
-        mailComposer.navigationBar.translucent = NO;
+//        mailComposer.navigationBar.barTintColor = [UIColor bbn_barTintColor];
+//        mailComposer.navigationBar.tintColor = [UIColor bbn_tintColor];
+//        mailComposer.navigationBar.translucent = NO;
         mailComposer.mailComposeDelegate = self;
         [mailComposer setToRecipients:@[@"massimo.peri@icloud.com"]];
         
         [self presentViewController:mailComposer
                            animated:YES
                          completion:nil];
+//                         completion:^{
+//                            // Make the status bar white.
+//                            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+//                         }];
     }
 }
 
