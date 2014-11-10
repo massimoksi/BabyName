@@ -71,6 +71,8 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     if (![self.fetchedResultsController performFetch:&error]) {
         [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
+    
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -242,6 +244,17 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     return sectionInfo.name;
 }
 
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    return [self.fetchedResultsController sectionIndexTitles];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    return [self.fetchedResultsController sectionForSectionIndexTitle:title
+                                                              atIndex:index];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSArray *sections = [self.fetchedResultsController sections];
@@ -401,6 +414,7 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     if (direction == MGSwipeDirectionRightToLeft) {
         // Configure swipe settings.
         swipeSettings.transition = MGSwipeTransitionStatic;
+        swipeSettings.offset = 16.0;
 
         MGSwipeButton *rejectButton = [MGSwipeButton buttonWithTitle:@""
         	                                                    icon:[UIImage imageNamed:@"Rejected"]
