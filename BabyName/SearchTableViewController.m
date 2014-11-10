@@ -37,10 +37,7 @@
     self.searchBar = [[UISearchBar alloc] init];
     self.searchBar.delegate = self;
     [self.searchBar sizeToFit];
-    self.searchBar.tintColor = [UIColor colorWithRed:0.962
-                                               green:0.388
-                                                blue:0.434
-                                               alpha:1.0];
+    self.searchBar.tintColor = [UIColor bbn_tintColor];
     self.searchBar.placeholder = NSLocalizedString(@"Search", @"Search bar: placeholder text.");
     self.navigationItem.titleView = self.searchBar;
     self.navigationItem.titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -359,26 +356,17 @@
 
         MGSwipeButton *rejectButton = [MGSwipeButton buttonWithTitle:@""
         	                                                    icon:[UIImage imageNamed:@"Rejected"]
-                                                     backgroundColor:[UIColor colorWithRed:0.962
-                                                                                     green:0.388
-                                                                                      blue:0.434
-                                                                                     alpha:1.0]
+                                                     backgroundColor:[UIColor bbn_rejectColor]
                                                              padding:14];
 
-        MGSwipeButton *maybeButton = [MGSwipeButton buttonWithTitle:@""
-        	                                                   icon:[UIImage imageNamed:@"Refresh"]
-        	                                        backgroundColor:[UIColor colorWithRed:1.000
-                                                                                    green:0.801
-                                                                                     blue:0.000
-                                                                                    alpha:1.0]
-                                                            padding:14];
+        MGSwipeButton *refreshButton = [MGSwipeButton buttonWithTitle:@""
+        	                                                     icon:[UIImage imageNamed:@"Refresh"]
+        	                                          backgroundColor:[UIColor bbn_refreshColor]
+                                                              padding:14];
 
         MGSwipeButton *acceptButton = [MGSwipeButton buttonWithTitle:@""
         	                                                    icon:[UIImage imageNamed:@"Accepted"]
-        	                                         backgroundColor:[UIColor colorWithRed:0.391
-                                                                                     green:0.769
-                                                                                      blue:0.384
-                                                                                     alpha:1.0]
+        	                                         backgroundColor:[UIColor bbn_acceptColor]
                                                              padding:14];
 
         NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
@@ -391,12 +379,12 @@
         		break;
 
         	case kSelectionStateRejected:
-        		swipeButtons = @[maybeButton, acceptButton];
+        		swipeButtons = @[refreshButton, acceptButton];
         		break;
 
             case kSelectionStateAccepted:
             case kSelectionStatePreferred:
-                swipeButtons = @[rejectButton, maybeButton];
+                swipeButtons = @[rejectButton, refreshButton];
                 break;
         }
 

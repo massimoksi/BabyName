@@ -178,10 +178,7 @@
     if (direction == MGSwipeDirectionRightToLeft) {
         MGSwipeButton *deleteButton = [MGSwipeButton buttonWithTitle:@""
                                                                 icon:[UIImage imageNamed:@"Rejected"]
-                                                     backgroundColor:[UIColor colorWithRed:0.962
-                                                                                     green:0.388
-                                                                                      blue:0.434
-                                                                                     alpha:1.0]
+                                                     backgroundColor:[UIColor bbn_rejectColor]
                                                              padding:14];
 
         return @[deleteButton];
@@ -192,10 +189,7 @@
 
         MGSwipeButton *preferButton = [MGSwipeButton buttonWithTitle:@""
                                                                 icon:(swipedSuggestion.state == kSelectionStatePreferred) ? [UIImage imageNamed:@"Unprefer"] : [UIImage imageNamed:@"Prefer"]
-                                                     backgroundColor:[UIColor colorWithRed:0.144
-                                                                                     green:0.652
-                                                                                      blue:1.000
-                                                                                     alpha:1.0]
+                                                     backgroundColor:[UIColor bbn_preferColor]
                                                              padding:14];
 
         return @[preferButton];

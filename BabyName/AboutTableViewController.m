@@ -10,6 +10,8 @@
 
 #import <MessageUI/MessageUI.h>
 
+#import "Constants.h"
+
 
 @interface AboutTableViewController () <MFMailComposeViewControllerDelegate>
 
@@ -45,15 +47,9 @@
 {
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
-        mailComposer.navigationBar.barTintColor = [UIColor colorWithRed:0.118
-                                                                  green:0.141
-                                                                   blue:0.235
-                                                                  alpha:1.000];
-        mailComposer.navigationBar.tintColor = [UIColor colorWithRed:0.941
-                                                               green:0.290
-                                                                blue:0.361
-                                                               alpha:1.000];
-        mailComposer.navigationBar.barStyle = UIStatusBarStyleLightContent;
+        mailComposer.navigationBar.barTintColor = [UIColor bbn_barTintColor];
+        mailComposer.navigationBar.tintColor = [UIColor bbn_tintColor];
+        mailComposer.navigationBar.translucent = NO;
         mailComposer.mailComposeDelegate = self;
         [mailComposer setToRecipients:@[@"massimo.peri@icloud.com"]];
         
