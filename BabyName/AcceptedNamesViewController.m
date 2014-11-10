@@ -85,7 +85,20 @@
 
 - (BOOL)swipeTableCell:(MGSwipeTableCell *)cell canSwipe:(MGSwipeDirection)direction
 {
-    return YES;
+    if (direction == MGSwipeDirectionRightToLeft) {
+        // Disable right-to-left swipe (deletion) for the preferred item.
+        NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
+        Suggestion *swipedSuggestion = [self.dataSource acceptedNameAtIndex:swipedIndexPath.row];
+        if (swipedSuggestion.state == kSelectionStatePreferred) {
+            return NO;
+        }
+        else {
+            return YES;
+        }
+    }
+    else {
+        return YES;
+    }
 }
 
 - (BOOL)swipeTableCell:(MGSwipeTableCell *)cell tappedButtonAtIndex:(NSInteger)index direction:(MGSwipeDirection)direction fromExpansion:(BOOL)fromExpansion
