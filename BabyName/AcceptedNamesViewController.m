@@ -12,7 +12,7 @@
 
 #import "Constants.h"
 #import "Suggestion.h"
-#import "SearchNameTableViewCell.h"
+#import "SearchTableViewCell.h"
 #import "DrawerContainerViewController.h"
 
 
@@ -58,7 +58,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SearchNameTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AcceptedNameCell"];
+    SearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AcceptedNameCell"];
 
     Suggestion *suggestion = [self.dataSource acceptedNameAtIndex:indexPath.row];
 
@@ -81,40 +81,68 @@
     return 44.0;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([self.dataSource preferAcceptedNameAtIndex:indexPath.row]) {
-        // Update table view.
-        [tableView deselectRowAtIndexPath:indexPath
-                                 animated:YES];
-        [tableView reloadData];
-    }
-}
-
 #pragma mark - Swipe table cell delegate
 
 - (BOOL)swipeTableCell:(MGSwipeTableCell *)cell canSwipe:(MGSwipeDirection)direction
 {
-    return (direction == MGSwipeDirectionRightToLeft);
+    return YES;
 }
 
 - (BOOL)swipeTableCell:(MGSwipeTableCell *)cell tappedButtonAtIndex:(NSInteger)index direction:(MGSwipeDirection)direction fromExpansion:(BOOL)fromExpansion
 {
+    NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
+
     if (direction == MGSwipeDirectionRightToLeft) {
-        // Check index and perform action.
         if (index == 0) {
-            NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
-            
-            if ([self.dataSource removeAcceptedNameAtIndex:swipedIndexPath.row]) {
+            if ([self.delegate removeAcceptedNameAtIndex:swipedIndexPath.row]) {
                 [self.tableView deleteRowsAtIndexPaths:@[swipedIndexPath]
                                       withRowAnimation:UITableViewRowAnimationLeft];
                 
                 [cell refreshContentView];
+            }
+        }
+    }
+    else {
+        if (index == 0) {
+            Suggestion *swipedSuggestion = [self.dataSource acceptedNameAtIndex:swipedIndexPath.row];
 
-                // Switch to the view controller to handle empty state, if the array for accepted names is now empty.
-                if ([self.dataSource numberOfAcceptedNames] == 0) {
-                    DrawerContainerViewController *containerViewController = (DrawerContainerViewController *)self.parentViewController;
-                    [containerViewController selectChildViewController];
+            if (swipedSuggestion.state != kSelectionStatePreferred) {
+                if ([self.dataSource hasPreferredName]) {
+                    // Prefer the currently selected name.
+                    if ([self.delegate preferAcceptedNameAtIndex:swipedIndexPath.row]) {
+                        [self.tableView reloadData];
+                    }
+                }
+                else {
+                    // TODO: change message.
+                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"%@", swipedSuggestion.name]
+                                                                                             message:NSLocalizedString(@"Choose name and end selection.", @"Alert: message.")
+                                                                                      preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Alert: cancel button.")
+                                                                           style:UIAlertActionStyleCancel
+                                                                         handler:nil];
+                    [alertController addAction:cancelAction];
+                    
+                    UIAlertAction *selectAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Select", @"Alert: confirm button.")
+                                                                           style:UIAlertActionStyleDefault
+                                                                         handler:^(UIAlertAction *action){
+                                                                             // Prefer the currently selected name.
+                                                                             if ([self.delegate preferAcceptedNameAtIndex:swipedIndexPath.row]) {
+                                                                                 [self.tableView reloadData];
+                                                                             }
+                                                                         }];
+                    [alertController addAction:selectAction];
+                    
+                    [self presentViewController:alertController
+                                       animated:YES
+                                     completion:nil];
+                }
+            }
+            else {
+                // Unprefer the currently preferred name.
+                if ([self.delegate unpreferAcceptedNameAtIndex:swipedIndexPath.row]) {
+                    [self.tableView reloadData];
                 }
             }
         }
@@ -126,24 +154,38 @@
 
 - (NSArray *)swipeTableCell:(MGSwipeTableCell *)cell swipeButtonsForDirection:(MGSwipeDirection)direction swipeSettings:(MGSwipeSettings *)swipeSettings expansionSettings:(MGSwipeExpansionSettings *)expansionSettings
 {
+    // Configure swipe settings.
+    swipeSettings.transition = MGSwipeTransitionStatic;
+
+    // Configure expansions settings.
+    expansionSettings.buttonIndex = 0;
+    expansionSettings.fillOnTrigger = YES;
+
     // NOTE: setting up buttons with this delegate instead of using cell properties improves memory usage because buttons are only created in demand.
     if (direction == MGSwipeDirectionRightToLeft) {
-        // Configure swipe settings.
-        swipeSettings.transition = MGSwipeTransitionStatic;
-
-        // Configure expansions settings.
-        expansionSettings.buttonIndex = 0;
-        expansionSettings.fillOnTrigger = YES;
-
-        // Create swipe buttons.
         MGSwipeButton *deleteButton = [MGSwipeButton buttonWithTitle:@""
-                                                                icon:[UIImage imageNamed:@"Delete"]
-                                                     backgroundColor:[UIColor redColor]];
+                                                                icon:[UIImage imageNamed:@"Rejected"]
+                                                     backgroundColor:[UIColor colorWithRed:0.962
+                                                                                     green:0.388
+                                                                                      blue:0.434
+                                                                                     alpha:1.0]
+                                                             padding:14];
 
         return @[deleteButton];
     }
     else {
-        return nil;
+        NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
+        Suggestion *swipedSuggestion = [self.dataSource acceptedNameAtIndex:swipedIndexPath.row];
+
+        MGSwipeButton *preferButton = [MGSwipeButton buttonWithTitle:@""
+                                                                icon:(swipedSuggestion.state == kSelectionStatePreferred) ? [UIImage imageNamed:@"Unprefer"] : [UIImage imageNamed:@"Prefer"]
+                                                     backgroundColor:[UIColor colorWithRed:0.144
+                                                                                     green:0.652
+                                                                                      blue:1.000
+                                                                                     alpha:1.0]
+                                                             padding:14];
+
+        return @[preferButton];
     }
 }
 

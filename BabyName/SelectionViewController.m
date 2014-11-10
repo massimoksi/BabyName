@@ -11,25 +11,14 @@
 #import "Constants.h"
 
 
-typedef NS_ENUM(NSUInteger, PanningDirection) {
-    kPanningDirectionNone = 0,
-    kPanningDirectionUp,
-    kPanningDirectionRight,
-    kPanningDirectionDown,
-    kPanningDirectionLeft
-};
-
 typedef NS_ENUM(NSUInteger, PanningState) {
     kPanningStateIdle = 0,
     kPanningStateAccept,
-    kPanningStateReject,
-    kPanningStateMaybe
+    kPanningStateReject
 };
 
 
-static const CGFloat kNameLabelPadding = 10.0; // TODO: replace with a calculation.
 static const CGFloat kPanningVelocityThreshold = 100.0;
-static const CGFloat kPanningTranslationThreshold = 80.0;
 
 
 @interface SelectionViewController () <UIDynamicAnimatorDelegate>
@@ -38,11 +27,14 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 @property (nonatomic, weak) IBOutlet UILabel *surnameLabel;
 
 @property (nonatomic) BOOL panningEnabled;
+@property (nonatomic) CGPoint panningOrigin;
 @property (nonatomic) PanningState panningState;
 
 @property (nonatomic, strong) UIDynamicAnimator *animator;
+@property (nonatomic, strong) UISnapBehavior *snapBehavior;
 @property (nonatomic, strong) UIGravityBehavior *gravityBehavior;
 @property (nonatomic, strong) UICollisionBehavior *collisionBehavior;
+@property (nonatomic, strong) UIDynamicItemBehavior *itemBehavior;
 
 @end
 
@@ -54,16 +46,8 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    // It's not possible to make the view transparent in Storyboard due to white labels.
+    // It's not possible to make the view transparent in Storyboard because of the use of white labels.
     self.view.backgroundColor = [UIColor clearColor];
-    
-    self.panningEnabled = YES;
-    
-    self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
-    self.animator.delegate = self;
-    
-    self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.nameLabel]];
-    self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.nameLabel]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -79,9 +63,37 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
     self.surnameLabel.text = [userDefaults stringForKey:kSettingsSurnameKey];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    self.panningOrigin = self.nameLabel.center;
+    
+    self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+    self.animator.delegate = self;
+    
+    self.snapBehavior = [[UISnapBehavior alloc] initWithItem:self.nameLabel
+                                                 snapToPoint:self.panningOrigin];
+    self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.nameLabel]];
+    self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.nameLabel]];
+    self.itemBehavior = [[UIDynamicItemBehavior alloc] initWithItems:@[self.nameLabel]];
+}
+
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    
+    self.animator = nil;
+    self.snapBehavior = nil;
+    self.gravityBehavior = nil;
+    self.collisionBehavior = nil;
+    self.itemBehavior = nil;
+}
+
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
 }
 
 /*
@@ -96,65 +108,88 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 
 #pragma mark - Gesture handlers
 
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    // Refresh name when shaking.
+    if (motion == UIEventSubtypeMotionShake) {
+        [self configureNameLabel];
+    }
+}
+
 - (IBAction)panName:(UIPanGestureRecognizer *)recognizer
 {
-    static PanningDirection panningDirection = kPanningDirectionNone;
-
-    // Discard gesture recognizer if panning is disabled.
     if (!self.panningEnabled) {
-        recognizer.enabled = NO;
+        return;
     }
     else {
-        recognizer.enabled = YES;
     }
-
-    // Handle panning.
+    
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-        [self.animator removeAllBehaviors];
+        CGPoint velocity = [recognizer velocityInView:self.view];
+        if (fabs(velocity.y) > fabs(velocity.x)) {
+            // TODO: discard gesture.
+            return;
+        }
 
-        panningDirection = [self directionForGesture:recognizer];
-        
         [self.delegate selectionViewDidBeginPanning];
     }
     else if (recognizer.state == UIGestureRecognizerStateChanged) {
-        self.nameLabel.center = [self calculatedCenterForGesture:recognizer
-                                            withPanningDirection:panningDirection];
+        CGPoint origin = self.nameLabel.center;
+        self.nameLabel.center = CGPointMake(origin.x + [recognizer translationInView:self.view].x, origin.y);
 
         [recognizer setTranslation:CGPointZero
                             inView:self.view];
     }
     else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateFailed || recognizer.state == UIGestureRecognizerStateCancelled) {
-        self.panningState = [self endStateForGesture:recognizer
-                                withPanningDirection:panningDirection];
+        self.panningState = [self endStateForGesture:recognizer];
 
-        self.gravityBehavior.gravityDirection = [self gravityDirectionForPanningDirection:panningDirection];
-        [self.animator addBehavior:self.gravityBehavior];
+        switch (self.panningState) {
+            case kPanningStateAccept:
+                [self.itemBehavior addLinearVelocity:CGPointMake([recognizer velocityInView:self.view].x, 0.0)
+                                             forItem:self.nameLabel];
+                [self.animator addBehavior:self.itemBehavior];
 
-        [self.collisionBehavior setTranslatesReferenceBoundsIntoBoundaryWithInsets:[self edgeInsetsForPanningDirection:panningDirection]];
-        [self.animator addBehavior:self.collisionBehavior];
+                self.gravityBehavior.gravityDirection = CGVectorMake(1.0, 0.0);
+                [self.animator addBehavior:self.gravityBehavior];
 
-        [self performEndingAction];
+                [self.collisionBehavior removeAllBoundaries];
+                [self.collisionBehavior addBoundaryWithIdentifier:@"AcceptBoundary"
+                                                        fromPoint:CGPointMake(CGRectGetWidth(self.view.frame) * 2.0, CGRectGetMinY(self.view.frame))
+                                                          toPoint:CGPointMake(CGRectGetWidth(self.view.frame) * 2.0, CGRectGetMaxY(self.view.frame))];
+                [self.animator addBehavior:self.collisionBehavior];
+
+                [self.delegate acceptName];
+                break;
+
+            case kPanningStateReject:
+                [self.itemBehavior addLinearVelocity:CGPointMake([recognizer velocityInView:self.view].x, 0.0)
+                                             forItem:self.nameLabel];
+                [self.animator addBehavior:self.itemBehavior];
+
+                self.gravityBehavior.gravityDirection = CGVectorMake(-1.0, 0.0);
+                [self.animator addBehavior:self.gravityBehavior];
+
+                [self.collisionBehavior removeAllBoundaries];
+                [self.collisionBehavior addBoundaryWithIdentifier:@"RejectBoundary"
+                                                        fromPoint:CGPointMake(-CGRectGetWidth(self.view.frame), CGRectGetMinY(self.view.frame))
+                                                          toPoint:CGPointMake(-CGRectGetWidth(self.view.frame), CGRectGetMaxY(self.view.frame))];
+                [self.animator addBehavior:self.collisionBehavior];
+
+                [self.delegate rejectName];
+                break;
+
+            default:
+            case kPanningStateIdle:
+                self.snapBehavior.damping = 1.0;
+                [self.animator addBehavior:self.snapBehavior];
+                
+                self.itemBehavior.allowsRotation = NO;
+                [self.animator addBehavior:self.itemBehavior];
+                break;
+        }
 
         // Disable panning until animation is finished.
         self.panningEnabled = NO;
-    }
-}
-
-#pragma mark - Dynamics animator delegate
-
-- (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator
-{
-    // Enable panning when animation is finished.
-    self.panningEnabled = YES;
-    
-    [self.delegate selectionViewDidEndPanning];
-
-    // Adjust misalignment to center.
-    if (self.panningState == kPanningStateIdle) {
-        self.nameLabel.center = self.view.center;
-    }
-    else {
-        [self configureNameLabel];
     }
 }
 
@@ -162,10 +197,14 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
 
 - (void)configureNameLabel
 {
-    self.nameLabel.text = [self.dataSource randomName];
-    self.nameLabel.center = self.view.center;
+    Suggestion *suggestion = [self.dataSource randomSuggestion];
+    
+    self.nameLabel.text = suggestion.name;
+    self.nameLabel.center = self.panningOrigin;
+    
+    // Disable panning if the suggestion received by the data source is the preferred one.
+    self.panningEnabled = (suggestion.state == kSelectionStatePreferred) ? NO : YES;
 
-//    self.nameLabelVisible = YES;
     [UIView animateWithDuration:0.5
                      animations:^{
                          self.nameLabel.alpha = 1.0;
@@ -175,233 +214,48 @@ static const CGFloat kPanningTranslationThreshold = 80.0;
                      }];
 }
 
-- (void)performEndingAction
-{
-    switch (self.panningState) {
-        case kPanningStateAccept:
-            [self.delegate acceptName];
-            break;
-
-        case kPanningStateReject:
-            [self.delegate rejectName];
-            break;
-
-        default:
-        case kPanningStateIdle:
-        case kPanningStateMaybe:
-            break;
-    }
-}
-
-- (PanningDirection)directionForGesture:(UIPanGestureRecognizer *)recognizer
-{
-    CGPoint velocity = [recognizer velocityInView:recognizer.view.superview];
-
-    if (fabs(velocity.x) > fabs(velocity.y)) {
-        if (velocity.x > 0.0) {
-            return kPanningDirectionRight;
-        }
-        else {
-            return kPanningDirectionLeft;
-        }
-    }
-    else if (fabs(velocity.x) < fabs(velocity.y)) {
-        if (velocity.y < 0.0) {
-            return kPanningDirectionUp;
-        }
-        else {
-            return kPanningDirectionDown;
-        }
-    }
-    else {
-        return kPanningDirectionNone;
-    }
-}
-
-- (CGPoint)calculatedCenterForGesture:(UIPanGestureRecognizer *)recognizer withPanningDirection:(PanningDirection)direction
-{
-    CGPoint center = self.nameLabel.center;
-    CGPoint translation = [recognizer translationInView:self.view];
-
-    switch (direction) {
-        case kPanningDirectionLeft:
-        case kPanningDirectionRight:
-            return CGPointMake(center.x + translation.x,
-                               center.y);
-            break;
-
-        case kPanningDirectionUp:
-            if (center.y + translation.y < self.view.center.y) {
-                return CGPointMake(center.x,
-                                   center.y + translation.y);
-            }
-            else {
-                return self.view.center;
-            }
-
-        default:
-        case kPanningDirectionNone:
-        case kPanningDirectionDown:
-            return center;
-            break;
-    }
-}
-
-- (PanningState)endStateForGesture:(UIPanGestureRecognizer *)recognizer withPanningDirection:(PanningDirection)direction
+- (PanningState)endStateForGesture:(UIPanGestureRecognizer *)recognizer
 {
     CGPoint velocity = [recognizer velocityInView:self.view];
-    CGPoint newCenter = [self calculatedCenterForGesture:recognizer
-                                    withPanningDirection:direction];
-
-    switch (direction) {
-        case kPanningDirectionRight:
-            if (velocity.x >= kPanningVelocityThreshold) {
-                return kPanningStateAccept;
-            }
-            else if (velocity.x <= -kPanningVelocityThreshold) {
-                return kPanningStateReject;
-            }
-            else {
-                if (newCenter.x >= self.view.center.x + kPanningTranslationThreshold) {
-                    return kPanningStateAccept;
-                }
-                else if (newCenter.x <= self.view.center.x - kPanningTranslationThreshold) {
-                    return kPanningStateReject;
-                }
-                else {
-                    return kPanningStateIdle;
-                }
-            }
-            break;
-
-        case kPanningDirectionLeft:
-            if (velocity.x >= kPanningVelocityThreshold) {
-                return kPanningStateAccept;
-            }
-            else if (velocity.x <= -kPanningVelocityThreshold) {
-                return kPanningStateReject;
-            }
-            else {
-                if (newCenter.x >= self.view.center.x + kPanningTranslationThreshold) {
-                    return kPanningStateAccept;
-                }
-                else if (newCenter.x <= self.view.center.x - kPanningTranslationThreshold) {
-                    return kPanningStateReject;
-                }
-                else {
-                    return kPanningStateIdle;
-                }
-            }
-            break;
-
-        case kPanningDirectionUp:
-            if (velocity.y <= -kPanningVelocityThreshold) {
-                return kPanningStateMaybe;
-            }
-            else {
-                if (newCenter.y <= self.view.center.y - kPanningTranslationThreshold) {
-                    return kPanningStateMaybe;
-                }
-                else {
-                    return kPanningStateIdle;
-                }
-            }
-            break;
-
-        default:
-        case kPanningDirectionNone:
-        case kPanningDirectionDown:
+    CGPoint location = [recognizer locationInView:self.view];
+    
+    if (velocity.x >= kPanningVelocityThreshold) {
+        return kPanningStateAccept;
+    }
+    else if (velocity.x <= -kPanningVelocityThreshold) {
+        return kPanningStateReject;
+    }
+    else {
+        if (location.x >= CGRectGetWidth(self.view.frame) * 0.9) {
+            return kPanningStateAccept;
+        }
+        else if (location.x <= CGRectGetWidth(self.view.frame) * 0.1) {
+            return kPanningStateReject;
+        }
+        else {
             return kPanningStateIdle;
-            break;
+        }
     }
 }
 
-- (CGVector)gravityDirectionForPanningDirection:(PanningDirection)direction
+#pragma mark - Dynamics animator delegate
+
+- (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator
 {
-    switch (self.panningState) {
-        case kPanningStateIdle:
-            if (direction == kPanningDirectionLeft) {
-                return CGVectorMake(1.0, 0.0);
-            }
-            else if (direction == kPanningDirectionUp) {
-                return CGVectorMake(0.0, 1.0);
-            }
-            else if (direction == kPanningDirectionRight) {
-                return CGVectorMake(-1.0, 0.0);
-            }
-            else {
-                return CGVectorMake(0.0, 0.0);
-            }
-            break;
+    [self.animator removeAllBehaviors];
 
-        case kPanningStateAccept:
-            return CGVectorMake(1.0, 0.0);
-            break;
+    // Enable panning when animation is finished.
+    self.panningEnabled = YES;
+    
+    [self.delegate selectionViewDidEndPanning];
 
-        case kPanningStateReject:
-            return CGVectorMake(-1.0, 0.0);
-            break;
-
-        case kPanningStateMaybe:
-            return CGVectorMake(0.0, -1.0);
-
-        default:
-            return CGVectorMake(1.0, 0.0);
-            break;
+    if (self.panningState == kPanningStateIdle) {
+        // Adjust misalignment to center.
+        // TODO: check if adjustment is necessary also with snap behavior.
+        self.nameLabel.center = self.panningOrigin;
     }
-}
-
-- (UIEdgeInsets)edgeInsetsForPanningDirection:(PanningDirection)direction
-{
-    switch (self.panningState) {
-        case kPanningStateIdle:
-            if (direction == kPanningDirectionLeft) {
-                return UIEdgeInsetsMake(0.0,
-                                        -self.nameLabel.frame.size.width,
-                                        0.0,
-                                        kNameLabelPadding);
-            }
-            else if (direction == kPanningDirectionUp) {
-                return UIEdgeInsetsMake(-self.nameLabel.frame.size.height,
-                                        0.0,
-                                        (self.view.frame.size.height - self.nameLabel.frame.size.height) / 2,
-                                        0.0);
-            }
-            else if (direction == kPanningDirectionRight) {
-                return UIEdgeInsetsMake(0.0,
-                                        kNameLabelPadding,
-                                        0.0,
-                                        -self.nameLabel.frame.size.width);
-            }
-            else {
-                return UIEdgeInsetsZero;
-            }
-            break;
-
-        case kPanningStateAccept:
-            return UIEdgeInsetsMake(0.0,
-                                    0.0,
-                                    0.0,
-                                    -self.nameLabel.frame.size.width);
-            break;
-
-        case kPanningStateReject:
-            return UIEdgeInsetsMake(0.0,
-                                    -self.nameLabel.frame.size.width,
-                                    0.0,
-                                    0.0);
-            break;
-
-        case kPanningStateMaybe:
-            return UIEdgeInsetsMake(-self.nameLabel.frame.size.height,
-                                    0.0,
-                                    0.0,
-                                    0.0);
-            break;
-
-        default:
-            return UIEdgeInsetsZero;
-            break;
+    else {
+        [self configureNameLabel];
     }
 }
 

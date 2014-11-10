@@ -11,6 +11,7 @@
 #import "MSDynamicsDrawerViewController.h"
 
 #import "Constants.h"
+#import "Suggestion.h"
 #import "MainViewController.h"
 #import "DrawerContainerViewController.h"
 
@@ -47,10 +48,8 @@
         selectedLanguage = kLanguageBitmaskEN;
     }
     
-    NSDictionary *defaultSettingsDict = @{
-        kSettingsSelectedGendersKey   : @(kGenderBitmaskMale | kGenderBitmaskFemale),
-        kSettingsSelectedLanguagesKey : @(selectedLanguage)
-    };
+    NSDictionary *defaultSettingsDict = @{kSettingsSelectedGendersKey   : @(kGenderBitmaskMale | kGenderBitmaskFemale),
+                                          kSettingsSelectedLanguagesKey : @(selectedLanguage)};
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettingsDict];
 }
@@ -58,6 +57,26 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+
+    // Populate the database at first start.
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (![userDefaults boolForKey:kSettingsDBPopulatedKey]) {
+#if DEBUG
+        NSLog(@"Populating DB: start.");
+#endif
+        
+        if ([self populateDB]) {
+#if DEBUG
+            NSLog(@"Populating DB: stop.");
+#endif
+            
+            [userDefaults setBool:YES
+                           forKey:kSettingsDBPopulatedKey];
+        }
+        else {
+            // TODO: handle error.
+        }
+    }
 
 #if DEBUG
     NSManagedObjectContext *context = self.managedObjectContext;
@@ -90,7 +109,7 @@
     containerViewController.managedObjectContext = self.managedObjectContext;
     [drawerViewController setDrawerViewController:containerViewController
                                      forDirection:MSDynamicsDrawerDirectionRight];
-    [drawerViewController setRevealWidth:CGRectGetWidth([[UIScreen mainScreen] bounds]) - 44.0f    // TODO: get rid of magic numbers.
+    [drawerViewController setRevealWidth:CGRectGetWidth([[UIScreen mainScreen] bounds]) - 44.0f
                             forDirection:MSDynamicsDrawerDirectionRight];
     [drawerViewController addStylersFromArray:@[[MSDynamicsDrawerShadowStyler styler]]
                                  forDirection:MSDynamicsDrawerDirectionRight];
@@ -136,6 +155,65 @@
     }
 }
 
+#pragma mark - Private methods
+
+- (BOOL)populateDB
+{
+    NSManagedObjectContext *context = self.managedObjectContext;
+
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"BabyName"
+                                                         ofType:@"csv"];
+    if (filePath) {
+        __block NSError *error;
+        NSString *names = [[NSString alloc] initWithContentsOfFile:filePath
+                                                          encoding:NSUTF8StringEncoding
+                                                             error:&error];
+        if (names) {
+            __block NSUInteger count = 0;
+            [names enumerateLinesUsingBlock:^(NSString *line, BOOL *stop){
+                NSArray *lineComponents = [line componentsSeparatedByString:@","];
+                if (lineComponents) {
+                    NSString *name = lineComponents[0];
+                    NSInteger gender = [lineComponents[1] integerValue];
+                    NSInteger language = [lineComponents[2] integerValue];
+
+                    Suggestion *suggestion = [NSEntityDescription insertNewObjectForEntityForName:@"Suggestion"
+                                                                           inManagedObjectContext:context];
+                    suggestion.name = name;
+                    suggestion.gender = gender;
+                    suggestion.language = language;
+                    suggestion.state = kSelectionStateMaybe;
+
+                    count++;
+                    // Save context every 1000 items.
+                    if (count >= 1000) {
+                        if (![context save:&error]) {
+                            // TODO: handle error.
+                        }
+                        else {
+                            count = 0;
+                        }
+                    }
+                }
+            }];
+
+            // Importing is finished, save for the last time and exit function.
+            if (![context save:&error]) {
+                return NO;
+            }
+            else {
+                return YES;
+            }
+        }
+        else {
+            return NO;
+        }
+    }
+    else {
+        return NO;
+    }
+}
+
 #pragma mark - Core Data stack
 
 // Returns the managed object context for the application.
@@ -174,46 +252,10 @@
     if (_persistentStoreCoordinator != nil) {
         return _persistentStoreCoordinator;
     }
-
-    NSError *error;
-    
+     
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"BabyName.sqlite"];
-    // Load pre-populated database.
-    if (![[NSFileManager defaultManager] fileExistsAtPath:[storeURL path]]) {
-        NSURL *preloadURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"BabyName"
-                                                                                   ofType:@"sqlite"]];
-        
-        if (![[NSFileManager defaultManager] copyItemAtURL:preloadURL
-                                                     toURL:storeURL
-                                                     error:&error]) {
-            /*
-             Replace this implementation with code to handle the error appropriately.
-             
-             abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-             
-             Typical reasons for an error here include:
-             * The persistent store is not accessible;
-             * The schema for the persistent store is incompatible with current managed object model.
-             Check the error message to determine what the actual problem was.
-             
-             
-             If the persistent store is not accessible, there is typically something wrong with the file path. Often, a file URL is pointing into the application's resources directory instead of a writeable directory.
-             
-             If you encounter schema incompatibility errors during development, you can reduce their frequency by:
-             * Simply deleting the existing store:
-             [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil]
-             
-             * Performing automatic lightweight migration by passing the following dictionary as the options parameter:
-             @{NSMigratePersistentStoresAutomaticallyOption:@YES, NSInferMappingModelAutomaticallyOption:@YES}
-             
-             Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
-             
-             */
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }
-    
+     
+    NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
                                                    configuration:nil
@@ -222,31 +264,31 @@
                                                            error:&error]) {
         /*
          Replace this implementation with code to handle the error appropriately.
-         
+          
          abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-         
+          
          Typical reasons for an error here include:
          * The persistent store is not accessible;
          * The schema for the persistent store is incompatible with current managed object model.
          Check the error message to determine what the actual problem was.
-         
-         
+          
+          
          If the persistent store is not accessible, there is typically something wrong with the file path. Often, a file URL is pointing into the application's resources directory instead of a writeable directory.
-         
+          
          If you encounter schema incompatibility errors during development, you can reduce their frequency by:
          * Simply deleting the existing store:
          [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil]
-         
+          
          * Performing automatic lightweight migration by passing the following dictionary as the options parameter:
          @{NSMigratePersistentStoresAutomaticallyOption:@YES, NSInferMappingModelAutomaticallyOption:@YES}
-         
+          
          Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
-         
+          
          */
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }    
-    
+     
     return _persistentStoreCoordinator;
 }
 

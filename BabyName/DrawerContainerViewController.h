@@ -14,6 +14,4 @@
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
-- (void)selectChildViewController;
-
 @end

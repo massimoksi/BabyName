@@ -10,9 +10,12 @@
 
 #import "Constants.h"
 #import "Language.h"
+#import "SettingsTableViewController.h"
 
 
 @interface LanguagesTableViewController ()
+
+@property (nonatomic) BOOL languagesChanged;
 
 @property (nonatomic, strong) NSArray *sortedLanguages;
 
@@ -31,6 +34,8 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    self.languagesChanged = NO;
+    
     [self updateCachedLanguages];
 }
 
@@ -38,6 +43,16 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if (self.languagesChanged) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kFetchingPreferencesChangedNotification
+                                                            object:self];
+    }
 }
 
 #pragma mark - Private methods
@@ -78,7 +93,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LanguageCell"];
     
     Language *language = [self.sortedLanguages objectAtIndex:indexPath.row];
-    cell.textLabel.text = NSLocalizedString(language.name, nil);
+    cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%@", @"Language."), language.name];
     cell.accessoryType = language.selected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     
     return cell;
@@ -86,7 +101,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-    return NSLocalizedString(@"At least one language must be selected.", nil);
+    return NSLocalizedString(@"At least one language must be selected.", @"Table view: footer.");
 }
 
 #pragma mark - Table view delegate
@@ -99,12 +114,11 @@
     NSInteger selectedBitmask = 1 << language.index;
     NSInteger selectedLanguages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey] ^ selectedBitmask;
     if (selectedLanguages) {
+        self.languagesChanged = YES;
+        
         // Update user defaults.
         [userDefaults setInteger:selectedLanguages
                           forKey:kSettingsSelectedLanguagesKey];
-        
-        // Inform delegate that fetching preferences changed.
-        [self.fetchingPreferencesDelegate viewControllerDidChangeFetchingPreferences];
         
         // Update table view.
         [tableView deselectRowAtIndexPath:indexPath

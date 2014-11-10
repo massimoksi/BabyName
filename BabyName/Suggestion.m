@@ -2,7 +2,7 @@
 //  Suggestion.m
 //  BabyName
 //
-//  Created by Massimo Peri on 09/09/14.
+//  Created by Massimo Peri on 26/10/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
@@ -11,9 +11,14 @@
 
 @implementation Suggestion
 
-- (NSString *)description
+@dynamic gender;
+@dynamic language;
+@dynamic name;
+@dynamic state;
+
+- (NSString *)initial
 {
-    return [NSString stringWithFormat:@"%@ - %d, %d, %d", self.name, self.gender, self.language, self.state];
+    return [self.name.decomposedStringWithCanonicalMapping substringToIndex:1];
 }
 
 @end

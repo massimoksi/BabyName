@@ -9,12 +9,14 @@
 #import "InitialsTableViewController.h"
 
 #import "Constants.h"
+#import "SettingsTableViewController.h"
 
 
 @interface InitialsTableViewController ()
 
 @property (nonatomic, strong) NSArray *initials;
 @property (nonatomic, strong) NSMutableArray *preferredInitials;
+@property (nonatomic, strong) NSArray *previousPreferredInitials;
 
 @end
 
@@ -41,12 +43,30 @@
     else {
         self.preferredInitials = [NSMutableArray array];
     }
+    
+    self.previousPreferredInitials = [NSArray arrayWithArray:self.preferredInitials];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    // The list of preferred initials was changed.
+    //  1. Update user defaults.
+    //  2. Post notification in order to validate the preferred suggestion.
+    if (![[self.previousPreferredInitials sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] isEqualToArray:[self.preferredInitials sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]]) {
+        [[NSUserDefaults standardUserDefaults] setObject:self.preferredInitials
+                                                  forKey:kSettingsPreferredInitialsKey];
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:kFetchingPreferencesChangedNotification
+                                                            object:self];
+    }
 }
 
 #pragma mark - Table view data source
@@ -86,13 +106,6 @@
         // Remove selected inital.
         [self.preferredInitials removeObjectAtIndex:selectedIndex];
     }
-    
-    // Update user defaults.
-    [[NSUserDefaults standardUserDefaults] setObject:self.preferredInitials
-                                              forKey:kSettingsPreferredInitialsKey];
-    
-    // Inform delegate that fetching preferences changed.
-    [self.fetchingPreferencesDelegate viewControllerDidChangeFetchingPreferences];
     
     // Update table view.
     [tableView deselectRowAtIndexPath:indexPath

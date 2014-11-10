@@ -11,4 +11,12 @@
 
 @implementation FinishedViewController
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    // It's not possible to make the view transparent in Storyboard due to white labels.
+    self.view.backgroundColor = [UIColor clearColor];
+}
+
 @end

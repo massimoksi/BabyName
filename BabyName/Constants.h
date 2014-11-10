@@ -9,16 +9,18 @@
 #import <Foundation/Foundation.h>
 
 
+extern NSString * const kSettingsDBPopulatedKey;
 extern NSString * const kSettingsSelectedGendersKey;
 extern NSString * const kSettingsSelectedLanguagesKey;
 extern NSString * const kSettingsPreferredInitialsKey;
 extern NSString * const kSettingsShowSurnameKey;
 extern NSString * const kSettingsSurnameKey;
 extern NSString * const kSettingsDueDateKey;
-#if DEBUG
-extern NSString * const kTweaksCyanShadeKey;
-extern NSString * const kTweaksPinkShadeKey;
-#endif
+
+extern NSString * const kFetchedObjectsOutdatedNotification;
+extern NSString * const kFetchedObjectWasPreferredNotification;
+extern NSString * const kFetchedObjectWasUnpreferredNotification;
+extern NSString * const kFetchingPreferencesChangedNotification;
 
 
 typedef NS_ENUM(NSInteger, LanguageIndex) {
@@ -35,12 +37,10 @@ typedef NS_OPTIONS(NSInteger, LanguageBitmask) {
     kLanguageBitmaskFR = 1 << kLanguageIndexFR
 };
 
-
 typedef NS_OPTIONS(NSInteger, GenderBitmask) {
     kGenderBitmaskMale   = 1 << 0,
     kGenderBitmaskFemale = 1 << 1
 };
-
 
 typedef NS_ENUM(NSInteger, SelectionState) {
     kSelectionStateMaybe = 0,

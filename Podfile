@@ -4,11 +4,18 @@ platform :ios, "8.0"
 
 target "BabyName" do
     pod 'MSDynamicsDrawerViewController', '~> 1.5'
-    pod 'MGSwipeTableCell', '~> 1.1'
+    pod 'MGSwipeTableCell'
     pod 'StaticDataTableViewController', '~> 2.0'
+    pod 'MMMarkdown'
 end
 
 target "BabyNameTests" do
 
 end
+
+post_install do |installer|
+    require 'fileutils'
+    FileUtils.copy('Pods/Target Support Files/Pods-BabyName/Pods-BabyName-acknowledgements.markdown', 'BabyName/Acknowledgements.markdown')
+end
+
 

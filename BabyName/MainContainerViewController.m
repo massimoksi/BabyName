@@ -36,7 +36,42 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     
     self.panningEnabled = YES;
     
-    [self updateSuggestions];
+    [self fetchSuggestions];
+
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter addObserver:self
+                           selector:@selector(updateSuggestions:)
+                               name:kFetchedObjectsOutdatedNotification
+                             object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(updateSuggestions:)
+                               name:kFetchedObjectWasPreferredNotification
+                             object:nil];
+    [notificationCenter addObserver:self
+                       selector:@selector(updateSuggestions:)
+                           name:kFetchedObjectWasUnpreferredNotification
+                         object:nil];
+    [notificationCenter addObserver:self
+                       selector:@selector(updateSuggestions:)
+                           name:kFetchingPreferencesChangedNotification
+                         object:nil];
+}
+
+- (void)dealloc
+{
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter removeObserver:self
+                                  name:kFetchedObjectsOutdatedNotification
+                                object:nil];
+    [notificationCenter removeObserver:self
+                                  name:kFetchedObjectWasPreferredNotification
+                                object:nil];
+    [notificationCenter removeObserver:self
+                                  name:kFetchedObjectWasUnpreferredNotification
+                                object:nil];
+    [notificationCenter removeObserver:self
+                                  name:kFetchingPreferencesChangedNotification
+                                object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,16 +93,22 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
                 SelectionViewController *viewController = segue.destinationViewController;
                 viewController.dataSource = self;
                 viewController.delegate = self;
-                
+
                 [self swapFromViewController:[self.childViewControllers objectAtIndex:0]
                             toViewController:viewController];
+            }
+            else {
+                SelectionViewController *viewController = [self.childViewControllers objectAtIndex:0];
+                if (self.updateSelection) {
+                    [viewController configureNameLabel];
+                }
             }
         }
         else {
             SelectionViewController *viewController = segue.destinationViewController;
             viewController.dataSource = self;
             viewController.delegate = self;
-            
+
             [self addChildViewController:viewController];
             [self.view addSubview:viewController.view];
             [viewController didMoveToParentViewController:self];
@@ -92,48 +133,123 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     }
 }
 
-#pragma mark - Actions
+#pragma mark - Notification handlers
 
-- (void)updateSuggestions
+- (void)updateSuggestions:(NSNotification *)notification
 {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
-                                              inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.entity = entity;
-    
-    // Fetch all suggestions with state "maybe" and  matching the criteria from preferences.
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSInteger genders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
-    NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(state == %d) AND ((gender & %d) != 0) AND ((language & %d) != 0)", kSelectionStateMaybe, genders, languages];
-    fetchRequest.predicate = predicate;
-    
-    NSError *error;
-    NSArray *fetchedSuggestions = [NSMutableArray arrayWithArray:[self.managedObjectContext executeFetchRequest:fetchRequest
-                                                                                                          error:&error]];
-    if (!fetchedSuggestions) {
-        // TODO: handle the error.
+    if ([notification.name isEqualToString:kFetchingPreferencesChangedNotification]) {
+        [self validatePreferredSuggestion];
     }
-    else {
-        // Filter suggestions by preferred initials.
-        NSArray *initials = [userDefaults stringArrayForKey:kSettingsPreferredInitialsKey];
-        if (initials.count) {
-            NSString *initialsRegex = [NSString stringWithFormat:@"^[%@].*", [initials componentsJoinedByString:@""]];
-            NSPredicate *initialsPredicate = [NSPredicate predicateWithFormat:@"name MATCHES[cd] %@", initialsRegex];
-            
-            self.suggestions = [NSMutableArray arrayWithArray:[fetchedSuggestions filteredArrayUsingPredicate:initialsPredicate]];
-        }
-        else {
-            self.suggestions = [NSMutableArray arrayWithArray:fetchedSuggestions];
-        }
 
-        self.updateSelection = YES;
-        [self loadChildViewController];
-    }
+    [self fetchSuggestions];
 }
 
 #pragma mark - Private methods
+
+- (void)validatePreferredSuggestion
+{
+    NSError *error;
+    BOOL invalid = false;
+
+    // If the array of fetched suggestions contains only 1 element, it is "safe enough" to consider it as the preferred one.
+    //  1. Check gender and languages.
+    //  2. Check initials if gender and languages are matching.
+    //  3. Unprefer the suggestion if none at least one of the criteria is not matching.
+    if (self.suggestions.count == 1) {
+        Suggestion *preferredSuggestion = [self.suggestions objectAtIndex:0];
+
+        // Get preferences from user defaults.
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSInteger genders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
+        NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
+
+        if ((preferredSuggestion.gender & genders) && (preferredSuggestion.language & languages)) {
+            NSArray *initials = [userDefaults stringArrayForKey:kSettingsPreferredInitialsKey];
+            if (initials) {
+                for (NSString *initial in initials) {
+                    if ([preferredSuggestion.initial isEqualToString:initial]) {
+                        invalid = NO;
+                        break;
+                    }
+                    else {
+                        invalid = YES;
+                    }
+                }
+            }
+        }
+        else {
+            invalid = YES;
+        }
+
+        if (invalid) {
+            preferredSuggestion.state = kSelectionStateAccepted;
+            if (![self.managedObjectContext save:&error]) {
+                [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+            }
+        }
+    }
+}
+
+- (void)fetchSuggestions
+{
+    NSManagedObjectContext *context = self.managedObjectContext;
+    NSError *error;
+
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"Suggestion"
+                                      inManagedObjectContext:context];
+
+    // Check if a preferred name already exists.
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"state == %d", kSelectionStatePreferred];
+    NSArray *fetchedSuggestions = [context executeFetchRequest:fetchRequest
+                                                         error:&error];
+    if (fetchedSuggestions) {
+        // The database contains a preferred suggestion.
+        //  -> Create the array of suggestions with only the preferred one.
+        if (fetchedSuggestions.count == 1) {
+            self.suggestions = [NSMutableArray arrayWithArray:fetchedSuggestions];
+        }
+        // The database doesn't contain a preferred suggestion.
+        //  -> Fetch all available suggestions for selection.
+        else {
+            // Get search criteria from user defaults.
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            NSInteger genders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
+            NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
+
+            // Fetch all available suggestions for selection.
+            fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(state == %d) AND ((gender & %d) != 0) AND ((language & %d) != 0)", kSelectionStateMaybe, genders, languages];
+            fetchedSuggestions = [context executeFetchRequest:fetchRequest
+                                                        error:&error];
+            if (!fetchedSuggestions) {
+                [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+            }
+            else {
+                // Filter suggestions by initials from user defaults.
+                NSArray *initials = [userDefaults stringArrayForKey:kSettingsPreferredInitialsKey];
+                if (initials.count) {
+                    NSString *initialsRegex = [NSString stringWithFormat:@"^[%@].*", [initials componentsJoinedByString:@""]];
+                    NSPredicate *initialsPredicate = [NSPredicate predicateWithFormat:@"name MATCHES[cd] %@", initialsRegex];
+                    
+                    self.suggestions = [NSMutableArray arrayWithArray:[fetchedSuggestions filteredArrayUsingPredicate:initialsPredicate]];
+                }
+                else {
+                    self.suggestions = [NSMutableArray arrayWithArray:fetchedSuggestions];
+                }
+            }
+        }
+
+#if DEBUG
+        NSLog(@"Available names: %tu", self.suggestions.count);
+#endif
+        
+        self.updateSelection = YES;
+        [self loadChildViewController];
+    }
+    else {
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+    }
+}
 
 - (void)loadChildViewController
 {
@@ -165,11 +281,11 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
 
 - (void)showAlertWithMessage:(NSString *)message
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil)
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", @"Alert: title.")
                                                                              message:message
                                                                       preferredStyle:UIAlertControllerStyleAlert];
 
-    UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
+    UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"Alert: accept button.")
                                                           style:UIAlertActionStyleDefault
                                                         handler:^(UIAlertAction *action){
                                                             // Dismiss alert controller.
@@ -190,14 +306,22 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     return self.updateSelection;
 }
 
-- (NSString *)randomName
+- (Suggestion *)randomSuggestion
 {
-    self.currentIndex = arc4random() % self.suggestions.count;
+    if (self.suggestions.count == 1) {
+        self.currentIndex = 0;
+    }
+    else {
+        self.currentIndex = arc4random() % self.suggestions.count;
+    }
     Suggestion *currentSuggestion = [self.suggestions objectAtIndex:self.currentIndex];
+#ifdef DEBUG
+    NSLog(@"Current name: %@", currentSuggestion.name);
+#endif
     
     self.updateSelection = NO;
     
-    return currentSuggestion.name;
+    return currentSuggestion;
 }
 
 #pragma mark - Selection view delegate
@@ -219,7 +343,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
     else {
 #if DEBUG
@@ -242,7 +366,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Ooops, there was an error.", nil)];
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
     else {
 #if DEBUG
