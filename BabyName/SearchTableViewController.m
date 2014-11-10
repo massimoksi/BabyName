@@ -23,6 +23,7 @@
 
 @property (nonatomic) NSInteger selectedGenders;
 @property (nonatomic) NSInteger selectedLanguages;
+@property (nonatomic, copy) NSString *searchString;
 
 @end
 
@@ -33,6 +34,11 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 
     self.searchBar = [[UISearchBar alloc] init];
     self.searchBar.delegate = self;
@@ -40,14 +46,17 @@
     self.searchBar.tintColor = [UIColor bbn_tintColor];
     self.searchBar.placeholder = NSLocalizedString(@"Search", @"Search bar: placeholder text.");
     self.navigationItem.titleView = self.searchBar;
-    self.navigationItem.titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    
-    // Fetch search criteria from preferences.
+    self.navigationItem.titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;    
+
+    // Get preferences from user defaults.
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.selectedGenders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
     self.selectedLanguages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
+
+    // Initialize search criteria.
+    self.searchString = @"";
     
-    [self configurePredicateWithSearchString:@""];
+    [self updateFetchingPredicate];
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
@@ -59,6 +68,10 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+
+    self.searchBar = nil;
+    self.searchString = nil;
+    self.fetchedResultsController = nil;
 }
 
 /*
@@ -75,16 +88,17 @@
 
 - (NSFetchedResultsController *)fetchedResultsController
 {
+    // Lazily load the fetched results controller.
     if (_fetchedResultsController) {
         return _fetchedResultsController;
     }
 
+    NSManagedObjectContext *context = self.managedObjectContext;
+
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.fetchBatchSize = 20;
-    
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
-                                              inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.entity = entity;
+    fetchRequest.entity = [NSEntityDescription entityForName:@"Suggestion"
+                                      inManagedObjectContext:context];
 
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name"
                                                                      ascending:YES
@@ -92,7 +106,7 @@
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     
     _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                    managedObjectContext:self.managedObjectContext
+                                                                    managedObjectContext:context
                                                                       sectionNameKeyPath:@"initial"
                                                                                cacheName:nil];
     _fetchedResultsController.delegate = self;
@@ -107,7 +121,8 @@
     self.searchBar.text = @"";
     [self.searchBar resignFirstResponder];
     
-    [self configurePredicateWithSearchString:@""];
+    self.searchString = @"";
+    [self updateFetchingPredicate];
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
@@ -125,11 +140,11 @@
 
 #pragma mark - Private methods
 
-- (void)configurePredicateWithSearchString:(NSString *)searchString
+- (void)updateFetchingPredicate
 {
     NSPredicate *searchPredicate;
-    if (![searchString isEqualToString:@""]) {
-        searchPredicate = [NSPredicate predicateWithFormat:@"((gender & %d) != 0) AND ((language & %d) != 0) AND (name BEGINSWITH[cd] %@)", self.selectedGenders, self.selectedLanguages, searchString];
+    if (![self.searchString isEqualToString:@""]) {
+        searchPredicate = [NSPredicate predicateWithFormat:@"((gender & %d) != 0) AND ((language & %d) != 0) AND (name BEGINSWITH[cd] %@)", self.selectedGenders, self.selectedLanguages, self.searchString];
     }
     else {
         searchPredicate = [NSPredicate predicateWithFormat:@"((gender & %d) != 0) AND ((language & %d) != 0)", self.selectedGenders, self.selectedLanguages];
@@ -266,8 +281,8 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    NSString *searchString = searchBar.text;
-    [self configurePredicateWithSearchString:searchString];
+    self.searchString = searchBar.text;
+    [self updateFetchingPredicate];
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
@@ -281,7 +296,8 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [self configurePredicateWithSearchString:@""];
+    self.searchString = @"";
+    [self updateFetchingPredicate];
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
