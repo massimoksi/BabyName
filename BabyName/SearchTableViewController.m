@@ -15,6 +15,13 @@
 #import "SearchTableViewCell.h"
 
 
+typedef NS_ENUM(NSInteger, FilterSegment) {
+    kFilterSegmentAll = 0,
+    kFilterSegmentAccepted,
+    kFilterSegmentRejected
+};
+
+
 @interface SearchTableViewController () <NSFetchedResultsControllerDelegate, UISearchBarDelegate, MGSwipeTableCellDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -24,6 +31,7 @@
 @property (nonatomic) NSInteger selectedGenders;
 @property (nonatomic) NSInteger selectedLanguages;
 @property (nonatomic, copy) NSString *searchString;
+@property (nonatomic) FilterSegment searchFilter;
 
 @end
 
@@ -55,6 +63,7 @@
 
     // Initialize search criteria.
     self.searchString = @"";
+    self.searchFilter = kFilterSegmentAll;
     
     [self updateFetchingPredicate];
     
@@ -138,19 +147,42 @@
                               sender:self];
 }
 
+- (IBAction)filterSearch:(id)sender
+{
+    UISegmentedControl *filterSegmentedControl = sender;
+
+    self.searchFilter = filterSegmentedControl.selectedSegmentIndex;
+    [self updateFetchingPredicate];
+
+    NSError *error;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+    }
+    
+    [self.tableView reloadData];
+}
+
 #pragma mark - Private methods
 
 - (void)updateFetchingPredicate
 {
-    NSPredicate *searchPredicate;
+    NSString *searchFormat;
+
     if (![self.searchString isEqualToString:@""]) {
-        searchPredicate = [NSPredicate predicateWithFormat:@"((gender & %d) != 0) AND ((language & %d) != 0) AND (name BEGINSWITH[cd] %@)", self.selectedGenders, self.selectedLanguages, self.searchString];
+        searchFormat = [NSString stringWithFormat:@"((gender & %ld) != 0) AND ((language & %ld) != 0) AND (name BEGINSWITH[cd] %@)", (long)self.selectedGenders, (long)self.selectedLanguages, self.searchString];
     }
     else {
-        searchPredicate = [NSPredicate predicateWithFormat:@"((gender & %d) != 0) AND ((language & %d) != 0)", self.selectedGenders, self.selectedLanguages];
+        searchFormat = [NSString stringWithFormat:@"((gender & %ld) != 0) AND ((language & %ld) != 0)", (long)self.selectedGenders, (long)self.selectedLanguages];
+    }
+
+    if (self.searchFilter == kFilterSegmentRejected) {
+        searchFormat = [searchFormat stringByAppendingFormat:@" AND (state == %ld)", (long)kSelectionStateRejected];
+    }
+    else if (self.searchFilter == kFilterSegmentAccepted) {
+        searchFormat = [searchFormat stringByAppendingFormat:@" AND (state >= %ld)", (long)kSelectionStateAccepted];
     }
     
-    self.fetchedResultsController.fetchRequest.predicate = searchPredicate;
+    self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat];
 }
 
 - (void)configureCell:(SearchTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath

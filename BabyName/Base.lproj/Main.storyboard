@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Hwq-mS-iIz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Hwq-mS-iIz">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -415,6 +415,31 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" red="0.93491393327713013" green="0.29370671510696411" blue="0.35200083255767822" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="O5q-bI-UY3">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="3Dj-cz-odq">
+                                    <rect key="frame" x="196" y="8" width="208" height="29"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="28" id="ckR-hS-JN1"/>
+                                    </constraints>
+                                    <segments>
+                                        <segment title="All"/>
+                                        <segment title="Accepted"/>
+                                        <segment title="Rejected"/>
+                                    </segments>
+                                    <connections>
+                                        <action selector="filterSearch:" destination="eCq-A1-tOy" eventType="valueChanged" id="fAy-S2-yu8"/>
+                                    </connections>
+                                </segmentedControl>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="centerX" secondItem="3Dj-cz-odq" secondAttribute="centerX" id="1Ll-oD-yYN"/>
+                                <constraint firstAttribute="centerY" secondItem="3Dj-cz-odq" secondAttribute="centerY" id="qB9-mh-AdI"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchCell" id="aAu-4g-wtj" customClass="SearchTableViewCell">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -462,7 +487,7 @@
                     <navigationItem key="navigationItem" title="Search" id="31p-oY-fE6">
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="fdr-mq-kmz">
                             <connections>
-                                <segue destination="06M-Ic-El5" kind="unwind" unwindAction="unwindToMain:" id="6l6-l7-p89"/>
+                                <segue destination="06M-Ic-El5" kind="unwind" identifier="CloseSearchSegue" unwindAction="unwindToMain:" id="6l6-l7-p89"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
