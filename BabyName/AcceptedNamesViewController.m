@@ -85,7 +85,20 @@
 
 - (BOOL)swipeTableCell:(MGSwipeTableCell *)cell canSwipe:(MGSwipeDirection)direction
 {
-    return YES;
+    if (direction == MGSwipeDirectionRightToLeft) {
+        // Disable right-to-left swipe (deletion) for the preferred item.
+        NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
+        Suggestion *swipedSuggestion = [self.dataSource acceptedNameAtIndex:swipedIndexPath.row];
+        if (swipedSuggestion.state == kSelectionStatePreferred) {
+            return NO;
+        }
+        else {
+            return YES;
+        }
+    }
+    else {
+        return YES;
+    }
 }
 
 - (BOOL)swipeTableCell:(MGSwipeTableCell *)cell tappedButtonAtIndex:(NSInteger)index direction:(MGSwipeDirection)direction fromExpansion:(BOOL)fromExpansion
@@ -165,10 +178,7 @@
     if (direction == MGSwipeDirectionRightToLeft) {
         MGSwipeButton *deleteButton = [MGSwipeButton buttonWithTitle:@""
                                                                 icon:[UIImage imageNamed:@"Rejected"]
-                                                     backgroundColor:[UIColor colorWithRed:0.962
-                                                                                     green:0.388
-                                                                                      blue:0.434
-                                                                                     alpha:1.0]
+                                                     backgroundColor:[UIColor bbn_rejectColor]
                                                              padding:14];
 
         return @[deleteButton];
@@ -179,10 +189,7 @@
 
         MGSwipeButton *preferButton = [MGSwipeButton buttonWithTitle:@""
                                                                 icon:(swipedSuggestion.state == kSelectionStatePreferred) ? [UIImage imageNamed:@"Unprefer"] : [UIImage imageNamed:@"Prefer"]
-                                                     backgroundColor:[UIColor colorWithRed:0.144
-                                                                                     green:0.652
-                                                                                      blue:1.000
-                                                                                     alpha:1.0]
+                                                     backgroundColor:[UIColor bbn_preferColor]
                                                              padding:14];
 
         return @[preferButton];

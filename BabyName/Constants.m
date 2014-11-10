@@ -21,3 +21,56 @@ NSString * const kFetchedObjectsOutdatedNotification      = @"FetchedObjectsOutd
 NSString * const kFetchedObjectWasPreferredNotification   = @"FetchedObjectWasPreferred";
 NSString * const kFetchedObjectWasUnpreferredNotification = @"FetchedObjectWasUnpreferred";
 NSString * const kFetchingPreferencesChangedNotification  = @"FetchingPreferencesChanged";
+
+
+@implementation UIColor (BabyName)
+
++ (UIColor *)bbn_barTintColor
+{
+	return [UIColor colorWithRed:30.0/255.0
+		                   green:36.0/255.0
+		                    blue:60.0/255.0
+		                   alpha:1.0];
+}
+
++ (UIColor *)bbn_tintColor
+{
+	return [UIColor colorWithRed:240.0/255.0
+                           green:74.0/255.0
+                            blue:92.0/255.0
+                           alpha:1.0];
+}
+
++ (UIColor *)bbn_acceptColor
+{
+	return [UIColor colorWithRed:100.0/255.0
+                           green:196.0/255.0
+                            blue:98.0/255.0
+                           alpha:1.0];
+}
+
++ (UIColor *)bbn_rejectColor
+{
+	return [UIColor colorWithRed:245.0/255.0
+                           green:99.0/255.0
+                            blue:111.0/255.0
+                           alpha:1.0];
+}
+
++ (UIColor *)bbn_refreshColor
+{
+	return [UIColor colorWithRed:255.0/255.0
+                          green:204.0/255.0
+                           blue:0.0/255.0
+                          alpha:1.0];
+}
+
++ (UIColor *)bbn_preferColor
+{
+	return [UIColor colorWithRed:37.0/255.0
+                           green:166.0/255.0
+                            blue:255.0/255.0
+                           alpha:1.0];
+}
+
+@end

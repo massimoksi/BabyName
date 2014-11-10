@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 
 extern NSString * const kSettingsDBPopulatedKey;
@@ -48,3 +48,15 @@ typedef NS_ENUM(NSInteger, SelectionState) {
     kSelectionStateAccepted,
     kSelectionStatePreferred
 };
+
+
+@interface UIColor (BabyName)
+
++ (UIColor *)bbn_barTintColor;
++ (UIColor *)bbn_tintColor;
++ (UIColor *)bbn_acceptColor;
++ (UIColor *)bbn_rejectColor;
++ (UIColor *)bbn_refreshColor;
++ (UIColor *)bbn_preferColor;
+
+@end

@@ -78,10 +78,7 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
     self.deleteTableViewRowAnimation = UITableViewRowAnimationMiddle;
     self.reloadTableViewRowAnimation = UITableViewRowAnimationMiddle;
     
-    self.surnameTextField.tintColor = [UIColor colorWithRed:240.0/255.0
-                                                      green:74.0/255.0
-                                                       blue:92.0/255.0
-                                                      alpha:1.0];
+    self.surnameTextField.tintColor = [UIColor bbn_tintColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -287,7 +284,7 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
     // Due date picker is visible.
     //  1. Save due date to user defaults (if changed).
     //  2. Configure due date text field.
-    //      a. Set color to grey (detail text label).
+    //      a. Set color to gray (detail text label).
     //      b. Hide clear button.
     //  3. Hide the cell containing the due date picker.
     if (self.datePickerVisible) {
@@ -332,10 +329,7 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
                                                                         timeStyle:NSDateFormatterNoStyle];
         }
         
-        self.dueDateTextField.textColor = [UIColor colorWithRed:240.0/255.0
-                                                          green:74.0/255.0
-                                                           blue:92.0/255.0
-                                                          alpha:1.0];
+        self.dueDateTextField.textColor = [UIColor bbn_tintColor];
         self.dueDateTextField.clearButtonMode = UITextFieldViewModeAlways;
 
         [self cell:self.datePickerCell
