@@ -160,7 +160,7 @@
             }
         }
     }
-
+    
     // NOTE: return YES to autohide the current swipe buttons.
     return YES;
 }
@@ -170,12 +170,12 @@
     // Configure swipe settings.
     swipeSettings.transition = MGSwipeTransitionStatic;
 
-    // Configure expansions settings.
-    expansionSettings.buttonIndex = 0;
-    expansionSettings.fillOnTrigger = YES;
-
     // NOTE: setting up buttons with this delegate instead of using cell properties improves memory usage because buttons are only created in demand.
     if (direction == MGSwipeDirectionRightToLeft) {
+        // Configure expansions settings.
+        expansionSettings.buttonIndex = 0;
+        expansionSettings.fillOnTrigger = YES;
+
         MGSwipeButton *deleteButton = [MGSwipeButton buttonWithTitle:@""
                                                                 icon:[UIImage imageNamed:@"Rejected"]
                                                      backgroundColor:[UIColor bbn_rejectColor]
@@ -184,6 +184,10 @@
         return @[deleteButton];
     }
     else {
+        // Configure expansions settings.
+        expansionSettings.buttonIndex = 0;
+        expansionSettings.fillOnTrigger = NO;
+
         NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
         Suggestion *swipedSuggestion = [self.dataSource acceptedNameAtIndex:swipedIndexPath.row];
 
