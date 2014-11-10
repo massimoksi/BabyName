@@ -123,14 +123,13 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     }
     else {
     }
+
+    CGPoint velocity = [recognizer velocityInView:self.view];
+    if (fabs(velocity.y) > fabs(velocity.x)) {
+        return;
+    }
     
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-        CGPoint velocity = [recognizer velocityInView:self.view];
-        if (fabs(velocity.y) > fabs(velocity.x)) {
-            // TODO: discard gesture.
-            return;
-        }
-
         [self.delegate selectionViewDidBeginPanning];
     }
     else if (recognizer.state == UIGestureRecognizerStateChanged) {
