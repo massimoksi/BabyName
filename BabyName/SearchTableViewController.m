@@ -15,6 +15,13 @@
 #import "SearchTableViewCell.h"
 
 
+typedef NS_ENUM(NSInteger, FilterSegment) {
+    kFilterSegmentAll = 0,
+    kFilterSegmentAccepted,
+    kFilterSegmentRejected
+};
+
+
 @interface SearchTableViewController () <NSFetchedResultsControllerDelegate, UISearchBarDelegate, MGSwipeTableCellDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -23,6 +30,8 @@
 
 @property (nonatomic) NSInteger selectedGenders;
 @property (nonatomic) NSInteger selectedLanguages;
+@property (nonatomic, copy) NSString *searchString;
+@property (nonatomic) FilterSegment searchFilter;
 
 @end
 
@@ -33,6 +42,11 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 
     self.searchBar = [[UISearchBar alloc] init];
     self.searchBar.delegate = self;
@@ -40,25 +54,35 @@
     self.searchBar.tintColor = [UIColor bbn_tintColor];
     self.searchBar.placeholder = NSLocalizedString(@"Search", @"Search bar: placeholder text.");
     self.navigationItem.titleView = self.searchBar;
-    self.navigationItem.titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    
-    // Fetch search criteria from preferences.
+    self.navigationItem.titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;    
+
+    // Get preferences from user defaults.
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.selectedGenders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
     self.selectedLanguages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
+
+    // Initialize search criteria.
+    self.searchString = @"";
+    self.searchFilter = kFilterSegmentAll;
     
-    [self configurePredicateWithSearchString:@""];
+    [self updateFetchingPredicate];
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
         [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
+    
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+
+    self.searchBar = nil;
+    self.searchString = nil;
+    self.fetchedResultsController = nil;
 }
 
 /*
@@ -75,16 +99,17 @@
 
 - (NSFetchedResultsController *)fetchedResultsController
 {
+    // Lazily load the fetched results controller.
     if (_fetchedResultsController) {
         return _fetchedResultsController;
     }
 
+    NSManagedObjectContext *context = self.managedObjectContext;
+
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.fetchBatchSize = 20;
-    
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
-                                              inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.entity = entity;
+    fetchRequest.entity = [NSEntityDescription entityForName:@"Suggestion"
+                                      inManagedObjectContext:context];
 
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name"
                                                                      ascending:YES
@@ -92,7 +117,7 @@
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     
     _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                    managedObjectContext:self.managedObjectContext
+                                                                    managedObjectContext:context
                                                                       sectionNameKeyPath:@"initial"
                                                                                cacheName:nil];
     _fetchedResultsController.delegate = self;
@@ -107,7 +132,8 @@
     self.searchBar.text = @"";
     [self.searchBar resignFirstResponder];
     
-    [self configurePredicateWithSearchString:@""];
+    self.searchString = @"";
+    [self updateFetchingPredicate];
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
@@ -123,19 +149,42 @@
                               sender:self];
 }
 
-#pragma mark - Private methods
-
-- (void)configurePredicateWithSearchString:(NSString *)searchString
+- (IBAction)filterSearch:(id)sender
 {
-    NSPredicate *searchPredicate;
-    if (![searchString isEqualToString:@""]) {
-        searchPredicate = [NSPredicate predicateWithFormat:@"((gender & %d) != 0) AND ((language & %d) != 0) AND (name BEGINSWITH[cd] %@)", self.selectedGenders, self.selectedLanguages, searchString];
-    }
-    else {
-        searchPredicate = [NSPredicate predicateWithFormat:@"((gender & %d) != 0) AND ((language & %d) != 0)", self.selectedGenders, self.selectedLanguages];
+    UISegmentedControl *filterSegmentedControl = sender;
+
+    self.searchFilter = filterSegmentedControl.selectedSegmentIndex;
+    [self updateFetchingPredicate];
+
+    NSError *error;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
     
-    self.fetchedResultsController.fetchRequest.predicate = searchPredicate;
+    [self.tableView reloadData];
+}
+
+#pragma mark - Private methods
+
+- (void)updateFetchingPredicate
+{
+    NSString *searchFormat;
+
+    if (![self.searchString isEqualToString:@""]) {
+        searchFormat = [NSString stringWithFormat:@"((gender & %ld) != 0) AND ((language & %ld) != 0) AND (name BEGINSWITH[cd] %@)", (long)self.selectedGenders, (long)self.selectedLanguages, self.searchString];
+    }
+    else {
+        searchFormat = [NSString stringWithFormat:@"((gender & %ld) != 0) AND ((language & %ld) != 0)", (long)self.selectedGenders, (long)self.selectedLanguages];
+    }
+
+    if (self.searchFilter == kFilterSegmentRejected) {
+        searchFormat = [searchFormat stringByAppendingFormat:@" AND (state == %ld)", (long)kSelectionStateRejected];
+    }
+    else if (self.searchFilter == kFilterSegmentAccepted) {
+        searchFormat = [searchFormat stringByAppendingFormat:@" AND (state >= %ld)", (long)kSelectionStateAccepted];
+    }
+    
+    self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat];
 }
 
 - (void)configureCell:(SearchTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
@@ -193,6 +242,17 @@
 {
     id<NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
     return sectionInfo.name;
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    return [self.fetchedResultsController sectionIndexTitles];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    return [self.fetchedResultsController sectionForSectionIndexTitle:title
+                                                              atIndex:index];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -266,8 +326,8 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    NSString *searchString = searchBar.text;
-    [self configurePredicateWithSearchString:searchString];
+    self.searchString = searchBar.text;
+    [self updateFetchingPredicate];
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
@@ -281,7 +341,8 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [self configurePredicateWithSearchString:@""];
+    self.searchString = @"";
+    [self updateFetchingPredicate];
     
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
@@ -353,6 +414,7 @@
     if (direction == MGSwipeDirectionRightToLeft) {
         // Configure swipe settings.
         swipeSettings.transition = MGSwipeTransitionStatic;
+        swipeSettings.offset = 16.0;
 
         MGSwipeButton *rejectButton = [MGSwipeButton buttonWithTitle:@""
         	                                                    icon:[UIImage imageNamed:@"Rejected"]
