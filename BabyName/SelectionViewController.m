@@ -267,12 +267,7 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     
     [self.delegate selectionViewDidEndPanning];
 
-    if (self.panningState == kPanningStateIdle) {
-        // Adjust misalignment to center.
-        // TODO: check if adjustment is necessary also with snap behavior.
-        self.nameLabel.center = self.panningOrigin;
-    }
-    else {
+    if (self.panningState != kPanningStateIdle) {
         [self configureNameLabel];
     }
 }
