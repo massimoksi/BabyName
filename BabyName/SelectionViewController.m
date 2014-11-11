@@ -9,6 +9,7 @@
 #import "SelectionViewController.h"
 
 #import "Constants.h"
+#import "StatusView.h"
 
 
 typedef NS_ENUM(NSUInteger, PanningState) {
@@ -31,9 +32,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 @property (nonatomic) PanningState panningState;
 
 @property (nonatomic, strong) UIDynamicAnimator *animator;
-@property (nonatomic, strong) UISnapBehavior *snapBehavior;
-@property (nonatomic, strong) UIGravityBehavior *gravityBehavior;
-@property (nonatomic, strong) UICollisionBehavior *collisionBehavior;
 @property (nonatomic, strong) UIDynamicItemBehavior *itemBehavior;
 
 @end
@@ -69,13 +67,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     
     self.panningOrigin = self.nameLabel.center;
     
-    self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
-    self.animator.delegate = self;
-    
-    self.snapBehavior = [[UISnapBehavior alloc] initWithItem:self.nameLabel
-                                                 snapToPoint:self.panningOrigin];
-    self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.nameLabel]];
-    self.collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.nameLabel]];
     self.itemBehavior = [[UIDynamicItemBehavior alloc] initWithItems:@[self.nameLabel]];
 }
 
@@ -85,9 +76,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     // Dispose of any resources that can be recreated.
     
     self.animator = nil;
-    self.snapBehavior = nil;
-    self.gravityBehavior = nil;
-    self.collisionBehavior = nil;
     self.itemBehavior = nil;
 }
 
@@ -106,6 +94,21 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 }
 */
 
+#pragma mark - Accessors
+
+- (UIDynamicAnimator *)animator
+{
+    // Lazily initialize the dynamic animator.
+    if (_animator) {
+        return _animator;
+    }
+
+    _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+    _animator.delegate = self;
+
+    return _animator;
+}
+
 #pragma mark - Gesture handlers
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
@@ -118,77 +121,74 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 
 - (IBAction)panName:(UIPanGestureRecognizer *)recognizer
 {
+    static BOOL panningValid;
+    
+    // Discard gesture if panning is disabled.
     if (!self.panningEnabled) {
         return;
     }
-    else {
-    }
 
-    CGPoint velocity = [recognizer velocityInView:self.view];
-    if (fabs(velocity.y) > fabs(velocity.x)) {
-        return;
-    }
-    
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-        [self.delegate selectionViewDidBeginPanning];
+        // Discard gesture if panning is vertical.
+        CGPoint velocity = [recognizer velocityInView:self.view];
+        if (fabs(velocity.y) > fabs(velocity.x)) {
+            panningValid = NO;
+        }
+        else {
+            panningValid = YES;
+            
+            [self.delegate selectionViewDidBeginPanning];
+        }
     }
     else if (recognizer.state == UIGestureRecognizerStateChanged) {
-        CGPoint origin = self.nameLabel.center;
-        self.nameLabel.center = CGPointMake(origin.x + [recognizer translationInView:self.view].x, origin.y);
-
-        [recognizer setTranslation:CGPointZero
-                            inView:self.view];
+        if (panningValid) {
+            CGPoint origin = self.nameLabel.center;
+            self.nameLabel.center = CGPointMake(origin.x + [recognizer translationInView:self.view].x, origin.y);
+            
+            [recognizer setTranslation:CGPointZero
+                                inView:self.view];
+        }
     }
     else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateFailed || recognizer.state == UIGestureRecognizerStateCancelled) {
-        self.panningState = [self endStateForGesture:recognizer];
+        if (panningValid) {
+            self.panningState = [self endStateForGesture:recognizer];
 
-        switch (self.panningState) {
-            case kPanningStateAccept:
-                [self.itemBehavior addLinearVelocity:CGPointMake([recognizer velocityInView:self.view].x, 0.0)
-                                             forItem:self.nameLabel];
-                [self.animator addBehavior:self.itemBehavior];
-
-                self.gravityBehavior.gravityDirection = CGVectorMake(1.0, 0.0);
-                [self.animator addBehavior:self.gravityBehavior];
-
-                [self.collisionBehavior removeAllBoundaries];
-                [self.collisionBehavior addBoundaryWithIdentifier:@"AcceptBoundary"
-                                                        fromPoint:CGPointMake(CGRectGetWidth(self.view.frame) * 2.0, CGRectGetMinY(self.view.frame))
-                                                          toPoint:CGPointMake(CGRectGetWidth(self.view.frame) * 2.0, CGRectGetMaxY(self.view.frame))];
-                [self.animator addBehavior:self.collisionBehavior];
-
-                [self.delegate acceptName];
-                break;
-
-            case kPanningStateReject:
-                [self.itemBehavior addLinearVelocity:CGPointMake([recognizer velocityInView:self.view].x, 0.0)
-                                             forItem:self.nameLabel];
-                [self.animator addBehavior:self.itemBehavior];
-
-                self.gravityBehavior.gravityDirection = CGVectorMake(-1.0, 0.0);
-                [self.animator addBehavior:self.gravityBehavior];
-
-                [self.collisionBehavior removeAllBoundaries];
-                [self.collisionBehavior addBoundaryWithIdentifier:@"RejectBoundary"
-                                                        fromPoint:CGPointMake(-CGRectGetWidth(self.view.frame), CGRectGetMinY(self.view.frame))
-                                                          toPoint:CGPointMake(-CGRectGetWidth(self.view.frame), CGRectGetMaxY(self.view.frame))];
-                [self.animator addBehavior:self.collisionBehavior];
-
-                [self.delegate rejectName];
-                break;
-
-            default:
-            case kPanningStateIdle:
-                self.snapBehavior.damping = 1.0;
-                [self.animator addBehavior:self.snapBehavior];
-                
-                self.itemBehavior.allowsRotation = NO;
-                [self.animator addBehavior:self.itemBehavior];
-                break;
+            self.itemBehavior.allowsRotation = NO;
+            [self.animator addBehavior:self.itemBehavior];
+            
+            UISnapBehavior *snapBehavior;
+            switch (self.panningState) {
+                case kPanningStateAccept:
+                {
+                    snapBehavior = [[UISnapBehavior alloc] initWithItem:self.nameLabel
+                                                            snapToPoint:CGPointMake(CGRectGetWidth(self.view.frame) * 2.0, self.panningOrigin.y)];
+                    snapBehavior.damping = 1.0;
+                    [self.animator addBehavior:snapBehavior];
+                    break;
+                }
+                    
+                case kPanningStateReject:
+                {
+                    snapBehavior = [[UISnapBehavior alloc] initWithItem:self.nameLabel
+                                                            snapToPoint:CGPointMake(-CGRectGetWidth(self.view.frame), self.panningOrigin.y)];
+                    snapBehavior.damping = 1.0;
+                    [self.animator addBehavior:snapBehavior];
+                    break;
+                }
+                    
+                default:
+                case kPanningStateIdle:
+                    snapBehavior = [[UISnapBehavior alloc] initWithItem:self.nameLabel
+                                                            snapToPoint:self.panningOrigin];
+                    snapBehavior.damping = 1.0;
+                    [self.animator addBehavior:snapBehavior];                
+                    
+                    break;
+            }
+            
+            // Disable panning until animation is finished.
+            self.panningEnabled = NO;
         }
-
-        // Disable panning until animation is finished.
-        self.panningEnabled = NO;
     }
 }
 
@@ -248,13 +248,32 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     
     [self.delegate selectionViewDidEndPanning];
 
-    if (self.panningState == kPanningStateIdle) {
-        // Adjust misalignment to center.
-        // TODO: check if adjustment is necessary also with snap behavior.
-        self.nameLabel.center = self.panningOrigin;
+    StatusView *statusView;
+    if (self.panningState == kPanningStateAccept) {
+        self.nameLabel.alpha = 0.0;
+        
+        statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusAccepted"]];
+        [statusView showInView:self.view
+                      position:self.panningOrigin
+                    completion:^(BOOL finished){
+                        if (finished) {
+                            [self.delegate acceptName];
+                            [self configureNameLabel];
+                        }
+                    }];
     }
-    else {
-        [self configureNameLabel];
+    else if (self.panningState == kPanningStateReject) {
+        self.nameLabel.alpha = 0.0;
+        
+        statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusRejected"]];
+        [statusView showInView:self.view
+                      position:self.panningOrigin
+                    completion:^(BOOL finished){
+                        if (finished) {
+                            [self.delegate rejectName];
+                            [self configureNameLabel];
+                        }
+                    }];
     }
 }
 
