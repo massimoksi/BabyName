@@ -149,7 +149,7 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                                 inView:self.view];
         }
     }
-    else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateFailed) {
+    else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateFailed || recognizer.state == UIGestureRecognizerStateCancelled) {
         if (panningValid) {
             self.panningState = [self endStateForGesture:recognizer];
 
