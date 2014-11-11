@@ -414,7 +414,7 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     if (direction == MGSwipeDirectionRightToLeft) {
         // Configure swipe settings.
         swipeSettings.transition = MGSwipeTransitionStatic;
-        swipeSettings.offset = 16.0;
+        swipeSettings.offset = 15.0;
 
         MGSwipeButton *rejectButton = [MGSwipeButton buttonWithTitle:@""
         	                                                    icon:[UIImage imageNamed:@"Rejected"]
