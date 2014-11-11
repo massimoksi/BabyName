@@ -48,6 +48,7 @@ static NSString * const kAcknowledgementsFileName = @"Acknowledgements";
                                                                                   error:&error];
     
     self.ackTextView.attributedText = acknowledgementsText;
+    self.ackTextView.contentOffset = CGPointMake(0.0, -200.0);
 }
 
 - (void)didReceiveMemoryWarning
