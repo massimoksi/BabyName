@@ -9,6 +9,7 @@
 #import "SelectionViewController.h"
 
 #import "Constants.h"
+#import "StatusView.h"
 
 
 typedef NS_ENUM(NSUInteger, PanningState) {
@@ -156,26 +157,43 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
             [self.animator addBehavior:self.itemBehavior];
             
             UISnapBehavior *snapBehavior;
+            StatusView *statusView;
             switch (self.panningState) {
                 case kPanningStateAccept:
+                {
                     snapBehavior = [[UISnapBehavior alloc] initWithItem:self.nameLabel
                                                             snapToPoint:CGPointMake(CGRectGetWidth(self.view.frame) * 2.0, self.panningOrigin.y)];
                     snapBehavior.damping = 1.0;
                     [self.animator addBehavior:snapBehavior];
                     
-                    [self.delegate acceptName];
-                    
+                    statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusAccepted"]];
+                    [statusView showInView:self.view
+                                  position:self.panningOrigin
+                                completion:^(BOOL finished){
+                                    if (finished) {
+                                        [self.delegate acceptName];
+                                    }
+                                }];
                     break;
+                }
                     
                 case kPanningStateReject:
+                {
                     snapBehavior = [[UISnapBehavior alloc] initWithItem:self.nameLabel
                                                             snapToPoint:CGPointMake(-CGRectGetWidth(self.view.frame), self.panningOrigin.y)];
                     snapBehavior.damping = 1.0;
                     [self.animator addBehavior:snapBehavior];
                     
-                    [self.delegate rejectName];
-                    
+                    statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusRejected"]];
+                    [statusView showInView:self.view
+                                  position:self.panningOrigin
+                                completion:^(BOOL finished){
+                                    if (finished) {
+                                        [self.delegate rejectName];
+                                    }
+                                }];
                     break;
+                }
                     
                 default:
                 case kPanningStateIdle:
