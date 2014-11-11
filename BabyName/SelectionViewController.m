@@ -31,7 +31,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 @property (nonatomic) PanningState panningState;
 
 @property (nonatomic, strong) UIDynamicAnimator *animator;
-@property (nonatomic, strong) UIGravityBehavior *gravityBehavior;
 @property (nonatomic, strong) UIDynamicItemBehavior *itemBehavior;
 
 @end
@@ -67,7 +66,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     
     self.panningOrigin = self.nameLabel.center;
     
-    self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.nameLabel]];
     self.itemBehavior = [[UIDynamicItemBehavior alloc] initWithItems:@[self.nameLabel]];
 }
 
@@ -77,7 +75,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     // Dispose of any resources that can be recreated.
     
     self.animator = nil;
-    self.gravityBehavior = nil;
     self.itemBehavior = nil;
 }
 
@@ -154,17 +151,13 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state == UIGestureRecognizerStateFailed) {
         if (panningValid) {
             self.panningState = [self endStateForGesture:recognizer];
+
+            self.itemBehavior.allowsRotation = NO;
+            [self.animator addBehavior:self.itemBehavior];
             
             UISnapBehavior *snapBehavior;
             switch (self.panningState) {
                 case kPanningStateAccept:
-                    [self.itemBehavior addLinearVelocity:CGPointMake([recognizer velocityInView:self.view].x, 0.0)
-                                                 forItem:self.nameLabel];
-                    [self.animator addBehavior:self.itemBehavior];
-                    
-                    self.gravityBehavior.gravityDirection = CGVectorMake(1.0, 0.0);
-                    [self.animator addBehavior:self.gravityBehavior];
-                    
                     snapBehavior = [[UISnapBehavior alloc] initWithItem:self.nameLabel
                                                             snapToPoint:CGPointMake(CGRectGetWidth(self.view.frame) * 2.0, self.panningOrigin.y)];
                     snapBehavior.damping = 1.0;
@@ -175,13 +168,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                     break;
                     
                 case kPanningStateReject:
-                    [self.itemBehavior addLinearVelocity:CGPointMake([recognizer velocityInView:self.view].x, 0.0)
-                                                 forItem:self.nameLabel];
-                    [self.animator addBehavior:self.itemBehavior];
-                    
-                    self.gravityBehavior.gravityDirection = CGVectorMake(-1.0, 0.0);
-                    [self.animator addBehavior:self.gravityBehavior];
-                    
                     snapBehavior = [[UISnapBehavior alloc] initWithItem:self.nameLabel
                                                             snapToPoint:CGPointMake(-CGRectGetWidth(self.view.frame), self.panningOrigin.y)];
                     snapBehavior.damping = 1.0;
@@ -193,9 +179,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                     
                 default:
                 case kPanningStateIdle:
-                    self.itemBehavior.allowsRotation = NO;
-                    [self.animator addBehavior:self.itemBehavior];
-                    
                     snapBehavior = [[UISnapBehavior alloc] initWithItem:self.nameLabel
                                                             snapToPoint:self.panningOrigin];
                     snapBehavior.damping = 1.0;
