@@ -157,7 +157,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
             [self.animator addBehavior:self.itemBehavior];
             
             UISnapBehavior *snapBehavior;
-            StatusView *statusView;
             switch (self.panningState) {
                 case kPanningStateAccept:
                 {
@@ -165,15 +164,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                                                             snapToPoint:CGPointMake(CGRectGetWidth(self.view.frame) * 2.0, self.panningOrigin.y)];
                     snapBehavior.damping = 1.0;
                     [self.animator addBehavior:snapBehavior];
-                    
-                    statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusAccepted"]];
-                    [statusView showInView:self.view
-                                  position:self.panningOrigin
-                                completion:^(BOOL finished){
-                                    if (finished) {
-                                        [self.delegate acceptName];
-                                    }
-                                }];
                     break;
                 }
                     
@@ -183,15 +173,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                                                             snapToPoint:CGPointMake(-CGRectGetWidth(self.view.frame), self.panningOrigin.y)];
                     snapBehavior.damping = 1.0;
                     [self.animator addBehavior:snapBehavior];
-                    
-                    statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusRejected"]];
-                    [statusView showInView:self.view
-                                  position:self.panningOrigin
-                                completion:^(BOOL finished){
-                                    if (finished) {
-                                        [self.delegate rejectName];
-                                    }
-                                }];
                     break;
                 }
                     
@@ -267,8 +248,32 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     
     [self.delegate selectionViewDidEndPanning];
 
-    if (self.panningState != kPanningStateIdle) {
-        [self configureNameLabel];
+    StatusView *statusView;
+    if (self.panningState == kPanningStateAccept) {
+        self.nameLabel.alpha = 0.0;
+        
+        statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusAccepted"]];
+        [statusView showInView:self.view
+                      position:self.panningOrigin
+                    completion:^(BOOL finished){
+                        if (finished) {
+                            [self.delegate acceptName];
+                            [self configureNameLabel];
+                        }
+                    }];
+    }
+    else if (self.panningState == kPanningStateReject) {
+        self.nameLabel.alpha = 0.0;
+        
+        statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusRejected"]];
+        [statusView showInView:self.view
+                      position:self.panningOrigin
+                    completion:^(BOOL finished){
+                        if (finished) {
+                            [self.delegate rejectName];
+                            [self configureNameLabel];
+                        }
+                    }];
     }
 }
 
