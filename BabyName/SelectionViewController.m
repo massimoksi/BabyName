@@ -156,25 +156,22 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
             self.itemBehavior.allowsRotation = NO;
             [self.animator addBehavior:self.itemBehavior];
             
+            CGRect viewFrame = self.view.frame;
             UISnapBehavior *snapBehavior;
             switch (self.panningState) {
                 case kPanningStateAccept:
-                {
                     snapBehavior = [[UISnapBehavior alloc] initWithItem:self.nameLabel
-                                                            snapToPoint:CGPointMake(CGRectGetWidth(self.view.frame) * 2.0, self.panningOrigin.y)];
+                                                            snapToPoint:CGPointMake(CGRectGetMidX(viewFrame) + CGRectGetWidth(viewFrame), self.panningOrigin.y)];
                     snapBehavior.damping = 1.0;
                     [self.animator addBehavior:snapBehavior];
                     break;
-                }
                     
                 case kPanningStateReject:
-                {
                     snapBehavior = [[UISnapBehavior alloc] initWithItem:self.nameLabel
-                                                            snapToPoint:CGPointMake(-CGRectGetWidth(self.view.frame), self.panningOrigin.y)];
+                                                            snapToPoint:CGPointMake(CGRectGetMidX(viewFrame) - CGRectGetWidth(viewFrame), self.panningOrigin.y)];
                     snapBehavior.damping = 1.0;
                     [self.animator addBehavior:snapBehavior];
                     break;
-                }
                     
                 default:
                 case kPanningStateIdle:
@@ -188,6 +185,35 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
             
             // Disable panning until animation is finished.
             self.panningEnabled = NO;
+
+            StatusView *statusView;
+            if (self.panningState == kPanningStateAccept) {
+                [UIView animateWithDuration:0.5
+                                 animations:^{
+                                     self.nameLabel.alpha = 0.0;
+                                 }];
+                
+                statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusAccepted"]];
+                [statusView showInView:self.view
+                              position:self.panningOrigin
+                            completion:^(BOOL finished){
+                                if (finished) {
+                                    [self.delegate acceptName];
+                                }
+                            }];
+            }
+            else if (self.panningState == kPanningStateReject) {
+                self.nameLabel.alpha = 0.0;
+                
+                statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusRejected"]];
+                [statusView showInView:self.view
+                              position:self.panningOrigin
+                            completion:^(BOOL finished){
+                                if (finished) {
+                                    [self.delegate rejectName];
+                                }
+                            }];
+            }
         }
     }
 }
@@ -204,7 +230,7 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     // Disable panning if the suggestion received by the data source is the preferred one.
     self.panningEnabled = (suggestion.state == kSelectionStatePreferred) ? NO : YES;
 
-    [UIView animateWithDuration:0.5
+    [UIView animateWithDuration:0.1
                      animations:^{
                          self.nameLabel.alpha = 1.0;
                      }
@@ -248,32 +274,8 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     
     [self.delegate selectionViewDidEndPanning];
 
-    StatusView *statusView;
-    if (self.panningState == kPanningStateAccept) {
-        self.nameLabel.alpha = 0.0;
-        
-        statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusAccepted"]];
-        [statusView showInView:self.view
-                      position:self.panningOrigin
-                    completion:^(BOOL finished){
-                        if (finished) {
-                            [self.delegate acceptName];
-                            [self configureNameLabel];
-                        }
-                    }];
-    }
-    else if (self.panningState == kPanningStateReject) {
-        self.nameLabel.alpha = 0.0;
-        
-        statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusRejected"]];
-        [statusView showInView:self.view
-                      position:self.panningOrigin
-                    completion:^(BOOL finished){
-                        if (finished) {
-                            [self.delegate rejectName];
-                            [self configureNameLabel];
-                        }
-                    }];
+    if (self.panningState != kPanningStateIdle) {
+        [self configureNameLabel];
     }
 }
 
