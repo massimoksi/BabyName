@@ -6,7 +6,6 @@ target "BabyName" do
     pod 'MSDynamicsDrawerViewController', '~> 1.5'
     pod 'MGSwipeTableCell'
     pod 'StaticDataTableViewController', '~> 2.0'
-    pod 'MMMarkdown'
 end
 
 target "BabyNameTests" do
