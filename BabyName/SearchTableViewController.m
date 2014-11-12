@@ -65,14 +65,7 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     self.searchString = @"";
     self.searchFilter = kFilterSegmentAll;
     
-    [self updateFetchingPredicate];
-    
-    NSError *error;
-    if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
-    }
-    
-    [self.tableView reloadData];
+    [self fetchResults];
 }
 
 - (void)didReceiveMemoryWarning
@@ -133,14 +126,7 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     [self.searchBar resignFirstResponder];
     
     self.searchString = @"";
-    [self updateFetchingPredicate];
-    
-    NSError *error;
-    if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
-    }
-    
-    [self.tableView reloadData];
+    [self fetchResults];
 }
 
 - (IBAction)closeSearch:(id)sender
@@ -154,37 +140,77 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     UISegmentedControl *filterSegmentedControl = sender;
 
     self.searchFilter = filterSegmentedControl.selectedSegmentIndex;
-    [self updateFetchingPredicate];
+    [self fetchResults];
+}
+
+#pragma mark - Private methods
+
+- (void)fetchResults
+{
+    NSString *searchFormat;
+
+    if (![self.searchString isEqualToString:@""]) {
+        searchFormat = @"((gender & %ld) != 0) AND ((language & %ld) != 0) AND (name BEGINSWITH[cd] %@)";
+
+        if (self.searchFilter == kFilterSegmentRejected) {
+            searchFormat = [searchFormat stringByAppendingString:@" AND (state == %ld)"];
+
+            self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
+                                                                    (long)self.selectedGenders,
+                                                                    (long)self.selectedLanguages,
+                                                                    self.searchString,
+                                                                    (long)kSelectionStateRejected];
+        }
+        else if (self.searchFilter == kFilterSegmentAccepted) {
+            searchFormat = [searchFormat stringByAppendingString:@" AND (state >= %ld)"];
+
+            self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
+                                                                    (long)self.selectedGenders,
+                                                                    (long)self.selectedLanguages,
+                                                                    self.searchString,
+                                                                    (long)kSelectionStateAccepted];
+        }
+        else {
+            self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
+                                                                    (long)self.selectedGenders,
+                                                                    (long)self.selectedLanguages,
+                                                                    self.searchString];
+        }
+    }
+    else {
+        searchFormat = @"((gender & %ld) != 0) AND ((language & %ld) != 0)";
+
+        if (self.searchFilter == kFilterSegmentRejected) {
+            searchFormat = [searchFormat stringByAppendingString:@" AND (state == %ld)"];
+            
+            self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
+                                                                    (long)self.selectedGenders,
+                                                                    (long)self.selectedLanguages,
+                                                                    (long)kSelectionStateRejected];
+        }
+        else if (self.searchFilter == kFilterSegmentAccepted) {
+            searchFormat = [searchFormat stringByAppendingString:@" AND (state >= %ld)"];
+            
+            self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
+                                                                    (long)self.selectedGenders,
+                                                                    (long)self.selectedLanguages,
+                                                                    (long)kSelectionStateAccepted];
+        }
+        else {
+            self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
+                                                                    (long)self.selectedGenders,
+                                                                    (long)self.selectedLanguages,
+                                                                    self.searchString];
+        }
+    }
 
     NSError *error;
     if (![self.fetchedResultsController performFetch:&error]) {
         [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
-    
-    [self.tableView reloadData];
-}
-
-#pragma mark - Private methods
-
-- (void)updateFetchingPredicate
-{
-    NSString *searchFormat;
-
-    if (![self.searchString isEqualToString:@""]) {
-        searchFormat = [NSString stringWithFormat:@"((gender & %ld) != 0) AND ((language & %ld) != 0) AND (name BEGINSWITH[cd] %@)", (long)self.selectedGenders, (long)self.selectedLanguages, self.searchString];
-    }
     else {
-        searchFormat = [NSString stringWithFormat:@"((gender & %ld) != 0) AND ((language & %ld) != 0)", (long)self.selectedGenders, (long)self.selectedLanguages];
+        [self.tableView reloadData];
     }
-
-    if (self.searchFilter == kFilterSegmentRejected) {
-        searchFormat = [searchFormat stringByAppendingFormat:@" AND (state == %ld)", (long)kSelectionStateRejected];
-    }
-    else if (self.searchFilter == kFilterSegmentAccepted) {
-        searchFormat = [searchFormat stringByAppendingFormat:@" AND (state >= %ld)", (long)kSelectionStateAccepted];
-    }
-    
-    self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat];
 }
 
 - (void)configureCell:(SearchTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
@@ -327,31 +353,20 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     self.searchString = searchBar.text;
-    [self updateFetchingPredicate];
-    
-    NSError *error;
-    if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
-    }
-    else {
-        // Update the table view displayed by the search results controller.
-        [self.tableView reloadData];
-    }
+
+    [self fetchResults];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     self.searchString = @"";
-    [self updateFetchingPredicate];
-    
-    NSError *error;
-    if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
-    }
-    else {
-        // Update the table view displayed by the search results controller.
-        [self.tableView reloadData];
-    }
+
+    [self fetchResults];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
@@ -414,7 +429,7 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     if (direction == MGSwipeDirectionRightToLeft) {
         // Configure swipe settings.
         swipeSettings.transition = MGSwipeTransitionStatic;
-        swipeSettings.offset = 16.0;
+        swipeSettings.offset = 15.0;
 
         MGSwipeButton *rejectButton = [MGSwipeButton buttonWithTitle:@""
         	                                                    icon:[UIImage imageNamed:@"Rejected"]

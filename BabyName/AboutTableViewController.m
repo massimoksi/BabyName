@@ -10,7 +10,14 @@
 
 #import <MessageUI/MessageUI.h>
 
-#import "Constants.h"
+
+static NSString * const kMailAddress = @"massimo.peri@icloud.com";
+static NSString * const kAppStoreURL = @"itms-apps://itunes.apple.com/app/id";
+#if DEBUG
+static NSString * const kAppID = @"438027793"; // Smokeless App ID for testing before the app is released on the App Store.
+#else
+static NSString * const kAppID = @"939636819";
+#endif
 
 
 @interface AboutTableViewController () <MFMailComposeViewControllerDelegate>
@@ -25,12 +32,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.versionLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Version %@ (%@)", @"About: version."), [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
 }
@@ -51,7 +52,7 @@
 //        mailComposer.navigationBar.tintColor = [UIColor bbn_tintColor];
 //        mailComposer.navigationBar.translucent = NO;
         mailComposer.mailComposeDelegate = self;
-        [mailComposer setToRecipients:@[@"massimo.peri@icloud.com"]];
+        [mailComposer setToRecipients:@[kMailAddress]];
         
         [self presentViewController:mailComposer
                            animated:YES
@@ -63,14 +64,27 @@
     }
 }
 
+- (void)rateApp
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAppStoreURL, kAppID]]];
+}
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ((indexPath.section == 0) && (indexPath.row == 0)) {
-        [self sendEmail];
-    }
-    
+    NSInteger section = indexPath.section;
+    NSInteger row = indexPath.row;
+
+    if (section == 0) {
+        if (row == 0) {
+            [self sendEmail];
+        }
+        else if (row == 1) {
+            [self rateApp];
+        }
+    } 
+
     [tableView deselectRowAtIndexPath:indexPath
                              animated:YES];
 }

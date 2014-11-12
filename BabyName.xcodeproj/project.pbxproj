@@ -10,7 +10,6 @@
 		1C0171A9FDA2424AAAB35945 /* libPods-BabyName.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1A9D73A3408455B984CE430 /* libPods-BabyName.a */; };
 		5601A9991A0F5D68008141B5 /* AboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5601A9981A0F5D68008141B5 /* AboutTableViewController.m */; };
 		5601A99C1A0F70FB008141B5 /* CreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5601A99B1A0F70FB008141B5 /* CreditsViewController.m */; };
-		5601A99E1A10171F008141B5 /* Acknowledgements.markdown in Sources */ = {isa = PBXBuildFile; fileRef = 5601A99D1A10171F008141B5 /* Acknowledgements.markdown */; };
 		5601A99F1A101731008141B5 /* Acknowledgements.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 5601A99D1A10171F008141B5 /* Acknowledgements.markdown */; };
 		5613AE4919DF481400CF1A0E /* MainContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5613AE4819DF481400CF1A0E /* MainContainerViewController.m */; };
 		5613AE4C19DF4B9200CF1A0E /* SelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5613AE4B19DF4B9200CF1A0E /* SelectionViewController.m */; };
@@ -452,7 +451,6 @@
 				5691AEA819C56EF100C1550F /* Constants.m in Sources */,
 				56C647A519AC62FF005B1D46 /* main.m in Sources */,
 				5613AE5019E0A2A600CF1A0E /* FinishedViewController.m in Sources */,
-				5601A99E1A10171F008141B5 /* Acknowledgements.markdown in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

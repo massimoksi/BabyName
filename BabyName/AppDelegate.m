@@ -181,7 +181,7 @@
                                                                            inManagedObjectContext:context];
                     suggestion.name = name;
                     suggestion.gender = gender;
-                    suggestion.language = language;
+                    suggestion.language = (int32_t)language;
                     suggestion.state = kSelectionStateMaybe;
 
                     count++;
