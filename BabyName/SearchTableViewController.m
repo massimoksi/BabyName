@@ -65,14 +65,7 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     self.searchString = @"";
     self.searchFilter = kFilterSegmentAll;
     
-    [self updateFetchingPredicate];
-    
-    NSError *error;
-    if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
-    }
-    
-    [self.tableView reloadData];
+    [self fetchResults];
 }
 
 - (void)didReceiveMemoryWarning
@@ -133,14 +126,7 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     [self.searchBar resignFirstResponder];
     
     self.searchString = @"";
-    [self updateFetchingPredicate];
-    
-    NSError *error;
-    if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
-    }
-    
-    [self.tableView reloadData];
+    [self fetchResults];
 }
 
 - (IBAction)closeSearch:(id)sender
@@ -154,19 +140,12 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     UISegmentedControl *filterSegmentedControl = sender;
 
     self.searchFilter = filterSegmentedControl.selectedSegmentIndex;
-    [self updateFetchingPredicate];
-
-    NSError *error;
-    if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
-    }
-    
-    [self.tableView reloadData];
+    [self fetchResults];
 }
 
 #pragma mark - Private methods
 
-- (void)updateFetchingPredicate
+- (void)fetchResults
 {
     NSString *searchFormat;
 
@@ -223,6 +202,14 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
                                                                     (long)self.selectedLanguages,
                                                                     self.searchString];
         }
+    }
+
+    NSError *error;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+    }
+    else {
+        [self.tableView reloadData];
     }
 }
 
@@ -366,36 +353,19 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     self.searchString = searchBar.text;
-    [self updateFetchingPredicate];
-    
-    NSError *error;
-    if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
-    }
-    else {
-        // Update the table view displayed by the search results controller.
-        [self.tableView reloadData];
-    }
+
+    [self fetchResults];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     self.searchString = @"";
-    [self updateFetchingPredicate];
-    
-    NSError *error;
-    if (![self.fetchedResultsController performFetch:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
-    }
-    else {
-        // Update the table view displayed by the search results controller.
-        [self.tableView reloadData];
-    }
+
+    [self fetchResults];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    // Resign keyboard.
     [searchBar resignFirstResponder];
 }
 
