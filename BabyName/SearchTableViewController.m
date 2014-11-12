@@ -393,6 +393,12 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     }
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    // Resign keyboard.
+    [searchBar resignFirstResponder];
+}
+
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
