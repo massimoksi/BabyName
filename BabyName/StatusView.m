@@ -15,13 +15,16 @@
 {
     self.center = position;
 
+    self.alpha = 0.0;
     [view addSubview:self];
+    [view bringSubviewToFront:self];
+    self.alpha = 1.0;
 
     // Perform the animation.
     //  1. Zoom the status view.
     //  2. Fade out the status view.
-    //  3. Run the completion block.
-    //  4. Remove the status view.
+    //  3. Remove the status view.
+    //  4. Run the completion block.
     [UIView animateKeyframesWithDuration:0.5
                                    delay:0.0
                                  options:UIViewKeyframeAnimationOptionBeginFromCurrentState
