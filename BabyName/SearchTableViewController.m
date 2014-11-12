@@ -334,6 +334,10 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
                             [self.tableView reloadData];
                         }];
 	}
+    else if (type == NSFetchedResultsChangeDelete) {
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath]
+                              withRowAnimation:UITableViewRowAnimationLeft];
+    }
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
