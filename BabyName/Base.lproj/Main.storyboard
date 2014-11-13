@@ -92,6 +92,9 @@
                         </constraints>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                    <connections>
+                        <outlet property="listButton" destination="tXX-Pb-RV2" id="5ji-az-uCo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xzU-PU-lHV" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="oQh-Sa-oWz">
@@ -100,7 +103,7 @@
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="745" y="141"/>
+            <point key="canvasLocation" x="751" y="141"/>
         </scene>
         <!--Settings-->
         <scene sceneID="5OB-Xr-IIM">
