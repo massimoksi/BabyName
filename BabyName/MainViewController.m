@@ -23,6 +23,8 @@
 
 @property (nonatomic, strong) CAGradientLayer *backgroundGradientLayer;
 
+@property (nonatomic, weak) IBOutlet UIButton *listButton;
+
 @end
 
 
@@ -38,6 +40,16 @@
     [self.view.layer insertSublayer:self.backgroundGradientLayer
                             atIndex:0];
     self.view.layer.masksToBounds = YES;
+    
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter addObserver:self
+                           selector:@selector(updateListButton:)
+                               name:kFetchedObjectWasPreferredNotification
+                             object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(updateListButton:)
+                               name:kFetchedObjectWasUnpreferredNotification
+                             object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -60,6 +72,17 @@
                                                 (id)[UIColor colorWithRed:255.0/255.0 green:113.0/255.0 blue:149.0/255.0 alpha:1.0].CGColor,
                                                 (id)[UIColor colorWithRed:255.0/255.0 green:186.0/255.0 blue:230.0/255.0 alpha:1.0].CGColor];
     }
+}
+
+- (void)dealloc
+{
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter removeObserver:self
+                                  name:kFetchedObjectWasPreferredNotification
+                                object:nil];
+    [notificationCenter removeObserver:self
+                                  name:kFetchedObjectWasUnpreferredNotification
+                                object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -114,6 +137,20 @@
 - (IBAction)unwindToMain:(UIStoryboardSegue *)segue
 {
     // Unwind.
+}
+
+#pragma mark - Notification handlers
+
+- (void)updateListButton:(NSNotification *)notification
+{
+    if (notification.name == kFetchedObjectWasPreferredNotification) {
+        [self.listButton setImage:[UIImage imageNamed:@"ListPreferred"]
+                         forState:UIControlStateNormal];
+    }
+    else {
+        [self.listButton setImage:[UIImage imageNamed:@"List"]
+                         forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - Dynamics drawer view controller delegate

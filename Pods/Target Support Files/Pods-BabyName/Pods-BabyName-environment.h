@@ -12,12 +12,6 @@
 #define COCOAPODS_VERSION_MINOR_MGSwipeTableCell 2
 #define COCOAPODS_VERSION_PATCH_MGSwipeTableCell 0
 
-// MMMarkdown
-#define COCOAPODS_POD_AVAILABLE_MMMarkdown
-#define COCOAPODS_VERSION_MAJOR_MMMarkdown 0
-#define COCOAPODS_VERSION_MINOR_MMMarkdown 3
-#define COCOAPODS_VERSION_PATCH_MMMarkdown 0
-
 // MSDynamicsDrawerViewController
 #define COCOAPODS_POD_AVAILABLE_MSDynamicsDrawerViewController
 #define COCOAPODS_VERSION_MAJOR_MSDynamicsDrawerViewController 1

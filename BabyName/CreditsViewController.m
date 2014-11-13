@@ -8,11 +8,6 @@
 
 #import "CreditsViewController.h"
 
-#import "MMMarkDown.h"
-
-
-static NSString * const kAcknowledgementsFileName = @"Acknowledgements";
-
 
 @interface CreditsViewController ()
 
@@ -34,21 +29,10 @@ static NSString * const kAcknowledgementsFileName = @"Acknowledgements";
     [super viewWillAppear:animated];
     
     NSError *error;
-    
-    NSString *acknowledgements = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:kAcknowledgementsFileName
-                                                                                                    ofType:@"markdown"]
-                                                           encoding:NSUTF8StringEncoding
-                                                              error:&error];
-    NSString *acknowledgementsHTML = [MMMarkdown HTMLStringWithMarkdown:acknowledgements
-                                                                  error:&error];
-    
-    NSAttributedString *acknowledgementsText = [[NSAttributedString alloc] initWithData:[acknowledgementsHTML dataUsingEncoding:NSUTF8StringEncoding]
-                                                                                options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType}
-                                                                     documentAttributes:nil
-                                                                                  error:&error];
-    
-    self.ackTextView.attributedText = acknowledgementsText;
-    self.ackTextView.contentOffset = CGPointMake(0.0, -200.0);
+    self.ackTextView.text = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Acknowledgements"
+                                                                                               ofType:@"markdown"]
+                                                      encoding:NSUTF8StringEncoding
+                                                         error:&error];
 }
 
 - (void)didReceiveMemoryWarning
