@@ -1,5 +1,5 @@
 //
-//  CreditsViewController.h
+//  AboutTableViewController.h
 //  BabyName
 //
 //  Created by Massimo Peri on 09/11/14.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface CreditsViewController : UIViewController
+@interface AboutTableViewController : UITableViewController
 
 @end

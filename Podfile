@@ -14,7 +14,7 @@ end
 
 post_install do |installer|
     require 'fileutils'
-    FileUtils.copy('Pods/Target Support Files/Pods-BabyName/Pods-BabyName-acknowledgements.markdown', 'BabyName/Acknowledgements.markdown')
+    FileUtils.copy('Pods/Target Support Files/Pods-BabyName/Pods-BabyName-acknowledgements.plist', 'BabyName/Acknowledgements.plist')
 end
 
 
