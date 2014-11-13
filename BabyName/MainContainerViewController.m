@@ -186,6 +186,10 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
             if (![self.managedObjectContext save:&error]) {
                 [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
             }
+            else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectWasUnpreferredNotification
+                                                                    object:self];
+            }
         }
     }
 }
@@ -205,12 +209,12 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
                                                          error:&error];
     if (fetchedSuggestions) {
         // The database contains a preferred suggestion.
-        //  -> Create the array of suggestions with only the preferred one.
+        //  --> Create the array of suggestions with only the preferred one.
         if (fetchedSuggestions.count == 1) {
             self.suggestions = [NSMutableArray arrayWithArray:fetchedSuggestions];
         }
         // The database doesn't contain a preferred suggestion.
-        //  -> Fetch all available suggestions for selection.
+        //  --> Fetch all available suggestions for selection.
         else {
             // Get search criteria from user defaults.
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
