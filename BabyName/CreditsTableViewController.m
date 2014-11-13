@@ -9,6 +9,7 @@
 #import "CreditsTableViewController.h"
 
 #import "Acknowledgement.h"
+#import "LicenseViewController.h"
 
 
 @interface CreditsTableViewController ()
@@ -53,15 +54,22 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
  #pragma mark - Navigation
  
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"ShowLicenseSegue"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)sender];
+        
+        LicenseViewController *viewController = [segue destinationViewController];
+        
+        Acknowledgement *selectedAcknowledgement = self.acknowledgements[indexPath.row];
+        viewController.title = selectedAcknowledgement.name;
+        viewController.license = selectedAcknowledgement.license;
+    }
+}
 
 #pragma mark - Table view data source
 

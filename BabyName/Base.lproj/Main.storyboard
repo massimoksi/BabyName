@@ -911,6 +911,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="YNM-NU-g4X" kind="show" identifier="ShowLicenseSegue" id="anZ-tj-Xvk"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -923,6 +926,41 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XKB-NI-CR6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4473" y="-239"/>
+        </scene>
+        <!--License View Controller-->
+        <scene sceneID="yIW-ta-nMt">
+            <objects>
+                <viewController storyboardIdentifier="LicenseVC" id="YNM-NU-g4X" customClass="LicenseViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0j7-RC-KXx"/>
+                        <viewControllerLayoutGuide type="bottom" id="dEC-Ti-c73"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gMr-b9-Ujr">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kya-KX-Pcr">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="kya-KX-Pcr" firstAttribute="leading" secondItem="gMr-b9-Ujr" secondAttribute="leadingMargin" constant="-16" id="0xz-Rv-if9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="kya-KX-Pcr" secondAttribute="trailing" constant="-16" id="IFO-wq-QjI"/>
+                            <constraint firstItem="dEC-Ti-c73" firstAttribute="top" secondItem="kya-KX-Pcr" secondAttribute="bottom" id="NEL-Td-uw3"/>
+                            <constraint firstItem="kya-KX-Pcr" firstAttribute="top" secondItem="0j7-RC-KXx" secondAttribute="bottom" id="tVo-Gr-Vm9"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="licenseTextView" destination="kya-KX-Pcr" id="Zbm-pw-3c3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AX8-KE-EHe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5297" y="-239"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Mhc-yQ-r59">

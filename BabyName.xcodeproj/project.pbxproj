@@ -16,6 +16,7 @@
 		561EA9FC1A1558BC007F5AE7 /* Acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 561EA9FB1A1558BC007F5AE7 /* Acknowledgements.plist */; };
 		561EA9FF1A1559B4007F5AE7 /* CreditsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 561EA9FE1A1559B4007F5AE7 /* CreditsTableViewController.m */; };
 		561EAA021A155DAA007F5AE7 /* Acknowledgement.m in Sources */ = {isa = PBXBuildFile; fileRef = 561EAA011A155DAA007F5AE7 /* Acknowledgement.m */; };
+		561EAA051A156957007F5AE7 /* LicenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 561EAA041A156957007F5AE7 /* LicenseViewController.m */; };
 		561ECCDB19CA375E00814D62 /* LanguagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 561ECCDA19CA375E00814D62 /* LanguagesTableViewController.m */; };
 		562FF89119FDA2D90045D06D /* Suggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 562FF89019FDA2D90045D06D /* Suggestion.m */; };
 		562FF8951A0189780045D06D /* BabyName.csv in Resources */ = {isa = PBXBuildFile; fileRef = 562FF8941A0189780045D06D /* BabyName.csv */; };
@@ -67,6 +68,8 @@
 		561EA9FE1A1559B4007F5AE7 /* CreditsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreditsTableViewController.m; sourceTree = "<group>"; };
 		561EAA001A155DAA007F5AE7 /* Acknowledgement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Acknowledgement.h; sourceTree = "<group>"; };
 		561EAA011A155DAA007F5AE7 /* Acknowledgement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Acknowledgement.m; sourceTree = "<group>"; };
+		561EAA031A156957007F5AE7 /* LicenseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LicenseViewController.h; sourceTree = "<group>"; };
+		561EAA041A156957007F5AE7 /* LicenseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LicenseViewController.m; sourceTree = "<group>"; };
 		561ECCD919CA375E00814D62 /* LanguagesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguagesTableViewController.h; sourceTree = "<group>"; };
 		561ECCDA19CA375E00814D62 /* LanguagesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguagesTableViewController.m; sourceTree = "<group>"; };
 		562FF88F19FDA2D90045D06D /* Suggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Suggestion.h; sourceTree = "<group>"; };
@@ -184,6 +187,8 @@
 				5601A9981A0F5D68008141B5 /* AboutTableViewController.m */,
 				561EA9FD1A1559B4007F5AE7 /* CreditsTableViewController.h */,
 				561EA9FE1A1559B4007F5AE7 /* CreditsTableViewController.m */,
+				561EAA031A156957007F5AE7 /* LicenseViewController.h */,
+				561EAA041A156957007F5AE7 /* LicenseViewController.m */,
 				56AE21E719E3295200302C57 /* SearchTableViewController.h */,
 				56AE21E819E3295200302C57 /* SearchTableViewController.m */,
 			);
@@ -454,6 +459,7 @@
 				561EA9FF1A1559B4007F5AE7 /* CreditsTableViewController.m in Sources */,
 				56EB752819D4C60C00D18DF6 /* InitialsTableViewController.m in Sources */,
 				561EAA021A155DAA007F5AE7 /* Acknowledgement.m in Sources */,
+				561EAA051A156957007F5AE7 /* LicenseViewController.m in Sources */,
 				5691AEA819C56EF100C1550F /* Constants.m in Sources */,
 				56C647A519AC62FF005B1D46 /* main.m in Sources */,
 				5613AE5019E0A2A600CF1A0E /* FinishedViewController.m in Sources */,
