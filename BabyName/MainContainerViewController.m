@@ -291,11 +291,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
 
     UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"Alert: accept button.")
                                                           style:UIAlertActionStyleDefault
-                                                        handler:^(UIAlertAction *action){
-                                                            // Dismiss alert controller.
-                                                            [alertController dismissViewControllerAnimated:YES
-                                                                                                completion:nil]; 
-                                                        }];
+                                                        handler:nil];
     [alertController addAction:acceptAction];
 
     [self presentViewController:alertController
