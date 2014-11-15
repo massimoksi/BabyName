@@ -869,7 +869,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="adm-mT-P8d" kind="show" identifier="ShowCreditsSegue" id="aMh-BO-9bG"/>
+                                            <segue destination="Pht-fp-pyh" kind="show" identifier="ShowCreditsSegue" id="KOl-vl-6IX"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -890,19 +890,57 @@
             <point key="canvasLocation" x="3711" y="-239"/>
         </scene>
         <!--Credits-->
-        <scene sceneID="a40-HR-mxN">
+        <scene sceneID="QqG-Cu-yGk">
             <objects>
-                <viewController storyboardIdentifier="CreditsVC" id="adm-mT-P8d" customClass="CreditsViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="CreditsTVC" id="Pht-fp-pyh" customClass="CreditsTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="vWZ-Da-Fs2">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CreditsCell" textLabel="9NG-xo-eqa" style="IBUITableViewCellStyleDefault" id="10w-1z-HES">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="10w-1z-HES" id="O54-Qo-Tdy">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9NG-xo-eqa">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="YNM-NU-g4X" kind="show" identifier="ShowLicenseSegue" id="A5F-2E-cWB"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Pht-fp-pyh" id="3up-kU-BAs"/>
+                            <outlet property="delegate" destination="Pht-fp-pyh" id="uCf-0l-wVB"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Credits" id="Ij4-kU-5t3"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8pr-id-UDS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4522" y="-239"/>
+        </scene>
+        <!--License View Controller-->
+        <scene sceneID="yIW-ta-nMt">
+            <objects>
+                <viewController storyboardIdentifier="LicenseVC" id="YNM-NU-g4X" customClass="LicenseViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="wCY-4A-bf0"/>
-                        <viewControllerLayoutGuide type="bottom" id="eCF-ai-sSF"/>
+                        <viewControllerLayoutGuide type="top" id="0j7-RC-KXx"/>
+                        <viewControllerLayoutGuide type="bottom" id="dEC-Ti-c73"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="moK-ev-OyB">
+                    <view key="view" contentMode="scaleToFill" id="gMr-b9-Ujr">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UTs-nZ-rGr">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kya-KX-Pcr">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -910,20 +948,19 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="eCF-ai-sSF" firstAttribute="top" secondItem="UTs-nZ-rGr" secondAttribute="bottom" id="KCY-Jf-kXq"/>
-                            <constraint firstItem="UTs-nZ-rGr" firstAttribute="top" secondItem="wCY-4A-bf0" secondAttribute="bottom" constant="-64" id="kNa-uu-n1b"/>
-                            <constraint firstItem="UTs-nZ-rGr" firstAttribute="leading" secondItem="moK-ev-OyB" secondAttribute="leadingMargin" constant="-16" id="u1Q-gY-LMj"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="UTs-nZ-rGr" secondAttribute="trailing" constant="-16" id="vrL-cD-HL8"/>
+                            <constraint firstItem="kya-KX-Pcr" firstAttribute="leading" secondItem="gMr-b9-Ujr" secondAttribute="leadingMargin" constant="-16" id="0xz-Rv-if9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="kya-KX-Pcr" secondAttribute="trailing" constant="-16" id="IFO-wq-QjI"/>
+                            <constraint firstItem="dEC-Ti-c73" firstAttribute="top" secondItem="kya-KX-Pcr" secondAttribute="bottom" id="NEL-Td-uw3"/>
+                            <constraint firstItem="kya-KX-Pcr" firstAttribute="top" secondItem="0j7-RC-KXx" secondAttribute="bottom" id="tVo-Gr-Vm9"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Credits" id="HLW-ob-J20"/>
                     <connections>
-                        <outlet property="ackTextView" destination="UTs-nZ-rGr" id="0HA-b8-l1B"/>
+                        <outlet property="licenseTextView" destination="kya-KX-Pcr" id="Zbm-pw-3c3"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="E7R-K0-yTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AX8-KE-EHe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4503" y="-239"/>
+            <point key="canvasLocation" x="5297" y="-239"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Mhc-yQ-r59">
