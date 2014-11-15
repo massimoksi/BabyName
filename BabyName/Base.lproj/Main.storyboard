@@ -263,18 +263,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Due date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yj2-wT-6Ab">
-                                                    <rect key="frame" x="15" y="11" width="200" height="20"/>
+                                                    <rect key="frame" x="15" y="11" width="66" height="20"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="200" id="bII-oH-WvC"/>
+                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="160" id="bII-oH-WvC"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TJC-66-CaA">
-                                                    <rect key="frame" x="223" y="7" width="362" height="30"/>
+                                                    <rect key="frame" x="89" y="7" width="496" height="30"/>
                                                     <color key="tintColor" red="0.93491393327713013" green="0.29370671510696411" blue="0.35200083255767822" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="QgV-5I-siC"/>
                                                         <constraint firstAttribute="height" constant="30" id="l1z-z7-zmt"/>
                                                     </constraints>
                                                     <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
