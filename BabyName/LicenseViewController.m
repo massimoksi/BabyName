@@ -1,22 +1,22 @@
 //
-//  CreditsViewController.m
+//  LicenseViewController.m
 //  BabyName
 //
-//  Created by Massimo Peri on 09/11/14.
+//  Created by Massimo Peri on 13/11/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "CreditsViewController.h"
+#import "LicenseViewController.h"
 
 
-@interface CreditsViewController ()
+@interface LicenseViewController ()
 
-@property (nonatomic, weak) IBOutlet UITextView *ackTextView;
+@property (nonatomic, weak) IBOutlet UITextView *licenseTextView;
 
 @end
 
 
-@implementation CreditsViewController
+@implementation LicenseViewController
 
 - (void)viewDidLoad
 {
@@ -28,11 +28,7 @@
 {
     [super viewWillAppear:animated];
     
-    NSError *error;
-    self.ackTextView.text = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Acknowledgements"
-                                                                                               ofType:@"markdown"]
-                                                      encoding:NSUTF8StringEncoding
-                                                         error:&error];
+    self.licenseTextView.text = self.license;
 }
 
 - (void)didReceiveMemoryWarning
