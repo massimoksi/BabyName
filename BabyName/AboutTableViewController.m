@@ -76,7 +76,7 @@ static NSString * const kAppID = @"939636819";
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
 
-    if (section == 0) {
+    if (section == 1) {
         if (row == 0) {
             [self sendEmail];
         }
