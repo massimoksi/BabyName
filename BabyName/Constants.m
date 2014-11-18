@@ -22,6 +22,8 @@ NSString * const kFetchedObjectWasPreferredNotification   = @"FetchedObjectWasPr
 NSString * const kFetchedObjectWasUnpreferredNotification = @"FetchedObjectWasUnpreferred";
 NSString * const kFetchingPreferencesChangedNotification  = @"FetchingPreferencesChanged";
 
+const CGFloat kPaneOverlapWidth = 44.0;
+
 
 @implementation UIColor (BabyName)
 

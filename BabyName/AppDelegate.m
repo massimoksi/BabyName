@@ -115,7 +115,7 @@
     containerViewController.managedObjectContext = self.managedObjectContext;
     [drawerViewController setDrawerViewController:containerViewController
                                      forDirection:MSDynamicsDrawerDirectionRight];
-    [drawerViewController setRevealWidth:CGRectGetWidth([[UIScreen mainScreen] bounds]) - 44.0
+    [drawerViewController setRevealWidth:CGRectGetWidth([[UIScreen mainScreen] bounds]) - kPaneOverlapWidth
                             forDirection:MSDynamicsDrawerDirectionRight];
     [drawerViewController addStylersFromArray:@[[MSDynamicsDrawerShadowStyler styler]]
                                  forDirection:MSDynamicsDrawerDirectionRight];
