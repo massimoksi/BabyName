@@ -62,19 +62,24 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if (![userDefaults boolForKey:kSettingsDBPopulatedKey]) {
 #if DEBUG
-        NSLog(@"Populating DB: start.");
+        NSLog(@"Database: populating...");
 #endif
         
-        if ([self populateDB]) {
-#if DEBUG
-            NSLog(@"Populating DB: stop.");
-#endif
-            
+        if ([self populateDB]) {            
             [userDefaults setBool:YES
                            forKey:kSettingsDBPopulatedKey];
+
+#if DEBUG
+            NSLog(@"Database: populated.");
+#endif
         }
         else {
-            // TODO: handle error.
+            [userDefaults setBool:NO
+                           forKey:kSettingsDBPopulatedKey];
+
+#if DEBUG
+            NSLog(@"Database: not populated.");
+#endif
         }
     }
 
@@ -89,12 +94,13 @@
     NSError *error;
     NSUInteger count = [context countForFetchRequest:fetchRequest
                                                error:&error];
-    NSLog(@"Database contains %tu suggestions.", count);
+    NSLog(@"Database: %tu items found.", count);
 #endif
 
     MSDynamicsDrawerViewController *drawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
     drawerViewController.delegate = self;
     drawerViewController.shouldAlignStatusBarToPaneView = NO;
+    drawerViewController.paneDragRequiresScreenEdgePan = YES;
     [drawerViewController registerTouchForwardingClass:[UILabel class]];
 
     MainViewController *mainViewController = [[UIStoryboard storyboardWithName:@"Main"
@@ -109,11 +115,11 @@
     containerViewController.managedObjectContext = self.managedObjectContext;
     [drawerViewController setDrawerViewController:containerViewController
                                      forDirection:MSDynamicsDrawerDirectionRight];
-    [drawerViewController setRevealWidth:CGRectGetWidth([[UIScreen mainScreen] bounds]) - 44.0f
+    [drawerViewController setRevealWidth:CGRectGetWidth([[UIScreen mainScreen] bounds]) - 44.0
                             forDirection:MSDynamicsDrawerDirectionRight];
     [drawerViewController addStylersFromArray:@[[MSDynamicsDrawerShadowStyler styler]]
                                  forDirection:MSDynamicsDrawerDirectionRight];
-    
+
     return YES;
 }
 
@@ -135,7 +141,8 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application {
+- (void)applicationWillTerminate:(UIApplication *)application
+{
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
@@ -147,10 +154,25 @@
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-             // Replace this implementation with code to handle the error appropriately.
-             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
+#if DEBUG
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
+#else
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", @"Alert: title.")
+                                                                                     message:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+
+            UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"Alert: accept button.")
+                                                                  style:UIAlertActionStyleDefault
+                                                                handler:nil];
+            [alertController addAction:acceptAction];
+
+            [self.window.rootViewController presentViewController:alertController
+                                                         animated:YES
+                                                       completion:nil];
+#endif
         } 
     }
 }
@@ -262,6 +284,7 @@
                                                              URL:storeURL
                                                          options:nil
                                                            error:&error]) {
+#if DEBUG
         /*
          Replace this implementation with code to handle the error appropriately.
           
@@ -287,6 +310,20 @@
          */
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
+#else
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", @"Alert: title.")
+                                                                                 message:NSLocalizedString(@"Oops, there was an error populating your database but it is not your fault. If you restart the app, you can try again. Please contact support (massimo.peri@icloud.com) to notify us of this issue.", @"Database error message.")
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+
+        UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"Alert: accept button.")
+                                                              style:UIAlertActionStyleDefault
+                                                            handler:nil];
+        [alertController addAction:acceptAction];
+
+        [self.window.rootViewController presentViewController:alertController
+                                                     animated:YES
+                                                   completion:nil];
+#endif
     }    
      
     return _persistentStoreCoordinator;
