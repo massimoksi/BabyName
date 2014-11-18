@@ -22,6 +22,8 @@ extern NSString * const kFetchedObjectWasPreferredNotification;
 extern NSString * const kFetchedObjectWasUnpreferredNotification;
 extern NSString * const kFetchingPreferencesChangedNotification;
 
+extern const CGFloat kPaneOverlapWidth;
+
 
 typedef NS_ENUM(NSInteger, LanguageIndex) {
     kLanguageIndexIT = 0,
