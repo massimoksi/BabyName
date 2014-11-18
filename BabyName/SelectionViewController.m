@@ -244,10 +244,10 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     CGPoint velocity = [recognizer velocityInView:self.view];
     CGPoint location = [recognizer locationInView:self.view];
     
-    if (velocity.x >= kPanningVelocityThreshold) {
+    if ((velocity.x >= kPanningVelocityThreshold) && (fabs(velocity.x) >= fabs(velocity.y))) {
         return kPanningStateAccept;
     }
-    else if (velocity.x <= -kPanningVelocityThreshold) {
+    else if ((velocity.x <= -kPanningVelocityThreshold) && (fabs(velocity.x) >= fabs(velocity.y))) {
         return kPanningStateReject;
     }
     else {
