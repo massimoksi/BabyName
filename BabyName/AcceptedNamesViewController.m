@@ -29,6 +29,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    // It's not possible to make the view transparent in Storyboard because of the use of white labels.
+    self.view.backgroundColor = [UIColor clearColor];
 }
 
 - (void)didReceiveMemoryWarning
