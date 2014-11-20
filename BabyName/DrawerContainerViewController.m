@@ -11,11 +11,11 @@
 #import "Constants.h"
 #import "Suggestion.h"
 #import "EmptyNamesViewController.h"
-#import "AcceptedNamesViewController.h"
+#import "AcceptedTableViewController.h"
 
 
-static NSString * const kShowEmptyNamesSegueID    = @"ShowEmptyNamesSegue";
-static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
+static NSString * const kShowEmptyNamesSegueID  = @"ShowEmptyNamesSegue";
+static NSString * const kContainAcceptedSegueID = @"ContainAcceptedSegue";
 
 
 @interface DrawerContainerViewController () <AcceptedNamesViewDataSource, AcceptedNamesViewDelegate>
@@ -88,7 +88,7 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
         }
         else {
             // Load the view controller to handle the list of accepted names.
-            [self performSegueWithIdentifier:kShowAcceptedNamesSegueID
+            [self performSegueWithIdentifier:kContainAcceptedSegueID
                                       sender:self];
         }
     }
@@ -131,10 +131,10 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
             [viewController didMoveToParentViewController:self];
         }
     }
-    else if ([[segue identifier] isEqualToString:kShowAcceptedNamesSegueID]) {
+    else if ([[segue identifier] isEqualToString:kContainAcceptedSegueID]) {
         if (self.childViewControllers.count != 0) {
-            if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[AcceptedNamesViewController class]]) {
-                AcceptedNamesViewController *viewController = segue.destinationViewController;
+            if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[AcceptedTableViewController class]]) {
+                AcceptedTableViewController *viewController = segue.destinationViewController;
                 viewController.dataSource = self;
                 viewController.delegate = self;
 
@@ -143,7 +143,7 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
             }
         }
         else {
-            AcceptedNamesViewController *viewController = segue.destinationViewController;
+            AcceptedTableViewController *viewController = segue.destinationViewController;
             viewController.dataSource = self;
             viewController.delegate = self;
         

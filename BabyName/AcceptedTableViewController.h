@@ -1,5 +1,5 @@
 //
-//  AcceptedNamesViewController.h
+//  AcceptedTableViewController.h
 //  BabyName
 //
 //  Created by Massimo Peri on 28/09/14.
@@ -12,7 +12,7 @@
 @protocol AcceptedNamesViewDelegate;
 
 
-@interface AcceptedNamesViewController : UITableViewController
+@interface AcceptedTableViewController : UITableViewController
 
 @property (nonatomic, weak) id<AcceptedNamesViewDataSource> dataSource;
 @property (nonatomic, weak) id<AcceptedNamesViewDelegate> delegate;

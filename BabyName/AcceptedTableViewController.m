@@ -1,12 +1,12 @@
 //
-//  AcceptedNamesViewController.m
+//  AcceptedTableViewController.m
 //  BabyName
 //
 //  Created by Massimo Peri on 28/09/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "AcceptedNamesViewController.h"
+#import "AcceptedTableViewController.h"
 
 #import "MGSwipeButton.h"
 
@@ -16,12 +16,12 @@
 #import "DrawerContainerViewController.h"
 
 
-@interface AcceptedNamesViewController () <MGSwipeTableCellDelegate>
+@interface AcceptedTableViewController () <MGSwipeTableCellDelegate>
 
 @end
 
 
-@implementation AcceptedNamesViewController
+@implementation AcceptedTableViewController
 
 - (void)viewDidLoad
 {
