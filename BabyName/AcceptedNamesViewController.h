@@ -12,7 +12,7 @@
 @protocol AcceptedNamesViewDelegate;
 
 
-@interface AcceptedNamesViewController : UIViewController
+@interface AcceptedNamesViewController : UITableViewController
 
 @property (nonatomic, weak) id<AcceptedNamesViewDataSource> dataSource;
 @property (nonatomic, weak) id<AcceptedNamesViewDelegate> delegate;

@@ -16,9 +16,7 @@
 #import "DrawerContainerViewController.h"
 
 
-@interface AcceptedNamesViewController () <UITableViewDataSource, UITableViewDelegate, MGSwipeTableCellDelegate>
-
-@property (nonatomic, weak) IBOutlet UITableView *tableView;
+@interface AcceptedNamesViewController () <MGSwipeTableCellDelegate>
 
 @end
 
@@ -31,7 +29,7 @@
     // Do any additional setup after loading the view.
     
     // It's not possible to make the view transparent in Storyboard because of the use of white labels.
-    self.view.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,11 +68,6 @@
     cell.delegate = self;
     
     return cell;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return @"Prova";
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
