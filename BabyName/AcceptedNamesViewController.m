@@ -72,6 +72,16 @@
     return cell;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return @"Prova";
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    return NSLocalizedString(@"Swipe right to select your preferred name.\rSwipe left to reject a name.", @"Table view: footer.");
+}
+
 #pragma mark - Table view delegate
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
