@@ -36,7 +36,7 @@
 		56C647BF19AC62FF005B1D46 /* BabyNameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C647BE19AC62FF005B1D46 /* BabyNameTests.m */; };
 		56E4D0D019D0D8E70005DFDC /* Language.m in Sources */ = {isa = PBXBuildFile; fileRef = 56E4D0CF19D0D8E70005DFDC /* Language.m */; };
 		56E4D0D419D20C830005DFDC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 56E4D0D219D20C830005DFDC /* Localizable.strings */; };
-		56E9263319DC5B4800033E73 /* EmptyNamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56E9263219DC5B4800033E73 /* EmptyNamesViewController.m */; };
+		56E9263319DC5B4800033E73 /* EmptyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56E9263219DC5B4800033E73 /* EmptyViewController.m */; };
 		56EB752819D4C60C00D18DF6 /* InitialsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EB752719D4C60C00D18DF6 /* InitialsTableViewController.m */; };
 		56EB752C19D83E1A00D18DF6 /* AcceptedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EB752B19D83E1A00D18DF6 /* AcceptedTableViewController.m */; };
 /* End PBXBuildFile section */
@@ -107,8 +107,8 @@
 		56E4D0D119D20A090005DFDC /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Main.strings; sourceTree = "<group>"; };
 		56E4D0D319D20C830005DFDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		56E4D0D519D20C890005DFDC /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
-		56E9263119DC5B4800033E73 /* EmptyNamesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyNamesViewController.h; sourceTree = "<group>"; };
-		56E9263219DC5B4800033E73 /* EmptyNamesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyNamesViewController.m; sourceTree = "<group>"; };
+		56E9263119DC5B4800033E73 /* EmptyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyViewController.h; sourceTree = "<group>"; };
+		56E9263219DC5B4800033E73 /* EmptyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyViewController.m; sourceTree = "<group>"; };
 		56EB752619D4C60C00D18DF6 /* InitialsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialsTableViewController.h; sourceTree = "<group>"; };
 		56EB752719D4C60C00D18DF6 /* InitialsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialsTableViewController.m; sourceTree = "<group>"; };
 		56EB752A19D83E1A00D18DF6 /* AcceptedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcceptedTableViewController.h; sourceTree = "<group>"; };
@@ -171,8 +171,8 @@
 				5613AE4F19E0A2A600CF1A0E /* FinishedViewController.m */,
 				5634858B19DB4C4400A548BB /* DrawerContainerViewController.h */,
 				5634858C19DB4C4400A548BB /* DrawerContainerViewController.m */,
-				56E9263119DC5B4800033E73 /* EmptyNamesViewController.h */,
-				56E9263219DC5B4800033E73 /* EmptyNamesViewController.m */,
+				56E9263119DC5B4800033E73 /* EmptyViewController.h */,
+				56E9263219DC5B4800033E73 /* EmptyViewController.m */,
 				56EB752A19D83E1A00D18DF6 /* AcceptedTableViewController.h */,
 				56EB752B19D83E1A00D18DF6 /* AcceptedTableViewController.m */,
 				5691AE9D19C4564A00C1550F /* SettingsTableViewController.h */,
@@ -448,7 +448,7 @@
 				5613AE4C19DF4B9200CF1A0E /* SelectionViewController.m in Sources */,
 				56E4D0D019D0D8E70005DFDC /* Language.m in Sources */,
 				56EB752C19D83E1A00D18DF6 /* AcceptedTableViewController.m in Sources */,
-				56E9263319DC5B4800033E73 /* EmptyNamesViewController.m in Sources */,
+				56E9263319DC5B4800033E73 /* EmptyViewController.m in Sources */,
 				5634859019DB528C00A548BB /* CustomContainerSegue.m in Sources */,
 				561ECCDB19CA375E00814D62 /* LanguagesTableViewController.m in Sources */,
 				561EA9E51A12A1CA007F5AE7 /* StatusView.m in Sources */,

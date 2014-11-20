@@ -1,5 +1,5 @@
 //
-//  EmptyNamesViewController.h
+//  EmptyViewController.h
 //  BabyName
 //
 //  Created by Massimo Peri on 01/10/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EmptyNamesViewController : UIViewController
+@interface EmptyViewController : UIViewController
 
 @end

@@ -1,18 +1,18 @@
 //
-//  EmptyNamesViewController.m
+//  EmptyViewController.m
 //  BabyName
 //
 //  Created by Massimo Peri on 01/10/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "EmptyNamesViewController.h"
+#import "EmptyViewController.h"
 
-@interface EmptyNamesViewController ()
+@interface EmptyViewController ()
 
 @end
 
-@implementation EmptyNamesViewController
+@implementation EmptyViewController
 
 - (void)viewDidLoad
 {

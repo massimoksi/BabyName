@@ -389,10 +389,10 @@
             </objects>
             <point key="canvasLocation" x="2250" y="-807"/>
         </scene>
-        <!--Empty Names View Controller-->
+        <!--Empty View Controller-->
         <scene sceneID="aCK-fk-oZQ">
             <objects>
-                <viewController storyboardIdentifier="EmptyNamesVC" id="gZu-bt-hWu" customClass="EmptyNamesViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EmptyNamesVC" id="gZu-bt-hWu" customClass="EmptyViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Q1L-4H-XWh"/>
                         <viewControllerLayoutGuide type="bottom" id="2ke-et-oT7"/>
@@ -401,8 +401,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No name selected yet." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x4g-vW-1Tm">
-                                <rect key="frame" x="44" y="289" width="556" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No name selected yet." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bg-eK-FJH">
+                                <rect key="frame" x="16" y="289" width="568" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -410,15 +410,15 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="x4g-vW-1Tm" firstAttribute="width" secondItem="tDj-WU-mCT" secondAttribute="width" constant="-44" id="7o2-pX-ezF"/>
-                            <constraint firstItem="x4g-vW-1Tm" firstAttribute="leading" secondItem="tDj-WU-mCT" secondAttribute="leadingMargin" constant="28" id="QsN-8b-qpK"/>
-                            <constraint firstAttribute="centerY" secondItem="x4g-vW-1Tm" secondAttribute="centerY" id="YbJ-bB-C4k"/>
+                            <constraint firstAttribute="centerY" secondItem="7Bg-eK-FJH" secondAttribute="centerY" constant="0.5" id="7NU-fd-9Kw"/>
+                            <constraint firstItem="7Bg-eK-FJH" firstAttribute="leading" secondItem="tDj-WU-mCT" secondAttribute="leadingMargin" id="nrO-y2-eLB"/>
+                            <constraint firstItem="7Bg-eK-FJH" firstAttribute="trailing" secondItem="tDj-WU-mCT" secondAttribute="trailingMargin" id="oz8-bh-yFJ"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L9f-CB-8ht" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2250" y="1409"/>
+            <point key="canvasLocation" x="2250" y="1407"/>
         </scene>
         <!--Accepted Table View Controller-->
         <scene sceneID="jI6-oA-IgJ">
@@ -971,7 +971,7 @@
                     </view>
                     <toolbarItems/>
                     <connections>
-                        <segue destination="gZu-bt-hWu" kind="custom" identifier="ShowEmptyNamesSegue" customClass="CustomContainerSegue" id="QoI-zQ-eNm"/>
+                        <segue destination="gZu-bt-hWu" kind="custom" identifier="ContainEmptySegue" customClass="CustomContainerSegue" id="QoI-zQ-eNm"/>
                         <segue destination="omo-S7-zyD" kind="custom" identifier="ContainAcceptedSegue" customClass="CustomContainerSegue" id="6YA-WK-N1U"/>
                     </connections>
                 </viewController>
