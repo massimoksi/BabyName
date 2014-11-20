@@ -1,25 +1,30 @@
 //
-//  EmptyNamesViewController.m
+//  EmptyViewController.m
 //  BabyName
 //
 //  Created by Massimo Peri on 01/10/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "EmptyNamesViewController.h"
+#import "EmptyViewController.h"
 
-@interface EmptyNamesViewController ()
+@interface EmptyViewController ()
 
 @end
 
-@implementation EmptyNamesViewController
+@implementation EmptyViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    // It's not possible to make the view transparent in Storyboard because of the use of white labels.
+    self.view.backgroundColor = [UIColor clearColor];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

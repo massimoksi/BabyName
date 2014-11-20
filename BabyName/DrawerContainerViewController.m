@@ -10,12 +10,12 @@
 
 #import "Constants.h"
 #import "Suggestion.h"
-#import "EmptyNamesViewController.h"
-#import "AcceptedNamesViewController.h"
+#import "EmptyViewController.h"
+#import "AcceptedTableViewController.h"
 
 
-static NSString * const kShowEmptyNamesSegueID    = @"ShowEmptyNamesSegue";
-static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
+static NSString * const kContainEmptySegueID    = @"ContainEmptySegue";
+static NSString * const kContainAcceptedSegueID = @"ContainAcceptedSegue";
 
 
 @interface DrawerContainerViewController () <AcceptedNamesViewDataSource, AcceptedNamesViewDelegate>
@@ -83,12 +83,12 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
 
         if (self.acceptedNames.count == 0) {
             // Load the view controller to handle empty state.
-            [self performSegueWithIdentifier:kShowEmptyNamesSegueID
+            [self performSegueWithIdentifier:kContainEmptySegueID
                                       sender:self];
         }
         else {
             // Load the view controller to handle the list of accepted names.
-            [self performSegueWithIdentifier:kShowAcceptedNamesSegueID
+            [self performSegueWithIdentifier:kContainAcceptedSegueID
                                       sender:self];
         }
     }
@@ -114,27 +114,27 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 
-    if ([[segue identifier] isEqualToString:kShowEmptyNamesSegueID]) {
+    if ([[segue identifier] isEqualToString:kContainEmptySegueID]) {
         if (self.childViewControllers.count != 0) {
-            if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[EmptyNamesViewController class]]) {
-                EmptyNamesViewController *viewController = segue.destinationViewController;
+            if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[EmptyViewController class]]) {
+                EmptyViewController *viewController = segue.destinationViewController;
 
                 [self swapFromViewController:[self.childViewControllers objectAtIndex:0]
                             toViewController:viewController];
             }
         }
         else {
-            EmptyNamesViewController *viewController = segue.destinationViewController;
+            EmptyViewController *viewController = segue.destinationViewController;
         
             [self addChildViewController:viewController];
             [self.view addSubview:viewController.view];
             [viewController didMoveToParentViewController:self];
         }
     }
-    else if ([[segue identifier] isEqualToString:kShowAcceptedNamesSegueID]) {
+    else if ([[segue identifier] isEqualToString:kContainAcceptedSegueID]) {
         if (self.childViewControllers.count != 0) {
-            if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[AcceptedNamesViewController class]]) {
-                AcceptedNamesViewController *viewController = segue.destinationViewController;
+            if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[AcceptedTableViewController class]]) {
+                AcceptedTableViewController *viewController = segue.destinationViewController;
                 viewController.dataSource = self;
                 viewController.delegate = self;
 
@@ -143,7 +143,7 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
             }
         }
         else {
-            AcceptedNamesViewController *viewController = segue.destinationViewController;
+            AcceptedTableViewController *viewController = segue.destinationViewController;
             viewController.dataSource = self;
             viewController.delegate = self;
         
@@ -241,7 +241,7 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
     else {
         [self.acceptedNames removeObjectAtIndex:index];
         if (self.acceptedNames.count == 0) {
-            [self performSegueWithIdentifier:kShowEmptyNamesSegueID
+            [self performSegueWithIdentifier:kContainEmptySegueID
                                       sender:self];
         }
         

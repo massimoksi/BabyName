@@ -117,8 +117,10 @@
                                      forDirection:MSDynamicsDrawerDirectionRight];
     [drawerViewController setRevealWidth:CGRectGetWidth([[UIScreen mainScreen] bounds]) - kPaneOverlapWidth
                             forDirection:MSDynamicsDrawerDirectionRight];
-    [drawerViewController addStylersFromArray:@[[MSDynamicsDrawerShadowStyler styler]]
+    [drawerViewController addStylersFromArray:@[[MSDynamicsDrawerFadeStyler styler], [MSDynamicsDrawerResizeStyler styler]]
                                  forDirection:MSDynamicsDrawerDirectionRight];
+//    [drawerViewController addStylersFromArray:@[[MSDynamicsDrawerShadowStyler styler]]
+//                                 forDirection:MSDynamicsDrawerDirectionRight];
 
     return YES;
 }

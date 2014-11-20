@@ -1,12 +1,12 @@
 //
-//  AcceptedNamesViewController.m
+//  AcceptedTableViewController.m
 //  BabyName
 //
 //  Created by Massimo Peri on 28/09/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "AcceptedNamesViewController.h"
+#import "AcceptedTableViewController.h"
 
 #import "MGSwipeButton.h"
 
@@ -16,19 +16,20 @@
 #import "DrawerContainerViewController.h"
 
 
-@interface AcceptedNamesViewController () <UITableViewDataSource, UITableViewDelegate, MGSwipeTableCellDelegate>
-
-@property (nonatomic, weak) IBOutlet UITableView *tableView;
+@interface AcceptedTableViewController () <MGSwipeTableCellDelegate>
 
 @end
 
 
-@implementation AcceptedNamesViewController
+@implementation AcceptedTableViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    // It's not possible to make the view transparent in Storyboard because of the use of white labels.
+    self.tableView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -67,6 +68,11 @@
     cell.delegate = self;
     
     return cell;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    return NSLocalizedString(@"Swipe right to select your preferred name.\rSwipe left to reject a name.", @"Table view: footer.");
 }
 
 #pragma mark - Table view delegate
