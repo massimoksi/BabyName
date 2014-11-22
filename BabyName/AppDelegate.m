@@ -112,7 +112,6 @@
 
     DrawerContainerViewController *containerViewController = [[UIStoryboard storyboardWithName:@"Main"
                                                                                         bundle:nil] instantiateViewControllerWithIdentifier:@"DrawerContainerVC"];
-    containerViewController.managedObjectContext = self.managedObjectContext;
     [drawerViewController setDrawerViewController:containerViewController
                                      forDirection:MSDynamicsDrawerDirectionRight];
     [drawerViewController setRevealWidth:CGRectGetWidth([[UIScreen mainScreen] bounds]) - kPaneOverlapWidth
@@ -122,6 +121,7 @@
 
     // --- temp
     [[SuggestionsManager sharedManager] setManagedObjectContext:self.managedObjectContext];
+    [[SuggestionsManager sharedManager] update];
     // ---
     
     return YES;

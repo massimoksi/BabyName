@@ -201,17 +201,17 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"((gender & %d) != 0) AND ((language & %d) != 0)", genders, languages];
     [fetchRequest setPredicate:predicate];
     
-    // Sort items alphabetically.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"initial"
-                                                                   ascending:YES];
-    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    // TODO: Sort items alphabetically.
+//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"initial"
+//                                                                   ascending:YES];
+//    [fetchRequest setSortDescriptors:@[sortDescriptor]];
     
-    NSError *error = nil;
+    NSError *error;
     NSArray *fetchedItems = [self.managedObjectContext executeFetchRequest:fetchRequest
                                                                      error:&error];
-    if (!self.suggestions) {
+    if (!fetchedItems) {
 #if DEBUG
-        NSLog(@"Error: %@", [error localizedDescription]);
+        NSLog(@"Error: %@", [error userInfo]);
 #endif
 
         return NO;

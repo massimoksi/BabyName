@@ -12,6 +12,6 @@
 
 @interface DrawerContainerViewController : UIViewController
 
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+- (void)selectChildViewControlller;
 
 @end
