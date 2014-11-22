@@ -23,6 +23,7 @@
 		5634858D19DB4C4400A548BB /* DrawerContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5634858C19DB4C4400A548BB /* DrawerContainerViewController.m */; };
 		5634859019DB528C00A548BB /* CustomContainerSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5634858F19DB528C00A548BB /* CustomContainerSegue.m */; };
 		563B6B8919ACB83800F9EF37 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 563B6B8819ACB83800F9EF37 /* MainViewController.m */; };
+		56500E821A20C06E00AA180A /* SuggestionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 56500E811A20C06E00AA180A /* SuggestionsManager.m */; };
 		5691AE9F19C4564A00C1550F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5691AE9E19C4564A00C1550F /* SettingsTableViewController.m */; };
 		5691AEA219C4800900C1550F /* GendersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5691AEA119C4800900C1550F /* GendersTableViewController.m */; };
 		5691AEA819C56EF100C1550F /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5691AEA719C56EF100C1550F /* Constants.m */; };
@@ -81,6 +82,8 @@
 		5634858F19DB528C00A548BB /* CustomContainerSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomContainerSegue.m; sourceTree = "<group>"; };
 		563B6B8719ACB83700F9EF37 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		563B6B8819ACB83800F9EF37 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		56500E801A20C06E00AA180A /* SuggestionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionsManager.h; sourceTree = "<group>"; };
+		56500E811A20C06E00AA180A /* SuggestionsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionsManager.m; sourceTree = "<group>"; };
 		5691AE9D19C4564A00C1550F /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
 		5691AE9E19C4564A00C1550F /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
 		5691AEA019C4800900C1550F /* GendersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GendersTableViewController.h; sourceTree = "<group>"; };
@@ -213,6 +216,15 @@
 			name = Configurations;
 			sourceTree = "<group>";
 		};
+		56500E7F1A20C04900AA180A /* Singletons */ = {
+			isa = PBXGroup;
+			children = (
+				56500E801A20C06E00AA180A /* SuggestionsManager.h */,
+				56500E811A20C06E00AA180A /* SuggestionsManager.m */,
+			);
+			name = Singletons;
+			sourceTree = "<group>";
+		};
 		56C6479619AC62FF005B1D46 = {
 			isa = PBXGroup;
 			children = (
@@ -247,6 +259,7 @@
 				5636493919FBB5BA00FD8870 /* Models */,
 				5636493C19FBB62900FD8870 /* Views */,
 				5636493B19FBB5F100FD8870 /* Controllers */,
+				56500E7F1A20C04900AA180A /* Singletons */,
 				5636493A19FBB5D500FD8870 /* Segues */,
 				56C647A219AC62FF005B1D46 /* Supporting Files */,
 			);
@@ -459,6 +472,7 @@
 				561EA9FF1A1559B4007F5AE7 /* CreditsTableViewController.m in Sources */,
 				56EB752819D4C60C00D18DF6 /* InitialsTableViewController.m in Sources */,
 				561EAA021A155DAA007F5AE7 /* Acknowledgement.m in Sources */,
+				56500E821A20C06E00AA180A /* SuggestionsManager.m in Sources */,
 				561EAA051A156957007F5AE7 /* LicenseViewController.m in Sources */,
 				5691AEA819C56EF100C1550F /* Constants.m in Sources */,
 				56C647A519AC62FF005B1D46 /* main.m in Sources */,

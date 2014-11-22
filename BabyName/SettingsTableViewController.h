@@ -7,13 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreData/CoreData.h>
 
 #import "StaticDataTableViewController.h"
 
 
 @interface SettingsTableViewController : StaticDataTableViewController
-
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 @end

@@ -9,8 +9,8 @@
 #import "SettingsTableViewController.h"
 
 #import "Constants.h"
-#import "Suggestion.h"
 #import "Language.h"
+#import "SuggestionsManager.h"
 #import "GendersTableViewController.h"
 #import "LanguagesTableViewController.h"
 #import "InitialsTableViewController.h"
@@ -345,23 +345,7 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
 
 - (void)resetAllSelections
 {
-    NSManagedObjectContext *context = self.managedObjectContext;
-
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    fetchRequest.entity = [NSEntityDescription entityForName:@"Suggestion"
-                                      inManagedObjectContext:context];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"state > %d", kSelectionStateMaybe];
-
-    NSError *error;
-    NSArray *allModifiedSuggestions = [context executeFetchRequest:fetchRequest
-                                                             error:&error];
-    if (allModifiedSuggestions) {
-        for (Suggestion *modifiedSuggestion in allModifiedSuggestions) {
-            modifiedSuggestion.state = kSelectionStateMaybe;
-        }
-    }
-
-    if (![context save:&error]) {
+    if (![[SuggestionsManager sharedManager] reset]) {
         [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
     else {

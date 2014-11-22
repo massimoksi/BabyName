@@ -11,7 +11,7 @@
 #import "MSDynamicsDrawerViewController.h"
 
 #import "Constants.h"
-#import "Suggestion.h"
+#import "SuggestionsManager.h"
 #import "MainViewController.h"
 #import "DrawerContainerViewController.h"
 
@@ -119,9 +119,11 @@
                             forDirection:MSDynamicsDrawerDirectionRight];
     [drawerViewController addStylersFromArray:@[[MSDynamicsDrawerFadeStyler styler], [MSDynamicsDrawerResizeStyler styler]]
                                  forDirection:MSDynamicsDrawerDirectionRight];
-//    [drawerViewController addStylersFromArray:@[[MSDynamicsDrawerShadowStyler styler]]
-//                                 forDirection:MSDynamicsDrawerDirectionRight];
 
+    // --- temp
+    [[SuggestionsManager sharedManager] setManagedObjectContext:self.managedObjectContext];
+    // ---
+    
     return YES;
 }
 
