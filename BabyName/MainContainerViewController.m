@@ -9,7 +9,7 @@
 #import "MainContainerViewController.h"
 
 #import "Constants.h"
-#import "Suggestion.h"
+#import "SuggestionsManager.h"
 #import "SelectionViewController.h"
 #import "FinishedViewController.h"
 
@@ -91,16 +91,18 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
         if (self.childViewControllers.count != 0) {
             if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[SelectionViewController class]]) {
                 SelectionViewController *viewController = segue.destinationViewController;
+                viewController.containerViewController = self;
                 viewController.dataSource = self;
                 viewController.delegate = self;
 
-                [self swapFromViewController:[self.childViewControllers objectAtIndex:0]
+                [self swapFromViewController:self.childViewControllers.firstObject
                             toViewController:viewController];
             }
             else {
-                SelectionViewController *viewController = [self.childViewControllers objectAtIndex:0];
+                SelectionViewController *viewController = self.childViewControllers.firstObject;
+                viewController.containerViewController = self;
                 if (self.updateSelection) {
-                    [viewController configureNameLabel];
+                    [viewController configureNameLabel]; // TODO: move somewhere else.
                 }
             }
         }
@@ -119,7 +121,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
             if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[FinishedViewController class]]) {
                 FinishedViewController *viewController = segue.destinationViewController;
                 
-                [self swapFromViewController:[self.childViewControllers objectAtIndex:0]
+                [self swapFromViewController:self.childViewControllers.firstObject
                             toViewController:viewController];
             }
         }
@@ -255,18 +257,6 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     }
 }
 
-- (void)loadChildViewController
-{
-    if (self.suggestions.count) {
-        [self performSegueWithIdentifier:kShowSelectionSegueID
-                                  sender:self];
-    }
-    else {
-        [self performSegueWithIdentifier:kShowFinishedSegueID
-                                  sender:self];
-    }
-}
-
 - (void)swapFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController
 {
     [self addChildViewController:toViewController];
@@ -299,29 +289,25 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
                      completion:nil];
 }
 
+#pragma mark - Container view controller
+
+- (void)loadChildViewController
+{
+    if ([[SuggestionsManager sharedManager] fetchedSuggestions].count) {
+        [self performSegueWithIdentifier:kShowSelectionSegueID
+                                  sender:self];
+    }
+    else {
+        [self performSegueWithIdentifier:kShowFinishedSegueID
+                                  sender:self];
+    }
+}
+
 #pragma mark - Selection view data source
 
 - (BOOL)shouldReloadName
 {
     return self.updateSelection;
-}
-
-- (Suggestion *)randomSuggestion
-{
-    if (self.suggestions.count == 1) {
-        self.currentIndex = 0;
-    }
-    else {
-        self.currentIndex = arc4random() % self.suggestions.count;
-    }
-    Suggestion *currentSuggestion = [self.suggestions objectAtIndex:self.currentIndex];
-#ifdef DEBUG
-    NSLog(@"Current name: %@", currentSuggestion.name);
-#endif
-    
-    self.updateSelection = NO;
-    
-    return currentSuggestion;
 }
 
 #pragma mark - Selection view delegate

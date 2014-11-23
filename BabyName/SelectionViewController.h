@@ -8,18 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Suggestion.h"
+#import "EmbeddedViewController.h"
+
+#import "Suggestion.h"  // TODO: remove.
 
 @protocol SelectionViewDataSource;
 @protocol SelectionViewDelegate;
 
 
-@interface SelectionViewController : UIViewController
+@interface SelectionViewController : UIViewController <EmbeddedViewController>
 
-@property (nonatomic, weak) id<SelectionViewDataSource> dataSource;
-@property (nonatomic, weak) id<SelectionViewDelegate> delegate;
+@property (nonatomic, weak) id<SelectionViewDataSource> dataSource;     // TODO: remove.
+@property (nonatomic, weak) id<SelectionViewDelegate> delegate;         // TODO: remove.
 
-- (void)configureNameLabel;
+- (void)configureNameLabel;                                             // TODO: remove.
 
 @end
 
@@ -27,8 +29,6 @@
 @protocol SelectionViewDataSource <NSObject>
 
 - (BOOL)shouldReloadName;
-
-- (Suggestion *)randomSuggestion;
 
 @end
 

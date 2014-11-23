@@ -8,11 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "DrawerContainerViewController.h"
+#import "EmbeddedViewController.h"
 
 
-@interface AcceptedTableViewController : UITableViewController
-
-@property (nonatomic, weak) DrawerContainerViewController * containerViewController;
+@interface AcceptedTableViewController : UITableViewController <EmbeddedViewController>
 
 @end

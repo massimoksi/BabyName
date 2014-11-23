@@ -9,6 +9,7 @@
 #import "SelectionViewController.h"
 
 #import "Constants.h"
+#import "SuggestionsManager.h"
 #import "StatusView.h"
 
 
@@ -30,6 +31,8 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 @property (nonatomic) BOOL panningEnabled;
 @property (nonatomic) CGPoint panningOrigin;
 @property (nonatomic) PanningState panningState;
+
+@property (nonatomic, strong) Suggestion *currentSuggestion;
 
 @property (nonatomic, strong) UIDynamicAnimator *animator;
 @property (nonatomic, strong) UIDynamicItemBehavior *itemBehavior;
@@ -75,6 +78,7 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     
+    self.currentSuggestion = nil;
     self.animator = nil;
     self.itemBehavior = nil;
 }
@@ -198,7 +202,12 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                               position:self.panningOrigin
                             completion:^(BOOL finished){
                                 if (finished) {
-                                    [self.delegate acceptName];
+                                    if (![[SuggestionsManager sharedManager] acceptSuggestion:self.currentSuggestion]) {
+                                        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+                                    }
+                                    else {
+                                        [self.containerViewController loadChildViewController];
+                                    }
                                 }
                             }];
             }
@@ -210,7 +219,12 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                               position:self.panningOrigin
                             completion:^(BOOL finished){
                                 if (finished) {
-                                    [self.delegate rejectName];
+                                    if (![[SuggestionsManager sharedManager] rejectSuggestion:self.currentSuggestion]) {
+                                        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+                                    }
+                                    else {
+                                        [self.containerViewController loadChildViewController];
+                                    }
                                 }
                             }];
             }
@@ -222,13 +236,13 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 
 - (void)configureNameLabel
 {
-    Suggestion *suggestion = [self.dataSource randomSuggestion];
+    self.currentSuggestion = [[SuggestionsManager sharedManager] randomSuggestion];
     
-    self.nameLabel.text = suggestion.name;
+    self.nameLabel.text = self.currentSuggestion.name;
     self.nameLabel.center = self.panningOrigin;
     
     // Disable panning if the suggestion received by the data source is the preferred one.
-    self.panningEnabled = (suggestion.state == kSelectionStatePreferred) ? NO : YES;
+    self.panningEnabled = (self.currentSuggestion.state == kSelectionStatePreferred) ? NO : YES;
 
     [UIView animateWithDuration:0.1
                      animations:^{
@@ -262,6 +276,26 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
         }
     }
 }
+
+- (void)showAlertWithMessage:(NSString *)message
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", @"Alert: title.")
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"Alert: accept button.")
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil];
+    [alertController addAction:acceptAction];
+    
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
+}
+
+#pragma mark - Embedded view controller
+
+@synthesize containerViewController;
 
 #pragma mark - Dynamics animator delegate
 

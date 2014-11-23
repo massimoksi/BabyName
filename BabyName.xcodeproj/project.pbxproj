@@ -94,6 +94,8 @@
 		56AE21E819E3295200302C57 /* SearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
 		56AE21EC19E33D8400302C57 /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
 		56AE21ED19E33D8400302C57 /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
+		56BA52AA1A21F3BB00866785 /* EmbeddedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmbeddedViewController.h; sourceTree = "<group>"; };
+		56BA52AC1A21F57B00866785 /* ContainerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContainerViewController.h; sourceTree = "<group>"; };
 		56C6479F19AC62FF005B1D46 /* BabyName.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyName.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56C647A319AC62FF005B1D46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		56C647A419AC62FF005B1D46 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -225,6 +227,15 @@
 			name = Singletons;
 			sourceTree = "<group>";
 		};
+		56BA52AB1A21F41F00866785 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				56BA52AA1A21F3BB00866785 /* EmbeddedViewController.h */,
+				56BA52AC1A21F57B00866785 /* ContainerViewController.h */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
 		56C6479619AC62FF005B1D46 = {
 			isa = PBXGroup;
 			children = (
@@ -260,6 +271,7 @@
 				5636493C19FBB62900FD8870 /* Views */,
 				5636493B19FBB5F100FD8870 /* Controllers */,
 				56500E7F1A20C04900AA180A /* Singletons */,
+				56BA52AB1A21F41F00866785 /* Protocols */,
 				5636493A19FBB5D500FD8870 /* Segues */,
 				56C647A219AC62FF005B1D46 /* Supporting Files */,
 			);

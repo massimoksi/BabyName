@@ -38,7 +38,7 @@ static NSString * const kContainAcceptedSegueID = @"ContainAcceptedSegue";
     [super viewWillAppear:animated];
     
     self.visible = YES;
-    [self selectChildViewControlller];
+    [self loadChildViewController];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -99,21 +99,6 @@ static NSString * const kContainAcceptedSegueID = @"ContainAcceptedSegue";
     }
 }
 
-#pragma mark - Actions
-
-- (void)selectChildViewControlller
-{
-    // Load the contained view controller depending on the number of accepted suggestions.
-    if ([[SuggestionsManager sharedManager] acceptedSuggestions].count) {
-        [self performSegueWithIdentifier:kContainAcceptedSegueID
-                                  sender:self];
-    }
-    else {
-        [self performSegueWithIdentifier:kContainEmptySegueID
-                                  sender:self];
-    }
-}
-
 #pragma mark - Private methods
 
 - (void)swapFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController
@@ -146,6 +131,21 @@ static NSString * const kContainAcceptedSegueID = @"ContainAcceptedSegue";
     [self presentViewController:alertController
                        animated:YES
                      completion:nil];
+}
+
+#pragma mark - Container view controller
+
+- (void)loadChildViewController
+{
+    // Load the contained view controller depending on the number of accepted suggestions.
+    if ([[SuggestionsManager sharedManager] acceptedSuggestions].count) {
+        [self performSegueWithIdentifier:kContainAcceptedSegueID
+                                  sender:self];
+    }
+    else {
+        [self performSegueWithIdentifier:kContainEmptySegueID
+                                  sender:self];
+    }
 }
 
 @end
