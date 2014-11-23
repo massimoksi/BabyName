@@ -35,5 +35,6 @@
 - (BOOL)reset;
 - (BOOL)populate;
 - (BOOL)save;
+- (BOOL)validatePreferredSuggestion;
 
 @end

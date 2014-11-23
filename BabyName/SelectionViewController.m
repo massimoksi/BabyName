@@ -242,8 +242,20 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 
 - (void)updateSelection:(NSNotification *)notification
 {
+    SuggestionsManager *suggestionsManager = [SuggestionsManager sharedManager];
+    
     if ([notification.name isEqualToString:kFetchingPreferencesChangedNotification]) {
-        [[SuggestionsManager sharedManager] update];
+        if ([suggestionsManager preferredSuggestion]) {
+            if (![suggestionsManager validatePreferredSuggestion]) {
+                [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+            }
+            else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:kPreferredSuggestionChangedNotification
+                                                                    object:self];
+            }
+        }
+        
+        [suggestionsManager update];
     }
     
     [self configureNameLabel];

@@ -83,7 +83,7 @@
     NSArray *preferredSuggestions = [self.suggestions filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"state = %d", kSelectionStatePreferred]];
 
     if (preferredSuggestions.count) {
-        return [preferredSuggestions firstObject];
+        return preferredSuggestions.firstObject;
     }
     else {
         return nil;
@@ -383,6 +383,62 @@
     NSLog(@"Database: saved.");
 #endif
 
+    return YES;
+}
+
+- (BOOL)validatePreferredSuggestion
+{
+    Suggestion *preferredSuggestion = [self preferredSuggestion];
+        
+#if DEBUG
+    NSLog(@"Database: validating %@.", preferredSuggestion.name);
+#endif
+          
+    // Get preferences from user defaults.
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSInteger genders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
+    NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
+    
+    BOOL invalid = NO;
+    if ((preferredSuggestion.gender & genders) && (preferredSuggestion.language & languages)) {
+        NSArray *initials = [userDefaults stringArrayForKey:kSettingsPreferredInitialsKey];
+        if (initials) {
+            for (NSString *initial in initials) {
+                if ([preferredSuggestion.initial isEqualToString:initial]) {
+                    invalid = NO;
+                    break;
+                }
+                else {
+                    invalid = YES;
+                }
+            }
+        }
+    }
+    else {
+        invalid = YES;
+    }
+    
+    if (invalid) {
+#if DEBUG
+        NSLog(@"Database: %@ is not valid.", preferredSuggestion.name);
+#endif
+        
+        NSError *error;
+        preferredSuggestion.state = kSelectionStateAccepted;
+        if (![self.managedObjectContext save:&error]) {
+#if DEBUG
+            NSLog(@"Error: %@", [error localizedDescription]);
+#endif
+            
+            return NO;
+        }
+    }
+    else {
+#if DEBUG
+        NSLog(@"Database: %@ not valid.", preferredSuggestion.name);
+#endif
+    }
+    
     return YES;
 }
 

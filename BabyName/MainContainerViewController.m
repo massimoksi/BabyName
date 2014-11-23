@@ -87,55 +87,6 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
 
 #pragma mark - Private methods
 
-// TODO: move to selection view controller.
-- (void)validatePreferredSuggestion
-{
-    NSError *error;
-    BOOL invalid = false;
-
-    // If the array of fetched suggestions contains only 1 element, it is "safe enough" to consider it as the preferred one.
-    //  1. Check gender and languages.
-    //  2. Check initials if gender and languages are matching.
-    //  3. Unprefer the suggestion if none at least one of the criteria is not matching.
-    if (self.suggestions.count == 1) {
-        Suggestion *preferredSuggestion = [self.suggestions objectAtIndex:0];
-
-        // Get preferences from user defaults.
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSInteger genders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
-        NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
-
-        if ((preferredSuggestion.gender & genders) && (preferredSuggestion.language & languages)) {
-            NSArray *initials = [userDefaults stringArrayForKey:kSettingsPreferredInitialsKey];
-            if (initials) {
-                for (NSString *initial in initials) {
-                    if ([preferredSuggestion.initial isEqualToString:initial]) {
-                        invalid = NO;
-                        break;
-                    }
-                    else {
-                        invalid = YES;
-                    }
-                }
-            }
-        }
-        else {
-            invalid = YES;
-        }
-
-        if (invalid) {
-            preferredSuggestion.state = kSelectionStateAccepted;
-            if (![self.managedObjectContext save:&error]) {
-                [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
-            }
-            else {
-                [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectWasUnpreferredNotification
-                                                                    object:self];
-            }
-        }
-    }
-}
-
 - (void)swapFromViewController:(UIViewController *)fromViewController toViewController:(UIViewController *)toViewController
 {
     [self addChildViewController:toViewController];
@@ -150,22 +101,6 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
                                 [toViewController didMoveToParentViewController:self];
                                 [fromViewController removeFromParentViewController];
                             }];
-}
-
-- (void)showAlertWithMessage:(NSString *)message
-{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", @"Alert: title.")
-                                                                             message:message
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-
-    UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"Alert: accept button.")
-                                                          style:UIAlertActionStyleDefault
-                                                        handler:nil];
-    [alertController addAction:acceptAction];
-
-    [self presentViewController:alertController
-                       animated:YES
-                     completion:nil];
 }
 
 #pragma mark - Container view controller
