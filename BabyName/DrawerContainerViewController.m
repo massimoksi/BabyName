@@ -63,7 +63,7 @@ static NSString * const kContainAcceptedSegueID = @"ContainAcceptedSegue";
 
     if ([[segue identifier] isEqualToString:kContainEmptySegueID]) {
         if (self.childViewControllers.count != 0) {
-            if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[EmptyViewController class]]) {
+            if (![self.childViewControllers.firstObject isKindOfClass:[EmptyViewController class]]) {
                 EmptyViewController *viewController = segue.destinationViewController;
 
                 [self swapFromViewController:self.childViewControllers.firstObject
@@ -80,7 +80,7 @@ static NSString * const kContainAcceptedSegueID = @"ContainAcceptedSegue";
     }
     else if ([[segue identifier] isEqualToString:kContainAcceptedSegueID]) {
         if (self.childViewControllers.count != 0) {
-            if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[AcceptedTableViewController class]]) {
+            if (![self.childViewControllers.firstObject isKindOfClass:[AcceptedTableViewController class]]) {
                 AcceptedTableViewController *viewController = segue.destinationViewController;
                 viewController.containerViewController = self;
                 

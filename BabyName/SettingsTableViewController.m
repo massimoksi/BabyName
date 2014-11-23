@@ -134,7 +134,7 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
         self.initialsLabel.text = @" ";
     }
     else if (preferredInitialsCount == 1) {
-        self.initialsLabel.text = [preferredInitials objectAtIndex:0];
+        self.initialsLabel.text = preferredInitials.firstObject;
     }
     else if (preferredInitialsCount > 8) {
         self.initialsLabel.text = [NSString stringWithFormat:@"%tu", preferredInitialsCount];
