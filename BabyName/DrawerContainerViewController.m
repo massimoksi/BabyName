@@ -62,7 +62,7 @@ static NSString * const kContainAcceptedSegueID = @"ContainAcceptedSegue";
     // Pass the selected object to the new view controller.
 
     if ([[segue identifier] isEqualToString:kContainEmptySegueID]) {
-        if (self.childViewControllers.count != 0) {
+        if (self.childViewControllers.count) {
             if (![self.childViewControllers.firstObject isKindOfClass:[EmptyViewController class]]) {
                 EmptyViewController *viewController = segue.destinationViewController;
 
@@ -79,7 +79,7 @@ static NSString * const kContainAcceptedSegueID = @"ContainAcceptedSegue";
         }
     }
     else if ([[segue identifier] isEqualToString:kContainAcceptedSegueID]) {
-        if (self.childViewControllers.count != 0) {
+        if (self.childViewControllers.count) {
             if (![self.childViewControllers.firstObject isKindOfClass:[AcceptedTableViewController class]]) {
                 AcceptedTableViewController *viewController = segue.destinationViewController;
                 viewController.containerViewController = self;
