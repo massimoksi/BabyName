@@ -151,7 +151,7 @@
                 if ([[SuggestionsManager sharedManager] preferredSuggestion]) {
                     // Prefer the currently selected name.
                     if ([[SuggestionsManager sharedManager] preferSuggestion:swipedSuggestion]) {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectWasPreferredNotification
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kPreferredSuggestionChangedNotification
                                                                             object:self];
                         
                         [self.tableView reloadData];
@@ -176,7 +176,7 @@
                                                                          handler:^(UIAlertAction *action){
                                                                              // Prefer the currently selected name.
                                                                              if ([[SuggestionsManager sharedManager] preferSuggestion:swipedSuggestion]) {
-                                                                                 [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectWasPreferredNotification
+                                                                                 [[NSNotificationCenter defaultCenter] postNotificationName:kPreferredSuggestionChangedNotification
                                                                                                                                      object:self];
                                                                                  
                                                                                  [self.tableView reloadData];
@@ -195,7 +195,8 @@
             else {
                 // Unprefer the currently preferred name.
                 if ([[SuggestionsManager sharedManager] unpreferSuggestion:swipedSuggestion]) {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectWasUnpreferredNotification
+                    // TODO: move notification into SuggestionsManager.
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kPreferredSuggestionChangedNotification
                                                                         object:self];
                     
                     [self.tableView reloadData];

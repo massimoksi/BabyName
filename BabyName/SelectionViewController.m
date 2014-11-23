@@ -47,17 +47,25 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter addObserver:self
+                           selector:@selector(updateSelection:)
+                               name:kFetchingPreferencesChangedNotification
+                             object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(updateSelection:)
+                               name:kPreferredSuggestionChangedNotification
+                             object:nil];
+    
     // It's not possible to make the view transparent in Storyboard because of the use of white labels.
     self.view.backgroundColor = [UIColor clearColor];
+    
+    [self configureNameLabel];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
-    if ([self.dataSource shouldReloadName]) {
-        [self configureNameLabel];
-    }
 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.surnameLabel.alpha = ([userDefaults boolForKey:kSettingsShowSurnameKey]) ? 1.0 : 0.0;
@@ -73,12 +81,22 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     self.itemBehavior = [[UIDynamicItemBehavior alloc] initWithItems:@[self.nameLabel]];
 }
 
+- (void)dealloc
+{
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter removeObserver:self
+                                  name:kFetchingPreferencesChangedNotification
+                                object:nil];
+    [notificationCenter removeObserver:self
+                                  name:kPreferredSuggestionChangedNotification
+                                object:nil];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     
-    self.currentSuggestion = nil;
     self.animator = nil;
     self.itemBehavior = nil;
 }
@@ -87,16 +105,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 {
     return YES;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 #pragma mark - Accessors
 
@@ -140,8 +148,6 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
         }
         else {
             panningValid = YES;
-            
-            [self.delegate selectionViewDidBeginPanning];
         }
     }
     else if (recognizer.state == UIGestureRecognizerStateChanged) {
@@ -232,11 +238,27 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     }
 }
 
+#pragma mark - Notification handlers
+
+- (void)updateSelection:(NSNotification *)notification
+{
+    if ([notification.name isEqualToString:kFetchingPreferencesChangedNotification]) {
+        [[SuggestionsManager sharedManager] update];
+    }
+    
+    [self configureNameLabel];
+}
+
 #pragma mark - Private methods
 
 - (void)configureNameLabel
 {
-    self.currentSuggestion = [[SuggestionsManager sharedManager] randomSuggestion];
+    // Check if there's a preferred suggestion.
+    // If not, fetch a random suggestion.
+    self.currentSuggestion = [[SuggestionsManager sharedManager] preferredSuggestion];
+    if (!self.currentSuggestion) {
+        self.currentSuggestion = [[SuggestionsManager sharedManager] randomSuggestion];
+    }
     
     self.nameLabel.text = self.currentSuggestion.name;
     self.nameLabel.center = self.panningOrigin;
@@ -303,10 +325,7 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 {
     [self.animator removeAllBehaviors];
 
-    // Enable panning when animation is finished.
     self.panningEnabled = YES;
-    
-    [self.delegate selectionViewDidEndPanning];
 
     if (self.panningState != kPanningStateIdle) {
         [self configureNameLabel];

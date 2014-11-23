@@ -20,7 +20,9 @@ NSString * const kSettingsDueDateKey           = @"SettingsDueDate";
 NSString * const kFetchedObjectsOutdatedNotification      = @"FetchedObjectsOutdated";
 NSString * const kFetchedObjectWasPreferredNotification   = @"FetchedObjectWasPreferred";
 NSString * const kFetchedObjectWasUnpreferredNotification = @"FetchedObjectWasUnpreferred";
-NSString * const kFetchingPreferencesChangedNotification  = @"FetchingPreferencesChanged";
+
+NSString * const kPreferredSuggestionChangedNotification = @"PreferredSuggestionChanged";
+NSString * const kFetchingPreferencesChangedNotification = @"FetchingPreferencesChanged";
 
 const CGFloat kPaneOverlapWidth = 44.0;
 

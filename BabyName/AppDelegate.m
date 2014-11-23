@@ -82,23 +82,13 @@
 #endif
         }
     }
-
-#if DEBUG
-    NSManagedObjectContext *context = self.managedObjectContext;
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *reqEntity = [NSEntityDescription entityForName:@"Suggestion"
-                                                 inManagedObjectContext:context];
-    [fetchRequest setEntity:reqEntity];
-
-    NSError *error;
-    NSUInteger count = [context countForFetchRequest:fetchRequest
-                                               error:&error];
-    NSLog(@"Database: %tu items found.", count);
-#endif
-
+    // --- temp
+    [[SuggestionsManager sharedManager] setManagedObjectContext:self.managedObjectContext];
+    [[SuggestionsManager sharedManager] update];
+    // ---
+    
     MSDynamicsDrawerViewController *drawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
-    drawerViewController.delegate = self;
     drawerViewController.shouldAlignStatusBarToPaneView = NO;
     drawerViewController.paneDragRequiresScreenEdgePan = YES;
     [drawerViewController registerTouchForwardingClass:[UILabel class]];
@@ -118,11 +108,6 @@
                             forDirection:MSDynamicsDrawerDirectionRight];
     [drawerViewController addStylersFromArray:@[[MSDynamicsDrawerFadeStyler styler], [MSDynamicsDrawerResizeStyler styler]]
                                  forDirection:MSDynamicsDrawerDirectionRight];
-
-    // --- temp
-    [[SuggestionsManager sharedManager] setManagedObjectContext:self.managedObjectContext];
-    [[SuggestionsManager sharedManager] update];
-    // ---
     
     return YES;
 }

@@ -11,7 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "Constants.h"
-#import "Suggestion.h"
+#import "SuggestionsManager.h"
 #import "MainContainerViewController.h"
 #import "SettingsTableViewController.h"
 #import "SearchTableViewController.h"
@@ -41,21 +41,19 @@
                             atIndex:0];
     self.view.layer.masksToBounds = YES;
     
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    [notificationCenter addObserver:self
-                           selector:@selector(updateListButton:)
-                               name:kFetchedObjectWasPreferredNotification
-                             object:nil];
-    [notificationCenter addObserver:self
-                           selector:@selector(updateListButton:)
-                               name:kFetchedObjectWasUnpreferredNotification
-                             object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateListButton:)
+                                                 name:kPreferredSuggestionChangedNotification
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
+    
+    [self updateListButton:nil];
+    
+    // Update the background gradient according to the selected gender.
     NSInteger gender = [[NSUserDefaults standardUserDefaults] integerForKey:kSettingsSelectedGendersKey];
     if (gender == kGenderBitmaskMale) {
         self.backgroundGradientLayer.colors = @[(id)[UIColor colorWithRed:163.0/255.0 green:216.0/255.0 blue:255.0/255.0 alpha:1.0].CGColor,
@@ -76,13 +74,9 @@
 
 - (void)dealloc
 {
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    [notificationCenter removeObserver:self
-                                  name:kFetchedObjectWasPreferredNotification
-                                object:nil];
-    [notificationCenter removeObserver:self
-                                  name:kFetchedObjectWasUnpreferredNotification
-                                object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:kPreferredSuggestionChangedNotification
+                                                  object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -140,7 +134,7 @@
 
 - (void)updateListButton:(NSNotification *)notification
 {
-    if (notification.name == kFetchedObjectWasPreferredNotification) {
+    if ([[SuggestionsManager sharedManager] preferredSuggestion]) {
         [self.listButton setImage:[UIImage imageNamed:@"ListPreferred"]
                          forState:UIControlStateNormal];
     }
@@ -148,14 +142,6 @@
         [self.listButton setImage:[UIImage imageNamed:@"List"]
                          forState:UIControlStateNormal];
     }
-}
-
-#pragma mark - Dynamics drawer view controller delegate
-
-- (BOOL)dynamicsDrawerViewController:(MSDynamicsDrawerViewController *)drawerViewController shouldBeginPanePan:(UIPanGestureRecognizer *)panGestureRecognizer
-{
-    // Inhibit pane pan while animating selection.
-    return self.containerViewController.panningEnabled;
 }
 
 @end
