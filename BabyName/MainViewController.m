@@ -97,11 +97,7 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-    if ([segue.identifier isEqualToString:@"EmbedContainerSegue"]) {
-        self.containerViewController = [segue destinationViewController];
-        self.containerViewController.managedObjectContext = self.managedObjectContext;
-    }
-    else if ([segue.identifier isEqualToString:@"ShowSettingsSegue"]) {
+    if ([segue.identifier isEqualToString:@"ShowSettingsSegue"]) {
         UINavigationController *settingsNavController = [segue destinationViewController];
         settingsNavController.navigationBar.barStyle = UIStatusBarStyleLightContent;
     }

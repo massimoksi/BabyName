@@ -32,8 +32,6 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.panningEnabled = YES;
-    
     [self loadChildViewController];
 }
 
