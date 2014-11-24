@@ -392,11 +392,6 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
         if (![[SuggestionsManager sharedManager] save]) {
             [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
         }
-        else {
-            // TODO: change the name of the notification.
-            [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectsOutdatedNotification
-                                                                object:self];
-        }
     }
     
     // NOTE: return YES to autohide the current swipe buttons.
