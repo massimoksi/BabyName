@@ -11,7 +11,7 @@
 #import "MGSwipeButton.h"
 
 #import "Constants.h"
-#import "Suggestion.h"
+#import "SuggestionsManager.h"
 #import "SearchTableViewCell.h"
 
 
@@ -23,8 +23,6 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
 
 
 @interface SearchTableViewController () <NSFetchedResultsControllerDelegate, UISearchBarDelegate, MGSwipeTableCellDelegate>
-
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @property (nonatomic, strong) UISearchBar *searchBar;
 
@@ -42,6 +40,8 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
+    [SuggestionsManager sharedManager].fetchedResultsController.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -68,6 +68,13 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     [self fetchResults];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+
+    [SuggestionsManager sharedManager].fetchedResultsController = nil;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -75,7 +82,8 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
 
     self.searchBar = nil;
     self.searchString = nil;
-    self.fetchedResultsController = nil;
+
+    [SuggestionsManager sharedManager].fetchedResultsController = nil;
 }
 
 /*
@@ -87,36 +95,6 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     // Pass the selected object to the new view controller.
 }
 */
-
-#pragma mark - Accessors
-
-- (NSFetchedResultsController *)fetchedResultsController
-{
-    // Lazily load the fetched results controller.
-    if (_fetchedResultsController) {
-        return _fetchedResultsController;
-    }
-
-    NSManagedObjectContext *context = self.managedObjectContext;
-
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    fetchRequest.fetchBatchSize = 20;
-    fetchRequest.entity = [NSEntityDescription entityForName:@"Suggestion"
-                                      inManagedObjectContext:context];
-
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name"
-                                                                     ascending:YES
-                                                                      selector:@selector(caseInsensitiveCompare:)];
-    [fetchRequest setSortDescriptors:@[sortDescriptor]];
-    
-    _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                    managedObjectContext:context
-                                                                      sectionNameKeyPath:@"initial"
-                                                                               cacheName:nil];
-    _fetchedResultsController.delegate = self;
-
-    return _fetchedResultsController;
-}
 
 #pragma mark - Actions
 
@@ -147,6 +125,8 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
 
 - (void)fetchResults
 {
+    NSFetchedResultsController *fetchedResultsController = [SuggestionsManager sharedManager].fetchedResultsController;
+
     NSString *searchFormat;
 
     if (![self.searchString isEqualToString:@""]) {
@@ -155,26 +135,26 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
         if (self.searchFilter == kFilterSegmentRejected) {
             searchFormat = [searchFormat stringByAppendingString:@" AND (state == %ld)"];
 
-            self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
-                                                                    (long)self.selectedGenders,
-                                                                    (long)self.selectedLanguages,
-                                                                    self.searchString,
-                                                                    (long)kSelectionStateRejected];
+            fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
+                                                               (long)self.selectedGenders,
+                                                               (long)self.selectedLanguages,
+                                                               self.searchString,
+                                                               (long)kSelectionStateRejected];
         }
         else if (self.searchFilter == kFilterSegmentAccepted) {
             searchFormat = [searchFormat stringByAppendingString:@" AND (state >= %ld)"];
 
-            self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
-                                                                    (long)self.selectedGenders,
-                                                                    (long)self.selectedLanguages,
-                                                                    self.searchString,
-                                                                    (long)kSelectionStateAccepted];
+            fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
+                                                               (long)self.selectedGenders,
+                                                               (long)self.selectedLanguages,
+                                                               self.searchString,
+                                                               (long)kSelectionStateAccepted];
         }
         else {
-            self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
-                                                                    (long)self.selectedGenders,
-                                                                    (long)self.selectedLanguages,
-                                                                    self.searchString];
+            fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
+                                                               (long)self.selectedGenders,
+                                                               (long)self.selectedLanguages,
+                                                               self.searchString];
         }
     }
     else {
@@ -183,29 +163,29 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
         if (self.searchFilter == kFilterSegmentRejected) {
             searchFormat = [searchFormat stringByAppendingString:@" AND (state == %ld)"];
             
-            self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
-                                                                    (long)self.selectedGenders,
-                                                                    (long)self.selectedLanguages,
-                                                                    (long)kSelectionStateRejected];
+            fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
+                                                               (long)self.selectedGenders,
+                                                               (long)self.selectedLanguages,
+                                                               (long)kSelectionStateRejected];
         }
         else if (self.searchFilter == kFilterSegmentAccepted) {
             searchFormat = [searchFormat stringByAppendingString:@" AND (state >= %ld)"];
             
-            self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
-                                                                    (long)self.selectedGenders,
-                                                                    (long)self.selectedLanguages,
-                                                                    (long)kSelectionStateAccepted];
+            fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
+                                                               (long)self.selectedGenders,
+                                                               (long)self.selectedLanguages,
+                                                               (long)kSelectionStateAccepted];
         }
         else {
-            self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
-                                                                    (long)self.selectedGenders,
-                                                                    (long)self.selectedLanguages,
-                                                                    self.searchString];
+            fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:searchFormat,
+                                                               (long)self.selectedGenders,
+                                                               (long)self.selectedLanguages,
+                                                               self.searchString];
         }
     }
 
     NSError *error;
-    if (![self.fetchedResultsController performFetch:&error]) {
+    if (![fetchedResultsController performFetch:&error]) {
         [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
     else {
@@ -215,7 +195,7 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
 
 - (void)configureCell:(SearchTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    Suggestion *suggestion = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    Suggestion *suggestion = [[SuggestionsManager sharedManager].fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.nameLabel.text = suggestion.name;
     switch (suggestion.state) {
@@ -257,29 +237,29 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.fetchedResultsController sections].count;
+    return [[SuggestionsManager sharedManager].fetchedResultsController sections].count;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    id<NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
+    id<NSFetchedResultsSectionInfo> sectionInfo = [[[SuggestionsManager sharedManager].fetchedResultsController sections] objectAtIndex:section];
     return sectionInfo.name;
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-    return [self.fetchedResultsController sectionIndexTitles];
+    return [[SuggestionsManager sharedManager].fetchedResultsController sectionIndexTitles];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {
-    return [self.fetchedResultsController sectionForSectionIndexTitle:title
-                                                              atIndex:index];
+    return [[SuggestionsManager sharedManager].fetchedResultsController sectionForSectionIndexTitle:title
+                                                                                            atIndex:index];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSArray *sections = [self.fetchedResultsController sections];
+    NSArray *sections = [[SuggestionsManager sharedManager].fetchedResultsController sections];
     id<NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:section];
     
     return [sectionInfo numberOfObjects];
@@ -392,7 +372,7 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
 {
     if (direction == MGSwipeDirectionRightToLeft) {
         NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
-        Suggestion *swipedSuggestion = [self.fetchedResultsController objectAtIndexPath:swipedIndexPath];
+        Suggestion *swipedSuggestion = [[SuggestionsManager sharedManager].fetchedResultsController objectAtIndexPath:swipedIndexPath];
     
     	switch (swipedSuggestion.state) {
     		case kSelectionStateMaybe:
@@ -409,13 +389,8 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
                 break;
     	}
 
-        NSError *error;
-        if (![self.managedObjectContext save:&error]) {
+        if (![[SuggestionsManager sharedManager] save]) {
             [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
-        }
-        else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectsOutdatedNotification
-                                                                object:self];
         }
     }
     
@@ -447,7 +422,7 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
                                                              padding:14];
 
         NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
-        Suggestion *swipedSuggestion = [self.fetchedResultsController objectAtIndexPath:swipedIndexPath];
+        Suggestion *swipedSuggestion = [[SuggestionsManager sharedManager].fetchedResultsController objectAtIndexPath:swipedIndexPath];
         NSArray *swipeButtons;
 
         switch (swipedSuggestion.state) {

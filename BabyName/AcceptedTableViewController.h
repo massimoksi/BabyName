@@ -8,31 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol AcceptedNamesViewDataSource;
-@protocol AcceptedNamesViewDelegate;
+#import "EmbeddedViewController.h"
 
 
-@interface AcceptedTableViewController : UITableViewController
-
-@property (nonatomic, weak) id<AcceptedNamesViewDataSource> dataSource;
-@property (nonatomic, weak) id<AcceptedNamesViewDelegate> delegate;
-
-@end
-
-
-@protocol AcceptedNamesViewDataSource <NSObject>
-
-- (NSInteger)numberOfAcceptedNames;
-- (id)acceptedNameAtIndex:(NSUInteger)index;
-- (BOOL)hasPreferredName;
-
-@end
-
-
-@protocol AcceptedNamesViewDelegate <NSObject>
-
-- (BOOL)removeAcceptedNameAtIndex:(NSUInteger)index;
-- (BOOL)preferAcceptedNameAtIndex:(NSUInteger)index;
-- (BOOL)unpreferAcceptedNameAtIndex:(NSUInteger)index;
+@interface AcceptedTableViewController : UITableViewController <EmbeddedViewController>
 
 @end

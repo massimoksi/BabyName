@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreData/CoreData.h>
+
+#import "ContainerViewController.h"
 
 
-@interface MainContainerViewController : UIViewController
-
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic) BOOL panningEnabled;
+@interface MainContainerViewController : UIViewController <ContainerViewController>
 
 @end
