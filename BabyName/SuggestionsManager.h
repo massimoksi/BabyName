@@ -14,10 +14,6 @@
 
 @interface SuggestionsManager : NSObject
 
-// --- temp
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-// ---
-
 + (SuggestionsManager *)sharedManager;
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;

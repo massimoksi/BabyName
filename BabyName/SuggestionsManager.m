@@ -13,9 +13,7 @@
 
 @interface SuggestionsManager ()
 
-// --- temp
-//@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-// ---
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
@@ -38,17 +36,15 @@
     return _sharedManager;
 }
 
-// --- temp
-//- (instancetype)init
-//{
-//    self = [super init];
-//    if (self) {
-//        [self setup];
-//    }
-//    
-//    return self;
-//}
-// ---
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self setup];
+    }
+    
+    return self;
+}
 
 #pragma mark -
 
