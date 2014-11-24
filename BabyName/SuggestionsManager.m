@@ -90,6 +90,34 @@
     }
 }
 
+#pragma mark - Accessors
+
+- (NSFetchedResultsController *)fetchedResultsController
+{
+    if (_fetchedResultsController) {
+        return _fetchedResultsController;
+    }
+
+    NSManagedObjectContext *context = self.managedObjectContext;
+
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.fetchBatchSize = 20;
+    fetchRequest.entity = [NSEntityDescription entityForName:@"Suggestion"
+                                      inManagedObjectContext:context];
+
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name"
+                                                                     ascending:YES
+                                                                      selector:@selector(caseInsensitiveCompare:)];
+    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    
+    _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                    managedObjectContext:context
+                                                                      sectionNameKeyPath:@"initial"
+                                                                               cacheName:nil];
+
+    return _fetchedResultsController;
+}
+
 #pragma mark -
 
 - (BOOL)acceptSuggestion:(Suggestion *)suggestion

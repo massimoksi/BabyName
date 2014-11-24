@@ -104,9 +104,6 @@
     else if ([segue.identifier isEqualToString:@"ShowSearchSegue"]) {
         UINavigationController *searchNavController = [segue destinationViewController];
         searchNavController.navigationBar.barStyle = UIStatusBarStyleLightContent;
-        
-        SearchTableViewController *searchViewController = (SearchTableViewController *)searchNavController.topViewController;
-        searchViewController.managedObjectContext = self.managedObjectContext;
     }
 }
 

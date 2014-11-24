@@ -16,7 +16,7 @@
 #import "DrawerContainerViewController.h"
 
 
-@interface AppDelegate () <MSDynamicsDrawerViewControllerDelegate>
+@interface AppDelegate ()
 
 @end
 
@@ -96,9 +96,7 @@
     MainViewController *mainViewController = [[UIStoryboard storyboardWithName:@"Main"
                                                                         bundle:nil] instantiateViewControllerWithIdentifier:@"MainVC"];
     mainViewController.drawerViewController = drawerViewController;
-    mainViewController.managedObjectContext = self.managedObjectContext;
     drawerViewController.paneViewController = mainViewController;
-    drawerViewController.delegate = mainViewController;
 
     DrawerContainerViewController *containerViewController = [[UIStoryboard storyboardWithName:@"Main"
                                                                                         bundle:nil] instantiateViewControllerWithIdentifier:@"DrawerContainerVC"];
