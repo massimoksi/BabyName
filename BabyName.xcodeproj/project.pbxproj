@@ -631,6 +631,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SUFFIX_BUNDLE_ID = .debug;
+				SUFFIX_BUNDLE_NAME = " α";
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "";
 			};
@@ -650,6 +652,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SUFFIX_BUNDLE_ID = "";
+				SUFFIX_BUNDLE_NAME = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "";
 			};
