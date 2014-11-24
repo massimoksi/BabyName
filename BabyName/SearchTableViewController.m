@@ -126,7 +126,6 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
 - (void)fetchResults
 {
     NSFetchedResultsController *fetchedResultsController = [SuggestionsManager sharedManager].fetchedResultsController;
-    SuggestionsManager *suggestionsManager = [SuggestionsManager sharedManager];
 
     NSString *searchFormat;
 
