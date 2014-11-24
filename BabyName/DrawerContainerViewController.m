@@ -9,20 +9,18 @@
 #import "DrawerContainerViewController.h"
 
 #import "Constants.h"
-#import "Suggestion.h"
-#import "EmptyNamesViewController.h"
-#import "AcceptedNamesViewController.h"
+#import "SuggestionsManager.h"
+#import "EmptyViewController.h"
+#import "AcceptedTableViewController.h"
 
 
-static NSString * const kShowEmptyNamesSegueID    = @"ShowEmptyNamesSegue";
-static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
+static NSString * const kContainEmptySegueID    = @"ContainEmptySegue";
+static NSString * const kContainAcceptedSegueID = @"ContainAcceptedSegue";
 
 
-@interface DrawerContainerViewController () <AcceptedNamesViewDataSource, AcceptedNamesViewDelegate>
+@interface DrawerContainerViewController ()
 
 @property (nonatomic) BOOL visible;
-
-@property (nonatomic, strong) NSMutableArray *acceptedNames;
 
 @end
 
@@ -38,60 +36,9 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
+    
     self.visible = YES;
-
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
-                                              inManagedObjectContext:self.managedObjectContext];
-    fetchRequest.entity = entity;
-    
-    // Get preferences from user defaults.
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSInteger genders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
-    NSInteger languages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
-    
-    // Fetch all suggestions with state "maybe" and  matching the criteria from preferences.
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(state >= %d) AND ((gender & %d) != 0) AND ((language & %d) != 0)", kSelectionStateAccepted, genders, languages];
-    fetchRequest.predicate = predicate;
-    
-    NSError *error;
-    NSArray *fetchedSuggestions = [self.managedObjectContext executeFetchRequest:fetchRequest
-                                                                           error:&error];
-    if (!fetchedSuggestions) {
-        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
-    }
-    else {
-        // Filter suggestions by preferred initials.
-        NSArray *initials = [userDefaults stringArrayForKey:kSettingsPreferredInitialsKey];
-        if (initials.count) {
-            NSString *initialsRegex = [NSString stringWithFormat:@"^[%@].*", [initials componentsJoinedByString:@""]];
-            NSPredicate *initialsPredicate = [NSPredicate predicateWithFormat:@"name MATCHES[cd] %@", initialsRegex];
-            
-            // Filter the found elements by preferred initials.
-            self.acceptedNames = [NSMutableArray arrayWithArray:[[fetchedSuggestions filteredArrayUsingPredicate:initialsPredicate] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name"
-                                                                                                                                                      ascending:YES
-                                                                                                                                                       selector:@selector(caseInsensitiveCompare:)]]]];
-        }
-        else {
-            // No element meeting the request predicate, create a new empty array.
-            self.acceptedNames = [NSMutableArray arrayWithArray:[fetchedSuggestions sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name"
-                                                                                                                                                ascending:YES
-                                                                                                                                                 selector:@selector(caseInsensitiveCompare:)]]]];
-        }
-
-        if (self.acceptedNames.count == 0) {
-            // Load the view controller to handle empty state.
-            [self performSegueWithIdentifier:kShowEmptyNamesSegueID
-                                      sender:self];
-        }
-        else {
-            // Load the view controller to handle the list of accepted names.
-            [self performSegueWithIdentifier:kShowAcceptedNamesSegueID
-                                      sender:self];
-        }
-    }
+    [self loadChildViewController];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -114,39 +61,37 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 
-    if ([[segue identifier] isEqualToString:kShowEmptyNamesSegueID]) {
-        if (self.childViewControllers.count != 0) {
-            if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[EmptyNamesViewController class]]) {
-                EmptyNamesViewController *viewController = segue.destinationViewController;
+    if ([[segue identifier] isEqualToString:kContainEmptySegueID]) {
+        if (self.childViewControllers.count) {
+            if (![self.childViewControllers.firstObject isKindOfClass:[EmptyViewController class]]) {
+                EmptyViewController *viewController = segue.destinationViewController;
 
-                [self swapFromViewController:[self.childViewControllers objectAtIndex:0]
+                [self swapFromViewController:self.childViewControllers.firstObject
                             toViewController:viewController];
             }
         }
         else {
-            EmptyNamesViewController *viewController = segue.destinationViewController;
+            EmptyViewController *viewController = segue.destinationViewController;
         
             [self addChildViewController:viewController];
             [self.view addSubview:viewController.view];
             [viewController didMoveToParentViewController:self];
         }
     }
-    else if ([[segue identifier] isEqualToString:kShowAcceptedNamesSegueID]) {
-        if (self.childViewControllers.count != 0) {
-            if (![[self.childViewControllers objectAtIndex:0] isKindOfClass:[AcceptedNamesViewController class]]) {
-                AcceptedNamesViewController *viewController = segue.destinationViewController;
-                viewController.dataSource = self;
-                viewController.delegate = self;
-
-                [self swapFromViewController:[self.childViewControllers objectAtIndex:0]
+    else if ([[segue identifier] isEqualToString:kContainAcceptedSegueID]) {
+        if (self.childViewControllers.count) {
+            if (![self.childViewControllers.firstObject isKindOfClass:[AcceptedTableViewController class]]) {
+                AcceptedTableViewController *viewController = segue.destinationViewController;
+                viewController.containerViewController = self;
+                
+                [self swapFromViewController:self.childViewControllers.firstObject
                             toViewController:viewController];
             }
         }
         else {
-            AcceptedNamesViewController *viewController = segue.destinationViewController;
-            viewController.dataSource = self;
-            viewController.delegate = self;
-        
+            AcceptedTableViewController *viewController = segue.destinationViewController;
+            viewController.containerViewController = self;
+
             [self addChildViewController:viewController];
             [self.view addSubview:viewController.view];
             [viewController didMoveToParentViewController:self];
@@ -172,21 +117,6 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
                             }];
 }
 
-- (NSUInteger)indexOfPreferredName
-{
-    NSPredicate *preferredPredicate = [NSPredicate predicateWithFormat:@"(state >= %d)", kSelectionStatePreferred];
-    NSArray *preferredNames = [self.acceptedNames filteredArrayUsingPredicate:preferredPredicate];
-
-    if (preferredNames.count == 0) {
-        return NSNotFound;
-    }
-    else {
-        Suggestion *preferredSuggestion = [preferredNames objectAtIndex:0];
-
-        return [self.acceptedNames indexOfObject:preferredSuggestion];
-    }
-}
-
 - (void)showAlertWithMessage:(NSString *)message
 {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", @"Alert: title.")
@@ -203,97 +133,18 @@ static NSString * const kShowAcceptedNamesSegueID = @"ShowAcceptedNamesSegue";
                      completion:nil];
 }
 
-#pragma mark - Accepted names view data source
+#pragma mark - Container view controller
 
-- (NSInteger)numberOfAcceptedNames
+- (void)loadChildViewController
 {
-    return self.acceptedNames.count;
-}
-
-- (id)acceptedNameAtIndex:(NSUInteger)index
-{
-    return [self.acceptedNames objectAtIndex:index];
-}
-
-- (BOOL)hasPreferredName
-{
-    if ([self indexOfPreferredName] == NSNotFound) {
-        return NO;
+    // Load the contained view controller depending on the number of accepted suggestions.
+    if ([[SuggestionsManager sharedManager] acceptedSuggestions].count) {
+        [self performSegueWithIdentifier:kContainAcceptedSegueID
+                                  sender:self];
     }
     else {
-        return YES;
-    }
-}
-
-#pragma mark - Accepted names view delegate
-
-- (BOOL)removeAcceptedNameAtIndex:(NSUInteger)index
-{
-    Suggestion *suggestion = [self.acceptedNames objectAtIndex:index];
-    suggestion.state = kSelectionStateRejected;
-    
-    NSError *error;
-    if (![self.managedObjectContext save:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
-
-        return NO;
-    }
-    else {
-        [self.acceptedNames removeObjectAtIndex:index];
-        if (self.acceptedNames.count == 0) {
-            [self performSegueWithIdentifier:kShowEmptyNamesSegueID
-                                      sender:self];
-        }
-        
-        return YES;
-    }
-}
-
-- (BOOL)preferAcceptedNameAtIndex:(NSUInteger)index
-{
-    Suggestion *suggestion = [self.acceptedNames objectAtIndex:index];
-
-    NSUInteger preferredIndex = [self indexOfPreferredName];
-    if (preferredIndex == NSNotFound) {
-        suggestion.state = kSelectionStatePreferred;
-    }
-    else {
-        Suggestion *preferredSuggestion = [self.acceptedNames objectAtIndex:preferredIndex];
-        preferredSuggestion.state = kSelectionStateAccepted;
-
-        suggestion.state = kSelectionStatePreferred;
-    }
-
-    NSError *error;
-    if (![self.managedObjectContext save:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
-
-        return NO;
-    }
-    else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectWasPreferredNotification
-                                                            object:self];
-
-        return YES;
-    }
-}
-
-- (BOOL)unpreferAcceptedNameAtIndex:(NSUInteger)index
-{
-    Suggestion *suggestion = [self.acceptedNames objectAtIndex:index];
-    suggestion.state = kSelectionStateAccepted;
-
-    NSError *error;
-    if (![self.managedObjectContext save:&error]) {
-        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
-        
-        return NO;
-    }
-    else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kFetchedObjectWasUnpreferredNotification
-                                                            object:self];
-
-        return YES;
+        [self performSegueWithIdentifier:kContainEmptySegueID
+                                  sender:self];
     }
 }
 

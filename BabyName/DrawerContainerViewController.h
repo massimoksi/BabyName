@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreData/CoreData.h>
+
+#import "ContainerViewController.h"
 
 
-@interface DrawerContainerViewController : UIViewController
-
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@interface DrawerContainerViewController : UIViewController <ContainerViewController>
 
 @end

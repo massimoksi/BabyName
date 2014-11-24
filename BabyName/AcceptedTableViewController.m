@@ -1,34 +1,34 @@
 //
-//  AcceptedNamesViewController.m
+//  AcceptedTableViewController.m
 //  BabyName
 //
 //  Created by Massimo Peri on 28/09/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "AcceptedNamesViewController.h"
+#import "AcceptedTableViewController.h"
 
 #import "MGSwipeButton.h"
 
 #import "Constants.h"
-#import "Suggestion.h"
+#import "SuggestionsManager.h"
 #import "SearchTableViewCell.h"
-#import "DrawerContainerViewController.h"
 
 
-@interface AcceptedNamesViewController () <UITableViewDataSource, UITableViewDelegate, MGSwipeTableCellDelegate>
-
-@property (nonatomic, weak) IBOutlet UITableView *tableView;
+@interface AcceptedTableViewController () <MGSwipeTableCellDelegate>
 
 @end
 
 
-@implementation AcceptedNamesViewController
+@implementation AcceptedTableViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    // It's not possible to make the view transparent in Storyboard because of the use of white labels.
+    self.tableView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,6 +44,28 @@
     [self.tableView reloadData];
 }
 
+#pragma mark - Private methods
+
+- (void)showAlertWithMessage:(NSString *)message
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", @"Alert: title.")
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"Alert: accept button.")
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil];
+    [alertController addAction:acceptAction];
+    
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
+}
+
+#pragma mark - Embedded view controller
+
+@synthesize containerViewController;
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -53,20 +75,25 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.dataSource numberOfAcceptedNames];
+    return [[SuggestionsManager sharedManager] acceptedSuggestions].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AcceptedNameCell"];
 
-    Suggestion *suggestion = [self.dataSource acceptedNameAtIndex:indexPath.row];
+    Suggestion *suggestion = [[[SuggestionsManager sharedManager] acceptedSuggestions] objectAtIndex:indexPath.row];
 
     cell.nameLabel.text = suggestion.name;
     cell.stateImageView.image = (suggestion.state == kSelectionStatePreferred) ? [UIImage imageNamed:@"Preferred"] : nil;
     cell.delegate = self;
     
     return cell;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    return NSLocalizedString(@"Swipe right to select your preferred name.\rSwipe left to reject a name.", @"Table view: footer.");
 }
 
 #pragma mark - Table view delegate
@@ -88,7 +115,7 @@
     if (direction == MGSwipeDirectionRightToLeft) {
         // Disable right-to-left swipe (deletion) for the preferred item.
         NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
-        Suggestion *swipedSuggestion = [self.dataSource acceptedNameAtIndex:swipedIndexPath.row];
+        Suggestion *swipedSuggestion = [[[SuggestionsManager sharedManager] acceptedSuggestions] objectAtIndex:swipedIndexPath.row];
         if (swipedSuggestion.state == kSelectionStatePreferred) {
             return NO;
         }
@@ -104,26 +131,33 @@
 - (BOOL)swipeTableCell:(MGSwipeTableCell *)cell tappedButtonAtIndex:(NSInteger)index direction:(MGSwipeDirection)direction fromExpansion:(BOOL)fromExpansion
 {
     NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
+    Suggestion *swipedSuggestion = [[[SuggestionsManager sharedManager] acceptedSuggestions] objectAtIndex:swipedIndexPath.row];
 
     if (direction == MGSwipeDirectionRightToLeft) {
         if (index == 0) {
-            if ([self.delegate removeAcceptedNameAtIndex:swipedIndexPath.row]) {
+            if ([[SuggestionsManager sharedManager] rejectSuggestion:swipedSuggestion]) {
                 [self.tableView deleteRowsAtIndexPaths:@[swipedIndexPath]
                                       withRowAnimation:UITableViewRowAnimationLeft];
                 
                 [cell refreshContentView];
+                
+                [self.containerViewController loadChildViewController];
             }
         }
     }
     else {
         if (index == 0) {
-            Suggestion *swipedSuggestion = [self.dataSource acceptedNameAtIndex:swipedIndexPath.row];
-
             if (swipedSuggestion.state != kSelectionStatePreferred) {
-                if ([self.dataSource hasPreferredName]) {
+                if ([[SuggestionsManager sharedManager] preferredSuggestion]) {
                     // Prefer the currently selected name.
-                    if ([self.delegate preferAcceptedNameAtIndex:swipedIndexPath.row]) {
+                    if ([[SuggestionsManager sharedManager] preferSuggestion:swipedSuggestion]) {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kPreferredSuggestionChangedNotification
+                                                                            object:self];
+                        
                         [self.tableView reloadData];
+                    }
+                    else {
+                        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
                     }
                 }
                 else {
@@ -141,8 +175,14 @@
                                                                            style:UIAlertActionStyleDefault
                                                                          handler:^(UIAlertAction *action){
                                                                              // Prefer the currently selected name.
-                                                                             if ([self.delegate preferAcceptedNameAtIndex:swipedIndexPath.row]) {
+                                                                             if ([[SuggestionsManager sharedManager] preferSuggestion:swipedSuggestion]) {
+                                                                                 [[NSNotificationCenter defaultCenter] postNotificationName:kPreferredSuggestionChangedNotification
+                                                                                                                                     object:self];
+                                                                                 
                                                                                  [self.tableView reloadData];
+                                                                             }
+                                                                             else {
+                                                                                 [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
                                                                              }
                                                                          }];
                     [alertController addAction:selectAction];
@@ -154,8 +194,15 @@
             }
             else {
                 // Unprefer the currently preferred name.
-                if ([self.delegate unpreferAcceptedNameAtIndex:swipedIndexPath.row]) {
+                if ([[SuggestionsManager sharedManager] unpreferSuggestion:swipedSuggestion]) {
+                    // TODO: move notification into SuggestionsManager.
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kPreferredSuggestionChangedNotification
+                                                                        object:self];
+                    
                     [self.tableView reloadData];
+                }
+                else {
+                    [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
                 }
             }
         }
@@ -189,7 +236,7 @@
         expansionSettings.fillOnTrigger = NO;
 
         NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
-        Suggestion *swipedSuggestion = [self.dataSource acceptedNameAtIndex:swipedIndexPath.row];
+        Suggestion *swipedSuggestion = [[[SuggestionsManager sharedManager] acceptedSuggestions] objectAtIndex:swipedIndexPath.row];
 
         MGSwipeButton *preferButton = [MGSwipeButton buttonWithTitle:@""
                                                                 icon:(swipedSuggestion.state == kSelectionStatePreferred) ? [UIImage imageNamed:@"Unprefer"] : [UIImage imageNamed:@"Prefer"]

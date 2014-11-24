@@ -11,9 +11,7 @@
 #import "MSDynamicsDrawerViewController.h"
 
 
-@interface MainViewController : UIViewController <MSDynamicsDrawerViewControllerDelegate>
-
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@interface MainViewController : UIViewController
 
 @property (nonatomic, weak) MSDynamicsDrawerViewController *drawerViewController;
 

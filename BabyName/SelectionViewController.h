@@ -8,37 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Suggestion.h"
-
-@protocol SelectionViewDataSource;
-@protocol SelectionViewDelegate;
+#import "EmbeddedViewController.h"
 
 
-@interface SelectionViewController : UIViewController
-
-@property (nonatomic, weak) id<SelectionViewDataSource> dataSource;
-@property (nonatomic, weak) id<SelectionViewDelegate> delegate;
-
-- (void)configureNameLabel;
-
-@end
-
-
-@protocol SelectionViewDataSource <NSObject>
-
-- (BOOL)shouldReloadName;
-
-- (Suggestion *)randomSuggestion;
-
-@end
-
-
-@protocol SelectionViewDelegate <NSObject>
-
-- (void)selectionViewDidBeginPanning;
-- (void)selectionViewDidEndPanning;
-
-- (void)acceptName;
-- (void)rejectName;
+@interface SelectionViewController : UIViewController <EmbeddedViewController>
 
 @end
