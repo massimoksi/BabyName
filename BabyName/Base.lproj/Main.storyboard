@@ -425,7 +425,7 @@
         <scene sceneID="jI6-oA-IgJ">
             <objects>
                 <tableViewController storyboardIdentifier="AcceptedTVC" id="omo-S7-zyD" customClass="AcceptedTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="AxA-tP-0FY">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="1" id="AxA-tP-0FY">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -435,7 +435,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe right to select your preferred name. Swipe left to reject a name." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G6k-ba-6eh">
-                                    <rect key="frame" x="59" y="11" width="526" height="22"/>
+                                    <rect key="frame" x="59" y="10" width="526" height="22"/>
                                     <constraints>
                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="oIy-q8-zbv"/>
                                     </constraints>
@@ -446,7 +446,7 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstItem="G6k-ba-6eh" firstAttribute="top" secondItem="Vqp-Tl-zt8" secondAttribute="top" constant="11" id="7sF-Hj-Rjx"/>
+                                <constraint firstItem="G6k-ba-6eh" firstAttribute="top" secondItem="Vqp-Tl-zt8" secondAttribute="top" constant="10" id="7sF-Hj-Rjx"/>
                                 <constraint firstItem="G6k-ba-6eh" firstAttribute="leading" secondItem="Vqp-Tl-zt8" secondAttribute="leading" constant="59" id="UHQ-R8-a7n"/>
                                 <constraint firstAttribute="trailing" secondItem="G6k-ba-6eh" secondAttribute="trailing" constant="15" id="aIf-lh-6q4"/>
                             </constraints>
