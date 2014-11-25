@@ -401,19 +401,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No name selected yet." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bg-eK-FJH">
-                                <rect key="frame" x="60" y="289" width="524" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="People's fates are simplified by their names." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bg-eK-FJH" userLabel="Quote">
+                                <rect key="frame" x="60" y="292" width="524" height="17"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- Elias Canetti" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bBn-0P-9di" userLabel="Author">
+                                <rect key="frame" x="60" y="317" width="524" height="17"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerY" secondItem="7Bg-eK-FJH" secondAttribute="centerY" constant="0.5" id="7NU-fd-9Kw"/>
+                            <constraint firstAttribute="centerY" secondItem="7Bg-eK-FJH" secondAttribute="centerY" id="7NU-fd-9Kw"/>
+                            <constraint firstItem="bBn-0P-9di" firstAttribute="top" secondItem="7Bg-eK-FJH" secondAttribute="bottom" constant="8" id="8tI-f6-7HA"/>
+                            <constraint firstItem="bBn-0P-9di" firstAttribute="leading" secondItem="tDj-WU-mCT" secondAttribute="leadingMargin" constant="44" id="WGT-eD-Zxt"/>
                             <constraint firstItem="7Bg-eK-FJH" firstAttribute="leading" secondItem="tDj-WU-mCT" secondAttribute="leadingMargin" constant="44" id="nrO-y2-eLB"/>
                             <constraint firstItem="7Bg-eK-FJH" firstAttribute="trailing" secondItem="tDj-WU-mCT" secondAttribute="trailingMargin" id="oz8-bh-yFJ"/>
+                            <constraint firstItem="bBn-0P-9di" firstAttribute="trailing" secondItem="tDj-WU-mCT" secondAttribute="trailingMargin" id="wTX-g9-fjl"/>
                         </constraints>
                     </view>
                 </viewController>
