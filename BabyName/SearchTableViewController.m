@@ -86,16 +86,6 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     [SuggestionsManager sharedManager].fetchedResultsController = nil;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 #pragma mark - Actions
 
 - (IBAction)cancelSearch:(id)sender
@@ -332,16 +322,14 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    self.searchString = searchBar.text;
-
-    [self fetchResults];
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-{
-    self.searchString = @"";
-
-    [self fetchResults];
+    // HACK: this methods is called twice when clear button is clicked.
+    if (![self.searchString isEqualToString:searchText]) {
+        NSLog(@"Hello World!!!");
+        
+        self.searchString = searchText;
+        
+        [self fetchResults];
+    }
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -402,8 +390,8 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
 {
     // NOTE: setting up buttons with this delegate instead of using cell properties improves memory usage because buttons are only created in demand.
     if (direction == MGSwipeDirectionRightToLeft) {
-        // Configure swipe settings.
         swipeSettings.transition = MGSwipeTransitionStatic;
+        // Offset the swipe buttons by the width of the sections index list (15.0 pts).
         swipeSettings.offset = 15.0;
 
         MGSwipeButton *rejectButton = [MGSwipeButton buttonWithTitle:@""
