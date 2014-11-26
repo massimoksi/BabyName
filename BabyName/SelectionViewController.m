@@ -205,10 +205,7 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 
             StatusView *statusView;
             if (self.panningState == kPanningStateAccept) {
-                [UIView animateWithDuration:0.5
-                                 animations:^{
-                                     self.nameLabel.alpha = 0.0;
-                                 }];
+                self.nameLabel.alpha = 0.0;
                 
                 statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusAccepted"]];
                 [statusView showInView:self.view
@@ -281,17 +278,11 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
     
     self.nameLabel.text = self.currentSuggestion.name;
     self.nameLabel.center = self.panningOrigin;
+    self.nameLabel.alpha = 1.0;
     
     // Disable panning if the suggestion received by the data source is the preferred one.
     self.panningEnabled = (self.currentSuggestion.state == kSelectionStatePreferred) ? NO : YES;
-
-    [UIView animateWithDuration:0.1
-                     animations:^{
-                         self.nameLabel.alpha = 1.0;
-                     }
-                     completion:^(BOOL finished){
-                         self.panningState = kPanningStateIdle;
-                     }];
+    self.panningState = kPanningStateIdle;
 }
 
 - (PanningState)endStateForGesture:(UIPanGestureRecognizer *)recognizer
