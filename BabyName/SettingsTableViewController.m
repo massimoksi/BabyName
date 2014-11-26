@@ -164,7 +164,7 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
     }
 
     // Row: due date.
-    NSDate *dueDate = [userDefaults objectForKey:kSettingsDueDateKey];
+    NSDate *dueDate = [[[NSUserDefaults alloc] initWithSuiteName:kAppGroupSuiteName] objectForKey:kSettingsDueDateKey];
     if (dueDate) {
         self.dueDateTextField.text = [NSDateFormatter localizedStringFromDate:dueDate
                                                                     dateStyle:NSDateFormatterLongStyle
@@ -279,7 +279,7 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
 
 - (void)revealDatePickerAnimated:(BOOL)animated andSave:(BOOL)save
 {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kAppGroupSuiteName];
     
     // Due date picker is visible.
     //  1. Save due date to user defaults (if changed).
@@ -467,12 +467,10 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField
 {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-
     if (textField == self.dueDateTextField) {
         self.datePickerClearing = YES;
         
-        [userDefaults removeObjectForKey:kSettingsDueDateKey];
+        [[[NSUserDefaults alloc] initWithSuiteName:kAppGroupSuiteName] removeObjectForKey:kSettingsDueDateKey];
     }
 
     return YES;

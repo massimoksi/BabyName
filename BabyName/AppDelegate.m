@@ -25,6 +25,10 @@
             
 + (void)initialize
 {
+#if DEBUG
+    NSLog(@"Defaults: start registering");
+#endif
+
     // Get current language from the system.
     NSInteger selectedLanguage;
     NSString *currentLanguageCode = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
@@ -48,6 +52,10 @@
                                           kSettingsSelectedLanguagesKey : @(selectedLanguage)};
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultSettingsDict];
+
+#if DEBUG
+    NSLog(@"Defaults: registered");
+#endif
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -130,7 +138,7 @@
                                      forDirection:MSDynamicsDrawerDirectionRight];
     [drawerViewController setRevealWidth:CGRectGetWidth([[UIScreen mainScreen] bounds]) - kPaneOverlapWidth
                             forDirection:MSDynamicsDrawerDirectionRight];
-    [drawerViewController addStylersFromArray:@[[MSDynamicsDrawerFadeStyler styler], [MSDynamicsDrawerResizeStyler styler]]
+    [drawerViewController addStylersFromArray:@[[MSDynamicsDrawerFadeStyler styler], [MSDynamicsDrawerParallaxStyler styler]]
                                  forDirection:MSDynamicsDrawerDirectionRight];
 }
 

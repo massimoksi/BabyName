@@ -80,7 +80,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AcceptedNameCell"];
+    SearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AcceptedCell"];
 
     Suggestion *suggestion = [[[SuggestionsManager sharedManager] acceptedSuggestions] objectAtIndex:indexPath.row];
 
@@ -89,11 +89,6 @@
     cell.delegate = self;
     
     return cell;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
-{
-    return NSLocalizedString(@"Swipe right to select your preferred name.\rSwipe left to reject a name.", @"Table view: footer.");
 }
 
 #pragma mark - Table view delegate
@@ -195,7 +190,6 @@
             else {
                 // Unprefer the currently preferred name.
                 if ([[SuggestionsManager sharedManager] unpreferSuggestion:swipedSuggestion]) {
-                    // TODO: move notification into SuggestionsManager.
                     [[NSNotificationCenter defaultCenter] postNotificationName:kPreferredSuggestionChangedNotification
                                                                         object:self];
                     
@@ -214,11 +208,11 @@
 
 - (NSArray *)swipeTableCell:(MGSwipeTableCell *)cell swipeButtonsForDirection:(MGSwipeDirection)direction swipeSettings:(MGSwipeSettings *)swipeSettings expansionSettings:(MGSwipeExpansionSettings *)expansionSettings
 {
-    // Configure swipe settings.
-    swipeSettings.transition = MGSwipeTransitionStatic;
-
     // NOTE: setting up buttons with this delegate instead of using cell properties improves memory usage because buttons are only created in demand.
     if (direction == MGSwipeDirectionRightToLeft) {
+        // Configure swipe settings.
+        swipeSettings.transition = MGSwipeTransitionStatic;
+        
         // Configure expansions settings.
         expansionSettings.buttonIndex = 0;
         expansionSettings.fillOnTrigger = YES;
@@ -231,9 +225,15 @@
         return @[deleteButton];
     }
     else {
+        // Configure swipe settings.
+        swipeSettings.transition = MGSwipeTransitionStatic;
+        swipeSettings.offset = 44.0;
+        
         // Configure expansions settings.
         expansionSettings.buttonIndex = 0;
         expansionSettings.fillOnTrigger = NO;
+        
+        
 
         NSIndexPath *swipedIndexPath = [self.tableView indexPathForCell:cell];
         Suggestion *swipedSuggestion = [[[SuggestionsManager sharedManager] acceptedSuggestions] objectAtIndex:swipedIndexPath.row];

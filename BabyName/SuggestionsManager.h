@@ -17,6 +17,7 @@
 + (SuggestionsManager *)sharedManager;
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong, readonly) Suggestion *currentSuggestion;
 
 - (NSArray *)fetchedSuggestions;
 - (NSArray *)acceptedSuggestions;
