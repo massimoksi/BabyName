@@ -30,6 +30,7 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
 @property (nonatomic) NSInteger selectedLanguages;
 @property (nonatomic, copy) NSString *searchString;
 @property (nonatomic) FilterSegment searchFilter;
+@property (nonatomic) BOOL currentSuggestionValid;
 
 @end
 
@@ -42,6 +43,8 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     // Do any additional setup after loading the view.
 
     [SuggestionsManager sharedManager].fetchedResultsController.delegate = self;
+
+    self.currentSuggestionValid = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -66,6 +69,16 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     self.searchFilter = kFilterSegmentAll;
     
     [self fetchResults];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    if (!self.currentSuggestionValid) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kCurrentSuggestionChangedNotification
+                                                            object:self];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -379,6 +392,11 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
 
         if (![[SuggestionsManager sharedManager] save]) {
             [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+        }
+        else {
+            if ([swipedSuggestion.name isEqualToString:[SuggestionsManager sharedManager].currentSuggestion.name]) {
+                self.currentSuggestionValid = NO;
+            }
         }
     }
     

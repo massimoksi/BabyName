@@ -56,6 +56,10 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                            selector:@selector(updateSelection:)
                                name:kPreferredSuggestionChangedNotification
                              object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(updateSelection:)
+                               name:kCurrentSuggestionChangedNotification
+                             object:nil];
     
     // It's not possible to make the view transparent in Storyboard because of the use of white labels.
     self.view.backgroundColor = [UIColor clearColor];
@@ -89,6 +93,9 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                                 object:nil];
     [notificationCenter removeObserver:self
                                   name:kPreferredSuggestionChangedNotification
+                                object:nil];
+    [notificationCenter removeObserver:self
+                                  name:kCurrentSuggestionChangedNotification
                                 object:nil];
 }
 

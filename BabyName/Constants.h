@@ -19,6 +19,7 @@ extern NSString * const kSettingsDueDateKey;
 
 extern NSString * const kPreferredSuggestionChangedNotification;
 extern NSString * const kFetchingPreferencesChangedNotification;
+extern NSString * const kCurrentSuggestionChangedNotification;
 
 extern const CGFloat kPaneOverlapWidth;
 

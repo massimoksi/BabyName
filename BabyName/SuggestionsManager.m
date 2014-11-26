@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 @property (nonatomic, strong) NSArray *suggestions;
+@property (nonatomic, strong) Suggestion *currentSuggestion;
 
 @end
 
@@ -66,8 +67,10 @@
 
     if (availableSuggestions.count) {
         NSUInteger randomIndex = arc4random() % availableSuggestions.count;
-
-        return [availableSuggestions objectAtIndex:randomIndex];
+        Suggestion *suggestion = [availableSuggestions objectAtIndex:randomIndex];
+        self.currentSuggestion = suggestion;
+        
+        return suggestion;
     }
     else {
         return nil;
@@ -79,7 +82,10 @@
     NSArray *preferredSuggestions = [self.suggestions filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"state = %d", kSelectionStatePreferred]];
 
     if (preferredSuggestions.count) {
-        return preferredSuggestions.firstObject;
+        Suggestion *suggestion = preferredSuggestions.firstObject;
+        self.currentSuggestion = suggestion;
+        
+        return suggestion;
     }
     else {
         return nil;
