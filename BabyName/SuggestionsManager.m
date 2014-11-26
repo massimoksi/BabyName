@@ -213,7 +213,7 @@
 - (BOOL)update
 {
 #if DEBUG
-    NSLog(@"Database: start fetch request.");
+    NSLog(@"Database: start fetch request");
 #endif
 
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -259,7 +259,7 @@
     }
 
 #if DEBUG
-    NSLog(@"Database: %tu fetched suggestions.", self.suggestions.count);
+    NSLog(@"Database: %tu fetched suggestions", self.suggestions.count);
 #endif
     
     return YES;
@@ -268,7 +268,7 @@
 - (BOOL)reset
 {
 #if DEBUG
-    NSLog(@"Database: start resetting.");
+    NSLog(@"Database: start resetting");
 #endif
 
     NSManagedObjectContext *context = self.managedObjectContext;
@@ -307,7 +307,7 @@
     }
 
 #if DEBUG
-    NSLog(@"Database: %tu reset suggestions.", modifiedSuggestions.count);
+    NSLog(@"Database: %tu reset suggestions", modifiedSuggestions.count);
 #endif
 
     return YES;
@@ -316,14 +316,14 @@
 - (BOOL)populate
 {
 #if DEBUG
-    NSLog(@"Database: start populating.");
+    NSLog(@"Database: start populating");
 #endif
 
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"BabyName"
                                                          ofType:@"csv"];
     if (!filePath) {
 #if DEBUG
-        NSLog(@"Error: BabyName.csv not found.");
+        NSLog(@"Error: BabyName.csv not found");
 #endif
 
         return NO;
@@ -382,7 +382,7 @@
     }
 
 #if DEBUG
-    NSLog(@"Database: populated.");
+    NSLog(@"Database: populated");
 #endif
 
     return YES;
@@ -391,7 +391,7 @@
 - (BOOL)save
 {
 #if DEBUG
-    NSLog(@"Database: start saving.");
+    NSLog(@"Database: start saving");
 #endif
 
     NSManagedObjectContext *context = self.managedObjectContext;
@@ -410,7 +410,7 @@
     }
 
 #if DEBUG
-    NSLog(@"Database: saved.");
+    NSLog(@"Database: saved");
 #endif
 
     return YES;
@@ -421,7 +421,7 @@
     Suggestion *preferredSuggestion = [self preferredSuggestion];
         
 #if DEBUG
-    NSLog(@"Database: validating %@.", preferredSuggestion.name);
+    NSLog(@"Database: validating %@", preferredSuggestion.name);
 #endif
           
     // Get preferences from user defaults.
@@ -450,7 +450,7 @@
     
     if (invalid) {
 #if DEBUG
-        NSLog(@"Database: %@ is not valid.", preferredSuggestion.name);
+        NSLog(@"Database: %@ is not valid", preferredSuggestion.name);
 #endif
         
         NSError *error;
@@ -465,7 +465,7 @@
     }
     else {
 #if DEBUG
-        NSLog(@"Database: %@ not valid.", preferredSuggestion.name);
+        NSLog(@"Database: %@ not valid", preferredSuggestion.name);
 #endif
     }
     

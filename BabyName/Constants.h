@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 
+extern NSString * const kAppGroupSuiteName;
+
 extern NSString * const kSettingsDBPopulatedKey;
 extern NSString * const kSettingsSelectedGendersKey;
 extern NSString * const kSettingsSelectedLanguagesKey;

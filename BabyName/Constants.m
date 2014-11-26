@@ -9,6 +9,8 @@
 #import "Constants.h"
 
 
+NSString * const kAppGroupSuiteName = @"group.com.gmail.massimoperi.BabyName";
+
 NSString * const kSettingsDBPopulatedKey       = @"SettingsDBPopulated";
 NSString * const kSettingsSelectedGendersKey   = @"SettingsSelectedGenders";
 NSString * const kSettingsSelectedLanguagesKey = @"SettingsSelectedLanguages";
