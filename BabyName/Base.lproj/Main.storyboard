@@ -4,6 +4,20 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Bariol_Light.otf">
+            <string>Bariol-Light</string>
+            <string>Bariol-Light</string>
+            <string>Bariol-Light</string>
+            <string>Bariol-Light</string>
+        </mutableArray>
+        <mutableArray key="Bariol_Regular.otf">
+            <string>Bariol-Regular</string>
+            <string>Bariol-Regular</string>
+            <string>Bariol-Regular</string>
+            <string>Bariol-Regular</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
         <!--Root View Controller-->
         <scene sceneID="tRT-eR-1LK">
@@ -997,10 +1011,10 @@
             </objects>
             <point key="canvasLocation" x="-13" y="966"/>
         </scene>
-        <!--Page View Controller-->
+        <!--Page1-->
         <scene sceneID="nnR-Hz-fyz">
             <objects>
-                <viewController storyboardIdentifier="Page1VC" id="P0W-VV-k39" customClass="PageViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Page1VC" title="Page1" id="P0W-VV-k39" customClass="PageViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Td7-Ah-rax"/>
                         <viewControllerLayoutGuide type="bottom" id="Jm0-as-uPf"/>
@@ -1008,12 +1022,141 @@
                     <view key="view" contentMode="scaleToFill" id="ZGj-BW-jHg">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.33219000697135925" green="0.7219092845916748" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <userGuides>
+                            <userLayoutGuide location="300" affinity="minY"/>
+                        </userGuides>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe right if you like a name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TVp-hP-g7z">
+                                <rect key="frame" x="16" y="350" width="568" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="fl4-w4-agy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Bariol-Light" family="Bariol" pointSize="24"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Like" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DMX-XB-6Yr">
+                                <rect key="frame" x="16" y="306" width="568" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="sIK-8b-bfm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Bariol-Regular" family="Bariol" pointSize="36"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="DMX-XB-6Yr" firstAttribute="trailing" secondItem="ZGj-BW-jHg" secondAttribute="trailingMargin" id="2o4-cc-oYw"/>
+                            <constraint firstAttribute="centerY" secondItem="DMX-XB-6Yr" secondAttribute="centerY" constant="-24" id="C0j-m2-5UW"/>
+                            <constraint firstItem="DMX-XB-6Yr" firstAttribute="leading" secondItem="ZGj-BW-jHg" secondAttribute="leadingMargin" id="Mww-rA-ckJ"/>
+                            <constraint firstItem="TVp-hP-g7z" firstAttribute="trailing" secondItem="ZGj-BW-jHg" secondAttribute="trailingMargin" id="Xsy-Bl-5OC"/>
+                            <constraint firstItem="TVp-hP-g7z" firstAttribute="leading" secondItem="ZGj-BW-jHg" secondAttribute="leadingMargin" id="bTR-Qh-rKd"/>
+                            <constraint firstItem="TVp-hP-g7z" firstAttribute="top" secondItem="DMX-XB-6Yr" secondAttribute="bottom" constant="8" id="cHB-V7-Xpp"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kdU-SO-4rP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-13" y="1652"/>
+            <point key="canvasLocation" x="-13" y="1632"/>
+        </scene>
+        <!--Page2-->
+        <scene sceneID="iLe-Qt-nZc">
+            <objects>
+                <viewController storyboardIdentifier="Page2VC" title="Page2" id="HNN-rj-uOq" customClass="PageViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="p4q-hf-vKF"/>
+                        <viewControllerLayoutGuide type="bottom" id="xW4-Ez-CVS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BpH-mM-lem">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <userGuides>
+                            <userLayoutGuide location="300" affinity="minY"/>
+                        </userGuides>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe left if you don't like a name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wVg-qH-ISC">
+                                <rect key="frame" x="16" y="350" width="568" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="0fu-VG-B8p"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Bariol-Light" family="Bariol" pointSize="24"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dislike" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kcg-bZ-g8Y">
+                                <rect key="frame" x="16" y="306" width="568" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="lgN-X0-OHd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Bariol-Regular" family="Bariol" pointSize="36"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="kcg-bZ-g8Y" secondAttribute="centerY" constant="-24" id="1z0-DB-dPK"/>
+                            <constraint firstItem="wVg-qH-ISC" firstAttribute="leading" secondItem="BpH-mM-lem" secondAttribute="leadingMargin" id="6av-YA-h7d"/>
+                            <constraint firstItem="kcg-bZ-g8Y" firstAttribute="trailing" secondItem="BpH-mM-lem" secondAttribute="trailingMargin" id="YVe-fH-0Me"/>
+                            <constraint firstItem="kcg-bZ-g8Y" firstAttribute="leading" secondItem="BpH-mM-lem" secondAttribute="leadingMargin" id="ajc-gO-EkP"/>
+                            <constraint firstItem="wVg-qH-ISC" firstAttribute="top" secondItem="kcg-bZ-g8Y" secondAttribute="bottom" constant="8" id="pq7-OW-bab"/>
+                            <constraint firstItem="wVg-qH-ISC" firstAttribute="trailing" secondItem="BpH-mM-lem" secondAttribute="trailingMargin" id="ycy-Fe-ETE"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UWg-Vp-90A" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-13" y="2297"/>
+        </scene>
+        <!--Page3-->
+        <scene sceneID="qaI-ZD-i9k">
+            <objects>
+                <viewController storyboardIdentifier="Page3VC" title="Page3" id="Tn5-y0-m1n" customClass="PageViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ye7-Cc-f4e"/>
+                        <viewControllerLayoutGuide type="bottom" id="xar-ts-8gm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="KjP-LG-07F">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <userGuides>
+                            <userLayoutGuide location="300" affinity="minY"/>
+                        </userGuides>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shake to get a different name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="atR-m1-NRV">
+                                <rect key="frame" x="16" y="350" width="568" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="PtS-vw-4Qx"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Bariol-Light" family="Bariol" pointSize="24"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shuffle" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5a-yJ-jxa">
+                                <rect key="frame" x="16" y="306" width="568" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="6FS-Hz-4iH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Bariol-Regular" family="Bariol" pointSize="36"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="atR-m1-NRV" firstAttribute="top" secondItem="A5a-yJ-jxa" secondAttribute="bottom" constant="8" id="Db1-AM-qNx"/>
+                            <constraint firstItem="A5a-yJ-jxa" firstAttribute="leading" secondItem="KjP-LG-07F" secondAttribute="leadingMargin" id="GpN-Bc-a9Q"/>
+                            <constraint firstItem="atR-m1-NRV" firstAttribute="trailing" secondItem="KjP-LG-07F" secondAttribute="trailingMargin" id="PRe-jL-64g"/>
+                            <constraint firstItem="A5a-yJ-jxa" firstAttribute="trailing" secondItem="KjP-LG-07F" secondAttribute="trailingMargin" id="VVH-4x-Zhs"/>
+                            <constraint firstAttribute="centerY" secondItem="A5a-yJ-jxa" secondAttribute="centerY" constant="-24" id="icd-me-Or9"/>
+                            <constraint firstItem="atR-m1-NRV" firstAttribute="leading" secondItem="KjP-LG-07F" secondAttribute="leadingMargin" id="nA9-x8-dLO"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xkX-S2-W9H" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-13" y="2961"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Mhc-yQ-r59">
@@ -1035,24 +1178,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1li-4W-2nS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1481" y="-807"/>
-        </scene>
-        <!--Page View Controller-->
-        <scene sceneID="dqr-jV-HuF">
-            <objects>
-                <viewController storyboardIdentifier="Page2VC" id="IJY-lj-em3" customClass="PageViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="d2S-am-thZ"/>
-                        <viewControllerLayoutGuide type="bottom" id="RfK-bM-1UQ"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="57Y-x9-oHP">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NcR-DN-D5N" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-13" y="2341"/>
         </scene>
         <!--Drawer Container View Controller-->
         <scene sceneID="PEa-EX-BQX">
@@ -1118,7 +1243,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="ill-gc-bA7"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="48"/>
+                                <fontDescription key="fontDescription" name="Bariol-Regular" family="Bariol" pointSize="50"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                                 <connections>
@@ -1131,7 +1256,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="2wg-yF-7DQ"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="36"/>
+                                <fontDescription key="fontDescription" name="Bariol-Light" family="Bariol" pointSize="36"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>

@@ -33,6 +33,8 @@
 		56B174BC1A279928002DBE1A /* TutorialPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B174BB1A279928002DBE1A /* TutorialPageViewController.m */; };
 		56B174C21A279D35002DBE1A /* MainDynamicsDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B174C11A279D35002DBE1A /* MainDynamicsDrawerViewController.m */; };
 		56B174C51A279DEB002DBE1A /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B174C41A279DEB002DBE1A /* PageViewController.m */; };
+		56B174C81A27D70D002DBE1A /* Bariol_Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 56B174C71A27D70D002DBE1A /* Bariol_Light.otf */; };
+		56B174CA1A27D808002DBE1A /* Bariol_Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 56B174C91A27D808002DBE1A /* Bariol_Regular.otf */; };
 		56C647A519AC62FF005B1D46 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C647A419AC62FF005B1D46 /* main.m */; };
 		56C647A819AC62FF005B1D46 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C647A719AC62FF005B1D46 /* AppDelegate.m */; };
 		56C647AB19AC62FF005B1D46 /* BabyName.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 56C647A919AC62FF005B1D46 /* BabyName.xcdatamodeld */; };
@@ -106,6 +108,8 @@
 		56B174C11A279D35002DBE1A /* MainDynamicsDrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainDynamicsDrawerViewController.m; sourceTree = "<group>"; };
 		56B174C31A279DEB002DBE1A /* PageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageViewController.h; sourceTree = "<group>"; };
 		56B174C41A279DEB002DBE1A /* PageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageViewController.m; sourceTree = "<group>"; };
+		56B174C71A27D70D002DBE1A /* Bariol_Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bariol_Light.otf; sourceTree = "<group>"; };
+		56B174C91A27D808002DBE1A /* Bariol_Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bariol_Regular.otf; sourceTree = "<group>"; };
 		56BA52AA1A21F3BB00866785 /* EmbeddedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmbeddedViewController.h; sourceTree = "<group>"; };
 		56BA52AC1A21F57B00866785 /* ContainerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContainerViewController.h; sourceTree = "<group>"; };
 		56BA52AD1A23A3FA00866785 /* BabyName.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = BabyName.entitlements; sourceTree = "<group>"; };
@@ -272,6 +276,15 @@
 			name = Tutorial;
 			sourceTree = "<group>";
 		};
+		56B174C61A27D6E0002DBE1A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				56B174C91A27D808002DBE1A /* Bariol_Regular.otf */,
+				56B174C71A27D70D002DBE1A /* Bariol_Light.otf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 		56BA52AB1A21F41F00866785 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -326,6 +339,7 @@
 		56C647A219AC62FF005B1D46 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				56B174C61A27D6E0002DBE1A /* Fonts */,
 				56BA52AD1A23A3FA00866785 /* BabyName.entitlements */,
 				561EA9FB1A1558BC007F5AE7 /* Acknowledgements.plist */,
 				562FF8941A0189780045D06D /* BabyName.csv */,
@@ -459,9 +473,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56B174CA1A27D808002DBE1A /* Bariol_Regular.otf in Resources */,
 				561EA9FC1A1558BC007F5AE7 /* Acknowledgements.plist in Resources */,
 				56E4D0D419D20C830005DFDC /* Localizable.strings in Resources */,
 				562FF8951A0189780045D06D /* BabyName.csv in Resources */,
+				56B174C81A27D70D002DBE1A /* Bariol_Light.otf in Resources */,
 				56C647B119AC62FF005B1D46 /* Main.storyboard in Resources */,
 				56C647B319AC62FF005B1D46 /* Images.xcassets in Resources */,
 			);
