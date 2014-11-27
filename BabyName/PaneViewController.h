@@ -1,5 +1,5 @@
 //
-//  MainViewController.h
+//  PaneViewController.h
 //  BabyName
 //
 //  Created by Massimo Peri on 26/08/14.
@@ -11,7 +11,7 @@
 #import "MSDynamicsDrawerViewController.h"
 
 
-@interface MainViewController : UIViewController
+@interface PaneViewController : UIViewController
 
 @property (nonatomic, weak) MSDynamicsDrawerViewController *drawerViewController;
 

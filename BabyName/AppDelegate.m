@@ -8,12 +8,8 @@
 
 #import "AppDelegate.h"
 
-#import "MSDynamicsDrawerViewController.h"
-
 #import "Constants.h"
 #import "SuggestionsManager.h"
-#import "MainViewController.h"
-#import "DrawerContainerViewController.h"
 
 
 @interface AppDelegate ()
@@ -84,9 +80,6 @@
         [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
 
-    // Setup root view controller.
-    [self setupRootViewController];
-    
     return YES;
 }
 
@@ -113,34 +106,11 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
     if (![[SuggestionsManager sharedManager] save]) {
-        // TODO: change error message.
         [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
 }
 
 #pragma mark - Private methods
-
-- (void)setupRootViewController
-{
-    MSDynamicsDrawerViewController *drawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
-    drawerViewController.shouldAlignStatusBarToPaneView = NO;
-    drawerViewController.paneDragRequiresScreenEdgePan = YES;
-    [drawerViewController registerTouchForwardingClass:[UILabel class]];
-
-    MainViewController *mainViewController = [[UIStoryboard storyboardWithName:@"Main"
-                                                                        bundle:nil] instantiateViewControllerWithIdentifier:@"MainVC"];
-    mainViewController.drawerViewController = drawerViewController;
-    drawerViewController.paneViewController = mainViewController;
-
-    DrawerContainerViewController *containerViewController = [[UIStoryboard storyboardWithName:@"Main"
-                                                                                        bundle:nil] instantiateViewControllerWithIdentifier:@"DrawerContainerVC"];
-    [drawerViewController setDrawerViewController:containerViewController
-                                     forDirection:MSDynamicsDrawerDirectionRight];
-    [drawerViewController setRevealWidth:CGRectGetWidth([[UIScreen mainScreen] bounds]) - kPaneOverlapWidth
-                            forDirection:MSDynamicsDrawerDirectionRight];
-    [drawerViewController addStylersFromArray:@[[MSDynamicsDrawerFadeStyler styler], [MSDynamicsDrawerParallaxStyler styler]]
-                                 forDirection:MSDynamicsDrawerDirectionRight];
-}
 
 - (void)showAlertWithMessage:(NSString *)message
 {
