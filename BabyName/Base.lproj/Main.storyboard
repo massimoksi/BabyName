@@ -10,8 +10,10 @@
             <string>Bariol-Light</string>
             <string>Bariol-Light</string>
             <string>Bariol-Light</string>
+            <string>Bariol-Light</string>
         </mutableArray>
         <mutableArray key="Bariol_Regular.otf">
+            <string>Bariol-Regular</string>
             <string>Bariol-Regular</string>
             <string>Bariol-Regular</string>
             <string>Bariol-Regular</string>
@@ -1158,6 +1160,65 @@
             </objects>
             <point key="canvasLocation" x="-13" y="2961"/>
         </scene>
+        <!--Page4-->
+        <scene sceneID="00B-bc-w4j">
+            <objects>
+                <viewController storyboardIdentifier="Page4VC" title="Page4" id="lOi-Jj-5AW" customClass="PageViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zAt-hQ-MXr"/>
+                        <viewControllerLayoutGuide type="bottom" id="a9m-dt-0YC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zXP-9j-dVA">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <userGuides>
+                            <userLayoutGuide location="300" affinity="minY"/>
+                        </userGuides>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review the names you liked and choose the one you love" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q9h-2y-rgn">
+                                <rect key="frame" x="16" y="350" width="568" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="9JV-Ho-t9Q"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Bariol-Light" family="Bariol" pointSize="24"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Love" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FDl-g1-OJQ">
+                                <rect key="frame" x="16" y="306" width="568" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="HWy-hF-y2a"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Bariol-Regular" family="Bariol" pointSize="36"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Love" translatesAutoresizingMaskIntoConstraints="NO" id="tRB-Aw-boe">
+                                <rect key="frame" x="270" y="190" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="94E-0e-d0b"/>
+                                    <constraint firstAttribute="width" constant="60" id="oZJ-RR-XlT"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="tRB-Aw-boe" secondAttribute="centerX" id="2qS-h8-wXu"/>
+                            <constraint firstItem="q9h-2y-rgn" firstAttribute="trailing" secondItem="zXP-9j-dVA" secondAttribute="trailingMargin" id="58i-Dz-3BA"/>
+                            <constraint firstAttribute="centerY" secondItem="FDl-g1-OJQ" secondAttribute="centerY" constant="-24" id="AII-rL-6pp"/>
+                            <constraint firstItem="q9h-2y-rgn" firstAttribute="leading" secondItem="zXP-9j-dVA" secondAttribute="leadingMargin" id="CLc-Bm-xmS"/>
+                            <constraint firstItem="FDl-g1-OJQ" firstAttribute="trailing" secondItem="zXP-9j-dVA" secondAttribute="trailingMargin" id="eR2-ey-bOU"/>
+                            <constraint firstItem="q9h-2y-rgn" firstAttribute="top" secondItem="FDl-g1-OJQ" secondAttribute="bottom" constant="8" id="fPx-N4-Yh0"/>
+                            <constraint firstAttribute="centerY" secondItem="tRB-Aw-boe" secondAttribute="centerY" constant="80" id="iVs-1L-WBw"/>
+                            <constraint firstItem="FDl-g1-OJQ" firstAttribute="leading" secondItem="zXP-9j-dVA" secondAttribute="leadingMargin" id="vXx-Lv-dXd"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X6x-Fa-XWP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-13" y="3624"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Mhc-yQ-r59">
             <objects>
@@ -1328,6 +1389,7 @@
     <resources>
         <image name="AboutIcon" width="120" height="120"/>
         <image name="List" width="26" height="26"/>
+        <image name="Love" width="60" height="60"/>
         <image name="Search" width="26" height="26"/>
         <image name="Settings" width="26" height="26"/>
     </resources>

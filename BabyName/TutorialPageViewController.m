@@ -38,7 +38,7 @@
     
     self.dataSource = self;
     
-    self.pageIdentifiers = @[@"Page1VC", @"Page2VC", @"Page3VC"];
+    self.pageIdentifiers = @[@"Page1VC", @"Page2VC", @"Page3VC", @"Page4VC"];
     
     PageViewController *pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.pageIdentifiers.firstObject];
     [self setViewControllers:@[pageViewController]
