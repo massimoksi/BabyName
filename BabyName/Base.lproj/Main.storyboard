@@ -12,8 +12,10 @@
             <string>Bariol-Light</string>
             <string>Bariol-Light</string>
             <string>Bariol-Light</string>
+            <string>Bariol-Light</string>
         </mutableArray>
         <mutableArray key="Bariol_Regular.otf">
+            <string>Bariol-Regular</string>
             <string>Bariol-Regular</string>
             <string>Bariol-Regular</string>
             <string>Bariol-Regular</string>
@@ -1305,6 +1307,60 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X6x-Fa-XWP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-13" y="4295"/>
+        </scene>
+        <!--Page5-->
+        <scene sceneID="9B5-xe-9bO">
+            <objects>
+                <viewController storyboardIdentifier="Page6VC" title="Page5" id="UwL-PQ-Jij" customClass="PageViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Dhb-QN-iOv"/>
+                        <viewControllerLayoutGuide type="bottom" id="obv-4n-ICr"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4Be-ls-i1e">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <userGuides>
+                            <userLayoutGuide location="301" affinity="minY"/>
+                        </userGuides>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I've got it" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9IW-qU-zDV">
+                                <rect key="frame" x="16" y="306" width="568" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="Xlr-QJ-J2E"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Bariol-Regular" family="Bariol" pointSize="36"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cBm-Cs-yJL">
+                                <rect key="frame" x="16" y="350" width="568" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="WVV-OM-dvq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Bariol-Light" family="Bariol" pointSize="24"/>
+                                <state key="normal" title="Let me get started">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="getStarted:" destination="UwL-PQ-Jij" eventType="touchUpInside" id="fBg-V7-F98"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="9IW-qU-zDV" secondAttribute="centerY" constant="-24" id="3WR-AB-Lde"/>
+                            <constraint firstItem="9IW-qU-zDV" firstAttribute="trailing" secondItem="4Be-ls-i1e" secondAttribute="trailingMargin" id="6jy-3C-pvz"/>
+                            <constraint firstItem="cBm-Cs-yJL" firstAttribute="trailing" secondItem="4Be-ls-i1e" secondAttribute="trailingMargin" id="UIj-dg-JKH"/>
+                            <constraint firstItem="cBm-Cs-yJL" firstAttribute="leading" secondItem="4Be-ls-i1e" secondAttribute="leadingMargin" id="Zgb-3j-ABA"/>
+                            <constraint firstItem="cBm-Cs-yJL" firstAttribute="top" secondItem="9IW-qU-zDV" secondAttribute="bottom" constant="8" id="j0c-HU-G0d"/>
+                            <constraint firstItem="9IW-qU-zDV" firstAttribute="leading" secondItem="4Be-ls-i1e" secondAttribute="leadingMargin" id="lO4-bv-mSd"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tuF-Dh-WgC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-13" y="4960"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Mhc-yQ-r59">

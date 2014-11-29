@@ -63,6 +63,7 @@ static NSString * const kShowMainSegueID     = @"ShowMainSegue";
         if (self.childViewControllers.count) {
             if (![self.childViewControllers.firstObject isKindOfClass:[TutorialPageViewController class]]) {
                 TutorialPageViewController *viewController = segue.destinationViewController;
+                viewController.containerViewController = self;
                 
                 [self swapFromViewController:self.childViewControllers.firstObject
                             toViewController:viewController];
@@ -70,6 +71,7 @@ static NSString * const kShowMainSegueID     = @"ShowMainSegue";
         }
         else {
             TutorialPageViewController *viewController = segue.destinationViewController;
+            viewController.containerViewController = self;
             
             [self addChildViewController:viewController];
             [self.view addSubview:viewController.view];

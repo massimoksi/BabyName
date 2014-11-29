@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "EmbeddedViewController.h"
 
-@interface TutorialPageViewController : UIPageViewController <UIPageViewControllerDataSource>
+
+@interface TutorialPageViewController : UIPageViewController <UIPageViewControllerDataSource, EmbeddedViewController>
+
+- (void)completeTutorial;
 
 @end

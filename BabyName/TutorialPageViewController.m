@@ -8,6 +8,7 @@
 
 #import "TutorialPageViewController.h"
 
+#import "Constants.h"
 #import "PageViewController.h"
 
 
@@ -38,7 +39,7 @@
     
     self.dataSource = self;
     
-    self.pageIdentifiers = @[@"Page1VC", @"Page2VC", @"Page3VC", @"Page4VC", @"Page5VC"];
+    self.pageIdentifiers = @[@"Page1VC", @"Page2VC", @"Page3VC", @"Page4VC", @"Page5VC", @"Page6VC"];
     
     PageViewController *pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.pageIdentifiers.firstObject];
     [self setViewControllers:@[pageViewController]
@@ -51,6 +52,16 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark -
+
+- (void)completeTutorial
+{
+    [[NSUserDefaults standardUserDefaults] setBool:YES
+                                            forKey:kSettingsTutorialCompletedKey];
+    
+    [self.containerViewController loadChildViewController];
 }
 
 #pragma mark - Private methods
@@ -98,5 +109,9 @@
 {
     return 0;
 }
+
+#pragma mark - Embedded view controller
+
+@synthesize containerViewController;
 
 @end
