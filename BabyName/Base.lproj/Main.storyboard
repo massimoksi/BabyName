@@ -1207,7 +1207,8 @@
                         </userGuides>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cBm-Cs-yJL">
-                                <rect key="frame" x="16" y="536" width="568" height="44"/>
+                                <rect key="frame" x="16" y="556" width="568" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="ZLJ-ep-ww6"/>
                                 </constraints>
@@ -1307,7 +1308,7 @@
                             <constraint firstItem="kfn-8F-73c" firstAttribute="centerY" secondItem="Vq3-1r-48q" secondAttribute="centerY" id="jhA-kV-R1c"/>
                             <constraint firstItem="nZI-Cn-v8S" firstAttribute="leading" secondItem="cd5-fb-oyp" secondAttribute="trailing" constant="8" id="pUj-SK-I1u"/>
                             <constraint firstAttribute="centerX" secondItem="y3n-iv-T2n" secondAttribute="centerX" constant="-24" id="ri4-Zv-HlB"/>
-                            <constraint firstItem="obv-4n-ICr" firstAttribute="top" secondItem="cBm-Cs-yJL" secondAttribute="bottom" constant="20" id="sOD-yM-GCp"/>
+                            <constraint firstItem="obv-4n-ICr" firstAttribute="top" secondItem="cBm-Cs-yJL" secondAttribute="bottom" id="sOD-yM-GCp"/>
                             <constraint firstItem="9gt-En-ptq" firstAttribute="centerY" secondItem="ehz-EO-LUw" secondAttribute="centerY" id="tQD-AG-qYo"/>
                             <constraint firstItem="kfn-8F-73c" firstAttribute="leading" secondItem="Vq3-1r-48q" secondAttribute="trailing" constant="8" id="uCT-Yf-Fhm"/>
                             <constraint firstItem="cBm-Cs-yJL" firstAttribute="trailing" secondItem="4Be-ls-i1e" secondAttribute="trailingMargin" id="wfp-Mz-q4q"/>
