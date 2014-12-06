@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		1C0171A9FDA2424AAAB35945 /* libPods-BabyName.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1A9D73A3408455B984CE430 /* libPods-BabyName.a */; };
 		5601A9991A0F5D68008141B5 /* AboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5601A9981A0F5D68008141B5 /* AboutTableViewController.m */; };
-		5613AE4919DF481400CF1A0E /* MainContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5613AE4819DF481400CF1A0E /* MainContainerViewController.m */; };
+		5613AE4919DF481400CF1A0E /* PaneContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5613AE4819DF481400CF1A0E /* PaneContainerViewController.m */; };
 		5613AE4C19DF4B9200CF1A0E /* SelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5613AE4B19DF4B9200CF1A0E /* SelectionViewController.m */; };
 		5613AE5019E0A2A600CF1A0E /* FinishedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5613AE4F19E0A2A600CF1A0E /* FinishedViewController.m */; };
 		561EA9E51A12A1CA007F5AE7 /* StatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 561EA9E41A12A1CA007F5AE7 /* StatusView.m */; };
@@ -22,18 +22,24 @@
 		562FF8951A0189780045D06D /* BabyName.csv in Resources */ = {isa = PBXBuildFile; fileRef = 562FF8941A0189780045D06D /* BabyName.csv */; };
 		5634858D19DB4C4400A548BB /* DrawerContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5634858C19DB4C4400A548BB /* DrawerContainerViewController.m */; };
 		5634859019DB528C00A548BB /* CustomContainerSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5634858F19DB528C00A548BB /* CustomContainerSegue.m */; };
-		563B6B8919ACB83800F9EF37 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 563B6B8819ACB83800F9EF37 /* MainViewController.m */; };
+		563B6B8919ACB83800F9EF37 /* PaneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 563B6B8819ACB83800F9EF37 /* PaneViewController.m */; };
 		56500E821A20C06E00AA180A /* SuggestionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 56500E811A20C06E00AA180A /* SuggestionsManager.m */; };
 		5691AE9F19C4564A00C1550F /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5691AE9E19C4564A00C1550F /* SettingsTableViewController.m */; };
 		5691AEA219C4800900C1550F /* GendersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5691AEA119C4800900C1550F /* GendersTableViewController.m */; };
 		5691AEA819C56EF100C1550F /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5691AEA719C56EF100C1550F /* Constants.m */; };
 		56AE21E919E3295200302C57 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56AE21E819E3295200302C57 /* SearchTableViewController.m */; };
 		56AE21EE19E33D8400302C57 /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 56AE21ED19E33D8400302C57 /* SearchTableViewCell.m */; };
+		56B174B81A2796B3002DBE1A /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B174B71A2796B3002DBE1A /* RootViewController.m */; };
+		56B174BC1A279928002DBE1A /* TutorialPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B174BB1A279928002DBE1A /* TutorialPageViewController.m */; };
+		56B174C21A279D35002DBE1A /* MainDynamicsDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B174C11A279D35002DBE1A /* MainDynamicsDrawerViewController.m */; };
+		56B174C51A279DEB002DBE1A /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B174C41A279DEB002DBE1A /* PageViewController.m */; };
+		56B174C81A27D70D002DBE1A /* Bariol_Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 56B174C71A27D70D002DBE1A /* Bariol_Light.otf */; };
+		56B174CA1A27D808002DBE1A /* Bariol_Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 56B174C91A27D808002DBE1A /* Bariol_Regular.otf */; };
+		56BAC5351A3319F600707C59 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56BAC5341A3319F600707C59 /* Images.xcassets */; };
 		56C647A519AC62FF005B1D46 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C647A419AC62FF005B1D46 /* main.m */; };
 		56C647A819AC62FF005B1D46 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C647A719AC62FF005B1D46 /* AppDelegate.m */; };
 		56C647AB19AC62FF005B1D46 /* BabyName.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 56C647A919AC62FF005B1D46 /* BabyName.xcdatamodeld */; };
 		56C647B119AC62FF005B1D46 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56C647AF19AC62FF005B1D46 /* Main.storyboard */; };
-		56C647B319AC62FF005B1D46 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56C647B219AC62FF005B1D46 /* Images.xcassets */; };
 		56C647BF19AC62FF005B1D46 /* BabyNameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C647BE19AC62FF005B1D46 /* BabyNameTests.m */; };
 		56E4D0D019D0D8E70005DFDC /* Language.m in Sources */ = {isa = PBXBuildFile; fileRef = 56E4D0CF19D0D8E70005DFDC /* Language.m */; };
 		56E4D0D419D20C830005DFDC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 56E4D0D219D20C830005DFDC /* Localizable.strings */; };
@@ -56,8 +62,8 @@
 		4DCA3DE7F7B3C88E08D42440 /* Pods-BabyName.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BabyName.release.xcconfig"; path = "Pods/Target Support Files/Pods-BabyName/Pods-BabyName.release.xcconfig"; sourceTree = "<group>"; };
 		5601A9971A0F5D68008141B5 /* AboutTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutTableViewController.h; sourceTree = "<group>"; };
 		5601A9981A0F5D68008141B5 /* AboutTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutTableViewController.m; sourceTree = "<group>"; };
-		5613AE4719DF481400CF1A0E /* MainContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainContainerViewController.h; sourceTree = "<group>"; };
-		5613AE4819DF481400CF1A0E /* MainContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainContainerViewController.m; sourceTree = "<group>"; };
+		5613AE4719DF481400CF1A0E /* PaneContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaneContainerViewController.h; sourceTree = "<group>"; };
+		5613AE4819DF481400CF1A0E /* PaneContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaneContainerViewController.m; sourceTree = "<group>"; };
 		5613AE4A19DF4B9200CF1A0E /* SelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectionViewController.h; sourceTree = "<group>"; };
 		5613AE4B19DF4B9200CF1A0E /* SelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectionViewController.m; sourceTree = "<group>"; };
 		5613AE4E19E0A2A600CF1A0E /* FinishedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinishedViewController.h; sourceTree = "<group>"; };
@@ -80,8 +86,8 @@
 		5634858C19DB4C4400A548BB /* DrawerContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawerContainerViewController.m; sourceTree = "<group>"; };
 		5634858E19DB528C00A548BB /* CustomContainerSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomContainerSegue.h; sourceTree = "<group>"; };
 		5634858F19DB528C00A548BB /* CustomContainerSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomContainerSegue.m; sourceTree = "<group>"; };
-		563B6B8719ACB83700F9EF37 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		563B6B8819ACB83800F9EF37 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		563B6B8719ACB83700F9EF37 /* PaneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaneViewController.h; sourceTree = "<group>"; };
+		563B6B8819ACB83800F9EF37 /* PaneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaneViewController.m; sourceTree = "<group>"; };
 		56500E801A20C06E00AA180A /* SuggestionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionsManager.h; sourceTree = "<group>"; };
 		56500E811A20C06E00AA180A /* SuggestionsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestionsManager.m; sourceTree = "<group>"; };
 		5691AE9D19C4564A00C1550F /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
@@ -94,9 +100,20 @@
 		56AE21E819E3295200302C57 /* SearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
 		56AE21EC19E33D8400302C57 /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
 		56AE21ED19E33D8400302C57 /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
+		56B174B61A2796B3002DBE1A /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		56B174B71A2796B3002DBE1A /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		56B174BA1A279928002DBE1A /* TutorialPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialPageViewController.h; sourceTree = "<group>"; };
+		56B174BB1A279928002DBE1A /* TutorialPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPageViewController.m; sourceTree = "<group>"; };
+		56B174C01A279D35002DBE1A /* MainDynamicsDrawerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainDynamicsDrawerViewController.h; sourceTree = "<group>"; };
+		56B174C11A279D35002DBE1A /* MainDynamicsDrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainDynamicsDrawerViewController.m; sourceTree = "<group>"; };
+		56B174C31A279DEB002DBE1A /* PageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageViewController.h; sourceTree = "<group>"; };
+		56B174C41A279DEB002DBE1A /* PageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageViewController.m; sourceTree = "<group>"; };
+		56B174C71A27D70D002DBE1A /* Bariol_Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bariol_Light.otf; sourceTree = "<group>"; };
+		56B174C91A27D808002DBE1A /* Bariol_Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bariol_Regular.otf; sourceTree = "<group>"; };
 		56BA52AA1A21F3BB00866785 /* EmbeddedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmbeddedViewController.h; sourceTree = "<group>"; };
 		56BA52AC1A21F57B00866785 /* ContainerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContainerViewController.h; sourceTree = "<group>"; };
 		56BA52AD1A23A3FA00866785 /* BabyName.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = BabyName.entitlements; sourceTree = "<group>"; };
+		56BAC5341A3319F600707C59 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		56C6479F19AC62FF005B1D46 /* BabyName.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyName.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56C647A319AC62FF005B1D46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		56C647A419AC62FF005B1D46 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -104,7 +121,6 @@
 		56C647A719AC62FF005B1D46 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		56C647AA19AC62FF005B1D46 /* BabyName.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BabyName.xcdatamodel; sourceTree = "<group>"; };
 		56C647B019AC62FF005B1D46 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		56C647B219AC62FF005B1D46 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		56C647B819AC62FF005B1D46 /* BabyNameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabyNameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		56C647BD19AC62FF005B1D46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		56C647BE19AC62FF005B1D46 /* BabyNameTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BabyNameTests.m; sourceTree = "<group>"; };
@@ -167,34 +183,21 @@
 		5636493B19FBB5F100FD8870 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				563B6B8719ACB83700F9EF37 /* MainViewController.h */,
-				563B6B8819ACB83800F9EF37 /* MainViewController.m */,
-				5613AE4719DF481400CF1A0E /* MainContainerViewController.h */,
-				5613AE4819DF481400CF1A0E /* MainContainerViewController.m */,
+				56B174B61A2796B3002DBE1A /* RootViewController.h */,
+				56B174B71A2796B3002DBE1A /* RootViewController.m */,
+				56B174C01A279D35002DBE1A /* MainDynamicsDrawerViewController.h */,
+				56B174C11A279D35002DBE1A /* MainDynamicsDrawerViewController.m */,
+				56B174B91A279700002DBE1A /* Tutorial */,
+				563B6B8719ACB83700F9EF37 /* PaneViewController.h */,
+				563B6B8819ACB83800F9EF37 /* PaneViewController.m */,
+				5613AE4719DF481400CF1A0E /* PaneContainerViewController.h */,
+				5613AE4819DF481400CF1A0E /* PaneContainerViewController.m */,
 				5613AE4A19DF4B9200CF1A0E /* SelectionViewController.h */,
 				5613AE4B19DF4B9200CF1A0E /* SelectionViewController.m */,
 				5613AE4E19E0A2A600CF1A0E /* FinishedViewController.h */,
 				5613AE4F19E0A2A600CF1A0E /* FinishedViewController.m */,
-				5634858B19DB4C4400A548BB /* DrawerContainerViewController.h */,
-				5634858C19DB4C4400A548BB /* DrawerContainerViewController.m */,
-				56E9263119DC5B4800033E73 /* EmptyViewController.h */,
-				56E9263219DC5B4800033E73 /* EmptyViewController.m */,
-				56EB752A19D83E1A00D18DF6 /* AcceptedTableViewController.h */,
-				56EB752B19D83E1A00D18DF6 /* AcceptedTableViewController.m */,
-				5691AE9D19C4564A00C1550F /* SettingsTableViewController.h */,
-				5691AE9E19C4564A00C1550F /* SettingsTableViewController.m */,
-				5691AEA019C4800900C1550F /* GendersTableViewController.h */,
-				5691AEA119C4800900C1550F /* GendersTableViewController.m */,
-				561ECCD919CA375E00814D62 /* LanguagesTableViewController.h */,
-				561ECCDA19CA375E00814D62 /* LanguagesTableViewController.m */,
-				56EB752619D4C60C00D18DF6 /* InitialsTableViewController.h */,
-				56EB752719D4C60C00D18DF6 /* InitialsTableViewController.m */,
-				5601A9971A0F5D68008141B5 /* AboutTableViewController.h */,
-				5601A9981A0F5D68008141B5 /* AboutTableViewController.m */,
-				561EA9FD1A1559B4007F5AE7 /* CreditsTableViewController.h */,
-				561EA9FE1A1559B4007F5AE7 /* CreditsTableViewController.m */,
-				561EAA031A156957007F5AE7 /* LicenseViewController.h */,
-				561EAA041A156957007F5AE7 /* LicenseViewController.m */,
+				56B174B51A279561002DBE1A /* Drawer */,
+				56B174B41A27953A002DBE1A /* Settings */,
 				56AE21E719E3295200302C57 /* SearchTableViewController.h */,
 				56AE21E819E3295200302C57 /* SearchTableViewController.m */,
 			);
@@ -226,6 +229,60 @@
 				56500E811A20C06E00AA180A /* SuggestionsManager.m */,
 			);
 			name = Singletons;
+			sourceTree = "<group>";
+		};
+		56B174B41A27953A002DBE1A /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				5691AE9D19C4564A00C1550F /* SettingsTableViewController.h */,
+				5691AE9E19C4564A00C1550F /* SettingsTableViewController.m */,
+				5691AEA019C4800900C1550F /* GendersTableViewController.h */,
+				5691AEA119C4800900C1550F /* GendersTableViewController.m */,
+				561ECCD919CA375E00814D62 /* LanguagesTableViewController.h */,
+				561ECCDA19CA375E00814D62 /* LanguagesTableViewController.m */,
+				56EB752619D4C60C00D18DF6 /* InitialsTableViewController.h */,
+				56EB752719D4C60C00D18DF6 /* InitialsTableViewController.m */,
+				5601A9971A0F5D68008141B5 /* AboutTableViewController.h */,
+				5601A9981A0F5D68008141B5 /* AboutTableViewController.m */,
+				561EA9FD1A1559B4007F5AE7 /* CreditsTableViewController.h */,
+				561EA9FE1A1559B4007F5AE7 /* CreditsTableViewController.m */,
+				561EAA031A156957007F5AE7 /* LicenseViewController.h */,
+				561EAA041A156957007F5AE7 /* LicenseViewController.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		56B174B51A279561002DBE1A /* Drawer */ = {
+			isa = PBXGroup;
+			children = (
+				5634858B19DB4C4400A548BB /* DrawerContainerViewController.h */,
+				5634858C19DB4C4400A548BB /* DrawerContainerViewController.m */,
+				56E9263119DC5B4800033E73 /* EmptyViewController.h */,
+				56E9263219DC5B4800033E73 /* EmptyViewController.m */,
+				56EB752A19D83E1A00D18DF6 /* AcceptedTableViewController.h */,
+				56EB752B19D83E1A00D18DF6 /* AcceptedTableViewController.m */,
+			);
+			name = Drawer;
+			sourceTree = "<group>";
+		};
+		56B174B91A279700002DBE1A /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				56B174BA1A279928002DBE1A /* TutorialPageViewController.h */,
+				56B174BB1A279928002DBE1A /* TutorialPageViewController.m */,
+				56B174C31A279DEB002DBE1A /* PageViewController.h */,
+				56B174C41A279DEB002DBE1A /* PageViewController.m */,
+			);
+			name = Tutorial;
+			sourceTree = "<group>";
+		};
+		56B174C61A27D6E0002DBE1A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				56B174C91A27D808002DBE1A /* Bariol_Regular.otf */,
+				56B174C71A27D70D002DBE1A /* Bariol_Light.otf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		56BA52AB1A21F41F00866785 /* Protocols */ = {
@@ -262,7 +319,7 @@
 			isa = PBXGroup;
 			children = (
 				56C647AF19AC62FF005B1D46 /* Main.storyboard */,
-				56C647B219AC62FF005B1D46 /* Images.xcassets */,
+				56BAC5341A3319F600707C59 /* Images.xcassets */,
 				56C647A919AC62FF005B1D46 /* BabyName.xcdatamodeld */,
 				5691AEA619C56EF100C1550F /* Constants.h */,
 				5691AEA719C56EF100C1550F /* Constants.m */,
@@ -282,6 +339,7 @@
 		56C647A219AC62FF005B1D46 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				56B174C61A27D6E0002DBE1A /* Fonts */,
 				56BA52AD1A23A3FA00866785 /* BabyName.entitlements */,
 				561EA9FB1A1558BC007F5AE7 /* Acknowledgements.plist */,
 				562FF8941A0189780045D06D /* BabyName.csv */,
@@ -415,11 +473,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56B174CA1A27D808002DBE1A /* Bariol_Regular.otf in Resources */,
 				561EA9FC1A1558BC007F5AE7 /* Acknowledgements.plist in Resources */,
+				56BAC5351A3319F600707C59 /* Images.xcassets in Resources */,
 				56E4D0D419D20C830005DFDC /* Localizable.strings in Resources */,
 				562FF8951A0189780045D06D /* BabyName.csv in Resources */,
+				56B174C81A27D70D002DBE1A /* Bariol_Light.otf in Resources */,
 				56C647B119AC62FF005B1D46 /* Main.storyboard in Resources */,
-				56C647B319AC62FF005B1D46 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,6 +535,7 @@
 				56AE21EE19E33D8400302C57 /* SearchTableViewCell.m in Sources */,
 				562FF89119FDA2D90045D06D /* Suggestion.m in Sources */,
 				56C647A819AC62FF005B1D46 /* AppDelegate.m in Sources */,
+				56B174B81A2796B3002DBE1A /* RootViewController.m in Sources */,
 				56AE21E919E3295200302C57 /* SearchTableViewController.m in Sources */,
 				5691AEA219C4800900C1550F /* GendersTableViewController.m in Sources */,
 				5613AE4C19DF4B9200CF1A0E /* SelectionViewController.m in Sources */,
@@ -484,13 +545,16 @@
 				5634859019DB528C00A548BB /* CustomContainerSegue.m in Sources */,
 				561ECCDB19CA375E00814D62 /* LanguagesTableViewController.m in Sources */,
 				561EA9E51A12A1CA007F5AE7 /* StatusView.m in Sources */,
+				56B174BC1A279928002DBE1A /* TutorialPageViewController.m in Sources */,
 				5601A9991A0F5D68008141B5 /* AboutTableViewController.m in Sources */,
-				5613AE4919DF481400CF1A0E /* MainContainerViewController.m in Sources */,
-				563B6B8919ACB83800F9EF37 /* MainViewController.m in Sources */,
+				5613AE4919DF481400CF1A0E /* PaneContainerViewController.m in Sources */,
+				563B6B8919ACB83800F9EF37 /* PaneViewController.m in Sources */,
 				5634858D19DB4C4400A548BB /* DrawerContainerViewController.m in Sources */,
 				561EA9FF1A1559B4007F5AE7 /* CreditsTableViewController.m in Sources */,
 				56EB752819D4C60C00D18DF6 /* InitialsTableViewController.m in Sources */,
 				561EAA021A155DAA007F5AE7 /* Acknowledgement.m in Sources */,
+				56B174C51A279DEB002DBE1A /* PageViewController.m in Sources */,
+				56B174C21A279D35002DBE1A /* MainDynamicsDrawerViewController.m in Sources */,
 				56500E821A20C06E00AA180A /* SuggestionsManager.m in Sources */,
 				561EAA051A156957007F5AE7 /* LicenseViewController.m in Sources */,
 				5691AEA819C56EF100C1550F /* Constants.m in Sources */,

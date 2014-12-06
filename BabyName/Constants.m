@@ -11,6 +11,7 @@
 
 NSString * const kAppGroupSuiteName = @"group.com.gmail.massimoperi.BabyName";
 
+NSString * const kSettingsTutorialCompletedKey = @"SettingsTutorialCompleted";
 NSString * const kSettingsDBPopulatedKey       = @"SettingsDBPopulated";
 NSString * const kSettingsSelectedGendersKey   = @"SettingsSelectedGenders";
 NSString * const kSettingsSelectedLanguagesKey = @"SettingsSelectedLanguages";
@@ -22,8 +23,6 @@ NSString * const kSettingsDueDateKey           = @"SettingsDueDate";
 NSString * const kPreferredSuggestionChangedNotification = @"PreferredSuggestionChanged";
 NSString * const kFetchingPreferencesChangedNotification = @"FetchingPreferencesChanged";
 NSString * const kCurrentSuggestionChangedNotification   = @"CurrentSuggestionChanged";
-
-const CGFloat kPaneOverlapWidth = 44.0;
 
 
 @implementation UIColor (BabyName)

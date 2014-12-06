@@ -1,5 +1,5 @@
 //
-//  MainContainerViewController.h
+//  PaneContainerViewController.h
 //  BabyName
 //
 //  Created by Massimo Peri on 03/10/14.
@@ -11,6 +11,6 @@
 #import "ContainerViewController.h"
 
 
-@interface MainContainerViewController : UIViewController <ContainerViewController>
+@interface PaneContainerViewController : UIViewController <ContainerViewController>
 
 @end
