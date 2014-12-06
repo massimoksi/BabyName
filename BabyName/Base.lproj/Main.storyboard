@@ -1500,6 +1500,6 @@
         <image name="Love" width="40" height="40"/>
         <image name="Search" width="26" height="26"/>
         <image name="Settings" width="26" height="26"/>
-        <image name="Shuffle" width="60" height="60"/>
+        <image name="Shuffle" width="60" height="65"/>
     </resources>
 </document>
