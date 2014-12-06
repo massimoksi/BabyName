@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jfC-VI-DvC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jfC-VI-DvC">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -1208,7 +1208,7 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cBm-Cs-yJL">
                                 <rect key="frame" x="16" y="556" width="568" height="44"/>
-                                <color key="backgroundColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="1" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="ZLJ-ep-ww6"/>
                                 </constraints>
@@ -1263,21 +1263,21 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Love" translatesAutoresizingMaskIntoConstraints="NO" id="ehz-EO-LUw">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Genders" translatesAutoresizingMaskIntoConstraints="NO" id="ehz-EO-LUw">
                                 <rect key="frame" x="16" y="220" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="AED-g3-x1D"/>
                                     <constraint firstAttribute="height" constant="40" id="gFc-Vj-Ct4"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Love" translatesAutoresizingMaskIntoConstraints="NO" id="HzB-ji-7Sj">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Languages" translatesAutoresizingMaskIntoConstraints="NO" id="HzB-ji-7Sj">
                                 <rect key="frame" x="16" y="340" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="0S5-WR-lJm"/>
                                     <constraint firstAttribute="width" constant="40" id="CYY-31-07x"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Love" translatesAutoresizingMaskIntoConstraints="NO" id="Vq3-1r-48q">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Initials" translatesAutoresizingMaskIntoConstraints="NO" id="Vq3-1r-48q">
                                 <rect key="frame" x="16" y="460" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="m8t-nm-wI1"/>
@@ -1492,9 +1492,12 @@
     <resources>
         <image name="AboutIcon" width="120" height="120"/>
         <image name="Dislike" width="60" height="60"/>
+        <image name="Genders" width="40" height="40"/>
+        <image name="Initials" width="40" height="40"/>
+        <image name="Languages" width="40" height="40"/>
         <image name="Like" width="60" height="60"/>
         <image name="List" width="26" height="26"/>
-        <image name="Love" width="60" height="60"/>
+        <image name="Love" width="40" height="40"/>
         <image name="Search" width="26" height="26"/>
         <image name="Settings" width="26" height="26"/>
         <image name="Shuffle" width="60" height="60"/>
