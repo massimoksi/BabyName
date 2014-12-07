@@ -431,10 +431,10 @@
             </objects>
             <point key="canvasLocation" x="2250" y="-807"/>
         </scene>
-        <!--Accepted Table View Controller-->
+        <!--Review Table View Controller-->
         <scene sceneID="jI6-oA-IgJ">
             <objects>
-                <tableViewController storyboardIdentifier="AcceptedTVC" id="omo-S7-zyD" customClass="AcceptedTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ReviewTVC" id="omo-S7-zyD" customClass="ReviewTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="1" id="AxA-tP-0FY">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -462,7 +462,7 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AcceptedCell" id="Qkj-P3-aZi" customClass="SearchTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReviewCell" id="Qkj-P3-aZi" customClass="SearchTableViewCell">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qkj-P3-aZi" id="5JS-Ma-wpw">
                                     <autoresizingMask key="autoresizingMask"/>

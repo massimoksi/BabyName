@@ -1,5 +1,5 @@
 //
-//  AcceptedTableViewController.h
+//  ReviewTableViewController.h
 //  BabyName
 //
 //  Created by Massimo Peri on 28/09/14.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface AcceptedTableViewController : UITableViewController
+@interface ReviewTableViewController : UITableViewController
 
 @end

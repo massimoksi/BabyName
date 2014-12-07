@@ -1,12 +1,12 @@
 //
-//  AcceptedTableViewController.m
+//  ReviewTableViewController.m
 //  BabyName
 //
 //  Created by Massimo Peri on 28/09/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "AcceptedTableViewController.h"
+#import "ReviewTableViewController.h"
 
 #import "MGSwipeButton.h"
 
@@ -15,12 +15,12 @@
 #import "SearchTableViewCell.h"
 
 
-@interface AcceptedTableViewController () <MGSwipeTableCellDelegate>
+@interface ReviewTableViewController () <MGSwipeTableCellDelegate>
 
 @end
 
 
-@implementation AcceptedTableViewController
+@implementation ReviewTableViewController
 
 - (void)viewDidLoad
 {
@@ -76,7 +76,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AcceptedCell"];
+    SearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ReviewCell"];
 
     Suggestion *suggestion = [[[SuggestionsManager sharedManager] acceptedSuggestions] objectAtIndex:indexPath.row];
 
