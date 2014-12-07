@@ -109,7 +109,7 @@
 
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name"
                                                                      ascending:YES
-                                                                      selector:@selector(caseInsensitiveCompare:)];
+                                                                      selector:@selector(localizedCaseInsensitiveCompare:)];
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     
     _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
