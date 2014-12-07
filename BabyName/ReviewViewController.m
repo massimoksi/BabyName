@@ -1,12 +1,12 @@
 //
-//  AcceptedTableViewController.m
+//  ReviewViewController.m
 //  BabyName
 //
 //  Created by Massimo Peri on 28/09/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "AcceptedTableViewController.h"
+#import "ReviewViewController.h"
 
 #import "MGSwipeButton.h"
 
@@ -15,12 +15,14 @@
 #import "SearchTableViewCell.h"
 
 
-@interface AcceptedTableViewController () <MGSwipeTableCellDelegate>
+@interface ReviewViewController () <MGSwipeTableCellDelegate>
+
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
 
 @end
 
 
-@implementation AcceptedTableViewController
+@implementation ReviewViewController
 
 - (void)viewDidLoad
 {
@@ -28,7 +30,7 @@
     // Do any additional setup after loading the view.
     
     // It's not possible to make the view transparent in Storyboard because of the use of white labels.
-    self.tableView.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor clearColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,10 +64,6 @@
                      completion:nil];
 }
 
-#pragma mark - Embedded view controller
-
-@synthesize containerViewController;
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -80,7 +78,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AcceptedCell"];
+    SearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ReviewCell"];
 
     Suggestion *suggestion = [[[SuggestionsManager sharedManager] acceptedSuggestions] objectAtIndex:indexPath.row];
 
@@ -135,8 +133,6 @@
                                       withRowAnimation:UITableViewRowAnimationLeft];
                 
                 [cell refreshContentView];
-                
-                [self.containerViewController loadChildViewController];
             }
         }
     }
@@ -227,7 +223,7 @@
     else {
         // Configure swipe settings.
         swipeSettings.transition = MGSwipeTransitionStatic;
-        swipeSettings.offset = 44.0;
+//        swipeSettings.offset = 44.0;
         
         // Configure expansions settings.
         expansionSettings.buttonIndex = 0;
