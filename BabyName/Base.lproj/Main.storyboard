@@ -432,10 +432,10 @@
             </objects>
             <point key="canvasLocation" x="2250" y="-807"/>
         </scene>
-        <!--Review Table View Controller-->
+        <!--Review View Controller-->
         <scene sceneID="yn3-Ka-ULP">
             <objects>
-                <viewController storyboardIdentifier="ReviewTVC" id="34D-b5-Va9" customClass="ReviewTableViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ReviewVC" id="34D-b5-Va9" customClass="ReviewViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dV3-nu-eZt"/>
                         <viewControllerLayoutGuide type="bottom" id="aDz-y2-Uop"/>

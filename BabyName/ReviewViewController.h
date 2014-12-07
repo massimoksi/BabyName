@@ -1,5 +1,5 @@
 //
-//  ReviewTableViewController.h
+//  ReviewViewController.h
 //  BabyName
 //
 //  Created by Massimo Peri on 28/09/14.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface ReviewTableViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface ReviewViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

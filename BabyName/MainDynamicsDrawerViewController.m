@@ -9,7 +9,7 @@
 #import "MainDynamicsDrawerViewController.h"
 
 #import "PaneViewController.h"
-#import "ReviewTableViewController.h"
+#import "ReviewViewController.h"
 
 
 @implementation MainDynamicsDrawerViewController
@@ -27,7 +27,7 @@
     paneViewController.drawerViewController = self;
     self.paneViewController = paneViewController;
 
-    ReviewTableViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ReviewTVC"];
+    ReviewViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ReviewVC"];
     [self setDrawerViewController:viewController
                      forDirection:MSDynamicsDrawerDirectionRight];
     [self setRevealWidth:CGRectGetWidth(self.view.frame) - 44.0
