@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface ReviewTableViewController : UITableViewController
+@interface ReviewTableViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

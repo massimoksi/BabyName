@@ -17,6 +17,8 @@
 
 @interface ReviewTableViewController () <MGSwipeTableCellDelegate>
 
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
+
 @end
 
 
@@ -28,7 +30,7 @@
     // Do any additional setup after loading the view.
     
     // It's not possible to make the view transparent in Storyboard because of the use of white labels.
-    self.tableView.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor clearColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -221,7 +223,7 @@
     else {
         // Configure swipe settings.
         swipeSettings.transition = MGSwipeTransitionStatic;
-        swipeSettings.offset = 44.0;
+//        swipeSettings.offset = 44.0;
         
         // Configure expansions settings.
         expansionSettings.buttonIndex = 0;
