@@ -62,10 +62,6 @@
                      completion:nil];
 }
 
-#pragma mark - Embedded view controller
-
-@synthesize containerViewController;
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -135,8 +131,6 @@
                                       withRowAnimation:UITableViewRowAnimationLeft];
                 
                 [cell refreshContentView];
-                
-                [self.containerViewController loadChildViewController];
             }
         }
     }

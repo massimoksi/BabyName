@@ -431,48 +431,6 @@
             </objects>
             <point key="canvasLocation" x="2250" y="-807"/>
         </scene>
-        <!--Empty View Controller-->
-        <scene sceneID="aCK-fk-oZQ">
-            <objects>
-                <viewController storyboardIdentifier="EmptyVC" id="gZu-bt-hWu" customClass="EmptyViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Q1L-4H-XWh"/>
-                        <viewControllerLayoutGuide type="bottom" id="2ke-et-oT7"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="tDj-WU-mCT">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="People's fates are simplified by their names." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bg-eK-FJH" userLabel="Quote">
-                                <rect key="frame" x="60" y="290" width="524" height="20"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="italicSystem" pointSize="16"/>
-                                <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- Elias Canetti" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bBn-0P-9di" userLabel="Author">
-                                <rect key="frame" x="60" y="318" width="524" height="20"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="bBn-0P-9di" firstAttribute="leading" secondItem="tDj-WU-mCT" secondAttribute="leadingMargin" constant="44" id="8h3-P0-Auh"/>
-                            <constraint firstItem="bBn-0P-9di" firstAttribute="top" secondItem="7Bg-eK-FJH" secondAttribute="bottom" constant="8" id="CZZ-gr-5ka"/>
-                            <constraint firstItem="7Bg-eK-FJH" firstAttribute="trailing" secondItem="tDj-WU-mCT" secondAttribute="trailingMargin" id="FO8-yZ-vjT"/>
-                            <constraint firstItem="7Bg-eK-FJH" firstAttribute="leading" secondItem="tDj-WU-mCT" secondAttribute="leadingMargin" constant="44" id="bfe-qe-MS0"/>
-                            <constraint firstAttribute="centerY" secondItem="7Bg-eK-FJH" secondAttribute="centerY" constant="0.5" id="kRw-vk-anj"/>
-                            <constraint firstItem="bBn-0P-9di" firstAttribute="trailing" secondItem="tDj-WU-mCT" secondAttribute="trailingMargin" id="m1p-yB-7tf"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="L9f-CB-8ht" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2250" y="1408"/>
-        </scene>
         <!--Accepted Table View Controller-->
         <scene sceneID="jI6-oA-IgJ">
             <objects>
@@ -547,7 +505,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iWx-ze-yMc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2250" y="2103"/>
+            <point key="canvasLocation" x="751" y="966"/>
         </scene>
         <!--Search-->
         <scene sceneID="iwW-wZ-SzT">
@@ -640,7 +598,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DZw-LN-jeF" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="06M-Ic-El5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2245" y="2833"/>
+            <point key="canvasLocation" x="2250" y="1314"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Xcd-3r-XGB">
@@ -661,7 +619,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cA9-n8-hda" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1481" y="2834"/>
+            <point key="canvasLocation" x="1481" y="1314"/>
         </scene>
         <!--Gender-->
         <scene sceneID="n0R-E3-rW7">
@@ -1343,29 +1301,6 @@
             </objects>
             <point key="canvasLocation" x="1481" y="-807"/>
         </scene>
-        <!--Drawer Container View Controller-->
-        <scene sceneID="PEa-EX-BQX">
-            <objects>
-                <viewController storyboardIdentifier="DrawerContainerVC" automaticallyAdjustsScrollViewInsets="NO" id="fGe-QE-BMy" customClass="DrawerContainerViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="mSo-95-HIf"/>
-                        <viewControllerLayoutGuide type="bottom" id="tFa-YD-Yg0"/>
-                    </layoutGuides>
-                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="yVd-yP-Ak7">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </view>
-                    <toolbarItems/>
-                    <connections>
-                        <segue destination="gZu-bt-hWu" kind="custom" identifier="ContainEmptySegue" customClass="CustomContainerSegue" id="QoI-zQ-eNm"/>
-                        <segue destination="omo-S7-zyD" kind="custom" identifier="ContainAcceptedSegue" customClass="CustomContainerSegue" id="6YA-WK-N1U"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="W8M-fr-Et6" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1481" y="1733"/>
-        </scene>
         <!--Pane Container View Controller-->
         <scene sceneID="DbA-Uz-1NO">
             <objects>
@@ -1500,6 +1435,6 @@
         <image name="Love" width="40" height="40"/>
         <image name="Search" width="26" height="26"/>
         <image name="Settings" width="26" height="26"/>
-        <image name="Shuffle" width="60" height="65"/>
+        <image name="Shuffle" width="60" height="60"/>
     </resources>
 </document>

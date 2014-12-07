@@ -8,9 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "EmbeddedViewController.h"
 
-
-@interface AcceptedTableViewController : UITableViewController <EmbeddedViewController>
+@interface AcceptedTableViewController : UITableViewController
 
 @end

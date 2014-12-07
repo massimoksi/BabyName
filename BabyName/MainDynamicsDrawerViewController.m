@@ -9,7 +9,7 @@
 #import "MainDynamicsDrawerViewController.h"
 
 #import "PaneViewController.h"
-#import "DrawerContainerViewController.h"
+#import "AcceptedTableViewController.h"
 
 
 @implementation MainDynamicsDrawerViewController
@@ -27,8 +27,8 @@
     paneViewController.drawerViewController = self;
     self.paneViewController = paneViewController;
 
-    DrawerContainerViewController *containerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"DrawerContainerVC"];
-    [self setDrawerViewController:containerViewController
+    AcceptedTableViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"AcceptedTVC"];
+    [self setDrawerViewController:viewController
                      forDirection:MSDynamicsDrawerDirectionRight];
     [self setRevealWidth:CGRectGetWidth(self.view.frame) - 44.0
             forDirection:MSDynamicsDrawerDirectionRight];
