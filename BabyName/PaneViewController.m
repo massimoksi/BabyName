@@ -1,25 +1,25 @@
 //
-//  MainViewController.m
+//  PaneViewController.m
 //  BabyName
 //
 //  Created by Massimo Peri on 26/08/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "MainViewController.h"
+#import "PaneViewController.h"
 
 #import <QuartzCore/QuartzCore.h>
 
 #import "Constants.h"
 #import "SuggestionsManager.h"
-#import "MainContainerViewController.h"
+#import "PaneContainerViewController.h"
 #import "SettingsTableViewController.h"
 #import "SearchTableViewController.h"
 
 
-@interface MainViewController ()
+@interface PaneViewController ()
 
-@property (nonatomic, strong) MainContainerViewController *containerViewController;
+@property (nonatomic, strong) PaneContainerViewController *containerViewController;
 
 @property (nonatomic, strong) CAGradientLayer *backgroundGradientLayer;
 
@@ -28,7 +28,7 @@
 @end
 
 
-@implementation MainViewController
+@implementation PaneViewController
 
 - (void)viewDidLoad
 {

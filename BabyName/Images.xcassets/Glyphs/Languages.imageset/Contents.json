@@ -1,0 +1,24 @@
+{
+  "images" : [
+    {
+      "idiom" : "universal",
+      "scale" : "1x",
+      "filename" : "Languages.png"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x",
+      "filename" : "Languages@2x.png"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x",
+      "filename" : "Languages@3x.png"
+    }
+  ],
+  "info" : {
+    "version" : 1,
+    "author" : "xcode",
+    "template-rendering-intent" : "template"
+  }
+}

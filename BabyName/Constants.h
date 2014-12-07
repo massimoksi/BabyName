@@ -11,6 +11,7 @@
 
 extern NSString * const kAppGroupSuiteName;
 
+extern NSString * const kSettingsTutorialCompletedKey;
 extern NSString * const kSettingsDBPopulatedKey;
 extern NSString * const kSettingsSelectedGendersKey;
 extern NSString * const kSettingsSelectedLanguagesKey;
@@ -22,8 +23,6 @@ extern NSString * const kSettingsDueDateKey;
 extern NSString * const kPreferredSuggestionChangedNotification;
 extern NSString * const kFetchingPreferencesChangedNotification;
 extern NSString * const kCurrentSuggestionChangedNotification;
-
-extern const CGFloat kPaneOverlapWidth;
 
 
 typedef NS_ENUM(NSInteger, LanguageIndex) {

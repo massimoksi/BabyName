@@ -1,31 +1,23 @@
 //
-//  MainContainerViewController.m
+//  RootViewController.m
 //  BabyName
 //
-//  Created by Massimo Peri on 03/10/14.
+//  Created by Massimo Peri on 27/11/14.
 //  Copyright (c) 2014 Massimo Peri. All rights reserved.
 //
 
-#import "MainContainerViewController.h"
+#import "RootViewController.h"
 
 #import "Constants.h"
-#import "SuggestionsManager.h"
-#import "SelectionViewController.h"
-#import "FinishedViewController.h"
+#import "TutorialPageViewController.h"
+#import "MainDynamicsDrawerViewController.h"
 
 
-static NSString * const kShowSelectionSegueID = @"ShowSelectionSegue";
-static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
+static NSString * const kShowTutorialSegueID = @"ShowTutorialSegue";
+static NSString * const kShowMainSegueID     = @"ShowMainSegue";
 
 
-@interface MainContainerViewController ()
-
-@property (nonatomic, strong) NSMutableArray *suggestions;
-
-@end
-
-
-@implementation MainContainerViewController
+@implementation RootViewController
 
 - (void)viewDidLoad
 {
@@ -41,14 +33,36 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
     // Dispose of any resources that can be recreated.
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:kShowSelectionSegueID]) {
+    if ([segue.identifier isEqualToString:kShowMainSegueID]) {
         if (self.childViewControllers.count) {
-            if (![self.childViewControllers.firstObject isKindOfClass:[SelectionViewController class]]) {
-                SelectionViewController *viewController = segue.destinationViewController;
+            if (![self.childViewControllers.firstObject isKindOfClass:[MainDynamicsDrawerViewController class]]) {
+                MainDynamicsDrawerViewController *viewController = segue.destinationViewController;
+                
+                [self swapFromViewController:self.childViewControllers.firstObject
+                            toViewController:viewController];
+            }
+        }
+        else {
+            MainDynamicsDrawerViewController *viewController = segue.destinationViewController;
+            
+            [self addChildViewController:viewController];
+            [self.view addSubview:viewController.view];
+            [viewController didMoveToParentViewController:self];
+        }
+    }
+    else if ([segue.identifier isEqualToString:kShowTutorialSegueID]) {
+        if (self.childViewControllers.count) {
+            if (![self.childViewControllers.firstObject isKindOfClass:[TutorialPageViewController class]]) {
+                TutorialPageViewController *viewController = segue.destinationViewController;
                 viewController.containerViewController = self;
                 
                 [self swapFromViewController:self.childViewControllers.firstObject
@@ -56,25 +70,8 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
             }
         }
         else {
-            SelectionViewController *viewController = segue.destinationViewController;
+            TutorialPageViewController *viewController = segue.destinationViewController;
             viewController.containerViewController = self;
-            
-            [self addChildViewController:viewController];
-            [self.view addSubview:viewController.view];
-            [viewController didMoveToParentViewController:self];
-        }
-    }
-    else if ([segue.identifier isEqualToString:kShowFinishedSegueID]) {
-        if (self.childViewControllers.count) {
-            if (![self.childViewControllers.firstObject isKindOfClass:[FinishedViewController class]]) {
-                FinishedViewController *viewController = segue.destinationViewController;
-                
-                [self swapFromViewController:self.childViewControllers.firstObject
-                            toViewController:viewController];
-            }
-        }
-        else {
-            FinishedViewController *viewController = segue.destinationViewController;
             
             [self addChildViewController:viewController];
             [self.view addSubview:viewController.view];
@@ -105,12 +102,12 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
 
 - (void)loadChildViewController
 {
-    if ([[SuggestionsManager sharedManager] fetchedSuggestions].count) {
-        [self performSegueWithIdentifier:kShowSelectionSegueID
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:kSettingsTutorialCompletedKey]) {
+        [self performSegueWithIdentifier:kShowTutorialSegueID
                                   sender:self];
     }
     else {
-        [self performSegueWithIdentifier:kShowFinishedSegueID
+        [self performSegueWithIdentifier:kShowMainSegueID
                                   sender:self];
     }
 }
