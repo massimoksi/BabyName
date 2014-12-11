@@ -203,10 +203,13 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
         }
     }
     // Toggled switch off.
-    //  1. Set preference to user default.
-    //  2. Hide the surname cell.
-    //  3. Remove surname from user default (if empty).
+    //  1. Hide keyboard if editing the surname text field.
+    //  2. Set preference to user default.
+    //  3. Hide the surname cell.
+    //  4. Remove surname from user default (if empty).
     else {
+        [self.surnameTextField resignFirstResponder];
+        
         [userDefaults setBool:NO
                        forKey:kSettingsShowSurnameKey];
 
@@ -258,6 +261,16 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
 }
 
 #pragma mark - Table view delegate
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44.0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44.0;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
