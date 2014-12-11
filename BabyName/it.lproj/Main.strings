@@ -2,17 +2,14 @@
 /* Class = "IBUINavigationItem"; title = "Gender"; ObjectID = "0gs-nZ-GfX"; */
 "0gs-nZ-GfX.title" = "Sesso";
 
-/* Class = "IBUINavigationItem"; title = "Search"; ObjectID = "31p-oY-fE6"; */
-"31p-oY-fE6.title" = "Search";
-
 /* Class = "IBUISegmentedControl"; 3Dj-cz-odq.segmentTitles[0] = "All"; ObjectID = "3Dj-cz-odq"; */
-"3Dj-cz-odq.segmentTitles[0]" = "All";
+"3Dj-cz-odq.segmentTitles[0]" = "Tutti";
 
 /* Class = "IBUISegmentedControl"; 3Dj-cz-odq.segmentTitles[1] = "Accepted"; ObjectID = "3Dj-cz-odq"; */
-"3Dj-cz-odq.segmentTitles[1]" = "Accepted";
+"3Dj-cz-odq.segmentTitles[1]" = "Accettati";
 
 /* Class = "IBUISegmentedControl"; 3Dj-cz-odq.segmentTitles[2] = "Rejected"; ObjectID = "3Dj-cz-odq"; */
-"3Dj-cz-odq.segmentTitles[2]" = "Rejected";
+"3Dj-cz-odq.segmentTitles[2]" = "Scartati";
 
 /* Class = "IBUILabel"; text = "Show surname"; ObjectID = "4Zh-iw-tgP"; */
 "4Zh-iw-tgP.text" = "Mostra il cognome";
