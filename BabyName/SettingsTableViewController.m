@@ -31,9 +31,7 @@ typedef NS_ENUM(NSInteger, SectionGeneralRow) {
 
 typedef NS_ENUM(NSInteger, SectionAdvancedRow) {
     kSectionAdvancedRowShowSurname = 0,
-    kSectionAdvancedRowSurname,
-    kSectionAdvancedRowDueDate,
-    kSectionAdvancedRowDatePicker
+    kSectionAdvancedRowSurname
 };
 
 typedef NS_ENUM(NSInteger, SectionInfoRow) {
@@ -43,8 +41,6 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
 @interface SettingsTableViewController () <UITextFieldDelegate>
 
 @property (nonatomic) BOOL surnameCellVisible;
-@property (nonatomic) BOOL datePickerVisible;
-@property (nonatomic) BOOL datePickerClearing;
 
 @property (nonatomic, weak) IBOutlet UILabel *genderLabel;
 @property (nonatomic, weak) IBOutlet UILabel *languageLabel;
@@ -52,10 +48,6 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
 @property (nonatomic, weak) IBOutlet UISwitch *surnameSwitch;
 @property (nonatomic, weak) IBOutlet UITableViewCell *surnameCell;
 @property (nonatomic, weak) IBOutlet UITextField *surnameTextField;
-@property (nonatomic, weak) IBOutlet UITextField *dueDateTextField;
-@property (nonatomic, weak) IBOutlet UIDatePicker *dueDatePicker;
-@property (nonatomic, weak) IBOutlet UITableViewCell *datePickerCell;
-@property (nonatomic, weak) IBOutlet UILabel *versionLabel;
 
 @end
 
@@ -72,8 +64,6 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    self.dueDatePicker.minimumDate = [NSDate date];
-    
     self.insertTableViewRowAnimation = UITableViewRowAnimationMiddle;
     self.deleteTableViewRowAnimation = UITableViewRowAnimationMiddle;
     self.reloadTableViewRowAnimation = UITableViewRowAnimationMiddle;
@@ -84,9 +74,6 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
-    self.datePickerVisible = NO;
-    self.datePickerClearing = NO;
 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
@@ -163,21 +150,6 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
          setHidden:YES];
     }
 
-    // Row: due date.
-    NSDate *dueDate = [[[NSUserDefaults alloc] initWithSuiteName:kAppGroupSuiteName] objectForKey:kSettingsDueDateKey];
-    if (dueDate) {
-        self.dueDateTextField.text = [NSDateFormatter localizedStringFromDate:dueDate
-                                                                    dateStyle:NSDateFormatterLongStyle
-                                                                    timeStyle:NSDateFormatterNoStyle];
-    }
-    else {
-        self.dueDateTextField.text = nil;
-    }
-
-    // Row: due date picker.
-    [self cell:self.datePickerCell
-     setHidden:YES];
-
     // Show/hide dynamic cells.
     [self reloadDataAnimated:NO];
 }
@@ -185,11 +157,6 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-
-    if (self.datePickerVisible) {
-        [self revealDatePickerAnimated:NO
-                               andSave:YES];
-    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -255,16 +222,6 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
     }
 }
 
-- (IBAction)changeDueDate:(id)sender
-{
-    UIDatePicker *datePicker = sender;
-
-    // Update the due date label.
-    self.dueDateTextField.text = [NSDateFormatter localizedStringFromDate:datePicker.date
-                                                                dateStyle:NSDateFormatterLongStyle
-                                                                timeStyle:NSDateFormatterNoStyle];
-}
-
 #pragma mark - Private methods
 
 - (NSUInteger)numberOfSelectedLanguages
@@ -275,72 +232,6 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
     NSUInteger count = ((selectedLanguages >> 3) & 1) + ((selectedLanguages >> 2) & 1) + ((selectedLanguages >> 1) & 1) + (selectedLanguages & 1);
     
     return count;
-}
-
-- (void)revealDatePickerAnimated:(BOOL)animated andSave:(BOOL)save
-{
-    NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kAppGroupSuiteName];
-    
-    // Due date picker is visible.
-    //  1. Save due date to user defaults (if changed).
-    //  2. Configure due date text field.
-    //      a. Set color to gray (detail text label).
-    //      b. Hide clear button.
-    //  3. Hide the cell containing the due date picker.
-    if (self.datePickerVisible) {
-        self.datePickerVisible = NO;
-
-        if (save) {
-            [userDefaults setObject:self.dueDatePicker.date
-                             forKey:kSettingsDueDateKey];
-        }
-
-        self.dueDateTextField.textColor = [UIColor colorWithRed:159.0/255.0
-                                                          green:160.0/255.0
-                                                           blue:164.0/255.0
-                                                          alpha:1.0];
-        self.dueDateTextField.clearButtonMode = UITextFieldViewModeNever;
-
-        [self cell:self.datePickerCell
-         setHidden:YES];
-        [self reloadDataAnimated:animated];
-    }
-    // Due date picker is not visible.
-    //  1. Configure the due date picker with user defaults.
-    //      a. Due date (if available).
-    //      b. Today (if not available).
-    //  2. Configure the due date text field.
-    //      a. Set color to red.
-    //      b. Show clear button.
-    //  3. Reveal the cell containing the due date picker.
-    //  4. Scroll table view to completely show the due date picker.
-    else {
-        self.datePickerVisible = YES;
-        
-        NSDate *dueDate = [userDefaults objectForKey:kSettingsDueDateKey];
-        if (dueDate) {
-            self.dueDatePicker.date = dueDate;
-        }
-        else {
-            NSDate *today = [NSDate date];
-            self.dueDatePicker.date = today;
-            self.dueDateTextField.text = [NSDateFormatter localizedStringFromDate:today
-                                                                        dateStyle:NSDateFormatterLongStyle
-                                                                        timeStyle:NSDateFormatterNoStyle];
-        }
-        
-        self.dueDateTextField.textColor = [UIColor bbn_tintColor];
-        self.dueDateTextField.clearButtonMode = UITextFieldViewModeAlways;
-
-        [self cell:self.datePickerCell
-         setHidden:NO];
-        [self reloadDataAnimated:animated];
-        
-        [self.tableView scrollRectToVisible:self.datePickerCell.frame
-                                   animated:YES];
-    }
-    
-    self.datePickerClearing = NO;
 }
 
 - (void)resetAllSelections
@@ -378,16 +269,6 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
             if (row == kSectionAdvancedRowSurname) {
                 [self.surnameTextField becomeFirstResponder];
             }
-            else if (row == kSectionAdvancedRowDueDate) {
-                [self revealDatePickerAnimated:YES
-                                       andSave:!self.datePickerClearing];
-            }
-        }
-        else {
-            if (row == kSectionAdvancedRowDueDate - 1) {
-                [self revealDatePickerAnimated:YES
-                                       andSave:!self.datePickerClearing];
-            }
         }
     }
     else if (section == kSettingsSectionRestart) {
@@ -421,15 +302,7 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    if (textField == self.surnameTextField) {
-        return YES;
-    }
-    else {
-        [self revealDatePickerAnimated:YES
-                               andSave:!self.datePickerClearing];
-        
-        return NO;
-    }
+    return YES;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
@@ -467,12 +340,6 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField
 {
-    if (textField == self.dueDateTextField) {
-        self.datePickerClearing = YES;
-        
-        [[[NSUserDefaults alloc] initWithSuiteName:kAppGroupSuiteName] removeObjectForKey:kSettingsDueDateKey];
-    }
-
     return YES;
 }
 
