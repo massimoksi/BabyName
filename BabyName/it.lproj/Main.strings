@@ -18,13 +18,13 @@
 "7EN-xR-HyH.text" = "Riconoscimenti";
 
 /* Class = "IBUILabel"; text = "Select the gender of your baby"; ObjectID = "9gt-En-ptq"; */
-"9gt-En-ptq.text" = "Select the gender of your baby";
+"9gt-En-ptq.text" = "Indica il sesso del tuo bambino";
 
 /* Class = "IBUILabel"; text = "Designed and developed by"; ObjectID = "9z8-og-YVF"; */
 "9z8-og-YVF.text" = "Progettato e sviluppato da";
 
 /* Class = "IBUILabel"; text = "Shuffle"; ObjectID = "A5a-yJ-jxa"; */
-"A5a-yJ-jxa.text" = "Shuffle";
+"A5a-yJ-jxa.text" = "Ripensa";
 
 /* Class = "IBUILabel"; text = "Review the names you liked."; ObjectID = "BjW-9z-KOn"; */
 "BjW-9z-KOn.text" = "Review the names you liked.";
@@ -39,7 +39,7 @@
 "D7U-PU-hji.text" = "Entrambi";
 
 /* Class = "IBUILabel"; text = "Like"; ObjectID = "DMX-XB-6Yr"; */
-"DMX-XB-6Yr.text" = "Like";
+"DMX-XB-6Yr.text" = "Accetta";
 
 /* Class = "IBUINavigationItem"; title = "Languages"; ObjectID = "Gri-Sp-Ki3"; */
 "Gri-Sp-Ki3.title" = "Lingue";
@@ -66,16 +66,16 @@
 "T29-Rh-ds3.text" = "Cognome";
 
 /* Class = "IBUILabel"; text = "Swipe right if you like a name"; ObjectID = "TVp-hP-g7z"; */
-"TVp-hP-g7z.text" = "Swipe right if you like a name";
+"TVp-hP-g7z.text" = "Trascina a destra se il nome ti piace";
 
 /* Class = "IBUILabel"; text = "Gender"; ObjectID = "WyT-GF-IEg"; */
 "WyT-GF-IEg.text" = "Sesso";
 
 /* Class = "IBUILabel"; text = "Shake to get a different name"; ObjectID = "atR-m1-NRV"; */
-"atR-m1-NRV.text" = "Shake to get a different name";
+"atR-m1-NRV.text" = "Agita il telefono per ottenere un nome diverso";
 
 /* Class = "IBUIButton"; normalTitle = "Get started"; ObjectID = "cBm-Cs-yJL"; */
-"cBm-Cs-yJL.normalTitle" = "Get started";
+"cBm-Cs-yJL.normalTitle" = "Inizia";
 
 /* Class = "IBUILabel"; text = "Swipe right to take your final decision."; ObjectID = "fUf-ZJ-7aW"; */
 "fUf-ZJ-7aW.text" = "Swipe right to take your final decision.";
@@ -84,7 +84,7 @@
 "j90-Ja-UDH.text" = "Informazioni";
 
 /* Class = "IBUILabel"; text = "Dislike"; ObjectID = "kcg-bZ-g8Y"; */
-"kcg-bZ-g8Y.text" = "Dislike";
+"kcg-bZ-g8Y.text" = "Scarta";
 
 /* Class = "IBUILabel"; text = "Specify your preferred initials"; ObjectID = "kfn-8F-73c"; */
 "kfn-8F-73c.text" = "Indica le tue iniziali preferite";
@@ -93,7 +93,7 @@
 "mox-jb-y4d.title" = "Iniziali";
 
 /* Class = "IBUILabel"; text = "Review the names you like and choose the one you love"; ObjectID = "nZI-Cn-v8S"; */
-"nZI-Cn-v8S.text" = "Review the names you like and choose the one you love";
+"nZI-Cn-v8S.text" = "Rivedi i nomi che ti sono piaciuti e scegli il tuo preferito";
 
 /* Class = "IBUINavigationItem"; title = "Settings"; ObjectID = "oSB-OI-TEu"; */
 "oSB-OI-TEu.title" = "Impostazioni";
@@ -108,7 +108,7 @@
 "sN9-V4-aX3.text" = "Valuta BabyName";
 
 /* Class = "IBUILabel"; text = "Swipe left if you don't like a name"; ObjectID = "wVg-qH-ISC"; */
-"wVg-qH-ISC.text" = "Swipe left if you don't like a name";
+"wVg-qH-ISC.text" = "Trascina a sinistra se il nome non ti piace";
 
 /* Class = "IBUILabel"; text = "Search among names from several languages"; ObjectID = "y3n-iv-T2n"; */
-"y3n-iv-T2n.text" = "Search among names from several languages";
+"y3n-iv-T2n.text" = "Scegli tra nomi di diverse lingue";
