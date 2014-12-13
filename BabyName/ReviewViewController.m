@@ -157,7 +157,7 @@
                                                                                              message:NSLocalizedString(@"Choose name and end selection.", @"Alert: message.")
                                                                                       preferredStyle:UIAlertControllerStyleAlert];
                     
-                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Alert: cancel button.")
+                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel button.")
                                                                            style:UIAlertActionStyleCancel
                                                                          handler:nil];
                     [alertController addAction:cancelAction];
