@@ -297,7 +297,7 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
                                                               }];
         [alertController addAction:restartAction];
         
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Action: cancel button.")
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel button.")
                                                                style:UIAlertActionStyleCancel
                                                              handler:nil];
         [alertController addAction:cancelAction];

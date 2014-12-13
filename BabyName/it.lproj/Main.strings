@@ -24,13 +24,13 @@
 "9z8-og-YVF.text" = "Progettato e sviluppato da";
 
 /* Class = "IBUILabel"; text = "Shuffle"; ObjectID = "A5a-yJ-jxa"; */
-"A5a-yJ-jxa.text" = "Ripensa";
+"A5a-yJ-jxa.text" = "Mischia";
 
 /* Class = "IBUILabel"; text = "Review the names you liked."; ObjectID = "BjW-9z-KOn"; */
-"BjW-9z-KOn.text" = "Review the names you liked.";
+"BjW-9z-KOn.text" = "Controlla i nomi che ti piaciono.";
 
 /* Class = "IBUILabel"; text = "Swipe left to remove names you don't like anymore."; ObjectID = "CbN-Xu-JHV"; */
-"CbN-Xu-JHV.text" = "Swipe left to remove names you don't like anymore.";
+"CbN-Xu-JHV.text" = "Trascina a sinistra per eliminare i nomi che non ti piaciono più.";
 
 /* Class = "IBUINavigationItem"; title = "About"; ObjectID = "Chv-yC-Yci"; */
 "Chv-yC-Yci.title" = "Informazioni";
@@ -78,7 +78,7 @@
 "cBm-Cs-yJL.normalTitle" = "Inizia";
 
 /* Class = "IBUILabel"; text = "Swipe right to take your final decision."; ObjectID = "fUf-ZJ-7aW"; */
-"fUf-ZJ-7aW.text" = "Swipe right to take your final decision.";
+"fUf-ZJ-7aW.text" = "Trascina a destra per prendere la decisione finale.";
 
 /* Class = "IBUILabel"; text = "About"; ObjectID = "j90-Ja-UDH"; */
 "j90-Ja-UDH.text" = "Informazioni";
@@ -93,7 +93,7 @@
 "mox-jb-y4d.title" = "Iniziali";
 
 /* Class = "IBUILabel"; text = "Review the names you like and choose the one you love"; ObjectID = "nZI-Cn-v8S"; */
-"nZI-Cn-v8S.text" = "Rivedi i nomi che ti sono piaciuti e scegli il tuo preferito";
+"nZI-Cn-v8S.text" = "Controlla i nomi che ti sono piaciuti e scegli il tuo preferito";
 
 /* Class = "IBUINavigationItem"; title = "Settings"; ObjectID = "oSB-OI-TEu"; */
 "oSB-OI-TEu.title" = "Impostazioni";
