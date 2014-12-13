@@ -13,7 +13,6 @@
 
 @protocol EmbeddedViewController <NSObject>
 
-// TODO: strong or weak???
-@property (nonatomic, strong) id<ContainerViewController> containerViewController;
+@property (nonatomic, weak) id<ContainerViewController> containerViewController;
 
 @end
