@@ -93,7 +93,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LanguageCell"];
     
     Language *language = [self.sortedLanguages objectAtIndex:indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%@", @"Language."), language.name];
+    cell.textLabel.text = NSLocalizedString(language.name, nil);
     cell.accessoryType = language.selected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     
     return cell;

@@ -1,39 +1,114 @@
 
 /* Class = "IBUINavigationItem"; title = "Gender"; ObjectID = "0gs-nZ-GfX"; */
-"0gs-nZ-GfX.title" = "Gender";
+"0gs-nZ-GfX.title" = "Sesso";
 
-/* Class = "IBUILabel"; text = "Detail"; ObjectID = "2WS-AB-Baa"; */
-"2WS-AB-Baa.text" = "Detail";
+/* Class = "IBUISegmentedControl"; 3Dj-cz-odq.segmentTitles[0] = "All"; ObjectID = "3Dj-cz-odq"; */
+"3Dj-cz-odq.segmentTitles[0]" = "Tutti";
 
-/* Class = "IBUITableViewController"; title = "Languages"; ObjectID = "4I6-gh-93J"; */
-"4I6-gh-93J.title" = "Languages";
+/* Class = "IBUISegmentedControl"; 3Dj-cz-odq.segmentTitles[1] = "Accepted"; ObjectID = "3Dj-cz-odq"; */
+"3Dj-cz-odq.segmentTitles[1]" = "Accettati";
 
-/* Class = "IBUITableViewController"; title = "Settings"; ObjectID = "6aS-Cb-Scn"; */
-"6aS-Cb-Scn.title" = "Settings";
+/* Class = "IBUISegmentedControl"; 3Dj-cz-odq.segmentTitles[2] = "Rejected"; ObjectID = "3Dj-cz-odq"; */
+"3Dj-cz-odq.segmentTitles[2]" = "Scartati";
+
+/* Class = "IBUILabel"; text = "Show surname"; ObjectID = "4Zh-iw-tgP"; */
+"4Zh-iw-tgP.text" = "Mostra il cognome";
+
+/* Class = "IBUILabel"; text = "Credits"; ObjectID = "7EN-xR-HyH"; */
+"7EN-xR-HyH.text" = "Riconoscimenti";
+
+/* Class = "IBUILabel"; text = "Select the gender of your baby"; ObjectID = "9gt-En-ptq"; */
+"9gt-En-ptq.text" = "Indica il sesso del tuo bambino";
+
+/* Class = "IBUILabel"; text = "Designed and developed by"; ObjectID = "9z8-og-YVF"; */
+"9z8-og-YVF.text" = "Progettato e sviluppato da";
+
+/* Class = "IBUILabel"; text = "Shuffle"; ObjectID = "A5a-yJ-jxa"; */
+"A5a-yJ-jxa.text" = "Mischia";
+
+/* Class = "IBUILabel"; text = "Review the names you liked."; ObjectID = "BjW-9z-KOn"; */
+"BjW-9z-KOn.text" = "Controlla i nomi che ti piaciono.";
+
+/* Class = "IBUILabel"; text = "Swipe left to remove names you don't like anymore."; ObjectID = "CbN-Xu-JHV"; */
+"CbN-Xu-JHV.text" = "Trascina a sinistra per eliminare i nomi che non ti piaciono più.";
+
+/* Class = "IBUINavigationItem"; title = "About"; ObjectID = "Chv-yC-Yci"; */
+"Chv-yC-Yci.title" = "Informazioni";
 
 /* Class = "IBUILabel"; text = "Both"; ObjectID = "D7U-PU-hji"; */
-"D7U-PU-hji.text" = "Both";
+"D7U-PU-hji.text" = "Entrambi";
+
+/* Class = "IBUILabel"; text = "Like"; ObjectID = "DMX-XB-6Yr"; */
+"DMX-XB-6Yr.text" = "Accetta";
 
 /* Class = "IBUINavigationItem"; title = "Languages"; ObjectID = "Gri-Sp-Ki3"; */
-"Gri-Sp-Ki3.title" = "Languages";
+"Gri-Sp-Ki3.title" = "Lingue";
+
+/* Class = "IBUILabel"; text = "Preferred initials"; ObjectID = "Hn7-NY-lOz"; */
+"Hn7-NY-lOz.text" = "Iniziali preferite";
+
+/* Class = "IBUINavigationItem"; title = "Credits"; ObjectID = "Ij4-kU-5t3"; */
+"Ij4-kU-5t3.title" = "Riconoscimenti";
+
+/* Class = "IBUILabel"; text = "Restart selection"; ObjectID = "L9f-uS-IDZ"; */
+"L9f-uS-IDZ.text" = "Ricomincia la selezione";
 
 /* Class = "IBUILabel"; text = "Female"; ObjectID = "Onx-Mx-WFX"; */
-"Onx-Mx-WFX.text" = "Female";
+"Onx-Mx-WFX.text" = "Femmina";
+
+/* Class = "IBUILabel"; text = "Contact by e-mail"; ObjectID = "S0U-Df-XWr"; */
+"S0U-Df-XWr.text" = "Invia e-mail";
 
 /* Class = "IBUILabel"; text = "Language"; ObjectID = "S42-va-2H3"; */
-"S42-va-2H3.text" = "Language";
+"S42-va-2H3.text" = "Lingua";
+
+/* Class = "IBUILabel"; text = "Surname"; ObjectID = "T29-Rh-ds3"; */
+"T29-Rh-ds3.text" = "Cognome";
+
+/* Class = "IBUILabel"; text = "Swipe right if you like a name"; ObjectID = "TVp-hP-g7z"; */
+"TVp-hP-g7z.text" = "Trascina a destra se il nome ti piace";
 
 /* Class = "IBUILabel"; text = "Gender"; ObjectID = "WyT-GF-IEg"; */
-"WyT-GF-IEg.text" = "Gender";
+"WyT-GF-IEg.text" = "Sesso";
+
+/* Class = "IBUILabel"; text = "Shake to get a different name"; ObjectID = "atR-m1-NRV"; */
+"atR-m1-NRV.text" = "Agita il telefono per ottenere un nome diverso";
+
+/* Class = "IBUIButton"; normalTitle = "Get started"; ObjectID = "cBm-Cs-yJL"; */
+"cBm-Cs-yJL.normalTitle" = "Inizia";
+
+/* Class = "IBUILabel"; text = "Swipe right to take your final decision."; ObjectID = "fUf-ZJ-7aW"; */
+"fUf-ZJ-7aW.text" = "Trascina a destra per prendere la decisione finale.";
+
+/* Class = "IBUILabel"; text = "About"; ObjectID = "j90-Ja-UDH"; */
+"j90-Ja-UDH.text" = "Informazioni";
+
+/* Class = "IBUILabel"; text = "Dislike"; ObjectID = "kcg-bZ-g8Y"; */
+"kcg-bZ-g8Y.text" = "Scarta";
+
+/* Class = "IBUILabel"; text = "Specify your preferred initials"; ObjectID = "kfn-8F-73c"; */
+"kfn-8F-73c.text" = "Indica le tue iniziali preferite";
+
+/* Class = "IBUINavigationItem"; title = "Initials"; ObjectID = "mox-jb-y4d"; */
+"mox-jb-y4d.title" = "Iniziali";
+
+/* Class = "IBUILabel"; text = "Review the names you like and choose the one you love"; ObjectID = "nZI-Cn-v8S"; */
+"nZI-Cn-v8S.text" = "Controlla i nomi che ti sono piaciuti e scegli il tuo preferito";
 
 /* Class = "IBUINavigationItem"; title = "Settings"; ObjectID = "oSB-OI-TEu"; */
-"oSB-OI-TEu.title" = "Settings";
+"oSB-OI-TEu.title" = "Impostazioni";
+
+/* Class = "IBUILabel"; text = "Names are finished."; ObjectID = "qfy-2V-ZxE"; */
+"qfy-2V-ZxE.text" = "Names are finished.";
 
 /* Class = "IBUILabel"; text = "Male"; ObjectID = "qw8-kJ-oej"; */
-"qw8-kJ-oej.text" = "Male";
+"qw8-kJ-oej.text" = "Maschio";
 
-/* Class = "IBUILabel"; text = "Detail"; ObjectID = "t88-X1-hnf"; */
-"t88-X1-hnf.text" = "Detail";
+/* Class = "IBUILabel"; text = "Rate BabyName"; ObjectID = "sN9-V4-aX3"; */
+"sN9-V4-aX3.text" = "Valuta BabyName";
 
-/* Class = "IBUILabel"; text = "Name"; ObjectID = "tns-Qv-eSf"; */
-"tns-Qv-eSf.text" = "Name";
+/* Class = "IBUILabel"; text = "Swipe left if you don't like a name"; ObjectID = "wVg-qH-ISC"; */
+"wVg-qH-ISC.text" = "Trascina a sinistra se il nome non ti piace";
+
+/* Class = "IBUILabel"; text = "Search among names from several languages"; ObjectID = "y3n-iv-T2n"; */
+"y3n-iv-T2n.text" = "Scegli tra nomi di diverse lingue";
