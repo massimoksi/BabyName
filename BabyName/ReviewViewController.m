@@ -152,35 +152,16 @@
                     }
                 }
                 else {
-                    // TODO: change message.
-                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"%@", swipedSuggestion.name]
-                                                                                             message:NSLocalizedString(@"Choose name and end selection.", @"Alert: message.")
-                                                                                      preferredStyle:UIAlertControllerStyleAlert];
-                    
-                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel button.")
-                                                                           style:UIAlertActionStyleCancel
-                                                                         handler:nil];
-                    [alertController addAction:cancelAction];
-                    
-                    UIAlertAction *selectAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Select", @"Alert: confirm button.")
-                                                                           style:UIAlertActionStyleDefault
-                                                                         handler:^(UIAlertAction *action){
-                                                                             // Prefer the currently selected name.
-                                                                             if ([[SuggestionsManager sharedManager] preferSuggestion:swipedSuggestion]) {
-                                                                                 [[NSNotificationCenter defaultCenter] postNotificationName:kPreferredSuggestionChangedNotification
-                                                                                                                                     object:self];
-                                                                                 
-                                                                                 [self.tableView reloadData];
-                                                                             }
-                                                                             else {
-                                                                                 [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
-                                                                             }
-                                                                         }];
-                    [alertController addAction:selectAction];
-                    
-                    [self presentViewController:alertController
-                                       animated:YES
-                                     completion:nil];
+                    // Prefer the currently selected name.
+                    if ([[SuggestionsManager sharedManager] preferSuggestion:swipedSuggestion]) {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kPreferredSuggestionChangedNotification
+                                                                            object:self];
+                        
+                        [self.tableView reloadData];
+                    }
+                    else {
+                        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+                    }
                 }
             }
             else {
