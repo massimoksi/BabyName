@@ -23,6 +23,8 @@
 /* Class = "IBUILabel"; text = "Designed and developed by"; ObjectID = "9z8-og-YVF"; */
 "9z8-og-YVF.text" = "Progettato e sviluppato da";
 
+// TODO: find a different translation.
+// TODO: improve the icon.
 /* Class = "IBUILabel"; text = "Shuffle"; ObjectID = "A5a-yJ-jxa"; */
 "A5a-yJ-jxa.text" = "Mischia";
 
