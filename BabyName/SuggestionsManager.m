@@ -61,9 +61,14 @@
     return acceptedSuggestions;
 }
 
+- (NSArray *)availableSuggestions
+{
+    return [self.suggestions filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"state = %d", kSelectionStateMaybe]];
+}
+
 - (Suggestion *)randomSuggestion
 {
-    NSArray *availableSuggestions = [self.suggestions filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"state = %d", kSelectionStateMaybe]];
+    NSArray *availableSuggestions = [self availableSuggestions];
 
     if (availableSuggestions.count) {
         NSUInteger randomIndex = arc4random() % availableSuggestions.count;

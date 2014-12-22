@@ -105,7 +105,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
 
 - (void)loadChildViewController
 {
-    if ([[SuggestionsManager sharedManager] fetchedSuggestions].count) {
+    if ([[SuggestionsManager sharedManager] availableSuggestions].count) {
         [self performSegueWithIdentifier:kShowSelectionSegueID
                                   sender:self];
     }
