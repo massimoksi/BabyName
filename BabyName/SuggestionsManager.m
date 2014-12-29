@@ -349,7 +349,7 @@
     __block NSUInteger count = 0;
     __block BOOL failure = NO;
     [names enumerateLinesUsingBlock:^(NSString *line, BOOL *stop){
-        NSArray *lineComponents = [line componentsSeparatedByString:@","];
+        NSArray *lineComponents = [line componentsSeparatedByString:@";"];
         if (lineComponents) {
             Suggestion *suggestion = [NSEntityDescription insertNewObjectForEntityForName:@"Suggestion"
                                                                    inManagedObjectContext:self.managedObjectContext];
