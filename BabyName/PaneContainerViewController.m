@@ -50,6 +50,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
             if (![self.childViewControllers.firstObject isKindOfClass:[SelectionViewController class]]) {
                 SelectionViewController *viewController = segue.destinationViewController;
                 viewController.containerViewController = self;
+                viewController.view.frame = self.view.frame;
                 
                 [self swapFromViewController:self.childViewControllers.firstObject
                             toViewController:viewController];
@@ -58,6 +59,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
         else {
             SelectionViewController *viewController = segue.destinationViewController;
             viewController.containerViewController = self;
+            viewController.view.frame = self.view.frame;
             
             [self addChildViewController:viewController];
             [self.view addSubview:viewController.view];
@@ -69,6 +71,8 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
             if (![self.childViewControllers.firstObject isKindOfClass:[FinishedViewController class]]) {
                 FinishedViewController *viewController = segue.destinationViewController;
                 viewController.containerViewController = self;
+                viewController.drawerViewController = self.drawerViewController;
+                viewController.view.frame = self.view.frame;
                 
                 [self swapFromViewController:self.childViewControllers.firstObject
                             toViewController:viewController];
@@ -77,6 +81,8 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
         else {
             FinishedViewController *viewController = segue.destinationViewController;
             viewController.containerViewController = self;
+            viewController.drawerViewController = self.drawerViewController;
+            viewController.view.frame = self.view.frame;
             
             [self addChildViewController:viewController];
             [self.view addSubview:viewController.view];

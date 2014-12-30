@@ -33,6 +33,7 @@
 
 - (BOOL)update;
 - (BOOL)reset;
+- (BOOL)shuffle;
 - (BOOL)populate;
 - (BOOL)save;
 - (BOOL)validatePreferredSuggestion;

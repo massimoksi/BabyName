@@ -27,20 +27,44 @@
 
     // Get current language from the system.
     NSInteger selectedLanguage;
-    NSString *currentLanguageCode = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
+    NSString *currentLanguageCode = [[[NSLocale preferredLanguages] firstObject] substringToIndex:2];
+#if DEBUG
+    NSLog(@"Defaults: launguage code %@", currentLanguageCode);
+#endif
+    
     if ([currentLanguageCode isEqualToString:@"it"]) {
+#if DEBUG
+        NSLog(@"Defaults: italian");
+#endif
+        
         selectedLanguage = kLanguageBitmaskIT;
     }
     else if ([currentLanguageCode isEqualToString:@"en"]) {
+#if DEBUG
+        NSLog(@"Defaults: english");
+#endif
+
         selectedLanguage = kLanguageBitmaskEN;
     }
     else if ([currentLanguageCode isEqualToString:@"de"]) {
+#if DEBUG
+        NSLog(@"Defaults: german");
+#endif
+
         selectedLanguage = kLanguageBitmaskDE;
     }
     else if ([currentLanguageCode isEqualToString:@"fr"]) {
+#if DEBUG
+        NSLog(@"Defaults: french");
+#endif
+
         selectedLanguage = kLanguageBitmaskFR;
     }
     else {
+#if DEBUG
+        NSLog(@"Defaults: other");
+#endif
+        
         selectedLanguage = kLanguageBitmaskEN;
     }
     

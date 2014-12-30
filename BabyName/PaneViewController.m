@@ -19,8 +19,8 @@
 
 @interface PaneViewController ()
 
-@property (nonatomic, strong) PaneContainerViewController *containerViewController;
-
+//@property (nonatomic, strong) PaneContainerViewController *containerViewController;
+//
 @property (nonatomic, strong) CAGradientLayer *backgroundGradientLayer;
 
 @property (nonatomic, weak) IBOutlet UIButton *listButton;
@@ -97,7 +97,11 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-    if ([segue.identifier isEqualToString:@"ShowSettingsSegue"]) {
+    if ([segue.identifier isEqualToString:@"EmbedContainerSegue"]) {
+        PaneContainerViewController *containerViewController = [segue destinationViewController];
+        containerViewController.drawerViewController = self.drawerViewController;
+    }
+    else if ([segue.identifier isEqualToString:@"ShowSettingsSegue"]) {
         UINavigationController *settingsNavController = [segue destinationViewController];
         settingsNavController.navigationBar.barStyle = UIStatusBarStyleLightContent;
     }
