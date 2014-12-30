@@ -318,6 +318,54 @@
     return YES;
 }
 
+- (BOOL)shuffle
+{
+#if DEBUG
+    NSLog(@"Database: start shuffling");
+#endif
+    
+    NSManagedObjectContext *context = self.managedObjectContext;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Suggestion"
+                                              inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    
+    // Fetch all rejected items.
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"state == %d", kSelectionStateRejected];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error;
+    NSArray *modifiedSuggestions = [context executeFetchRequest:fetchRequest
+                                                          error:&error];
+    if (!modifiedSuggestions) {
+#if DEBUG
+        NSLog(@"Error: %@", [error localizedDescription]);
+#endif
+        
+        return NO;
+    }
+    
+    // Reset the state for all the fetched items.
+    for (Suggestion *suggestion in modifiedSuggestions) {
+        suggestion.state = kSelectionStateMaybe;
+    }
+    
+    if (![context save:&error]) {
+#if DEBUG
+        NSLog(@"Error: %@", [error localizedDescription]);
+#endif
+        
+        return NO;
+    }
+    
+#if DEBUG
+    NSLog(@"Database: %tu shuffled suggestions", modifiedSuggestions.count);
+#endif
+    
+    return YES;
+}
+
 - (BOOL)populate
 {
 #if DEBUG

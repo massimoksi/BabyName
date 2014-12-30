@@ -43,6 +43,37 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqualToString:@"ShowSettingsSegue"]) {
+        UINavigationController *settingsNavController = [segue destinationViewController];
+        settingsNavController.navigationBar.barStyle = UIStatusBarStyleLightContent;
+    }
+}
+
+#pragma mark - Actions
+
+- (IBAction)reviewNames:(id)sender
+{
+    [self.drawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen
+                                inDirection:MSDynamicsDrawerDirectionRight
+                                   animated:YES
+                      allowUserInterruption:YES
+                                 completion:nil];
+}
+
+- (IBAction)restartSelection:(id)sender
+{
+    if ([[SuggestionsManager sharedManager] shuffle]) {
+        [self.containerViewController loadChildViewController];
+    }
+}
+
 #pragma mark - Notification handlers
 
 - (void)updateSelection:(NSNotification *)notification

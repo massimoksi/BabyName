@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+#import "MSDynamicsDrawerViewController.h"
+
 #import "EmbeddedViewController.h"
 
 
 @interface FinishedViewController : UIViewController <EmbeddedViewController>
+
+@property (nonatomic, weak) MSDynamicsDrawerViewController *drawerViewController;
 
 @end
