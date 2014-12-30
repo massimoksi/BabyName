@@ -337,8 +337,6 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
 {
     // HACK: this methods is called twice when clear button is clicked.
     if (![self.searchString isEqualToString:searchText]) {
-        NSLog(@"Hello World!!!");
-        
         self.searchString = searchText;
         
         [self fetchResults];

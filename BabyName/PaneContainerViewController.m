@@ -68,6 +68,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
         if (self.childViewControllers.count) {
             if (![self.childViewControllers.firstObject isKindOfClass:[FinishedViewController class]]) {
                 FinishedViewController *viewController = segue.destinationViewController;
+                viewController.containerViewController = self;
                 
                 [self swapFromViewController:self.childViewControllers.firstObject
                             toViewController:viewController];
@@ -75,6 +76,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
         }
         else {
             FinishedViewController *viewController = segue.destinationViewController;
+            viewController.containerViewController = self;
             
             [self addChildViewController:viewController];
             [self.view addSubview:viewController.view];
@@ -105,7 +107,7 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
 
 - (void)loadChildViewController
 {
-    if ([[SuggestionsManager sharedManager] fetchedSuggestions].count) {
+    if ([[SuggestionsManager sharedManager] availableSuggestions].count) {
         [self performSegueWithIdentifier:kShowSelectionSegueID
                                   sender:self];
     }

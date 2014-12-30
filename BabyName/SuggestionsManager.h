@@ -21,6 +21,7 @@
 
 - (NSArray *)fetchedSuggestions;
 - (NSArray *)acceptedSuggestions;
+- (NSArray *)availableSuggestions;
 
 - (Suggestion *)randomSuggestion;
 - (Suggestion *)preferredSuggestion;
