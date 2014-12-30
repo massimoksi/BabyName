@@ -271,9 +271,9 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 - (void)configureNameLabel
 {
     // Check if there's a preferred suggestion.
-    // If not, fetch a random suggestion.
     self.currentSuggestion = [[SuggestionsManager sharedManager] preferredSuggestion];
     if (!self.currentSuggestion) {
+        // If not, fetch a random suggestion.
         self.currentSuggestion = [[SuggestionsManager sharedManager] randomSuggestion];
     }
     

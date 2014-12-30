@@ -90,7 +90,6 @@
                            forKey:kSettingsDBPopulatedKey];
         }
         else {
-            // TODO: change error message.
             [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
 
             [userDefaults setBool:NO
@@ -100,7 +99,6 @@
     
     // Fetch suggestions before the main view controller is loaded.
     if (![[SuggestionsManager sharedManager] update]) {
-        // TODO: change error message.
         [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
 
