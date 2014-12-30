@@ -260,6 +260,7 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
         }
         
         [suggestionsManager update];
+        [self.containerViewController loadChildViewController];
     }
     
     [self configureNameLabel];
