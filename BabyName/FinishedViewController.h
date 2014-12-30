@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+#import "EmbeddedViewController.h"
 
-@interface FinishedViewController : UIViewController
+
+@interface FinishedViewController : UIViewController <EmbeddedViewController>
 
 @end
