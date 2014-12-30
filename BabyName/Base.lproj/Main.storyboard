@@ -964,7 +964,7 @@
                 <pageViewController storyboardIdentifier="TutorialPVC" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="mHC-Fq-p1F" customClass="TutorialPageViewController" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7kJ-tD-JgT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-13" y="966"/>
+            <point key="canvasLocation" x="-843" y="2574"/>
         </scene>
         <!--Page1-->
         <scene sceneID="nnR-Hz-fyz">
@@ -1022,7 +1022,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kdU-SO-4rP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-13" y="1632"/>
+            <point key="canvasLocation" x="-189" y="1632"/>
         </scene>
         <!--Page2-->
         <scene sceneID="iLe-Qt-nZc">
@@ -1080,7 +1080,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UWg-Vp-90A" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-13" y="2297"/>
+            <point key="canvasLocation" x="-189" y="2317"/>
         </scene>
         <!--Page3-->
         <scene sceneID="qaI-ZD-i9k">
@@ -1138,7 +1138,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xkX-S2-W9H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-13" y="2961"/>
+            <point key="canvasLocation" x="-189" y="3001"/>
         </scene>
         <!--Page4-->
         <scene sceneID="9B5-xe-9bO">
@@ -1265,7 +1265,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tuF-Dh-WgC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-13" y="3633"/>
+            <point key="canvasLocation" x="-189" y="3689"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Mhc-yQ-r59">
@@ -1431,7 +1431,7 @@
                                     <constraint firstAttribute="height" constant="44" id="JFM-gw-7ze"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Bariol-Regular" family="Bariol" pointSize="24"/>
-                                <state key="normal" title="Review rejected names">
+                                <state key="normal" title="Shuffle rejected names">
                                     <color key="titleColor" red="0.99989157915115356" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1470,8 +1470,8 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="jlw-9u-E8w"/>
-                                <exclude reference="Wdv-oF-Lrk"/>
                                 <exclude reference="yyu-LQ-vuy"/>
+                                <exclude reference="Wdv-oF-Lrk"/>
                             </mask>
                         </variation>
                     </view>

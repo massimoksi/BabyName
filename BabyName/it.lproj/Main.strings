@@ -23,10 +23,8 @@
 /* Class = "IBUILabel"; text = "Designed and developed by"; ObjectID = "9z8-og-YVF"; */
 "9z8-og-YVF.text" = "Progettato e sviluppato da";
 
-// TODO: find a different translation.
-// TODO: improve the icon.
 /* Class = "IBUILabel"; text = "Shuffle"; ObjectID = "A5a-yJ-jxa"; */
-"A5a-yJ-jxa.text" = "Mischia";
+"A5a-yJ-jxa.text" = "Mescola";
 
 /* Class = "IBUILabel"; text = "Review the names you liked."; ObjectID = "BjW-9z-KOn"; */
 "BjW-9z-KOn.text" = "Controlla i nomi che ti piaciono.";
@@ -80,7 +78,7 @@
 "cBm-Cs-yJL.normalTitle" = "Inizia";
 
 /* Class = "IBUILabel"; text = "Swipe right to take your final decision."; ObjectID = "fUf-ZJ-7aW"; */
-"fUf-ZJ-7aW.text" = "Trascina a destra per prendere la decisione finale.";
+"fUf-ZJ-7aW.text" = "Trascina a destra per scegliere il nome preferito.";
 
 /* Class = "IBUILabel"; text = "About"; ObjectID = "j90-Ja-UDH"; */
 "j90-Ja-UDH.text" = "Informazioni";
@@ -91,6 +89,9 @@
 /* Class = "IBUILabel"; text = "Specify your preferred initials"; ObjectID = "kfn-8F-73c"; */
 "kfn-8F-73c.text" = "Indica le tue iniziali preferite";
 
+/* Class = "IBUIButton"; normalTitle = "Review rejected names"; ObjectID = "lKT-eO-1Lv"; */
+"lKT-eO-1Lv.normalTitle" = "Rimescola i nomi scartati";
+
 /* Class = "IBUINavigationItem"; title = "Initials"; ObjectID = "mox-jb-y4d"; */
 "mox-jb-y4d.title" = "Iniziali";
 
@@ -100,17 +101,23 @@
 /* Class = "IBUINavigationItem"; title = "Settings"; ObjectID = "oSB-OI-TEu"; */
 "oSB-OI-TEu.title" = "Impostazioni";
 
-/* Class = "IBUILabel"; text = "Names are finished."; ObjectID = "qfy-2V-ZxE"; */
-"qfy-2V-ZxE.text" = "Names are finished.";
-
 /* Class = "IBUILabel"; text = "Male"; ObjectID = "qw8-kJ-oej"; */
 "qw8-kJ-oej.text" = "Maschio";
 
 /* Class = "IBUILabel"; text = "Rate BabyName"; ObjectID = "sN9-V4-aX3"; */
 "sN9-V4-aX3.text" = "Valuta BabyName";
 
+/* Class = "IBUIButton"; normalTitle = "Enlarge search criteria"; ObjectID = "vId-XX-6b5"; */
+"vId-XX-6b5.normalTitle" = "Amplia i criteri di ricerca";
+
 /* Class = "IBUILabel"; text = "Swipe left if you don't like a name"; ObjectID = "wVg-qH-ISC"; */
 "wVg-qH-ISC.text" = "Trascina a sinistra se il nome non ti piace";
 
 /* Class = "IBUILabel"; text = "Search among names from several languages"; ObjectID = "y3n-iv-T2n"; */
 "y3n-iv-T2n.text" = "Scegli tra nomi di diverse lingue";
+
+/* Class = "IBUILabel"; text = "No new names"; ObjectID = "ygW-P5-Rk4"; */
+"ygW-P5-Rk4.text" = "Nessun nuovo nome";
+
+/* Class = "IBUIButton"; normalTitle = "Select the preferred name"; ObjectID = "ypa-Sh-6lf"; */
+"ypa-Sh-6lf.normalTitle" = "Scegli il tuo nome preferito";
