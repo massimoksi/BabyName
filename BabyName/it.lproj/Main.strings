@@ -24,10 +24,10 @@
 "9z8-og-YVF.text" = "Progettato e sviluppato da";
 
 /* Class = "IBUILabel"; text = "Shuffle"; ObjectID = "A5a-yJ-jxa"; */
-"A5a-yJ-jxa.text" = "Mescola";
+"A5a-yJ-jxa.text" = "Scuoti";
 
 /* Class = "IBUILabel"; text = "Review the names you liked."; ObjectID = "BjW-9z-KOn"; */
-"BjW-9z-KOn.text" = "Controlla i nomi che ti piaciono.";
+"BjW-9z-KOn.text" = "Rivedi i nomi che ti piaciono.";
 
 /* Class = "IBUILabel"; text = "Swipe left to remove names you don't like anymore."; ObjectID = "CbN-Xu-JHV"; */
 "CbN-Xu-JHV.text" = "Trascina a sinistra per eliminare i nomi che non ti piaciono più.";
@@ -72,7 +72,7 @@
 "WyT-GF-IEg.text" = "Sesso";
 
 /* Class = "IBUILabel"; text = "Shake to get a different name"; ObjectID = "atR-m1-NRV"; */
-"atR-m1-NRV.text" = "Agita il telefono per ottenere un nome diverso";
+"atR-m1-NRV.text" = "Scuoti il telefono per ottenere un nome diverso";
 
 /* Class = "IBUIButton"; normalTitle = "Get started"; ObjectID = "cBm-Cs-yJL"; */
 "cBm-Cs-yJL.normalTitle" = "Inizia";
@@ -90,13 +90,13 @@
 "kfn-8F-73c.text" = "Indica le tue iniziali preferite";
 
 /* Class = "IBUIButton"; normalTitle = "Review rejected names"; ObjectID = "lKT-eO-1Lv"; */
-"lKT-eO-1Lv.normalTitle" = "Rimescola i nomi scartati";
+"lKT-eO-1Lv.normalTitle" = "Rivedi i nomi scartati";
 
 /* Class = "IBUINavigationItem"; title = "Initials"; ObjectID = "mox-jb-y4d"; */
 "mox-jb-y4d.title" = "Iniziali";
 
 /* Class = "IBUILabel"; text = "Review the names you like and choose the one you love"; ObjectID = "nZI-Cn-v8S"; */
-"nZI-Cn-v8S.text" = "Controlla i nomi che ti sono piaciuti e scegli il tuo preferito";
+"nZI-Cn-v8S.text" = "Rivedi i nomi che ti sono piaciuti e scegli il tuo preferito";
 
 /* Class = "IBUINavigationItem"; title = "Settings"; ObjectID = "oSB-OI-TEu"; */
 "oSB-OI-TEu.title" = "Impostazioni";
