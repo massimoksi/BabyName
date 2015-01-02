@@ -107,9 +107,6 @@
 /* Class = "IBUILabel"; text = "Rate BabyName"; ObjectID = "sN9-V4-aX3"; */
 "sN9-V4-aX3.text" = "Valuta BabyName";
 
-/* Class = "IBUIButton"; normalTitle = "Enlarge search criteria"; ObjectID = "vId-XX-6b5"; */
-"vId-XX-6b5.normalTitle" = "Amplia i criteri di ricerca";
-
 /* Class = "IBUILabel"; text = "Swipe left if you don't like a name"; ObjectID = "wVg-qH-ISC"; */
 "wVg-qH-ISC.text" = "Trascina a sinistra se il nome non ti piace";
 

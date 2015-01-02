@@ -277,6 +277,9 @@ static const CGFloat kPanningPositionThreshold = 150.0;
         [suggestionsManager update];
         [self.containerViewController loadChildViewController];
     }
+    else if ([notification.name isEqualToString:kPreferredSuggestionChangedNotification]) {
+        [self.containerViewController loadChildViewController];
+    }
     
     [self configureNameLabel];
 }

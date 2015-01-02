@@ -24,6 +24,10 @@
                            selector:@selector(updateSelection:)
                                name:kFetchingPreferencesChangedNotification
                              object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(updateSelection:)
+                               name:kPreferredSuggestionChangedNotification
+                             object:nil];
     
     // It's not possible to make the view transparent in Storyboard due to white labels.
     self.view.backgroundColor = [UIColor clearColor];
@@ -34,6 +38,9 @@
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter removeObserver:self
                                   name:kFetchingPreferencesChangedNotification
+                                object:nil];
+    [notificationCenter removeObserver:self
+                                  name:kPreferredSuggestionChangedNotification
                                 object:nil];
 }
 
@@ -80,9 +87,9 @@
 {
     if ([notification.name isEqualToString:kFetchingPreferencesChangedNotification]) {
         [[SuggestionsManager sharedManager] update];
-        
-        [self.containerViewController loadChildViewController];
     }
+    
+    [self.containerViewController loadChildViewController];
 }
 
 #pragma mark - Embedded view controller
