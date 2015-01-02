@@ -41,10 +41,19 @@
                             atIndex:0];
     self.view.layer.masksToBounds = YES;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateListButton:)
-                                                 name:kPreferredSuggestionChangedNotification
-                                               object:nil];
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter addObserver:self
+                           selector:@selector(updateListButton:)
+                               name:kPreferredSuggestionChangedNotification
+                             object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(updateLayout:)
+                               name:UIApplicationWillChangeStatusBarFrameNotification
+                             object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(updateLayout:)
+                               name:UIApplicationDidChangeStatusBarFrameNotification
+                             object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -74,9 +83,16 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:kPreferredSuggestionChangedNotification
-                                                  object:nil];
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter removeObserver:self
+                                  name:kPreferredSuggestionChangedNotification
+                                object:nil];
+    [notificationCenter removeObserver:self
+                                  name:UIApplicationWillChangeStatusBarFrameNotification
+                                object:nil];
+    [notificationCenter removeObserver:self
+                                  name:UIApplicationDidChangeStatusBarFrameNotification
+                                object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -139,6 +155,11 @@
         [self.listButton setImage:[UIImage imageNamed:@"List"]
                          forState:UIControlStateNormal];
     }
+}
+
+- (void)updateLayout:(NSNotification *)note
+{
+    [self.view setNeedsLayout];
 }
 
 @end
