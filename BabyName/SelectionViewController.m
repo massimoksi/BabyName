@@ -21,6 +21,7 @@ typedef NS_ENUM(NSUInteger, PanningState) {
 
 
 static const CGFloat kPanningVelocityThreshold = 100.0;
+static const CGFloat kPanningPositionThreshold = 150.0;
 
 
 @interface SelectionViewController () <UIDynamicAnimatorDelegate>
@@ -170,10 +171,20 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
         if (panningValid) {
             self.panningState = [self endStateForGesture:recognizer];
 
+            CGRect viewFrame = self.view.frame;
+            __weak typeof(self) weakSelf = self;
+
+            self.itemBehavior.action = ^{
+                if ((weakSelf.panningState == kPanningStateAccept) && (weakSelf.nameLabel.center.x > CGRectGetMaxX(viewFrame) + kPanningPositionThreshold)) {
+                    [weakSelf.animator removeAllBehaviors];
+                }
+                else if ((weakSelf.panningState == kPanningStateReject) && (weakSelf.nameLabel.center.x < CGRectGetMinX(viewFrame) - kPanningPositionThreshold)) {
+                    [weakSelf.animator removeAllBehaviors];
+                }
+            };
             self.itemBehavior.allowsRotation = NO;
             [self.animator addBehavior:self.itemBehavior];
             
-            CGRect viewFrame = self.view.frame;
             UISnapBehavior *snapBehavior;
             switch (self.panningState) {
                 case kPanningStateAccept:
@@ -217,6 +228,8 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                                     }
                                     else {
                                         [self.containerViewController loadChildViewController];
+                                        
+                                        [self configureNameLabel];
                                     }
                                 }
                             }];
@@ -234,6 +247,8 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                                     }
                                     else {
                                         [self.containerViewController loadChildViewController];
+                                        
+                                        [self configureNameLabel];
                                     }
                                 }
                             }];
@@ -334,13 +349,11 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 
 - (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator
 {
-    [self.animator removeAllBehaviors];
+    if ([self.animator behaviors].count) {
+        [self.animator removeAllBehaviors];
+    }
 
     self.panningEnabled = YES;
-
-    if (self.panningState != kPanningStateIdle) {
-        [self configureNameLabel];
-    }
 }
 
 @end
