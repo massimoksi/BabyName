@@ -82,6 +82,22 @@
     }
 }
 
+- (Suggestion *)randomAcceptedSuggestion
+{
+    NSArray *acceptedSuggestions = [self acceptedSuggestions];
+    
+    if (acceptedSuggestions.count) {
+        NSUInteger randomIndex = arc4random() % acceptedSuggestions.count;
+        Suggestion *suggestion = [acceptedSuggestions objectAtIndex:randomIndex];
+        self.currentSuggestion = suggestion;
+        
+        return suggestion;
+    }
+    else {
+        return nil;
+    }
+}
+
 - (Suggestion *)preferredSuggestion
 {
     NSArray *preferredSuggestions = [self.suggestions filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"state = %d", kSelectionStatePreferred]];

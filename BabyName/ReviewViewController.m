@@ -145,6 +145,9 @@
                         [[NSNotificationCenter defaultCenter] postNotificationName:kPreferredSuggestionChangedNotification
                                                                             object:self];
                         
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kAcceptedSuggestionRemovedNotification
+                                                                            object:self];
+                        
                         [self.tableView reloadData];
                     }
                     else {

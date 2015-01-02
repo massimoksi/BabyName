@@ -24,6 +24,7 @@
 - (NSArray *)availableSuggestions;
 
 - (Suggestion *)randomSuggestion;
+- (Suggestion *)randomAcceptedSuggestion;
 - (Suggestion *)preferredSuggestion;
 
 - (BOOL)acceptSuggestion:(Suggestion *)suggestion;

@@ -1427,7 +1427,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="reviewNames:" destination="Kgi-NW-zYW" eventType="touchUpInside" id="SGe-Te-oVA"/>
+                                    <action selector="reviewAcceptedNames:" destination="Kgi-NW-zYW" eventType="touchUpInside" id="tMG-Ce-A0O"/>
                                 </connections>
                             </button>
                         </subviews>
