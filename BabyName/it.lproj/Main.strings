@@ -27,10 +27,10 @@
 "A5a-yJ-jxa.text" = "Scuoti";
 
 /* Class = "IBUILabel"; text = "Review the names you liked."; ObjectID = "BjW-9z-KOn"; */
-"BjW-9z-KOn.text" = "Rivedi i nomi che ti piaciono.";
+"BjW-9z-KOn.text" = "Rivedi i nomi che ti piacciono.";
 
 /* Class = "IBUILabel"; text = "Swipe left to remove names you don't like anymore."; ObjectID = "CbN-Xu-JHV"; */
-"CbN-Xu-JHV.text" = "Trascina a sinistra per eliminare i nomi che non ti piaciono più.";
+"CbN-Xu-JHV.text" = "Trascina a sinistra per eliminare i nomi che non ti piacciono più.";
 
 /* Class = "IBUINavigationItem"; title = "About"; ObjectID = "Chv-yC-Yci"; */
 "Chv-yC-Yci.title" = "Informazioni";
