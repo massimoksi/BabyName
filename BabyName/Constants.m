@@ -25,7 +25,7 @@ NSString * const kStateReviewAcceptedNamesKey  = @"StateReviewAcceptedNames";
 NSString * const kPreferredSuggestionChangedNotification = @"PreferredSuggestionChanged";
 NSString * const kFetchingPreferencesChangedNotification = @"FetchingPreferencesChanged";
 NSString * const kCurrentSuggestionChangedNotification   = @"CurrentSuggestionChanged";
-NSString * const kAcceptedSuggestionRemovedNotification  = @"AcceptedSuggestionRemoved";
+NSString * const kAcceptedSuggestionChangedNotification  = @"AcceptedSuggestionChanged";
 
 
 @implementation UIColor (BabyName)

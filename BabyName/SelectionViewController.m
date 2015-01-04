@@ -63,7 +63,7 @@ static const CGFloat kPanningPositionThreshold = 150.0;
                              object:nil];
     [notificationCenter addObserver:self
                            selector:@selector(updateSelection:)
-                               name:kAcceptedSuggestionRemovedNotification
+                               name:kAcceptedSuggestionChangedNotification
                              object:nil];
     
     // It's not possible to make the view transparent in Storyboard because of the use of white labels.
@@ -103,7 +103,7 @@ static const CGFloat kPanningPositionThreshold = 150.0;
                                   name:kCurrentSuggestionChangedNotification
                                 object:nil];
     [notificationCenter removeObserver:self
-                                  name:kAcceptedSuggestionRemovedNotification
+                                  name:kAcceptedSuggestionChangedNotification
                                 object:nil];
 }
 
@@ -282,9 +282,18 @@ static const CGFloat kPanningPositionThreshold = 150.0;
         }
         
         [suggestionsManager update];
+        
+        if ([suggestionsManager acceptedSuggestions].count == 0) {
+            [[NSUserDefaults standardUserDefaults] setBool:NO
+                                                    forKey:kStateReviewAcceptedNamesKey];
+        }
+        
         [self.containerViewController loadChildViewController];
     }
     else if ([notification.name isEqualToString:kPreferredSuggestionChangedNotification]) {
+        [self.containerViewController loadChildViewController];
+    }
+    else if ([notification.name isEqualToString:kAcceptedSuggestionChangedNotification]) {
         [self.containerViewController loadChildViewController];
     }
     

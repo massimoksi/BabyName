@@ -393,7 +393,7 @@
                                     <rect key="frame" x="0.0" y="66" width="556" height="160"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review the names you liked." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BjW-9z-KOn">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review the names you like." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BjW-9z-KOn">
                                             <rect key="frame" x="15" y="8" width="526" height="15"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="15" id="hht-XO-60y"/>
@@ -1400,7 +1400,7 @@
                                     <constraint firstAttribute="height" constant="44" id="JFM-gw-7ze"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Bariol-Regular" family="Bariol" pointSize="24"/>
-                                <state key="normal" title="Shuffle rejected names">
+                                <state key="normal" title="Review rejected names">
                                     <color key="titleColor" red="0.99989157915115356" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1422,9 +1422,12 @@
                                     <constraint firstAttribute="height" constant="44" id="Phq-Pb-W6A"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Bariol-Regular" family="Bariol" pointSize="24"/>
-                                <state key="normal" title="Select the preferred name">
+                                <state key="normal" title="Review the names you like">
                                     <color key="titleColor" red="0.99989157915115356" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="disabled">
+                                    <color key="titleColor" red="0.99987339973449707" green="1" blue="0.99984121322631836" alpha="0.35000000000000003" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="reviewAcceptedNames:" destination="Kgi-NW-zYW" eventType="touchUpInside" id="tMG-Ce-A0O"/>
@@ -1458,6 +1461,9 @@
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="492"/>
+                    <connections>
+                        <outlet property="reviewAcceptedNamesButton" destination="ypa-Sh-6lf" id="h3F-zx-lea"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sz1-Jh-hpz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

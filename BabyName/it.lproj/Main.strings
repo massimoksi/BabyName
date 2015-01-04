@@ -26,9 +26,6 @@
 /* Class = "IBUILabel"; text = "Shuffle"; ObjectID = "A5a-yJ-jxa"; */
 "A5a-yJ-jxa.text" = "Scuoti";
 
-/* Class = "IBUILabel"; text = "Review the names you liked."; ObjectID = "BjW-9z-KOn"; */
-"BjW-9z-KOn.text" = "Rivedi i nomi che ti piacciono.";
-
 /* Class = "IBUILabel"; text = "Swipe left to remove names you don't like anymore."; ObjectID = "CbN-Xu-JHV"; */
 "CbN-Xu-JHV.text" = "Trascina a sinistra per eliminare i nomi che non ti piacciono più.";
 
@@ -116,5 +113,8 @@
 /* Class = "IBUILabel"; text = "No new names"; ObjectID = "ygW-P5-Rk4"; */
 "ygW-P5-Rk4.text" = "Nessun nuovo nome";
 
-/* Class = "IBUIButton"; normalTitle = "Select the preferred name"; ObjectID = "ypa-Sh-6lf"; */
-"ypa-Sh-6lf.normalTitle" = "Scegli il tuo nome preferito";
+/* Class = "IBUIButton"; normalTitle = "Review the names you like"; ObjectID = "ypa-Sh-6lf"; */
+"ypa-Sh-6lf.normalTitle" = "Rivedi i nomi che ti piacciono";
+
+/* Class = "IBUILabel"; text = "Review the names you like."; ObjectID = "BjW-9z-KOn"; */
+"BjW-9z-KOn.text" = "Rivedi i nomi che ti piacciono.";

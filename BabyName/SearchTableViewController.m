@@ -375,16 +375,27 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     
     	switch (swipedSuggestion.state) {
     		case kSelectionStateMaybe:
-    			swipedSuggestion.state = (index == 0) ? kSelectionStateRejected : kSelectionStateAccepted;
+                if (index == 0) {
+                    swipedSuggestion.state = kSelectionStateRejected;
+                }
+                else {
+                    swipedSuggestion.state = kSelectionStateAccepted;
+                }
     			break;
 
     		case kSelectionStateRejected:
-    			swipedSuggestion.state = (index == 0) ? kSelectionStateMaybe : kSelectionStateAccepted;
+                swipedSuggestion.state = kSelectionStateAccepted;
     			break;
 
             case kSelectionStateAccepted:
             case kSelectionStatePreferred:
-                swipedSuggestion.state = (index == 0) ? kSelectionStateRejected : kSelectionStateMaybe;
+                swipedSuggestion.state = kSelectionStateRejected;
+
+                // In case the user is reviewing accepted names, it's necessary to send a notification because the current suggestion may have been rejected.
+                if ([[NSUserDefaults standardUserDefaults] boolForKey:kStateReviewAcceptedNamesKey]) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kAcceptedSuggestionChangedNotification
+                                                                        object:self];
+                }
                 break;
     	}
 
@@ -415,11 +426,6 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
                                                      backgroundColor:[UIColor bbn_rejectColor]
                                                              padding:14];
 
-        MGSwipeButton *refreshButton = [MGSwipeButton buttonWithTitle:@""
-        	                                                     icon:[UIImage imageNamed:@"Refresh"]
-        	                                          backgroundColor:[UIColor bbn_refreshColor]
-                                                              padding:14];
-
         MGSwipeButton *acceptButton = [MGSwipeButton buttonWithTitle:@""
         	                                                    icon:[UIImage imageNamed:@"Accepted"]
         	                                         backgroundColor:[UIColor bbn_acceptColor]
@@ -435,12 +441,12 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
         		break;
 
         	case kSelectionStateRejected:
-        		swipeButtons = @[refreshButton, acceptButton];
+        		swipeButtons = @[acceptButton];
         		break;
 
             case kSelectionStateAccepted:
             case kSelectionStatePreferred:
-                swipeButtons = @[rejectButton, refreshButton];
+                swipeButtons = @[rejectButton];
                 break;
         }
 

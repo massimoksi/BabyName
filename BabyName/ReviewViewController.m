@@ -131,6 +131,9 @@
             if ([[SuggestionsManager sharedManager] rejectSuggestion:swipedSuggestion]) {
                 [self.tableView deleteRowsAtIndexPaths:@[swipedIndexPath]
                                       withRowAnimation:UITableViewRowAnimationLeft];
+
+                [[NSNotificationCenter defaultCenter] postNotificationName:kAcceptedSuggestionChangedNotification
+                                                                    object:self];
                 
                 [cell refreshContentView];
             }
@@ -143,9 +146,6 @@
                     // Prefer the currently selected name.
                     if ([[SuggestionsManager sharedManager] preferSuggestion:swipedSuggestion]) {
                         [[NSNotificationCenter defaultCenter] postNotificationName:kPreferredSuggestionChangedNotification
-                                                                            object:self];
-                        
-                        [[NSNotificationCenter defaultCenter] postNotificationName:kAcceptedSuggestionRemovedNotification
                                                                             object:self];
                         
                         [self.tableView reloadData];

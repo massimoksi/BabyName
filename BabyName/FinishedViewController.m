@@ -12,6 +12,13 @@
 #import "SuggestionsManager.h"
 
 
+@interface FinishedViewController ()
+
+@property (nonatomic, weak) IBOutlet UIButton *reviewAcceptedNamesButton;
+
+@end
+
+
 @implementation FinishedViewController
 
 - (void)viewDidLoad
@@ -31,6 +38,21 @@
     
     // It's not possible to make the view transparent in Storyboard due to white labels.
     self.view.backgroundColor = [UIColor clearColor];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[NSUserDefaults standardUserDefaults] setBool:NO
+                                            forKey:kStateReviewAcceptedNamesKey];
+    
+    if ([[SuggestionsManager sharedManager] acceptedSuggestions].count == 0) {
+        self.reviewAcceptedNamesButton.hidden = YES;
+    }
+    else {
+        self.reviewAcceptedNamesButton.hidden = NO;
+    }
 }
 
 - (void)dealloc
