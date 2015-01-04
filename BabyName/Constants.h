@@ -20,9 +20,12 @@ extern NSString * const kSettingsShowSurnameKey;
 extern NSString * const kSettingsSurnameKey;
 extern NSString * const kSettingsDueDateKey;
 
+extern NSString * const kStateReviewAcceptedNamesKey;
+
 extern NSString * const kPreferredSuggestionChangedNotification;
 extern NSString * const kFetchingPreferencesChangedNotification;
 extern NSString * const kCurrentSuggestionChangedNotification;
+extern NSString * const kAcceptedSuggestionChangedNotification;
 
 
 typedef NS_ENUM(NSInteger, LanguageIndex) {

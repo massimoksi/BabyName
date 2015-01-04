@@ -21,6 +21,7 @@ typedef NS_ENUM(NSUInteger, PanningState) {
 
 
 static const CGFloat kPanningVelocityThreshold = 100.0;
+static const CGFloat kPanningPositionThreshold = 150.0;
 
 
 @interface SelectionViewController () <UIDynamicAnimatorDelegate>
@@ -60,6 +61,10 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                            selector:@selector(updateSelection:)
                                name:kCurrentSuggestionChangedNotification
                              object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(updateSelection:)
+                               name:kAcceptedSuggestionChangedNotification
+                             object:nil];
     
     // It's not possible to make the view transparent in Storyboard because of the use of white labels.
     self.view.backgroundColor = [UIColor clearColor];
@@ -96,6 +101,9 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                                 object:nil];
     [notificationCenter removeObserver:self
                                   name:kCurrentSuggestionChangedNotification
+                                object:nil];
+    [notificationCenter removeObserver:self
+                                  name:kAcceptedSuggestionChangedNotification
                                 object:nil];
 }
 
@@ -170,10 +178,20 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
         if (panningValid) {
             self.panningState = [self endStateForGesture:recognizer];
 
+            CGRect viewFrame = self.view.frame;
+            __weak typeof(self) weakSelf = self;
+
+            self.itemBehavior.action = ^{
+                if ((weakSelf.panningState == kPanningStateAccept) && (weakSelf.nameLabel.center.x > CGRectGetMaxX(viewFrame) + kPanningPositionThreshold)) {
+                    [weakSelf.animator removeAllBehaviors];
+                }
+                else if ((weakSelf.panningState == kPanningStateReject) && (weakSelf.nameLabel.center.x < CGRectGetMinX(viewFrame) - kPanningPositionThreshold)) {
+                    [weakSelf.animator removeAllBehaviors];
+                }
+            };
             self.itemBehavior.allowsRotation = NO;
             [self.animator addBehavior:self.itemBehavior];
             
-            CGRect viewFrame = self.view.frame;
             UISnapBehavior *snapBehavior;
             switch (self.panningState) {
                 case kPanningStateAccept:
@@ -217,6 +235,8 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                                     }
                                     else {
                                         [self.containerViewController loadChildViewController];
+                                        
+                                        [self configureNameLabel];
                                     }
                                 }
                             }];
@@ -234,6 +254,8 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
                                     }
                                     else {
                                         [self.containerViewController loadChildViewController];
+                                        
+                                        [self configureNameLabel];
                                     }
                                 }
                             }];
@@ -260,6 +282,18 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
         }
         
         [suggestionsManager update];
+        
+        if ([suggestionsManager acceptedSuggestions].count == 0) {
+            [[NSUserDefaults standardUserDefaults] setBool:NO
+                                                    forKey:kStateReviewAcceptedNamesKey];
+        }
+        
+        [self.containerViewController loadChildViewController];
+    }
+    else if ([notification.name isEqualToString:kPreferredSuggestionChangedNotification]) {
+        [self.containerViewController loadChildViewController];
+    }
+    else if ([notification.name isEqualToString:kAcceptedSuggestionChangedNotification]) {
         [self.containerViewController loadChildViewController];
     }
     
@@ -270,11 +304,17 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 
 - (void)configureNameLabel
 {
+    SuggestionsManager *manager = [SuggestionsManager sharedManager];
     // Check if there's a preferred suggestion.
-    self.currentSuggestion = [[SuggestionsManager sharedManager] preferredSuggestion];
+    self.currentSuggestion = [manager preferredSuggestion];
     if (!self.currentSuggestion) {
         // If not, fetch a random suggestion.
-        self.currentSuggestion = [[SuggestionsManager sharedManager] randomSuggestion];
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:kStateReviewAcceptedNamesKey]) {
+            self.currentSuggestion = [manager randomSuggestion];
+        }
+        else {
+            self.currentSuggestion = [manager randomAcceptedSuggestion];
+        }
     }
     
     self.nameLabel.text = self.currentSuggestion.name;
@@ -334,13 +374,11 @@ static const CGFloat kPanningVelocityThreshold = 100.0;
 
 - (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator
 {
-    [self.animator removeAllBehaviors];
+    if ([self.animator behaviors].count) {
+        [self.animator removeAllBehaviors];
+    }
 
     self.panningEnabled = YES;
-
-    if (self.panningState != kPanningStateIdle) {
-        [self configureNameLabel];
-    }
 }
 
 @end

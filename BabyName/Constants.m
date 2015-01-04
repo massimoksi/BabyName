@@ -20,9 +20,12 @@ NSString * const kSettingsShowSurnameKey       = @"SettingsShowSurname";
 NSString * const kSettingsSurnameKey           = @"SettingsSurname";
 NSString * const kSettingsDueDateKey           = @"SettingsDueDate";
 
+NSString * const kStateReviewAcceptedNamesKey  = @"StateReviewAcceptedNames";
+
 NSString * const kPreferredSuggestionChangedNotification = @"PreferredSuggestionChanged";
 NSString * const kFetchingPreferencesChangedNotification = @"FetchingPreferencesChanged";
 NSString * const kCurrentSuggestionChangedNotification   = @"CurrentSuggestionChanged";
+NSString * const kAcceptedSuggestionChangedNotification  = @"AcceptedSuggestionChanged";
 
 
 @implementation UIColor (BabyName)

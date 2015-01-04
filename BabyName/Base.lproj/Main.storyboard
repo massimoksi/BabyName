@@ -29,7 +29,6 @@
             <string>Bariol-Regular</string>
             <string>Bariol-Regular</string>
             <string>Bariol-Regular</string>
-            <string>Bariol-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -394,7 +393,7 @@
                                     <rect key="frame" x="0.0" y="66" width="556" height="160"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review the names you liked." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BjW-9z-KOn">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review the names you like." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BjW-9z-KOn">
                                             <rect key="frame" x="15" y="8" width="526" height="15"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="15" id="hht-XO-60y"/>
@@ -1323,7 +1322,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erJ-k9-2IT" userLabel="Name">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="24" translatesAutoresizingMaskIntoConstraints="NO" id="erJ-k9-2IT" userLabel="Name">
                                 <rect key="frame" x="16" y="211" width="568" height="60"/>
                                 <gestureRecognizers/>
                                 <constraints>
@@ -1386,7 +1385,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No new names" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ygW-P5-Rk4">
-                                <rect key="frame" x="16" y="248" width="568" height="36"/>
+                                <rect key="frame" x="16" y="244" width="568" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="6mQ-EQ-eyJ"/>
                                 </constraints>
@@ -1394,36 +1393,6 @@
                                 <color key="textColor" red="0.99989157915115356" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ypa-Sh-6lf">
-                                <rect key="frame" x="16" y="316" width="568" height="44"/>
-                                <color key="backgroundColor" white="1" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="Phq-Pb-W6A"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Bariol-Regular" family="Bariol" pointSize="24"/>
-                                <state key="normal" title="Select the preferred name">
-                                    <color key="titleColor" red="0.99989157915115356" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="reviewNames:" destination="Kgi-NW-zYW" eventType="touchUpInside" id="SGe-Te-oVA"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vId-XX-6b5">
-                                <rect key="frame" x="16" y="372" width="568" height="44"/>
-                                <color key="backgroundColor" white="1" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="7cQ-Dm-vJr"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Bariol-Regular" family="Bariol" pointSize="24"/>
-                                <state key="normal" title="Enlarge search criteria">
-                                    <color key="titleColor" red="0.99989157915115356" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="ie2-NB-bOZ" kind="presentation" identifier="ShowSettingsSegue" id="CgA-Wk-ecg"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lKT-eO-1Lv">
                                 <rect key="frame" x="16" y="428" width="568" height="44"/>
                                 <color key="backgroundColor" white="1" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
@@ -1431,7 +1400,7 @@
                                     <constraint firstAttribute="height" constant="44" id="JFM-gw-7ze"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Bariol-Regular" family="Bariol" pointSize="24"/>
-                                <state key="normal" title="Shuffle rejected names">
+                                <state key="normal" title="Review rejected names">
                                     <color key="titleColor" red="0.99989157915115356" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1440,29 +1409,44 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Empty" translatesAutoresizingMaskIntoConstraints="NO" id="ifW-dW-63O">
-                                <rect key="frame" x="270" y="180" width="60" height="60"/>
+                                <rect key="frame" x="270" y="176" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="J1G-x9-IMO"/>
                                     <constraint firstAttribute="width" constant="60" id="t7q-v3-cLe"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ypa-Sh-6lf">
+                                <rect key="frame" x="16" y="372" width="568" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Phq-Pb-W6A"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Bariol-Regular" family="Bariol" pointSize="24"/>
+                                <state key="normal" title="Review the names you like">
+                                    <color key="titleColor" red="0.99989157915115356" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="disabled">
+                                    <color key="titleColor" red="0.99987339973449707" green="1" blue="0.99984121322631836" alpha="0.35000000000000003" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="reviewAcceptedNames:" destination="Kgi-NW-zYW" eventType="touchUpInside" id="tMG-Ce-A0O"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Opr-hD-6hS" firstAttribute="top" secondItem="lKT-eO-1Lv" secondAttribute="bottom" constant="20" id="1j8-BU-OQB"/>
                             <constraint firstAttribute="centerX" secondItem="ifW-dW-63O" secondAttribute="centerX" id="Cd7-Ve-AtR"/>
                             <constraint firstItem="ygW-P5-Rk4" firstAttribute="width" secondItem="tgb-wP-k2T" secondAttribute="width" constant="-32" id="NZw-7X-iYq"/>
-                            <constraint firstItem="vId-XX-6b5" firstAttribute="leading" secondItem="tgb-wP-k2T" secondAttribute="leadingMargin" id="P0Z-1D-ADl"/>
-                            <constraint firstItem="vId-XX-6b5" firstAttribute="width" secondItem="tgb-wP-k2T" secondAttribute="width" constant="-32" id="Uu9-rV-Dxn"/>
                             <constraint firstItem="ypa-Sh-6lf" firstAttribute="leading" secondItem="tgb-wP-k2T" secondAttribute="leadingMargin" id="VEd-7F-EXN"/>
                             <constraint firstItem="ifW-dW-63O" firstAttribute="top" secondItem="iwX-VD-24d" secondAttribute="bottom" constant="64" id="Wdv-oF-Lrk"/>
-                            <constraint firstItem="lKT-eO-1Lv" firstAttribute="top" secondItem="vId-XX-6b5" secondAttribute="bottom" constant="12" id="aAa-pz-ILr"/>
                             <constraint firstItem="lKT-eO-1Lv" firstAttribute="leading" secondItem="tgb-wP-k2T" secondAttribute="leadingMargin" id="aeW-zZ-jRW"/>
-                            <constraint firstItem="ypa-Sh-6lf" firstAttribute="top" secondItem="ygW-P5-Rk4" secondAttribute="bottom" constant="32" id="bul-oB-J3r"/>
+                            <constraint firstItem="ypa-Sh-6lf" firstAttribute="top" secondItem="ygW-P5-Rk4" secondAttribute="bottom" constant="92" id="bul-oB-J3r"/>
                             <constraint firstItem="ygW-P5-Rk4" firstAttribute="top" secondItem="ifW-dW-63O" secondAttribute="bottom" constant="8" id="dnF-ZO-24d"/>
                             <constraint firstItem="lKT-eO-1Lv" firstAttribute="width" secondItem="tgb-wP-k2T" secondAttribute="width" constant="-32" id="fLP-4F-fzj"/>
                             <constraint firstAttribute="centerY" secondItem="ygW-P5-Rk4" secondAttribute="centerY" id="jlw-9u-E8w"/>
-                            <constraint firstItem="vId-XX-6b5" firstAttribute="top" secondItem="ypa-Sh-6lf" secondAttribute="bottom" constant="12" id="lN7-2n-463"/>
+                            <constraint firstItem="lKT-eO-1Lv" firstAttribute="top" secondItem="ypa-Sh-6lf" secondAttribute="bottom" constant="12" id="oWz-HZ-IOG"/>
                             <constraint firstItem="ypa-Sh-6lf" firstAttribute="width" secondItem="tgb-wP-k2T" secondAttribute="width" constant="-32" id="trS-qx-a3j"/>
                             <constraint firstItem="ygW-P5-Rk4" firstAttribute="leading" secondItem="tgb-wP-k2T" secondAttribute="leadingMargin" id="wfr-h7-upu"/>
                             <constraint firstItem="ypa-Sh-6lf" firstAttribute="top" secondItem="ygW-P5-Rk4" secondAttribute="bottom" constant="30" id="yyu-LQ-vuy"/>
@@ -1470,13 +1454,16 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="jlw-9u-E8w"/>
-                                <exclude reference="yyu-LQ-vuy"/>
                                 <exclude reference="Wdv-oF-Lrk"/>
+                                <exclude reference="yyu-LQ-vuy"/>
                             </mask>
                         </variation>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="492"/>
+                    <connections>
+                        <outlet property="reviewAcceptedNamesButton" destination="ypa-Sh-6lf" id="h3F-zx-lea"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sz1-Jh-hpz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1497,7 +1484,4 @@
         <image name="Settings" width="26" height="26"/>
         <image name="Shuffle" width="72" height="60"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="1We-Yg-ihW"/>
-    </inferredMetricsTieBreakers>
 </document>

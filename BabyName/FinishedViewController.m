@@ -12,6 +12,13 @@
 #import "SuggestionsManager.h"
 
 
+@interface FinishedViewController ()
+
+@property (nonatomic, weak) IBOutlet UIButton *reviewAcceptedNamesButton;
+
+@end
+
+
 @implementation FinishedViewController
 
 - (void)viewDidLoad
@@ -24,9 +31,28 @@
                            selector:@selector(updateSelection:)
                                name:kFetchingPreferencesChangedNotification
                              object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(updateSelection:)
+                               name:kPreferredSuggestionChangedNotification
+                             object:nil];
     
     // It's not possible to make the view transparent in Storyboard due to white labels.
     self.view.backgroundColor = [UIColor clearColor];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[NSUserDefaults standardUserDefaults] setBool:NO
+                                            forKey:kStateReviewAcceptedNamesKey];
+    
+    if ([[SuggestionsManager sharedManager] acceptedSuggestions].count == 0) {
+        self.reviewAcceptedNamesButton.hidden = YES;
+    }
+    else {
+        self.reviewAcceptedNamesButton.hidden = NO;
+    }
 }
 
 - (void)dealloc
@@ -34,6 +60,9 @@
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter removeObserver:self
                                   name:kFetchingPreferencesChangedNotification
+                                object:nil];
+    [notificationCenter removeObserver:self
+                                  name:kPreferredSuggestionChangedNotification
                                 object:nil];
 }
 
@@ -43,28 +72,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Navigation
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    
-    if ([segue.identifier isEqualToString:@"ShowSettingsSegue"]) {
-        UINavigationController *settingsNavController = [segue destinationViewController];
-        settingsNavController.navigationBar.barStyle = UIStatusBarStyleLightContent;
-    }
-}
-
 #pragma mark - Actions
 
-- (IBAction)reviewNames:(id)sender
+- (IBAction)reviewAcceptedNames:(id)sender
 {
-    [self.drawerViewController setPaneState:MSDynamicsDrawerPaneStateOpen
-                                inDirection:MSDynamicsDrawerDirectionRight
-                                   animated:YES
-                      allowUserInterruption:YES
-                                 completion:nil];
+    [[NSUserDefaults standardUserDefaults] setBool:YES
+                                            forKey:kStateReviewAcceptedNamesKey];
+    
+    [self.containerViewController loadChildViewController];
 }
 
 - (IBAction)restartSelection:(id)sender
@@ -80,9 +95,9 @@
 {
     if ([notification.name isEqualToString:kFetchingPreferencesChangedNotification]) {
         [[SuggestionsManager sharedManager] update];
-        
-        [self.containerViewController loadChildViewController];
     }
+    
+    [self.containerViewController loadChildViewController];
 }
 
 #pragma mark - Embedded view controller
