@@ -17,8 +17,10 @@
 @property (nonatomic, strong) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-@property (nonatomic, strong) NSArray *suggestions;
 @property (nonatomic, strong) Suggestion *currentSuggestion;
+
+@property (nonatomic, copy) NSArray *suggestions;
+@property (nonatomic, strong) NSMutableArray *availableAcceptedSuggestions;
 
 @end
 
@@ -84,12 +86,16 @@
 
 - (Suggestion *)randomAcceptedSuggestion
 {
-    NSArray *acceptedSuggestions = [self acceptedSuggestions];
+    if (self.availableAcceptedSuggestions.count == 0) {
+        self.availableAcceptedSuggestions = [[self acceptedSuggestions] mutableCopy];
+    }
     
-    if (acceptedSuggestions.count) {
-        NSUInteger randomIndex = arc4random() % acceptedSuggestions.count;
-        Suggestion *suggestion = [acceptedSuggestions objectAtIndex:randomIndex];
+    if (self.availableAcceptedSuggestions.count) {
+        NSUInteger randomIndex = arc4random() % self.availableAcceptedSuggestions.count;
+        Suggestion *suggestion = [self.availableAcceptedSuggestions objectAtIndex:randomIndex];
         self.currentSuggestion = suggestion;
+        
+        [self.availableAcceptedSuggestions removeObjectAtIndex:randomIndex];
         
         return suggestion;
     }
