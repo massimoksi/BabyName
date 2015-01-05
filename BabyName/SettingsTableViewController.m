@@ -242,6 +242,13 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
     if (![[SuggestionsManager sharedManager] reset]) {
         [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
     }
+    else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO
+                                                forKey:kStateReviewAcceptedNamesKey];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kCurrentSuggestionChangedNotification
+                                                            object:self];
+    }
 }
 
 - (void)showAlertWithMessage:(NSString *)message

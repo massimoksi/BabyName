@@ -8,6 +8,8 @@
 
 #import "SelectionViewController.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "Constants.h"
 #import "SuggestionsManager.h"
 #import "StatusView.h"
@@ -50,19 +52,19 @@ static const CGFloat kPanningPositionThreshold = 150.0;
 
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter addObserver:self
-                           selector:@selector(updateSelection:)
+                           selector:@selector(handleNotification:)
                                name:kFetchingPreferencesChangedNotification
                              object:nil];
     [notificationCenter addObserver:self
-                           selector:@selector(updateSelection:)
+                           selector:@selector(handleNotification:)
                                name:kPreferredSuggestionChangedNotification
                              object:nil];
     [notificationCenter addObserver:self
-                           selector:@selector(updateSelection:)
+                           selector:@selector(handleNotification:)
                                name:kCurrentSuggestionChangedNotification
                              object:nil];
     [notificationCenter addObserver:self
-                           selector:@selector(updateSelection:)
+                           selector:@selector(handleNotification:)
                                name:kAcceptedSuggestionChangedNotification
                              object:nil];
     
@@ -225,25 +227,45 @@ static const CGFloat kPanningPositionThreshold = 150.0;
             if (self.panningState == kPanningStateAccept) {
                 self.nameLabel.alpha = 0.0;
                 
-                statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusAccepted"]];
-                [statusView showInView:self.view
-                              position:self.panningOrigin
-                            completion:^(BOOL finished){
-                                if (finished) {
-                                    if (![[SuggestionsManager sharedManager] acceptSuggestion:self.currentSuggestion]) {
-                                        [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+                if (([[NSUserDefaults standardUserDefaults] boolForKey:kStateReviewAcceptedNamesKey]) && ([[SuggestionsManager sharedManager] acceptedSuggestions].count == 1)) {
+                    statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusPreferred"]];
+                    [statusView showInView:self.view
+                                  position:self.panningOrigin
+                                completion:^(BOOL finished){
+                                    if (finished) {
+                                        if (![[SuggestionsManager sharedManager] preferSuggestion:self.currentSuggestion]) {
+                                            [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+                                        }
+                                        else {
+                                            [self configureNameLabel];
+                                            
+                                            [[NSNotificationCenter defaultCenter] postNotificationName:kPreferredSuggestionChangedNotification
+                                                                                                object:self];
+                                        }
                                     }
-                                    else {
-                                        [self.containerViewController loadChildViewController];
-                                        
-                                        [self configureNameLabel];
+                                }];
+                }
+                else {
+                    statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusAccepted"]];
+                    [statusView showInView:self.view
+                                  position:self.panningOrigin
+                                completion:^(BOOL finished){
+                                    if (finished) {
+                                        if (![[SuggestionsManager sharedManager] acceptSuggestion:self.currentSuggestion]) {
+                                            [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+                                        }
+                                        else {
+                                            [self.containerViewController loadChildViewController];
+                                            
+                                            [self configureNameLabel];
+                                        }
                                     }
-                                }
-                            }];
+                                }];
+                }
             }
             else if (self.panningState == kPanningStateReject) {
                 self.nameLabel.alpha = 0.0;
-                
+
                 statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusRejected"]];
                 [statusView showInView:self.view
                               position:self.panningOrigin
@@ -266,38 +288,41 @@ static const CGFloat kPanningPositionThreshold = 150.0;
 
 #pragma mark - Notification handlers
 
-- (void)updateSelection:(NSNotification *)notification
+- (void)handleNotification:(NSNotification *)notification
 {
-    SuggestionsManager *suggestionsManager = [SuggestionsManager sharedManager];
-    
-    if ([notification.name isEqualToString:kFetchingPreferencesChangedNotification]) {
-        if ([suggestionsManager preferredSuggestion]) {
-            if (![suggestionsManager validatePreferredSuggestion]) {
-                [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+    if (![notification.object isEqual:self]) {
+        SuggestionsManager *suggestionsManager = [SuggestionsManager sharedManager];
+        NSString *notificationName = notification.name;
+        
+        if ([notificationName isEqualToString:kFetchingPreferencesChangedNotification]) {
+            if ([suggestionsManager preferredSuggestion]) {
+                if (![suggestionsManager validatePreferredSuggestion]) {
+                    [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+                }
+                else {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kPreferredSuggestionChangedNotification
+                                                                        object:self];
+                }
             }
-            else {
-                [[NSNotificationCenter defaultCenter] postNotificationName:kPreferredSuggestionChangedNotification
-                                                                    object:self];
+            
+            [suggestionsManager update];
+            
+            if ([suggestionsManager acceptedSuggestions].count == 0) {
+                [[NSUserDefaults standardUserDefaults] setBool:NO
+                                                        forKey:kStateReviewAcceptedNamesKey];
             }
+            
+            [self.containerViewController loadChildViewController];
+        }
+        else if ([notificationName isEqualToString:kPreferredSuggestionChangedNotification]) {
+            [self.containerViewController loadChildViewController];
+        }
+        else if ([notificationName isEqualToString:kAcceptedSuggestionChangedNotification]) {
+            [self.containerViewController loadChildViewController];
         }
         
-        [suggestionsManager update];
-        
-        if ([suggestionsManager acceptedSuggestions].count == 0) {
-            [[NSUserDefaults standardUserDefaults] setBool:NO
-                                                    forKey:kStateReviewAcceptedNamesKey];
-        }
-        
-        [self.containerViewController loadChildViewController];
+        [self configureNameLabel];
     }
-    else if ([notification.name isEqualToString:kPreferredSuggestionChangedNotification]) {
-        [self.containerViewController loadChildViewController];
-    }
-    else if ([notification.name isEqualToString:kAcceptedSuggestionChangedNotification]) {
-        [self.containerViewController loadChildViewController];
-    }
-    
-    [self configureNameLabel];
 }
 
 #pragma mark - Private methods
@@ -305,6 +330,7 @@ static const CGFloat kPanningPositionThreshold = 150.0;
 - (void)configureNameLabel
 {
     SuggestionsManager *manager = [SuggestionsManager sharedManager];
+    
     // Check if there's a preferred suggestion.
     self.currentSuggestion = [manager preferredSuggestion];
     if (!self.currentSuggestion) {
@@ -317,13 +343,50 @@ static const CGFloat kPanningPositionThreshold = 150.0;
         }
     }
     
+    // Configure name label.
+    //  1. Text.
+    //  2. Position.
+    //  3. Visibility.
+    //  4. Set panning state.
     self.nameLabel.text = self.currentSuggestion.name;
     self.nameLabel.center = self.panningOrigin;
     self.nameLabel.alpha = 1.0;
-    
-    // Disable panning if the suggestion received by the data source is the preferred one.
-    self.panningEnabled = (self.currentSuggestion.state == kSelectionStatePreferred) ? NO : YES;
     self.panningState = kPanningStateIdle;
+    
+    if (self.currentSuggestion.state == kSelectionStatePreferred) {
+        // Add glow effect.
+        self.nameLabel.layer.shadowColor = [[UIColor whiteColor] CGColor];
+        self.nameLabel.layer.shadowRadius = 4.0;
+        self.nameLabel.layer.shadowOpacity = 0.9;
+        self.nameLabel.layer.shadowOffset = CGSizeZero;
+        self.nameLabel.layer.masksToBounds = NO;
+
+        // Add glow animation.
+        CABasicAnimation *glowAnimation = [CABasicAnimation animationWithKeyPath:@"shadowOpacity"];
+        glowAnimation.fromValue = @(0.9);
+        glowAnimation.toValue = @(0.0);
+        glowAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        glowAnimation.duration = 1.5;
+        glowAnimation.repeatCount = HUGE_VALF;
+        glowAnimation.autoreverses = YES;
+        [self.nameLabel.layer addAnimation:glowAnimation
+                                    forKey:@"glow"];
+        
+        // Disable panning.
+        self.panningEnabled = NO;
+    }
+    else {
+        // Remove glow effect.
+        self.nameLabel.layer.shadowColor = nil;
+        self.nameLabel.layer.shadowRadius = 0.0;
+        self.nameLabel.layer.shadowOpacity = 0.0;
+
+        // Remove glow animation.
+        [self.nameLabel.layer removeAnimationForKey:@"glow"];
+        
+        // Enable panning.
+        self.panningEnabled = YES;
+    }
 }
 
 - (PanningState)endStateForGesture:(UIPanGestureRecognizer *)recognizer

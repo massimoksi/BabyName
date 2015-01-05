@@ -11,6 +11,10 @@
 
 @interface StatusView : UIImageView
 
+@property (nonatomic) NSTimeInterval duration;
+@property (nonatomic) NSTimeInterval delay;
+@property (nonatomic) CGFloat scale;
+
 - (void)showInView:(UIView *)view position:(CGPoint)position completion:(void (^)(BOOL finished))completion;
 
 @end

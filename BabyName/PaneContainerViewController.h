@@ -8,13 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "MSDynamicsDrawerViewController.h"
-
 #import "ContainerViewController.h"
 
 
 @interface PaneContainerViewController : UIViewController <ContainerViewController>
-
-@property (nonatomic, weak) MSDynamicsDrawerViewController *drawerViewController;
 
 @end

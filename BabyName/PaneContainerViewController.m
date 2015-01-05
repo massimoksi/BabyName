@@ -27,10 +27,9 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
 
 @implementation PaneContainerViewController
 
-- (void)viewDidLoad
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [super viewWillAppear:animated];
     
     [self loadChildViewController];
 }
@@ -71,7 +70,6 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
             if (![self.childViewControllers.firstObject isKindOfClass:[FinishedViewController class]]) {
                 FinishedViewController *viewController = segue.destinationViewController;
                 viewController.containerViewController = self;
-                viewController.drawerViewController = self.drawerViewController;
                 viewController.view.frame = self.view.frame;
                 
                 [self swapFromViewController:self.childViewControllers.firstObject
@@ -81,7 +79,6 @@ static NSString * const kShowFinishedSegueID  = @"ShowFinishedSegue";
         else {
             FinishedViewController *viewController = segue.destinationViewController;
             viewController.containerViewController = self;
-            viewController.drawerViewController = self.drawerViewController;
             viewController.view.frame = self.view.frame;
             
             [self addChildViewController:viewController];
