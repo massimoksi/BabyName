@@ -8,6 +8,8 @@
 
 #import "SelectionViewController.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "Constants.h"
 #import "SuggestionsManager.h"
 #import "StatusView.h"
@@ -345,13 +347,46 @@ static const CGFloat kPanningPositionThreshold = 150.0;
     //  1. Text.
     //  2. Position.
     //  3. Visibility.
+    //  4. Set panning state.
     self.nameLabel.text = self.currentSuggestion.name;
     self.nameLabel.center = self.panningOrigin;
     self.nameLabel.alpha = 1.0;
-    
-    // Disable panning if the suggestion received by the data source is the preferred one.
-    self.panningEnabled = (self.currentSuggestion.state == kSelectionStatePreferred) ? NO : YES;
     self.panningState = kPanningStateIdle;
+    
+    if (self.currentSuggestion.state == kSelectionStatePreferred) {
+        // Add glow effect.
+        self.nameLabel.layer.shadowColor = [[UIColor whiteColor] CGColor];
+        self.nameLabel.layer.shadowRadius = 4.0;
+        self.nameLabel.layer.shadowOpacity = 0.9;
+        self.nameLabel.layer.shadowOffset = CGSizeZero;
+        self.nameLabel.layer.masksToBounds = NO;
+
+        // Add glow animation.
+        CABasicAnimation *glowAnimation = [CABasicAnimation animationWithKeyPath:@"shadowOpacity"];
+        glowAnimation.fromValue = @(0.9);
+        glowAnimation.toValue = @(0.0);
+        glowAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        glowAnimation.duration = 1.5;
+        glowAnimation.repeatCount = HUGE_VALF;
+        glowAnimation.autoreverses = YES;
+        [self.nameLabel.layer addAnimation:glowAnimation
+                                    forKey:@"glow"];
+        
+        // Disable panning.
+        self.panningEnabled = NO;
+    }
+    else {
+        // Remove glow effect.
+        self.nameLabel.layer.shadowColor = nil;
+        self.nameLabel.layer.shadowRadius = 0.0;
+        self.nameLabel.layer.shadowOpacity = 0.0;
+
+        // Remove glow animation.
+        [self.nameLabel.layer removeAnimationForKey:@"glow"];
+        
+        // Enable panning.
+        self.panningEnabled = YES;
+    }
 }
 
 - (PanningState)endStateForGesture:(UIPanGestureRecognizer *)recognizer
