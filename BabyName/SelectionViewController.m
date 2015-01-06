@@ -363,7 +363,7 @@ static const CGFloat kPanningPositionThreshold = 150.0;
     if (self.currentSuggestion.state == kSelectionStatePreferred) {
         // Add glow effect.
         self.nameLabel.layer.shadowColor = [[UIColor whiteColor] CGColor];
-        self.nameLabel.layer.shadowRadius = 4.0;
+        self.nameLabel.layer.shadowRadius = 6.0;
         self.nameLabel.layer.shadowOpacity = 0.9;
         self.nameLabel.layer.shadowOffset = CGSizeZero;
         self.nameLabel.layer.masksToBounds = NO;
