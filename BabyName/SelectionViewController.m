@@ -426,7 +426,7 @@ static const CGFloat kPanningPositionThreshold = 150.0;
     Suggestion *lastSuggestion = [suggestionsManager randomAcceptedSuggestion];
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:lastSuggestion.name
-                                                                             message:NSLocalizedString(@"You only have one name to review. Is it your favourite name?", @"Question: confirm the favourite name.")
+                                                                             message:NSLocalizedString(@"You only have one name to review.\rIs it your favourite name?", @"Question: confirm the favourite name.")
                                                                       preferredStyle:UIAlertControllerStyleAlert];
 
     UIAlertAction *preferAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Yes", @"Answer: affirmative.")
