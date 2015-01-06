@@ -81,15 +81,15 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
     NSInteger selectedGenders = [userDefaults integerForKey:kSettingsSelectedGendersKey];
     switch (selectedGenders) {
         case 1:
-            self.genderLabel.text = NSLocalizedString(@"Male", @"Gender.");
+            self.genderLabel.text = NSLocalizedString(@"Male", @"Gender: male.");
             break;
                         
         case 2:
-            self.genderLabel.text = NSLocalizedString(@"Female", @"Gender.");
+            self.genderLabel.text = NSLocalizedString(@"Female", @"Gender: female.");
             break;
                         
         case 3:
-            self.genderLabel.text = NSLocalizedString(@"Both", @"Both genders.");
+            self.genderLabel.text = NSLocalizedString(@"Both", @"Gender: both.");
             break;
     }
     
@@ -98,16 +98,16 @@ typedef NS_ENUM(NSInteger, SectionInfoRow) {
     if (numberOfSelectedLanguages == 1) {
         NSInteger selectedLanguages = [userDefaults integerForKey:kSettingsSelectedLanguagesKey];
         if (selectedLanguages == kLanguageBitmaskIT) {
-            self.languageLabel.text = NSLocalizedString(@"Italian", @"Language.");
+            self.languageLabel.text = NSLocalizedString(@"Italian", @"Language: italian.");
         }
         else if (selectedLanguages == kLanguageBitmaskEN) {
-            self.languageLabel.text = NSLocalizedString(@"English", @"Language.");
+            self.languageLabel.text = NSLocalizedString(@"English", @"Language: english.");
         }
         else if (selectedLanguages == kLanguageBitmaskDE) {
-            self.languageLabel.text = NSLocalizedString(@"German", @"Language.");
+            self.languageLabel.text = NSLocalizedString(@"German", @"Language: german.");
         }
         else if (selectedLanguages == kLanguageBitmaskFR) {
-            self.languageLabel.text = NSLocalizedString(@"French", @"Language.");
+            self.languageLabel.text = NSLocalizedString(@"French", @"Language: french.");
         }
     }
     else {

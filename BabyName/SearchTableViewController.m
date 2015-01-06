@@ -55,7 +55,7 @@ typedef NS_ENUM(NSInteger, FilterSegment) {
     self.searchBar.delegate = self;
     [self.searchBar sizeToFit];
     self.searchBar.tintColor = [UIColor bbn_tintColor];
-    self.searchBar.placeholder = NSLocalizedString(@"Search", @"Search bar: placeholder text.");
+    self.searchBar.placeholder = NSLocalizedString(@"Search", @"Placeholder text for the search bar.");
     self.navigationItem.titleView = self.searchBar;
     self.navigationItem.titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;    
 

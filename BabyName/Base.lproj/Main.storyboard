@@ -1000,6 +1000,7 @@
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Like" translatesAutoresizingMaskIntoConstraints="NO" id="Nr8-hJ-FrS">
                                 <rect key="frame" x="270" y="190" width="60" height="60"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="6Bn-ga-0Le"/>
                                     <constraint firstAttribute="height" constant="60" id="k3z-tN-rDU"/>
@@ -1058,6 +1059,7 @@
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Dislike" translatesAutoresizingMaskIntoConstraints="NO" id="hMs-Bc-9h1">
                                 <rect key="frame" x="270" y="190" width="60" height="60"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="3ZI-bB-dU0"/>
                                     <constraint firstAttribute="height" constant="60" id="ocn-MN-OJq"/>
@@ -1116,6 +1118,7 @@
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Shuffle" translatesAutoresizingMaskIntoConstraints="NO" id="w9u-up-YgA">
                                 <rect key="frame" x="264" y="190" width="72" height="60"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="QDo-eA-PK2"/>
                                     <constraint firstAttribute="width" constant="72" id="c0t-3m-kux"/>
