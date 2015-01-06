@@ -227,6 +227,7 @@ static const CGFloat kPanningPositionThreshold = 150.0;
             if (self.panningState == kPanningStateAccept) {
                 self.nameLabel.alpha = 0.0;
                 
+                // If reviewing the last accepted name, accepting means preferring it.
                 if (([[NSUserDefaults standardUserDefaults] boolForKey:kStateReviewAcceptedNamesKey]) && ([[SuggestionsManager sharedManager] acceptedSuggestions].count == 1)) {
                     statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusPreferred"]];
                     [statusView showInView:self.view
@@ -275,9 +276,15 @@ static const CGFloat kPanningPositionThreshold = 150.0;
                                         [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
                                     }
                                     else {
-                                        [self.containerViewController loadChildViewController];
-                                        
-                                        [self configureNameLabel];
+                                        // If reviewing accepted names and only one name remains, ask if the last one is the preferred.
+                                        if (([[NSUserDefaults standardUserDefaults] boolForKey:kStateReviewAcceptedNamesKey]) && ([[SuggestionsManager sharedManager] acceptedSuggestions].count == 1)) {
+                                            [self reviewLastSuggestion];
+                                        }
+                                        else {
+                                            [self.containerViewController loadChildViewController];
+                                            
+                                            [self configureNameLabel];
+                                        }
                                     }
                                 }
                             }];
@@ -411,6 +418,74 @@ static const CGFloat kPanningPositionThreshold = 150.0;
             return kPanningStateIdle;
         }
     }
+}
+
+- (void)reviewLastSuggestion
+{
+    SuggestionsManager *suggestionsManager = [SuggestionsManager sharedManager];
+    Suggestion *lastSuggestion = [suggestionsManager randomAcceptedSuggestion];
+    
+    // TODO: change message.
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:lastSuggestion.name
+                                                                             message:@"Hello world!!!"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+
+    // TODO: change and localize button title.
+    UIAlertAction *preferAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"Alert: accept button.")
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction *action){
+                                                             StatusView *statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusPreferred"]];
+                                                             [statusView showInView:self.view
+                                                                           position:self.panningOrigin
+                                                                         completion:^(BOOL finished){
+                                                                             if (finished) {
+                                                                                 if (![[SuggestionsManager sharedManager] preferSuggestion:lastSuggestion]) {
+                                                                                     [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+                                                                                 }
+                                                                                 else {
+                                                                                     [self configureNameLabel];
+                                                                                     
+                                                                                     [[NSNotificationCenter defaultCenter] postNotificationName:kPreferredSuggestionChangedNotification
+                                                                                                                                         object:self];
+                                                                                 }
+                                                                             }
+                                                                         }];
+                                                         }];
+    [alertController addAction:preferAction];
+
+    // TODO: change and localize button title.
+    UIAlertAction *thinkAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Let me think", nil)
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction *action){
+                                                            [self configureNameLabel];
+                                                        }];
+    [alertController addAction:thinkAction];
+    
+    // TODO: change and localize button title.
+    UIAlertAction *rejectAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"No", nil)
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction *action){
+                                                             StatusView *statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusRejected"]];
+                                                             [statusView showInView:self.view
+                                                                           position:self.panningOrigin
+                                                                         completion:^(BOOL finished){
+                                                                             if (finished) {
+                                                                                 if (![[SuggestionsManager sharedManager] rejectSuggestion:lastSuggestion]) {
+                                                                                     [self showAlertWithMessage:NSLocalizedString(@"Oops, there was an error.", @"Generic error message.")];
+                                                                                 }
+                                                                                 else {
+                                                                                     [self.containerViewController loadChildViewController];
+                                                                                     
+                                                                                     [self configureNameLabel];
+                                                                                 }
+                                                                             }
+                                                                         }];
+                                                         }];
+    [alertController addAction:rejectAction];
+
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
 }
 
 - (void)showAlertWithMessage:(NSString *)message
