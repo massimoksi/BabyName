@@ -425,13 +425,11 @@ static const CGFloat kPanningPositionThreshold = 150.0;
     SuggestionsManager *suggestionsManager = [SuggestionsManager sharedManager];
     Suggestion *lastSuggestion = [suggestionsManager randomAcceptedSuggestion];
     
-    // TODO: change message.
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:lastSuggestion.name
-                                                                             message:@"Hello world!!!"
+                                                                             message:NSLocalizedString(@"You only have one name to review. Is it your favourite name?", @"Question: confirm the favourite name.")
                                                                       preferredStyle:UIAlertControllerStyleAlert];
 
-    // TODO: change and localize button title.
-    UIAlertAction *preferAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"Alert: accept button.")
+    UIAlertAction *preferAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Yes", @"Answer: affirmative.")
                                                            style:UIAlertActionStyleDefault
                                                          handler:^(UIAlertAction *action){
                                                              StatusView *statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusPreferred"]];
@@ -453,17 +451,15 @@ static const CGFloat kPanningPositionThreshold = 150.0;
                                                          }];
     [alertController addAction:preferAction];
 
-    // TODO: change and localize button title.
-    UIAlertAction *thinkAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Let me think", nil)
+    UIAlertAction *thinkAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"I still need to think", @"Answer: maybe.")
                                                           style:UIAlertActionStyleDefault
                                                         handler:^(UIAlertAction *action){
                                                             [self configureNameLabel];
                                                         }];
     [alertController addAction:thinkAction];
     
-    // TODO: change and localize button title.
-    UIAlertAction *rejectAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"No", nil)
-                                                           style:UIAlertActionStyleCancel
+    UIAlertAction *rejectAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"No", @"Answer: negative.")
+                                                           style:UIAlertActionStyleDefault
                                                          handler:^(UIAlertAction *action){
                                                              StatusView *statusView = [[StatusView alloc] initWithImage:[UIImage imageNamed:@"StatusRejected"]];
                                                              [statusView showInView:self.view
