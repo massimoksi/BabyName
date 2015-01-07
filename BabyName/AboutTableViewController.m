@@ -11,7 +11,7 @@
 #import <MessageUI/MessageUI.h>
 
 
-static NSString * const kMailAddress = @"massimo.peri@icloud.com";
+static NSString * const kMailAddress = @"massimoksi@icloud.com";
 static NSString * const kAppStoreURL = @"itms-apps://itunes.apple.com/app/id";
 #if DEBUG
 static NSString * const kAppID = @"438027793"; // Smokeless App ID for testing before the app is released on the App Store.

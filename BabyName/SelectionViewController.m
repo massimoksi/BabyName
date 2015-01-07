@@ -67,6 +67,14 @@ static const CGFloat kPanningPositionThreshold = 150.0;
                            selector:@selector(handleNotification:)
                                name:kAcceptedSuggestionChangedNotification
                              object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(handleBackground:)
+                               name:UIApplicationWillResignActiveNotification
+                             object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(handleBackground:)
+                               name:UIApplicationWillTerminateNotification
+                             object:nil];
     
     // It's not possible to make the view transparent in Storyboard because of the use of white labels.
     self.view.backgroundColor = [UIColor clearColor];
@@ -106,6 +114,12 @@ static const CGFloat kPanningPositionThreshold = 150.0;
                                 object:nil];
     [notificationCenter removeObserver:self
                                   name:kAcceptedSuggestionChangedNotification
+                                object:nil];
+    [notificationCenter removeObserver:self
+                                  name:UIApplicationWillResignActiveNotification
+                                object:nil];
+    [notificationCenter removeObserver:self
+                                  name:UIApplicationWillTerminateNotification
                                 object:nil];
 }
 
@@ -330,6 +344,15 @@ static const CGFloat kPanningPositionThreshold = 150.0;
         
         [self configureNameLabel];
     }
+}
+
+- (void)handleBackground:(NSNotification *)notification
+{
+    // Dismiss alert controller if available.
+    [self.presentedViewController dismissViewControllerAnimated:NO
+                                                     completion:nil];
+    
+    [self configureNameLabel];
 }
 
 #pragma mark - Private methods

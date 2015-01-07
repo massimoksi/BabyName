@@ -27,7 +27,13 @@
 
     // Get current language from the system.
     NSInteger selectedLanguage;
-    NSString *currentLanguageCode = [[[NSLocale preferredLanguages] firstObject] substringToIndex:2];
+    NSString *currentLanguageCode;
+    if ([NSLocale preferredLanguages].count) {
+        currentLanguageCode  = [[[NSLocale preferredLanguages] firstObject] substringToIndex:2];
+    }
+    else {
+        currentLanguageCode = [[[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode] substringToIndex:2];
+    }
 #if DEBUG
     NSLog(@"Defaults: launguage code %@", currentLanguageCode);
 #endif
